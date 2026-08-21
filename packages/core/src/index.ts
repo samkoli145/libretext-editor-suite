@@ -129,6 +129,22 @@ export type { TraitDef, ComposedProfile } from './engines/composable-traits-engi
 export { FloatingGizmoEngine } from './engines/floating-gizmo-engine';
 export type { FloatingAction, FloatingGizmoState, GizmoPosition } from './engines/floating-gizmo-engine';
 
+// ─── محركات الماوس والأدوات ───
+export type { ToolCategory, ContextMenuAction, FloatingGizmoTool, TransformHandle, ElementToolingProfile } from './engines/mouse-tooling-engine';
+export { getToolingProfileForNode, calculateTransformGizmoHandles } from './engines/mouse-tooling-engine';
+
+export type { UnifiedToolItem } from './engines/tool-registry';
+export { ToolRegistry, toolRegistry } from './engines/tool-registry';
+
+export type { DoctorReport } from './engines/doctor-self-healing-engine';
+export { runSelfHealingPipeline } from './engines/doctor-self-healing-engine';
+
+// ─── كتل المحتوى ───
+export { createCodeEditorBlock } from './blocks/code-editor';
+export type { CodeEditorData, CodeEditorBlock } from './blocks/code-editor';
+export { createAudioBlockNode } from './blocks/audio-block-block';
+export type { AudioBlockData, AudioBlockNode } from './blocks/audio-block-block';
+
 // ─── أنواع المستندات الأساسية ───
 export {
   type KnownDocumentType,
