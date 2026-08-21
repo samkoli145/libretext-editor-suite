@@ -116,7 +116,8 @@ export {
   toBoundingBox,
 } from './spatial/commands';
 
-// Search & Replace Exports
+// Diagram Engine
+export * from './diagram/diagram-engine';
 export * from './search/types';
 export * from './search/find-replace-engine';
 
