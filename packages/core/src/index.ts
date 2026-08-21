@@ -139,6 +139,21 @@ export { ToolRegistry, toolRegistry } from './engines/tool-registry';
 export type { DoctorReport } from './engines/doctor-self-healing-engine';
 export { runSelfHealingPipeline } from './engines/doctor-self-healing-engine';
 
+// ─── Level 2: محركات التفاعل المتقدمة ───
+export { createSpatialDragEngine } from './engines/spatial-drag-engine';
+export type { DragElement, DragState, DragResult } from './engines/spatial-drag-engine';
+
+export { createMarqueeSelectionEngine } from './engines/marquee-selection-engine';
+export type { MarqueeBox, MarqueeElement } from './engines/marquee-selection-engine';
+
+export { createMultiSelectionEngine } from './engines/multi-selection-engine';
+
+export { createUndoRedoEngine } from './engines/undo-redo-engine';
+export type { Snapshot } from './engines/undo-redo-engine';
+
+export { createMouseCommandRegistry } from './engines/mouse-command-registry';
+export type { CommandHandler, MouseCommand } from './engines/mouse-command-registry';
+
 // ─── كتل المحتوى ───
 export { createCodeEditorBlock } from './blocks/code-editor';
 export type { CodeEditorData, CodeEditorBlock } from './blocks/code-editor';

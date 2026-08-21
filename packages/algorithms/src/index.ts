@@ -91,6 +91,10 @@ export * from './spatial/boolean-ops';
 export * from './spatial/connector-routing';
 export * from './spatial/matrix-2d';
 export * from './spatial/smart-guides';
+export * from './spatial/mouse-diagnostics';
+export * from './spatial/spatial-drag-algorithms';
+export * from './spatial/auto-layout-engine';
+export * from './spatial/artboard-types';
 export {
   type SpatialOpValue,
   type MoveCommand,
