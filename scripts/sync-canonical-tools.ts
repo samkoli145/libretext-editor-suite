@@ -50,7 +50,7 @@ export const SHARED_TOOL_SETS: Record<string, ToolActionTemplate[]> = {
 export function syncToolsAcrossEditors(): { totalSynced: number; categoriesCount: number } {
   let count = 0;
   for (const key of Object.keys(SHARED_TOOL_SETS)) {
-    count += SHARED_TOOL_SETS[key].length;
+    count += SHARED_TOOL_SETS[key]?.length ?? 0;
   }
   return { totalSynced: count, categoriesCount: Object.keys(SHARED_TOOL_SETS).length };
 }

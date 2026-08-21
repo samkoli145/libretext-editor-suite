@@ -132,8 +132,8 @@ function buildTags(): AtomicTag[] {
     }
 
     tags.push({
-      id: `${pkg.toUpperCase()}-${sub.replace(/\//g, '-').toUpperCase() || 'ROOT'}-${file.replace(/\.(ts|tsx)$/, '').toUpperCase()}`,
-      pkg, sub, file, lines, hash, status, priority, duplicateOf, note,
+      id: `${(pkg || 'UNK').toUpperCase()}-${(sub || '').replace(/\//g, '-').toUpperCase() || 'ROOT'}-${(file || 'unknown').replace(/\.(ts|tsx)$/, '').toUpperCase()}`,
+      pkg: pkg || '', sub: sub || '', file: file || '', lines, hash, status, priority, duplicateOf, note,
     });
   }
 

@@ -1,100 +1,105 @@
 /**
  * ═══════════════════════════════════════════════════════════════════════════
- * 📌 ملخص توجيهي | Guiding Summary
+ * Guiding Summary | Execution Queue
  * ═══════════════════════════════════════════════════════════════════════════
- * 📄 الملف: EXECUTION_QUEUE.md
- * 📂 المسار: EXECUTION_QUEUE.md
- * 🎯 الهدف الرئيسي: طابور التنفيذ المرقّم — كل مهمة مرجّعة بالملف والمحتوى
- * 📋 المعايير: مراجعة دورية، تحديث بعد كل دفعة منفذة
- * 🧪 الاختبارات: لا توجد (ملف إداري)
- * 🏷️ المعرف: DOC-ADMIN-11
- * 📅 تاريخ الإنشاء: 2026-08-21
+ * File: EXECUTION_QUEUE.md
+ * Path: EXECUTION_QUEUE.md
+ * Main Goal: Numbered execution queue for all tasks
+ * ID: DOC-ADMIN-11
+ * Created: 2026-08-21
  * ═══════════════════════════════════════════════════════════════════════════
- * ©️ جميع الحقوق محفوظة ©️ - 2026
+ * (c) All rights reserved - 2026 - MIT License
  * ═══════════════════════════════════════════════════════════════════════════
  */
 
-# طابور التنفيذ — Execution Queue
+# Execution Queue
 
-> **آخر تحديث:** 2026-08-21
-> **الحالة:** قيد التنفيذ
-
----
-
-## ✅ المهام المنجزة
-
-| # | المهمة | الملفات | الحالة |
-|---|--------|---------|--------|
-| Q-001 | HIGH PRIORITY Engines (9 ملفات) | html-pipeline, file-type-detection, unified-ingestion, image-pipeline, validation, universal-format-converter, types, latex-engine, markdown-engine | ✅ تم |
-| Q-002 | Vector/Interaction Algorithms (4 ملفات) | common, coordinate-system, mouse-algorithms, smart-alignment | ✅ تم |
+> Last updated: 2026-08-21
 
 ---
 
-## 🔄 المهام قيد التنفيذ
+## COMPLETED
 
-| # | المهمة | الملفات | الأولوية | الحالة |
-|---|--------|---------|----------|--------|
-| Q-003 | أدوات الفهرسة التلقائية | update-indexes.ts (تحسين), generate-inventory.ts (جديد) | عالية | 🔄 جاري |
-
----
-
-## 📋 المهام المخططة — الدفعة الثانية (متجهات + تسنين)
-
-| # | المهمة | الملفات المصدرية | المسار المستهدف | الأسطر | الأولوية | الملاحظات |
-|---|--------|-------------------|-----------------|--------|----------|-----------|
-| Q-004 | محرك التسنين المتعدد | `shared/vector-engine/snap.ts` | `packages/algorithms/src/vector/snap.ts` | 240 | عالية | يعتمد `common.ts` (تم دمجه) |
-| Q-005 | خطوط الإرشاد الديناميكية | `shared/vector-engine/ref_line.ts` | `packages/algorithms/src/vector/ref-line.ts` | 206 | عالية | يعتمد `common.ts` + `snap.ts` |
-| Q-006 | مدير مقابض التحكم | `shared/vector-engine/control_handle_manager.ts` | `packages/algorithms/src/vector/control-handle-manager.ts` | 287 | عالية | يعتمد `common.ts` |
-| Q-007 | محرك التخطيط التلقائي | `shared/vector-engine/AutoLayoutEngine.ts` | `packages/algorithms/src/vector/auto-layout.ts` | 465 | عالية | صفر اعتماديات |
+| # | Task | Files | Status |
+|---|------|-------|--------|
+| Q-001 | HIGH Priority Engines (9 files) | html-pipeline, file-type-detection, unified-ingestion, image-pipeline, validation, universal-format-converter, types, latex-engine, markdown-engine | DONE |
+| Q-002 | Vector/Interaction Algorithms (4 files) | common, coordinate-system, mouse-algorithms, smart-alignment | DONE |
+| Q-003 | Auto-indexing scripts (3 files) | update-indexes, generate-inventory, atomic-inventory | DONE |
+| Q-004 | Dev scripts from backup (5 files) | analyze-blocks, generate-block, scaffold-block, sync-canonical-tools, sync-tools | DONE |
+| Q-005 | LEVEL 1 Interaction Engines (4 files) | context-menu-engine, selection-gizmo-engine, composable-traits-engine, floating-gizmo-engine | DONE |
 
 ---
 
-## 📋 المهام المخططة — الدفعة الثالثة (محركات متوسطة)
+## LEVEL 2 — Interaction (Next)
 
-| # | المهمة | الملفات المصدرية | المسار المستهدف | الأسطر | الأولوية | الملاحظات |
-|---|--------|-------------------|-----------------|--------|----------|-----------|
-| Q-008 | محرك المخططات البيانية | `shared/engines/DiagramEngine.ts` | `packages/algorithms/src/vector/diagram-engine.ts` | 586 | متوسطة | صفر اعتماديات، SVG مباشرة |
-| Q-009 | سجل المكونات | `shared/engines/ComponentRegistry.ts` | `packages/core/src/registry/component-registry.ts` | 795 | متوسطة | يحتاج تكييف (NotificationEngine) |
-| Q-010 | سجل الأدوات | `shared/engines/ToolRegistry.ts` | `packages/core/src/registry/tool-registry.ts` | 254 | متوسطة | يحتاج تكييف (DialogEngine) |
-| Q-011 | مدير التحديدات | `canvas/engine/SelectionManager.ts` | `packages/core/src/engines/selection-manager.ts` | 165 | متوسطة | يحتاج تكييف (CanvasElement) |
-| Q-012 | محرك الربط البصري | `canvas/engine/BlockMapperEngine.ts` | `packages/core/src/engines/block-mapper.ts` | 74 | متوسطة | يحتاج تكييف (CanvasElement) |
-
----
-
-## 📋 المهام المخططة — الدفعة الرابعة (محركات مشاركة)
-
-| # | المهمة | الملفات المصدرية | المسار المستهدف | الأسطر | الأولوية | الملاحظات |
-|---|--------|-------------------|-----------------|--------|----------|-----------|
-| Q-013 | محرك الاستيراد الموحد | `shared/engines/UnifiedIngestionPipeline.ts` | — | — | منجز | تم في Q-001 |
-| Q-014 | محرك الرسوم البيانية | `shared/engines/DiagramEngine.ts` | — | — | مخطط |见Q-008 |
-| Q-015 | محرك العناصر الذكية | `shared/engines/SmartComponentEngine.ts` | — | — | منخفضة | يحتاج تحليل |
-| Q-016 | محرك الذكاء الاصطناعي | `shared/engines/AIEngine.ts` | — | — | منخفضة | يحتاج تحليل |
-| Q-017 | محرك التنبيهات | `shared/engines/NotificationEngine.ts` | — | — | منخفضة | تبعية مشتركة |
-| Q-018 | محرك الحوارات | `shared/engines/DialogEngine.ts` | — | — | منخفضة | تبعية مشتركة |
+| # | Task | Target File | Est. Lines | Priority | Description |
+|---|------|-------------|------------|----------|-------------|
+| Q-006 | SpatialDragEngine | core/src/engines/spatial-drag-engine.ts | ~300 | HIGH | Delta movement (deltaX/deltaY), snap-to-grid (10/15/20px), bounding clamping, multi-element parallel drag |
+| Q-007 | MarqueeSelectionEngine | core/src/engines/marquee-selection-engine.ts | ~200 | HIGH | Rubber band selection, empty-area box drag, element intersection test |
+| Q-008 | MultiSelectionEngine | core/src/engines/multi-selection-engine.ts | ~150 | HIGH | Shift+Click add/remove, selection set management, invert selection |
+| Q-009 | UndoRedoEngine (enhanced) | core/src/engines/undo-redo-engine.ts | ~200 | HIGH | pushHistoryState for positions/props, auto-enable/disable buttons, max stack size |
+| Q-010 | MouseCommandRegistry | core/src/engines/mouse-command-registry.ts | ~180 | HIGH | Register mouse commands per tool (Scale, Rotate, Snap, TextFormat, TableOp) |
 
 ---
 
-## 📋 مهام التوثيق وال fingertask
+## LEVEL 3 — Intelligence (After Level 2)
 
-| # | المهمة | الوصف | الأولوية |
-|---|--------|-------|----------|
-| Q-019 | تحسين `update-indexes.ts` | إضافة توليد FUNCTION_INDEX.md تلقائياً | عالية |
-| Q-020 | إنشاء `generate-inventory.ts` | توليد جرد المكونات لكل محرر | عالية |
-| Q-021 | إنشاء `EDITOR_INVENTORY.md` | جرد المكونات والأدوات لكل محرر | عالية |
-| Q-022 | تحديث INDEX.md | إضافة جميع الملفات الجديدة | عالية |
-| Q-023 | تحديث CHANGELOG.md | توثيق كل دفعة منفذة | عالية |
-| Q-024 | PHASE-09 الملعب التجريبي | بناء playground تفاعلي | منخفضة |
+| # | Task | Target File | Est. Lines | Priority | Description |
+|---|------|-------------|------------|----------|-------------|
+| Q-011 | SmartSnapEngine | algorithms/src/spatial/smart-snap-engine.ts | ~250 | MEDIUM | calculateSmartSnapAndGuides: detect adjacent element edges/centers, snap with tolerance |
+| Q-012 | DynamicGuideLines | algorithms/src/spatial/dynamic-guide-lines.ts | ~200 | MEDIUM | Render live guide lines + measurement labels during drag/snap |
+| Q-013 | SmartRTLAlignment | algorithms/src/spatial/smart-rtl-alignment.ts | ~180 | MEDIUM | detectTextScriptDirection, smartAlignByScript, RTL/LTR/Auto toggle |
+| Q-014 | ScreenEdgeDetector | core/src/engines/screen-edge-detector.ts | ~80 | MEDIUM | Detect viewport edges, flip menu/gizmo direction to prevent overflow |
+| Q-015 | BoundingClamping | core/src/engines/bounding-clamping-engine.ts | ~100 | MEDIUM | Confine element movement within artboard/canvas bounds |
+| Q-016 | ZOrderManager | core/src/engines/z-order-manager.ts | ~120 | MEDIUM | Manage z-index stacking, bring-forward/send-backward/bring-to-front/send-to-back |
 
 ---
 
-## 📊 إحصائيات طابور التنفيذ
+## LEVEL 4 — Block & Tool Integration
 
-| الفئة | العدد | المنجز | المتبقي |
-|-------|-------|--------|---------|
-| HIGH PRIORITY Engines | 9 | 9 | 0 |
-| Vector Algorithms | 4 | 4 | 0 |
-| Vector Batch 2 | 4 | 0 | 4 |
-| Medium Engines | 5 | 0 | 5 |
-| Shared Engines | 6 | 1 | 5 |
-| Documentation | 6 | 0 | 6 |
-| **الإجمالي** | **34** | **14** | **20** |
+| # | Task | Target File | Est. Lines | Priority | Description |
+|---|------|-------------|------------|----------|-------------|
+| Q-017 | snap.ts (from backup) | algorithms/src/vector/snap.ts | ~240 | HIGH | Multi-grid snap engine from vector-engine |
+| Q-018 | ref-line.ts (from backup) | algorithms/src/vector/ref-line.ts | ~206 | HIGH | Dynamic reference lines from vector-engine |
+| Q-019 | control-handle-manager.ts | algorithms/src/vector/control-handle-manager.ts | ~287 | HIGH | 8-point resize handles from vector-engine |
+| Q-020 | AutoLayoutEngine.ts | algorithms/src/vector/auto-layout.ts | ~465 | HIGH | Flexbox-like auto layout from vector-engine |
+| Q-021 | SelectionManager.ts | core/src/engines/selection-manager.ts | ~165 | MEDIUM | Element selection management from canvas |
+| Q-022 | BlockMapperEngine.ts | core/src/engines/block-mapper.ts | ~74 | MEDIUM | Visual block mapping from canvas |
+
+---
+
+## LEVEL 5 — Medium Engines (from backup)
+
+| # | Task | Target File | Est. Lines | Priority | Description |
+|---|------|-------------|------------|----------|-------------|
+| Q-023 | DiagramEngine | algorithms/src/diagram/diagram-engine.ts | ~586 | MEDIUM | SVG diagram engine |
+| Q-024 | ComponentRegistry | core/src/registry/component-registry.ts | ~795 | MEDIUM | Central component registry |
+| Q-025 | ToolRegistry | core/src/registry/tool-registry.ts | ~254 | MEDIUM | Central tool registry |
+| Q-026 | SmartComponentEngine | core/src/engines/smart-component-engine.ts | ~200 | LOW | Smart component assembly |
+| Q-027 | DoctorSelfHealingEngine | core/src/engines/doctor-engine.ts | ~300 | LOW | Auto-diagnosis and repair |
+| Q-028 | WYSIWYGCalloutEngine | core/src/engines/callout-engine.ts | ~150 | LOW | Visual callout boxes |
+
+---
+
+## LEVEL 6 — Documentation & Polish
+
+| # | Task | Description | Priority |
+|---|------|-------------|----------|
+| Q-029 | Update INDEX.md | Add all new engine files | HIGH |
+| Q-030 | Update CHANGELOG.md | Document all engine additions | HIGH |
+| Q-031 | Update FUNCTION_INDEX.md | Re-index with 947+ new symbols | HIGH |
+| Q-032 | PHASE-09 Playground | Interactive playground | LOW |
+
+---
+
+## Stats
+
+| Level | Tasks | Completed | Remaining |
+|-------|-------|-----------|-----------|
+| Level 1 (Basic) | 4 | 4 | 0 |
+| Level 2 (Interaction) | 5 | 0 | 5 |
+| Level 3 (Intelligence) | 6 | 0 | 6 |
+| Level 4 (Block/Tool) | 6 | 0 | 6 |
+| Level 5 (Medium) | 6 | 0 | 6 |
+| Level 6 (Docs) | 4 | 0 | 4 |
+| **Total** | **31** | **4** | **27** |

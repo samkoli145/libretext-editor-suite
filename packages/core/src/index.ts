@@ -116,6 +116,19 @@ export * from './engines/validation';
 // ─── محول التنسيقات الشامل ───
 export * from './converters/universal-format-converter';
 
+// ─── محركات التفاعل الجديدة ───
+export { ContextMenuEngine } from './engines/context-menu-engine';
+export type { ContextMenuItem, ContextMenuTarget, ContextMenuResult } from './engines/context-menu-engine';
+
+export { SelectionGizmoEngine } from './engines/selection-gizmo-engine';
+export type { Handle, HandlePosition, GizmoToolbar, GizmoAction, Rect } from './engines/selection-gizmo-engine';
+
+export { ComposableTraitsEngine } from './engines/composable-traits-engine';
+export type { TraitDef, ComposedProfile } from './engines/composable-traits-engine';
+
+export { FloatingGizmoEngine } from './engines/floating-gizmo-engine';
+export type { FloatingAction, FloatingGizmoState, GizmoPosition } from './engines/floating-gizmo-engine';
+
 // ─── أنواع المستندات الأساسية ───
 export {
   type KnownDocumentType,

@@ -189,7 +189,7 @@ function calculateAnalytics(): SystemAnalytics {
   };
 }
 
-function formatBool(v: boolean): string { return v ? 'Y' : 'N'; }
+function formatBool(v: boolean | undefined): string { return v ? 'Y' : 'N'; }
 
 function buildRegistryMd(blocks: BlockInfo[]): string {
   const now = new Date().toISOString().split('T')[0];

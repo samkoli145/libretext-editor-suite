@@ -50,10 +50,12 @@ export function runSyncTools(): void {
   const allTools = new Set<string>();
 
   for (const b of BLOCKS_DATA) {
-    if (!domainStats[b.domain]) domainStats[b.domain] = { blocks: 0, tools: 0, list: [] };
-    domainStats[b.domain].blocks++;
-    domainStats[b.domain].tools += b.tools.length;
-    domainStats[b.domain].list.push(...b.tools);
+    const st = domainStats[b.domain];
+    if (st) {
+      st.blocks++;
+      st.tools += b.tools.length;
+      st.list.push(...b.tools);
+    }
     b.tools.forEach(t => allTools.add(t));
   }
 
