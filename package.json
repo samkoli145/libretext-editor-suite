@@ -27,6 +27,11 @@
     "update:indexes": "tsx scripts/update-indexes.ts",
     "inventory": "tsx scripts/generate-inventory.ts",
     "inventory:atomic": "tsx scripts/atomic-inventory.ts",
+    "analyze:blocks": "tsx scripts/analyze-blocks-and-tools.ts",
+    "generate:block": "tsx scripts/generate-block.ts",
+    "scaffold:block": "tsx scripts/scaffold-block.ts",
+    "sync:canonical-tools": "tsx scripts/sync-canonical-tools.ts",
+    "sync:tools": "tsx scripts/sync-tools.ts",
     "work:monitor": "tsx scripts/work-monitor.ts",
     "turbo": "turbo"
   },
