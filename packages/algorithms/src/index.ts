@@ -166,7 +166,28 @@ export {
   findSimilarStreetPairs,
 } from './streets/similarity';
 
-// Vector & Interaction Algorithms
+// Vector & Interaction Algorithms (adapted from webpainter-next)
+export {
+  snapPointToGrid as snapPointToGridMulti,
+  calculateSmartSnap,
+  type SnapTarget,
+  type SnapResult as MultiSnapResult,
+  type SnapConfig as MultiSnapConfig,
+} from './vector/snap';
+export {
+  calculateAlignmentRefLines,
+  calculateDistanceBadges as calculateRefLineBadges,
+  type ReferenceLine as RefLine,
+  type DistanceBadge as RefDistanceBadge,
+} from './vector/ref-line';
+export {
+  getTransformHandles,
+  hitTestHandles,
+  calculateResizeDelta,
+  calculateRotationAngle as calculateRotationAngleHandles,
+  type HandleType,
+  type ControlHandle,
+} from './vector/control-handle-manager';
 export {
   type Point2D as VecPoint2D,
   type BoundingBox as VecBoundingBox,

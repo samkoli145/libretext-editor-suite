@@ -164,6 +164,13 @@ export type { CanvasBounds, ClampInput, ClampResult } from './engines/bounding-c
 export { reorderZIndex, applyZOrderChanges } from './engines/z-order-manager';
 export type { ZElement, ZOrderAction } from './engines/z-order-manager';
 
+// ─── Level 4: بلوكات وأدوات ───
+export { createSelectionManager } from './engines/selection-manager';
+export type { SelectableElement, SelectionMode } from './engines/selection-manager';
+
+export { mapBlocksToGrid, findOverlappingBlocks } from './engines/block-mapper';
+export type { SpatialBlock, MappedBlock } from './engines/block-mapper';
+
 // ─── كتل المحتوى ───
 export { createCodeEditorBlock } from './blocks/code-editor';
 export type { CodeEditorData, CodeEditorBlock } from './blocks/code-editor';
