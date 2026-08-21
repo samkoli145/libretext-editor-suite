@@ -154,6 +154,16 @@ export type { Snapshot } from './engines/undo-redo-engine';
 export { createMouseCommandRegistry } from './engines/mouse-command-registry';
 export type { CommandHandler, MouseCommand } from './engines/mouse-command-registry';
 
+// ─── Level 3: محركات الذكاء ───
+export { detectAndFlip, isNearEdge } from './engines/screen-edge-detector';
+export type { ViewportBounds, MenuDimensions, FlipResult } from './engines/screen-edge-detector';
+
+export { clampElement, clampMultiple, isOutOfBounds } from './engines/bounding-clamping-engine';
+export type { CanvasBounds, ClampInput, ClampResult } from './engines/bounding-clamping-engine';
+
+export { reorderZIndex, applyZOrderChanges } from './engines/z-order-manager';
+export type { ZElement, ZOrderAction } from './engines/z-order-manager';
+
 // ─── كتل المحتوى ───
 export { createCodeEditorBlock } from './blocks/code-editor';
 export type { CodeEditorData, CodeEditorBlock } from './blocks/code-editor';

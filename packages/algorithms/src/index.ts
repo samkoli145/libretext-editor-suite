@@ -95,6 +95,9 @@ export * from './spatial/mouse-diagnostics';
 export * from './spatial/spatial-drag-algorithms';
 export * from './spatial/auto-layout-engine';
 export * from './spatial/artboard-types';
+export * from './spatial/smart-snap-engine';
+export * from './spatial/dynamic-guide-lines';
+export * from './spatial/smart-rtl-alignment';
 export {
   type SpatialOpValue,
   type MoveCommand,
