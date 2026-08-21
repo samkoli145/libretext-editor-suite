@@ -53,12 +53,52 @@
 - ✅ `packages/algorithms/src/formula/markdown-engine.ts` — محرك Markdown: تحويل ثنائي الاتجاه MD↔HTML [ALGO-032]
 - ✅ تحديث Barrel Export + 0 type errors + 856 tests pass
 
-### Vector & Interaction Algorithms — خوارزميات المتجهات والتفاعل (2026-08-21)
+### Level 1-5 Engine Integration — تكامل محركات المستويات 1-5 (2026-08-21)
 
-- ✅ `packages/algorithms/src/vector/common.ts` — أدوات هندسية: Point2D, BoundingBox, distance, angle, rotate, debounce/throttle [ALGO-033]
-- ✅ `packages/algorithms/src/vector/coordinate-system.ts` — محرك الإحداثيات: screen↔world, zoom towards mouse, grid snap [ALGO-034]
-- ✅ `packages/algorithms/src/vector/mouse-algorithms.ts` — خوارزميات الفأرة: 8 مقابض تحجيم, RTL, تدوير, Ray Casting [ALGO-035]
-- ✅ `packages/algorithms/src/vector/smart-alignment.ts` — نظام المحاذاة الذكي: كشف start/center/end + threshold [ALGO-036]
+#### Level 1 — Basic Interaction Engines
+- ✅ `core/src/engines/context-menu-engine.ts` — محرك القوائم السياقية الديناميكية [CORE-ENG-005]
+- ✅ `core/src/engines/selection-gizmo-engine.ts` — محرك م Affero التحديد والتقابض [CORE-ENG-006]
+- ✅ `core/src/engines/composable-traits-engine.ts` — نظام السمات القابلة للتركيب [CORE-ENG-007]
+- ✅ `core/src/engines/floating-gizmo-engine.ts` — محرك العناصر العائمة [CORE-ENG-008]
+
+#### Level 2 — Interaction Engines
+- ✅ `core/src/engines/spatial-drag-engine.ts` — محرك السحب المكاني مع التسنين والضبط [CORE-ENG-009]
+- ✅ `core/src/engines/marquee-selection-engine.ts` — محرك التحديد بالصندوق المطاطي [CORE-ENG-010]
+- ✅ `core/src/engines/multi-selection-engine.ts` — محرك التحديد المتعدد [CORE-ENG-011]
+- ✅ `core/src/engines/undo-redo-engine.ts` — محرك التراجع والإعادة [CORE-ENG-012]
+- ✅ `core/src/engines/mouse-command-registry.ts` — سجل أوامر الماوس [CORE-ENG-013]
+
+#### Level 3 — Intelligence Engines
+- ✅ `algorithms/src/spatial/smart-snap-engine.ts` — التسنين الذكي مع خطوط الإرشاد [ALGO-031]
+- ✅ `algorithms/src/spatial/dynamic-guide-lines.ts` — خطوط إرشاد حية + مؤشرات قياس [ALGO-032]
+- ✅ `algorithms/src/spatial/smart-rtl-alignment.ts` — كشف اتجاه النص ومحاذاة RTL/LTR [ALGO-033]
+- ✅ `core/src/engines/screen-edge-detector.ts` — كشف حواف الشاشة وعكس القوائم [CORE-ENG-014]
+- ✅ `core/src/engines/bounding-clamping-engine.ts` — تقييد العناصر داخل حدود اللوحة [CORE-ENG-015]
+- ✅ `core/src/engines/z-order-manager.ts` — إدارة ترتيب الطبقات [CORE-ENG-016]
+
+#### Level 4 — Block & Tool Integration
+- ✅ `algorithms/src/vector/snap.ts` — محرك تسنين متعدد الأهداف [ALGO-034]
+- ✅ `algorithms/src/vector/ref-line.ts` — خطوط إرشاد ديناميكية + مؤشرات مسافات [ALGO-035]
+- ✅ `algorithms/src/vector/control-handle-manager.ts` — 8 مقابض تحجيم + تدوير [ALGO-036]
+- ✅ `core/src/engines/selection-manager.ts` — مدير تحديد شامل [CORE-ENG-017]
+- ✅ `core/src/engines/block-mapper.ts` — رسم خريطة البلوكات البصري [CORE-ENG-018]
+
+#### Level 5 — Medium Engines
+- ✅ `algorithms/src/diagram/diagram-engine.ts` — محرك رسومات SVG المتجهية [ALGO-037]
+- ✅ `core/src/registry/component-registry.ts` — سجل المكونات المركزي [CORE-REG-001]
+- ✅ `core/src/engines/smart-component-engine.ts` — تجميع المكونات الذكي [CORE-ENG-019]
+- ✅ `core/src/engines/callout-engine.ts` — صناديق التعليق التوضيحي البصرية [CORE-ENG-020]
+
+#### Backup Integration (المعدل)
+- ✅ `core/src/engines/mouse-tooling-engine.ts` — محرك الفأرة والأدوات [CORE-017]
+- ✅ `core/src/engines/tool-registry.ts` — سجل الأدوات الموحد [CORE-020]
+- ✅ `core/src/engines/doctor-self-healing-engine.ts` — محرك الشفاء الذاتي [CORE-021]
+- ✅ `algorithms/src/spatial/mouse-diagnostics.ts` — تشخيص الفأرة وإحداثيات الشاشة [ALGO-010]
+- ✅ `algorithms/src/spatial/auto-layout-engine.ts` — محرك التخطيط الأوتوماتيكي [ALGO-011]
+- ✅ `algorithms/src/spatial/spatial-drag-algorithms.ts` — خوارزميات السحب والتحديد [ALGO-028]
+- ✅ `core/src/blocks/code-editor.ts` + `.styles.ts` + `.registry.ts` — بلوك محرر الكود
+- ✅ `core/src/blocks/audio-block-block.ts` — بلوك الصوت
+- ✅ `core/src/contextMenuEngine.ts` — محرك القوائم السياقية المحسّن [CORE-012]
 - ✅ تحديث Barrel Export + 0 type errors + 856 tests pass
 
 ### Fifth Backup Integration — تكامل النسخة الاحتياطية الخامسة (2026-08-21)

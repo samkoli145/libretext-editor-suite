@@ -4,7 +4,7 @@
 
 > **تاريخ آخر Update:** 2026-08-21
 > **عدد الحزم:** 7
-> **Total العناصر المفهرسة:** 947 عنصر
+> **Total العناصر المفهرسة:** 1134 عنصر
 
 ---
 
@@ -162,6 +162,15 @@
 | 55/57 | `CycleDetectionResult` | 📐 interface | `types.ts:43` | `—` |
 | 56/57 | `isAABB` | ⚙️ function | `types.ts:50` | `val: unknown` |
 | 57/57 | `isPoint2D` | ⚙️ function | `types.ts:62` | `val: unknown` |
+
+### 📁 diagram-engine.ts
+
+| # | الاسم | الType | File:سطر | Parameters |
+|---|-------|-------|-----------|----------|
+| 1/4 | `DiagramNode` | 📐 interface | `diagram-engine.ts:14` | `—` |
+| 2/4 | `DiagramEdge` | 📐 interface | `diagram-engine.ts:25` | `—` |
+| 3/4 | `DiagramLayout` | 📐 interface | `diagram-engine.ts:33` | `—` |
+| 4/4 | `createDiagramEngine` | ⚙️ function | `diagram-engine.ts:69` | `—` |
 
 ### 📁 arabic-aliases.ts
 
@@ -555,6 +564,28 @@
 | 4/5 | `AnchorPoint` | 📐 interface | `alignment-engine.ts:36` | `—` |
 | 5/5 | `AlignmentEngine` | 🏗️ class | `alignment-engine.ts:43` | `—` |
 
+### 📁 artboard-types.ts
+
+| # | الاسم | الType | File:سطر | Parameters |
+|---|-------|-------|-----------|----------|
+| 1/8 | `ElementType` | 🏷️ type | `artboard-types.ts:17` | `—` |
+| 2/8 | `DomainType` | 🏷️ type | `artboard-types.ts:28` | `—` |
+| 3/8 | `TextScriptDirection` | 🏷️ type | `artboard-types.ts:30` | `—` |
+| 4/8 | `AlignmentGuideLine` | 📐 interface | `artboard-types.ts:32` | `—` |
+| 5/8 | `StateHistoryEntry` | 📐 interface | `artboard-types.ts:40` | `—` |
+| 6/8 | `SimulatedCanvasElement` | 📐 interface | `artboard-types.ts:46` | `—` |
+| 7/8 | `CanvasBoundingBox` | 📐 interface | `artboard-types.ts:65` | `—` |
+| 8/8 | `MarqueeSelectionState` | 📐 interface | `artboard-types.ts:76` | `—` |
+
+### 📁 auto-layout-engine.ts
+
+| # | الاسم | الType | File:سطر | Parameters |
+|---|-------|-------|-----------|----------|
+| 1/4 | `LayoutNode` | 📐 interface | `auto-layout-engine.ts:27` | `—` |
+| 2/4 | `LayoutContainer` | 📐 interface | `auto-layout-engine.ts:36` | `—` |
+| 3/4 | `LayoutResult` | 📐 interface | `auto-layout-engine.ts:46` | `—` |
+| 4/4 | `calculateAutoLayout` | ⚙️ function | `auto-layout-engine.ts:54` | `—` |
+
 ### 📁 bezier-engine.ts
 
 | # | الاسم | الType | File:سطر | Parameters |
@@ -634,6 +665,15 @@
 | 7/8 | `routeCurvedConnector` | ⚙️ function | `connector-routing.ts:173` | `—` |
 | 8/8 | `computeArrowhead` | ⚙️ function | `connector-routing.ts:203` | `—` |
 
+### 📁 dynamic-guide-lines.ts
+
+| # | الاسم | الType | File:سطر | Parameters |
+|---|-------|-------|-----------|----------|
+| 1/4 | `DynamicGuide` | 📐 interface | `dynamic-guide-lines.ts:13` | `—` |
+| 2/4 | `MeasurementLabel` | 📐 interface | `dynamic-guide-lines.ts:23` | `—` |
+| 3/4 | `generateDynamicGuides` | ⚙️ function | `dynamic-guide-lines.ts:44` | `—` |
+| 4/4 | `generateMeasurementLabels` | ⚙️ function | `dynamic-guide-lines.ts:85` | `—` |
+
 ### 📁 mapper.ts
 
 | # | الاسم | الType | File:سطر | Parameters |
@@ -672,6 +712,17 @@
 | 10/11 | `transformBoxWithMatrix` | ⚙️ function | `matrix-2d.ts:141` | `m: Matrix2D, box: BoundingBox` |
 | 11/11 | `toCssMatrixString` | ⚙️ function | `matrix-2d.ts:176` | `m: Matrix2D` |
 
+### 📁 mouse-diagnostics.ts
+
+| # | الاسم | الType | File:سطر | Parameters |
+|---|-------|-------|-----------|----------|
+| 1/6 | `Point2D` | 📐 interface | `mouse-diagnostics.ts:34` | `—` |
+| 2/6 | `RelativeMouseOffsetResult` | 📐 interface | `mouse-diagnostics.ts:39` | `—` |
+| 3/6 | `MouseDiagnosticsOptions` | 📐 interface | `mouse-diagnostics.ts:50` | `—` |
+| 4/6 | `detectRtl` | ⚙️ function | `mouse-diagnostics.ts:70` | `element: HTMLElement` |
+| 5/6 | `extractCssScale` | ⚙️ function | `mouse-diagnostics.ts:76` | `element: HTMLElement` |
+| 6/6 | `calculateRelativeMouseOffset` | ⚙️ function | `mouse-diagnostics.ts:116` | `—` |
+
 ### 📁 smart-guides.ts
 
 | # | الاسم | الType | File:سطر | Parameters |
@@ -681,6 +732,43 @@
 | 3/5 | `generateReferenceLines` | ⚙️ function | `smart-guides.ts:73` | `—` |
 | 4/5 | `calculateDistanceBadges` | ⚙️ function | `smart-guides.ts:140` | `—` |
 | 5/5 | `filterDuplicateGuides` | ⚙️ function | `smart-guides.ts:216` | `lines: ReferenceLine[]` |
+
+### 📁 smart-rtl-alignment.ts
+
+| # | الاسم | الType | File:سطر | Parameters |
+|---|-------|-------|-----------|----------|
+| 1/3 | `detectTextDirection` | ⚙️ function | `smart-rtl-alignment.ts:17` | `text?: string` |
+| 2/3 | `getElementDirection` | ⚙️ function | `smart-rtl-alignment.ts:22` | `el: SimulatedCanvasElement` |
+| 3/3 | `smartAlignByDirection` | ⚙️ function | `smart-rtl-alignment.ts:28` | `—` |
+
+### 📁 smart-snap-engine.ts
+
+| # | الاسم | الType | File:سطر | Parameters |
+|---|-------|-------|-----------|----------|
+| 1/1 | `smartSnap` | ⚙️ function | `smart-snap-engine.ts:32` | `—` |
+
+### 📁 spatial-drag-algorithms.ts
+
+| # | الاسم | الType | File:سطر | Parameters |
+|---|-------|-------|-----------|----------|
+| 1/18 | `detectTextScriptDirection` | ⚙️ function | `spatial-drag-algorithms.ts:37` | `text?: string` |
+| 2/18 | `getElementScriptDirection` | ⚙️ function | `spatial-drag-algorithms.ts:46` | `element: SimulatedCanvasElement` |
+| 3/18 | `smartAlignByScript` | ⚙️ function | `spatial-drag-algorithms.ts:66` | `—` |
+| 4/18 | `calculateSmartSnapAndGuides` | ⚙️ function | `spatial-drag-algorithms.ts:102` | `—` |
+| 5/18 | `pushHistoryState` | ⚙️ function | `spatial-drag-algorithms.ts:209` | `—` |
+| 6/18 | `snapCoordinate` | ⚙️ function | `spatial-drag-algorithms.ts:241` | `value: number, gridSize: number, enabled: boolean` |
+| 7/18 | `calculateGroupBounds` | ⚙️ function | `spatial-drag-algorithms.ts:249` | `—` |
+| 8/18 | `clampWithinCanvas` | ⚙️ function | `spatial-drag-algorithms.ts:286` | `—` |
+| 9/18 | `applyDeltaToSelection` | ⚙️ function | `spatial-drag-algorithms.ts:302` | `—` |
+| 10/18 | `toggleElementSelection` | ⚙️ function | `spatial-drag-algorithms.ts:341` | `—` |
+| 11/18 | `getMarqueeIntersectingIds` | ⚙️ function | `spatial-drag-algorithms.ts:362` | `—` |
+| 12/18 | `SpatialAlignmentType` | 🏷️ type | `spatial-drag-algorithms.ts:387` | `—` |
+| 13/18 | `alignSelectedElements` | ⚙️ function | `spatial-drag-algorithms.ts:398` | `—` |
+| 14/18 | `SpatialDistributionType` | 🏷️ type | `spatial-drag-algorithms.ts:441` | `—` |
+| 15/18 | `distributeSelectedElements` | ⚙️ function | `spatial-drag-algorithms.ts:446` | `—` |
+| 16/18 | `rotateSelectedElements` | ⚙️ function | `spatial-drag-algorithms.ts:502` | `—` |
+| 17/18 | `reorderLayers` | ⚙️ function | `spatial-drag-algorithms.ts:518` | `—` |
+| 18/18 | `createInitialArtboardElements` | ⚙️ function | `spatial-drag-algorithms.ts:545` | `—` |
 
 ### 📁 transformer.ts
 
@@ -803,6 +891,17 @@
 | 18/19 | `debounce` | ⚙️ function | `common.ts:139` | `...args: unknown[]` |
 | 19/19 | `throttle` | ⚙️ function | `common.ts:147` | `...args: unknown[]` |
 
+### 📁 control-handle-manager.ts
+
+| # | الاسم | الType | File:سطر | Parameters |
+|---|-------|-------|-----------|----------|
+| 1/6 | `HandleType` | 🏷️ type | `control-handle-manager.ts:16` | `—` |
+| 2/6 | `ControlHandle` | 📐 interface | `control-handle-manager.ts:18` | `—` |
+| 3/6 | `getTransformHandles` | ⚙️ function | `control-handle-manager.ts:39` | `—` |
+| 4/6 | `hitTestHandles` | ⚙️ function | `control-handle-manager.ts:61` | `handles: readonly ControlHandle[], point: Point2D, tolerance` |
+| 5/6 | `calculateResizeDelta` | ⚙️ function | `control-handle-manager.ts:68` | `—` |
+| 6/6 | `calculateRotationAngle` | ⚙️ function | `control-handle-manager.ts:87` | `center: Point2D, currentPoint: Point2D, snapDeg = 15` |
+
 ### 📁 coordinate-system.ts
 
 | # | الاسم | الType | File:سطر | Parameters |
@@ -825,6 +924,15 @@
 | 6/7 | `calculateRotationAngle` | ⚙️ function | `mouse-algorithms.ts:99` | `—` |
 | 7/7 | `isPointInPolygon` | ⚙️ function | `mouse-algorithms.ts:113` | `point: { x: number; y: number }, polygon: { x: number; y: nu` |
 
+### 📁 ref-line.ts
+
+| # | الاسم | الType | File:سطر | Parameters |
+|---|-------|-------|-----------|----------|
+| 1/4 | `ReferenceLine` | 📐 interface | `ref-line.ts:15` | `—` |
+| 2/4 | `DistanceBadge` | 📐 interface | `ref-line.ts:25` | `—` |
+| 3/4 | `calculateAlignmentRefLines` | ⚙️ function | `ref-line.ts:33` | `—` |
+| 4/4 | `calculateDistanceBadges` | ⚙️ function | `ref-line.ts:66` | `—` |
+
 ### 📁 smart-alignment.ts
 
 | # | الاسم | الType | File:سطر | Parameters |
@@ -835,9 +943,35 @@
 | 4/5 | `SmartAlignmentSystem` | 🏗️ class | `smart-alignment.ts:47` | `—` |
 | 5/5 | `defaultSmartAlignment` | 📌 constant | `smart-alignment.ts:102` | `—` |
 
+### 📁 snap.ts
+
+| # | الاسم | الType | File:سطر | Parameters |
+|---|-------|-------|-----------|----------|
+| 1/5 | `SnapTarget` | 📐 interface | `snap.ts:16` | `—` |
+| 2/5 | `SnapResult` | 📐 interface | `snap.ts:25` | `—` |
+| 3/5 | `SnapConfig` | 📐 interface | `snap.ts:31` | `—` |
+| 4/5 | `snapPointToGrid` | ⚙️ function | `snap.ts:41` | `point: Point2D, gridSize = 10` |
+| 5/5 | `calculateSmartSnap` | ⚙️ function | `snap.ts:67` | `—` |
+
 ---
 
 ## 📦 packages/core
+
+### 📁 artboard.ts
+
+| # | الاسم | الType | File:سطر | Parameters |
+|---|-------|-------|-----------|----------|
+| 1/11 | `ElementType` | 🏷️ type | `artboard.ts:24` | `—` |
+| 2/11 | `DomainType` | 🏷️ type | `artboard.ts:35` | `—` |
+| 3/11 | `TextScriptDirection` | 🏷️ type | `artboard.ts:37` | `—` |
+| 4/11 | `AlignmentGuideLine` | 📐 interface | `artboard.ts:39` | `—` |
+| 5/11 | `StateHistoryEntry` | 📐 interface | `artboard.ts:47` | `—` |
+| 6/11 | `SimulatedCanvasElement` | 📐 interface | `artboard.ts:53` | `—` |
+| 7/11 | `CanvasBoundingBox` | 📐 interface | `artboard.ts:72` | `—` |
+| 8/11 | `ContextMenuPosition` | 📐 interface | `artboard.ts:83` | `—` |
+| 9/11 | `NestedContextMenuItem` | 📐 interface | `artboard.ts:89` | `—` |
+| 10/11 | `DragState` | 📐 interface | `artboard.ts:101` | `—` |
+| 11/11 | `MarqueeSelectionState` | 📐 interface | `artboard.ts:108` | `—` |
 
 ### 📁 builder.ts
 
@@ -923,6 +1057,57 @@
 | 41/42 | `EditorPlugin` | 📐 interface | `types.ts:73` | `—` |
 | 42/42 | `SharedFormattingState` | 📐 interface | `types.ts:86` | `—` |
 
+### 📁 audio-block-block.ts
+
+| # | الاسم | الType | File:سطر | Parameters |
+|---|-------|-------|-----------|----------|
+| 1/4 | `AudioBlockData` | 📐 interface | `audio-block-block.ts:18` | `—` |
+| 2/4 | `AudioBlockNode` | 📐 interface | `audio-block-block.ts:25` | `—` |
+| 3/4 | `AudioBlockToolingProfile` | 📌 constant | `audio-block-block.ts:31` | `—` |
+| 4/4 | `createAudioBlockNode` | ⚙️ function | `audio-block-block.ts:44` | `—` |
+
+### 📁 code-editor.registry.ts
+
+| # | الاسم | الType | File:سطر | Parameters |
+|---|-------|-------|-----------|----------|
+| 1/1 | `CodeEditorRegistryEntry` | 📌 constant | `code-editor.registry.ts:15` | `—` |
+
+### 📁 code-editor.styles.ts
+
+| # | الاسم | الType | File:سطر | Parameters |
+|---|-------|-------|-----------|----------|
+| 1/1 | `CodeEditorDefaultStyles` | 📌 constant | `code-editor.styles.ts:16` | `—` |
+
+### 📁 code-editor.ts
+
+| # | الاسم | الType | File:سطر | Parameters |
+|---|-------|-------|-----------|----------|
+| 1/4 | `CodeEditorData` | 📐 interface | `code-editor.ts:19` | `—` |
+| 2/4 | `CodeEditorBlock` | 📐 interface | `code-editor.ts:27` | `—` |
+| 3/4 | `CodeEditorToolingProfile` | 📌 constant | `code-editor.ts:37` | `—` |
+| 4/4 | `createCodeEditorBlock` | ⚙️ function | `code-editor.ts:56` | `—` |
+
+### 📁 contextMenuEngine.ts
+
+| # | الاسم | الType | File:سطر | Parameters |
+|---|-------|-------|-----------|----------|
+| 1/16 | `ContextMenuItemType` | 🏷️ type | `contextMenuEngine.ts:63` | `—` |
+| 2/16 | `ContextMenuPosition` | 📐 interface | `contextMenuEngine.ts:65` | `—` |
+| 3/16 | `ContextMenuContext` | 📐 interface | `contextMenuEngine.ts:70` | `—` |
+| 4/16 | `DynamicValue` | 🏷️ type | `contextMenuEngine.ts:80` | `—` |
+| 5/16 | `BaseMenuItem` | 📐 interface | `contextMenuEngine.ts:82` | `—` |
+| 6/16 | `ActionMenuItem` | 📐 interface | `contextMenuEngine.ts:90` | `—` |
+| 7/16 | `SubmenuMenuItem` | 📐 interface | `contextMenuEngine.ts:102` | `—` |
+| 8/16 | `SeparatorMenuItem` | 📐 interface | `contextMenuEngine.ts:111` | `—` |
+| 9/16 | `ContextMenuItem` | 🏷️ type | `contextMenuEngine.ts:115` | `—` |
+| 10/16 | `ResolvedMenuItem` | 🏷️ type | `contextMenuEngine.ts:117` | `—` |
+| 11/16 | `TargetMatcher` | 🏷️ type | `contextMenuEngine.ts:130` | `—` |
+| 12/16 | `ContextMenuRegistration` | 📐 interface | `contextMenuEngine.ts:135` | `—` |
+| 13/16 | `ContextMenuEngine` | 📐 interface | `contextMenuEngine.ts:142` | `—` |
+| 14/16 | `sanitizeMenuSeparators` | ⚙️ function | `contextMenuEngine.ts:200` | `items: readonly ResolvedMenuItem[]` |
+| 15/16 | `createContextMenuEngine` | ⚙️ function | `contextMenuEngine.ts:293` | `—` |
+| 16/16 | `globalContextMenuEngine` | 📌 constant | `contextMenuEngine.ts:410` | `—` |
+
 ### 📁 universal-format-converter.ts
 
 | # | الاسم | الType | File:سطر | Parameters |
@@ -934,6 +1119,66 @@
 | 5/6 | `ParsedImportData` | 📐 interface | `universal-format-converter.ts:98` | `—` |
 | 6/6 | `UniversalFormatConverter` | 🏗️ class | `universal-format-converter.ts:119` | `—` |
 
+### 📁 block-mapper.ts
+
+| # | الاسم | الType | File:سطر | Parameters |
+|---|-------|-------|-----------|----------|
+| 1/4 | `SpatialBlock` | 📐 interface | `block-mapper.ts:14` | `—` |
+| 2/4 | `MappedBlock` | 📐 interface | `block-mapper.ts:23` | `—` |
+| 3/4 | `mapBlocksToGrid` | ⚙️ function | `block-mapper.ts:36` | `—` |
+| 4/4 | `findOverlappingBlocks` | ⚙️ function | `block-mapper.ts:50` | `blocks: readonly SpatialBlock[]` |
+
+### 📁 bounding-clamping-engine.ts
+
+| # | الاسم | الType | File:سطر | Parameters |
+|---|-------|-------|-----------|----------|
+| 1/6 | `CanvasBounds` | 📐 interface | `bounding-clamping-engine.ts:13` | `—` |
+| 2/6 | `ClampInput` | 📐 interface | `bounding-clamping-engine.ts:18` | `—` |
+| 3/6 | `ClampResult` | 📐 interface | `bounding-clamping-engine.ts:26` | `—` |
+| 4/6 | `clampElement` | ⚙️ function | `bounding-clamping-engine.ts:36` | `el: ClampInput, canvas: CanvasBounds` |
+| 5/6 | `clampMultiple` | ⚙️ function | `bounding-clamping-engine.ts:44` | `—` |
+| 6/6 | `isOutOfBounds` | ⚙️ function | `bounding-clamping-engine.ts:51` | `el: ClampInput, canvas: CanvasBounds` |
+
+### 📁 callout-engine.ts
+
+| # | الاسم | الType | File:سطر | Parameters |
+|---|-------|-------|-----------|----------|
+| 1/6 | `CalloutShape` | 🏷️ type | `callout-engine.ts:14` | `—` |
+| 2/6 | `CalloutColor` | 🏷️ type | `callout-engine.ts:15` | `—` |
+| 3/6 | `CalloutPosition` | 🏷️ type | `callout-engine.ts:16` | `—` |
+| 4/6 | `CalloutConfig` | 📐 interface | `callout-engine.ts:18` | `—` |
+| 5/6 | `renderCalloutSvg` | ⚙️ function | `callout-engine.ts:56` | `cfg: CalloutConfig` |
+| 6/6 | `createCallout` | ⚙️ function | `callout-engine.ts:71` | `—` |
+
+### 📁 composable-traits-engine.ts
+
+| # | الاسم | الType | File:سطر | Parameters |
+|---|-------|-------|-----------|----------|
+| 1/6 | `TraitDef` | 📐 interface | `composable-traits-engine.ts:18` | `—` |
+| 2/6 | `ComposedProfile` | 📐 interface | `composable-traits-engine.ts:24` | `—` |
+| 3/6 | `composeTraits` | ⚙️ function | `composable-traits-engine.ts:119` | `—` |
+| 4/6 | `getTraitDef` | ⚙️ function | `composable-traits-engine.ts:133` | `name: string` |
+| 5/6 | `listTraits` | ⚙️ function | `composable-traits-engine.ts:137` | `—` |
+| 6/6 | `ComposableTraitsEngine` | 📌 constant | `composable-traits-engine.ts:141` | `—` |
+
+### 📁 context-menu-engine.ts
+
+| # | الاسم | الType | File:سطر | Parameters |
+|---|-------|-------|-----------|----------|
+| 1/6 | `ContextMenuItem` | 📐 interface | `context-menu-engine.ts:16` | `—` |
+| 2/6 | `ContextMenuTarget` | 📐 interface | `context-menu-engine.ts:28` | `—` |
+| 3/6 | `ContextMenuResult` | 📐 interface | `context-menu-engine.ts:36` | `—` |
+| 4/6 | `resolveContextMenu` | ⚙️ function | `context-menu-engine.ts:114` | `—` |
+| 5/6 | `clearRegistry` | ⚙️ function | `context-menu-engine.ts:131` | `—` |
+| 6/6 | `ContextMenuEngine` | 📌 constant | `context-menu-engine.ts:135` | `—` |
+
+### 📁 doctor-self-healing-engine.ts
+
+| # | الاسم | الType | File:سطر | Parameters |
+|---|-------|-------|-----------|----------|
+| 1/2 | `DoctorReport` | 📐 interface | `doctor-self-healing-engine.ts:31` | `—` |
+| 2/2 | `runSelfHealingPipeline` | 📌 constant | `doctor-self-healing-engine.ts:98` | `—` |
+
 ### 📁 file-type-detection.ts
 
 | # | الاسم | الType | File:سطر | Parameters |
@@ -941,6 +1186,17 @@
 | 1/3 | `DocumentType` | 🏷️ type | `file-type-detection.ts:30` | `—` |
 | 2/3 | `FileDetectionResult` | 📐 interface | `file-type-detection.ts:32` | `—` |
 | 3/3 | `detectDocumentType` | ⚙️ function | `file-type-detection.ts:118` | `—` |
+
+### 📁 floating-gizmo-engine.ts
+
+| # | الاسم | الType | File:سطر | Parameters |
+|---|-------|-------|-----------|----------|
+| 1/6 | `GizmoPosition` | 📐 interface | `floating-gizmo-engine.ts:16` | `—` |
+| 2/6 | `FloatingAction` | 📐 interface | `floating-gizmo-engine.ts:18` | `—` |
+| 3/6 | `FloatingGizmoState` | 📐 interface | `floating-gizmo-engine.ts:26` | `—` |
+| 4/6 | `computeFloatingGizmo` | ⚙️ function | `floating-gizmo-engine.ts:107` | `—` |
+| 5/6 | `hideGizmo` | ⚙️ function | `floating-gizmo-engine.ts:119` | `—` |
+| 6/6 | `FloatingGizmoEngine` | 📌 constant | `floating-gizmo-engine.ts:123` | `—` |
 
 ### 📁 html-pipeline.ts
 
@@ -978,6 +1234,104 @@
 | 16/17 | `createThumbnail` | ⚙️ function | `image-pipeline.ts:278` | `source: HTMLImageElement | string, size = 120` |
 | 17/17 | `buildFilterString` | ⚙️ function | `image-pipeline.ts:334` | `filters: ImageFilters` |
 
+### 📁 marquee-selection-engine.ts
+
+| # | الاسم | الType | File:سطر | Parameters |
+|---|-------|-------|-----------|----------|
+| 1/3 | `MarqueeBox` | 📐 interface | `marquee-selection-engine.ts:15` | `—` |
+| 2/3 | `MarqueeElement` | 📐 interface | `marquee-selection-engine.ts:22` | `—` |
+| 3/3 | `createMarqueeSelectionEngine` | ⚙️ function | `marquee-selection-engine.ts:48` | `—` |
+
+### 📁 mouse-command-registry.ts
+
+| # | الاسم | الType | File:سطر | Parameters |
+|---|-------|-------|-----------|----------|
+| 1/3 | `CommandHandler` | 🏷️ type | `mouse-command-registry.ts:15` | `—` |
+| 2/3 | `MouseCommand` | 📐 interface | `mouse-command-registry.ts:17` | `—` |
+| 3/3 | `createMouseCommandRegistry` | ⚙️ function | `mouse-command-registry.ts:24` | `—` |
+
+### 📁 mouse-tooling-engine.ts
+
+| # | الاسم | الType | File:سطر | Parameters |
+|---|-------|-------|-----------|----------|
+| 1/7 | `ToolCategory` | 🏷️ type | `mouse-tooling-engine.ts:34` | `—` |
+| 2/7 | `ContextMenuAction` | 📐 interface | `mouse-tooling-engine.ts:36` | `—` |
+| 3/7 | `FloatingGizmoTool` | 📐 interface | `mouse-tooling-engine.ts:46` | `—` |
+| 4/7 | `TransformHandle` | 📐 interface | `mouse-tooling-engine.ts:54` | `—` |
+| 5/7 | `ElementToolingProfile` | 📐 interface | `mouse-tooling-engine.ts:61` | `—` |
+| 6/7 | `getToolingProfileForNode` | ⚙️ function | `mouse-tooling-engine.ts:157` | `nodeType: string` |
+| 7/7 | `calculateTransformGizmoHandles` | ⚙️ function | `mouse-tooling-engine.ts:177` | `—` |
+
+### 📁 multi-selection-engine.ts
+
+| # | الاسم | الType | File:سطر | Parameters |
+|---|-------|-------|-----------|----------|
+| 1/1 | `createMultiSelectionEngine` | ⚙️ function | `multi-selection-engine.ts:15` | `—` |
+
+### 📁 screen-edge-detector.ts
+
+| # | الاسم | الType | File:سطر | Parameters |
+|---|-------|-------|-----------|----------|
+| 1/5 | `ViewportBounds` | 📐 interface | `screen-edge-detector.ts:14` | `—` |
+| 2/5 | `MenuDimensions` | 📐 interface | `screen-edge-detector.ts:19` | `—` |
+| 3/5 | `FlipResult` | 📐 interface | `screen-edge-detector.ts:24` | `—` |
+| 4/5 | `detectAndFlip` | ⚙️ function | `screen-edge-detector.ts:37` | `—` |
+| 5/5 | `isNearEdge` | ⚙️ function | `screen-edge-detector.ts:48` | `—` |
+
+### 📁 selection-gizmo-engine.ts
+
+| # | الاسم | الType | File:سطر | Parameters |
+|---|-------|-------|-----------|----------|
+| 1/7 | `Rect` | 📐 interface | `selection-gizmo-engine.ts:16` | `—` |
+| 2/7 | `HandlePosition` | 🏷️ type | `selection-gizmo-engine.ts:18` | `—` |
+| 3/7 | `Handle` | 📐 interface | `selection-gizmo-engine.ts:20` | `—` |
+| 4/7 | `GizmoToolbar` | 📐 interface | `selection-gizmo-engine.ts:27` | `—` |
+| 5/7 | `GizmoAction` | 📐 interface | `selection-gizmo-engine.ts:33` | `—` |
+| 6/7 | `computeGizmo` | ⚙️ function | `selection-gizmo-engine.ts:97` | `—` |
+| 7/7 | `SelectionGizmoEngine` | 📌 constant | `selection-gizmo-engine.ts:111` | `—` |
+
+### 📁 selection-manager.ts
+
+| # | الاسم | الType | File:سطر | Parameters |
+|---|-------|-------|-----------|----------|
+| 1/3 | `SelectableElement` | 📐 interface | `selection-manager.ts:14` | `—` |
+| 2/3 | `SelectionMode` | 🏷️ type | `selection-manager.ts:23` | `—` |
+| 3/3 | `createSelectionManager` | ⚙️ function | `selection-manager.ts:29` | `—` |
+
+### 📁 smart-component-engine.ts
+
+| # | الاسم | الType | File:سطر | Parameters |
+|---|-------|-------|-----------|----------|
+| 1/4 | `ComponentDependency` | 📐 interface | `smart-component-engine.ts:14` | `—` |
+| 2/4 | `ResolveResult` | 📐 interface | `smart-component-engine.ts:21` | `—` |
+| 3/4 | `resolveComponents` | ⚙️ function | `smart-component-engine.ts:60` | `—` |
+| 4/4 | `sortByIdWeight` | ⚙️ function | `smart-component-engine.ts:74` | `deps: readonly ComponentDependency[]` |
+
+### 📁 spatial-drag-engine.ts
+
+| # | الاسم | الType | File:سطر | Parameters |
+|---|-------|-------|-----------|----------|
+| 1/4 | `DragElement` | 📐 interface | `spatial-drag-engine.ts:17` | `—` |
+| 2/4 | `DragState` | 📐 interface | `spatial-drag-engine.ts:26` | `—` |
+| 3/4 | `DragResult` | 📐 interface | `spatial-drag-engine.ts:33` | `—` |
+| 4/4 | `createSpatialDragEngine` | ⚙️ function | `spatial-drag-engine.ts:67` | `—` |
+
+### 📁 tool-registry.ts
+
+| # | الاسم | الType | File:سطر | Parameters |
+|---|-------|-------|-----------|----------|
+| 1/4 | `ToolCategory` | 🏷️ type | `tool-registry.ts:29` | `—` |
+| 2/4 | `UnifiedToolItem` | 📐 interface | `tool-registry.ts:33` | `—` |
+| 3/4 | `ToolRegistry` | 🏗️ class | `tool-registry.ts:45` | `—` |
+| 4/4 | `toolRegistry` | 📌 constant | `tool-registry.ts:103` | `—` |
+
+### 📁 undo-redo-engine.ts
+
+| # | الاسم | الType | File:سطر | Parameters |
+|---|-------|-------|-----------|----------|
+| 1/2 | `Snapshot` | 📐 interface | `undo-redo-engine.ts:15` | `—` |
+| 2/2 | `createUndoRedoEngine` | ⚙️ function | `undo-redo-engine.ts:21` | `maxSize = 50` |
+
 ### 📁 unified-ingestion.ts
 
 | # | الاسم | الType | File:سطر | Parameters |
@@ -996,6 +1350,15 @@
 | 2/4 | `ValidationEngine` | 🏗️ class | `validation.ts:38` | `—` |
 | 3/4 | `validationEngine` | 📌 constant | `validation.ts:105` | `—` |
 | 4/4 | `validateDocument` | ⚙️ function | `validation.ts:45` | `doc: DocNode` |
+
+### 📁 z-order-manager.ts
+
+| # | الاسم | الType | File:سطر | Parameters |
+|---|-------|-------|-----------|----------|
+| 1/4 | `ZElement` | 📐 interface | `z-order-manager.ts:14` | `—` |
+| 2/4 | `ZOrderAction` | 🏷️ type | `z-order-manager.ts:19` | `—` |
+| 3/4 | `reorderZIndex` | ⚙️ function | `z-order-manager.ts:36` | `—` |
+| 4/4 | `applyZOrderChanges` | ⚙️ function | `z-order-manager.ts:56` | `—` |
 
 ### 📁 indexer.ts
 
@@ -1030,6 +1393,15 @@
 | 2/4 | `ContentBlock` | 📐 interface | `markdown.ts:30` | `—` |
 | 3/4 | `ParsedMarkdown` | 📐 interface | `markdown.ts:38` | `—` |
 | 4/4 | `parseMarkdown` | ⚙️ function | `markdown.ts:42` | `markdown: string` |
+
+### 📁 component-registry.ts
+
+| # | الاسم | الType | File:سطر | Parameters |
+|---|-------|-------|-----------|----------|
+| 1/4 | `ComponentCategory` | 🏷️ type | `component-registry.ts:14` | `—` |
+| 2/4 | `ComponentPosition` | 🏷️ type | `component-registry.ts:16` | `—` |
+| 3/4 | `ComponentRegistration` | 📐 interface | `component-registry.ts:18` | `—` |
+| 4/4 | `createComponentRegistry` | ⚙️ function | `component-registry.ts:36` | `—` |
 
 ### 📁 editor-state.ts
 
