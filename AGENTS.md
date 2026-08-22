@@ -412,11 +412,21 @@ libretext-editor-suite/
 │   │   │   │   ├── unified-ingestion.ts          # خط الاستيراد الموحد
 │   │   │   │   ├── image-pipeline.ts             # معالجة الصور (EXIF، قص، فلاتر)
 │   │   │   │   └── validation.ts                 # فحص وتعقيم المحتوى
-│   │   │   ├── 📁 blocks/                # كتل المحتوى المخصصة
+│   │   │   ├── 📁 blocks/                # كتل المحتوى — HTML blocks + code editor
 │   │   │   │   ├── code-editor.ts         #   كتلة محرر الكود
 │   │   │   │   ├── code-editor.registry.ts#   تسجيل كتلة الكود
 │   │   │   │   ├── code-editor.styles.ts  #   أنماط كتلة الكود
-│   │   │   │   └── audio-block-block.ts   #   كتلة الصوت
+│   │   │   │   ├── audio-block-block.ts   #   كتلة الصوت
+│   │   │   │   ├── html-unified-block.ts  #   كتلة HTML موحدة (ளர்ந்த المعدل 4)
+│   │   │   │   ├── html-block-types.ts    #   أنواع كتل HTML المخصصة
+│   │   │   │   ├── html-block-registry.ts #   سجل تسجيل كتل HTML
+│   │   │   │   ├── html-block-generator.ts#   مولّد كتل HTML من القوالب
+│   │   │   │   ├── html-block-layout-engine.ts # محرك تخطيط كتل HTML
+│   │   │   │   ├── html-block-data-engine.ts   # محرك البيانات في كتل HTML
+│   │   │   │   ├── html-block-tailwind-editor.ts # محرر أنماط Tailwind
+│   │   │   │   ├── html-block-operations.ts    # عمليات كتل HTML (قص، نسخ، لصق)
+│   │   │   │   ├── html-block-presets.ts        # قوالب HTML جاهزة
+│   │   │   │   └── html-block-tsx-generator.ts  # مولّد كود TSX من HTML
 │   │   │   ├── 📁 parsers/               # محللات Markdown والبيانات الوصفية
 │   │   │   ├── 📁 converters/            # محول التنسيقات الشامل
 │   │   │   ├── 📁 registry/              # سجل المكونات المركزي
@@ -538,6 +548,153 @@ libretext-editor-suite/
 │   │   ├── 📁 tests/                     # اختبارات الإضافات (5 ملفات اختبار)
 │   │   └── 📄 package.json
 │   │
+│   ├── 📁 shared/                         # [SHARED] مكتبة مشتركة — محركات + أدوات + خطوط
+│   │   ├── 📁 engines/                    # محركات مشتركة (مجلّد رئيسي)
+│   │   │   ├── codeEditorEngines.ts       #   محركات محرر الكود (linting, completion)
+│   │   │   ├── htmlBlockParsers.ts        #   محللات كتل HTML المشتركة
+│   │   │   ├── AIEngine.ts                #   محرك الذكاء الاصطناعي
+│   │   │   ├── AttributeCompletionEngine.ts # إكمال السمات
+│   │   │   ├── ComponentRegistry.ts       #   سجل المكونات المشترك
+│   │   │   ├── Debouncer.ts               #   محرك التأخير (debounce)
+│   │   │   ├── DiagramEngine.ts           #   محرك المخططات
+│   │   │   ├── DialogEngine.ts            #   محرك الحوارات
+│   │   │   ├── DoctorSelfHealingEngine.ts #   فحص وشفاء ذاتي
+│   │   │   ├── IconGeneratorEngine.ts     #   مولّد الأيقونات
+│   │   │   ├── IconLibraryEngine.ts       #   مكتبة الأيقونات
+│   │   │   ├── ImageStyleEngine.ts        #   محرك أنماط الصور
+│   │   │   ├── ImageUploaderEngine.ts     #   محرك رفع الصور
+│   │   │   ├── LaTeXEngine.ts             #   محرك LaTeX
+│   │   │   ├── MarkdownEngine.ts          #   محرك Markdown
+│   │   │   ├── MindMapEngine.ts           #   محرك خرائط الذهن
+│   │   │   ├── NoCodeExecutionEngine.ts   #   محرك التنفيذ بدون كود
+│   │   │   ├── NotificationEngine.ts      #   محرك الإشعارات
+│   │   │   ├── PluginSystem.ts            #   نظام الإضافات المشترك
+│   │   │   ├── PresentationNotebookEngine.ts # محرك الدفتر التقديمي
+│   │   │   ├── SmartComponentEngine.ts    #   المكونات الذكية
+│   │   │   ├── ToolRegistry.ts            #   سجل الأدوات المشترك
+│   │   │   ├── ValidationEngine.ts        #   محرك التحقق
+│   │   │   ├── WebScrapingEngine.ts       #   محرك اقتناص الويب
+│   │   │   ├── WYSIWYGCalloutEngine.ts    #   صناديق التنبيه WYSIWYG
+│   │   │   ├── 📁 languages/             # نظام اللغات المتعدد
+│   │   │   │   ├── language-definition.ts #   تعريف اللغة
+│   │   │   │   ├── language-pack.ts       #   حزمة اللغة
+│   │   │   │   ├── language-registry.ts   #   سجل اللغات
+│   │   │   │   ├── language-runtime.ts    #   بيئة تشغيل اللغة
+│   │   │   │   ├── 📁 packs/             # حزم اللغات
+│   │   │   │   │   ├── cpp.ts             #   لغة C++
+│   │   │   │   │   ├── python.ts          #   لغة Python
+│   │   │   │   │   ├── typescript.ts      #   لغة TypeScript
+│   │   │   │   │   ├── web.ts             #   لغات الويب (HTML/CSS/JS)
+│   │   │   │   │   └── extended.ts        #   لغات إضافية
+│   │   │   │   └── 📁 providers/          # مزوّدون
+│   │   │   │       ├── completion-provider.ts   # إكمال تلقائي
+│   │   │   │       ├── diagnostics-provider.ts  # تشخيص الأخطاء
+│   │   │   │       ├── formatter-provider.ts    # تنسيق الكود
+│   │   │   │       ├── hover-provider.ts        # معلومات عند التمرير
+│   │   │   │       ├── runner-provider.ts       # مشغل الكود
+│   │   │   │       └── symbol-provider.ts       # رموز الكود
+│   │   │   └── index.ts                  #   Barrel Export
+│   │   ├── 📁 lib-core/                   # مكتبة النواة المشتركة
+│   │   │   ├── 📁 animation/             # محركات الحركة
+│   │   │   │   ├── motion-morph-engine.ts      # حركة التحول
+│   │   │   │   ├── motion-path-engine.ts       # حركة المسار
+│   │   │   │   └── motion-path-tooling-engine.ts # أدوات حركة المسار
+│   │   │   ├── 📁 archive/               # محرك الأرشيف
+│   │   │   │   └── zip-engine.ts          #   محرك ZIP بدون مكتبات
+│   │   │   ├── 📁 charts/               # محرك الرسوم البيانية
+│   │   │   │   └── zero-dependency-chart-engine.ts # رسوم بيانية بدون اعتماديات
+│   │   │   ├── 📁 code-interpreter/     # م interpreter الكود (المهم!)
+│   │   │   │   ├── code-editor-module.ts #   وحدة محرر الكود
+│   │   │   │   ├── code-sandbox-runner.ts # مشغل الكود في بيئة معزولة
+│   │   │   │   ├── css-generator-engine.ts  # مولّد CSS
+│   │   │   │   ├── live-interpreter-engine.ts # interpreter حي
+│   │   │   │   └── regex-tester-engine.ts   # محرك اختبار Regex
+│   │   │   ├── 📁 collaboration/         # التعاون
+│   │   │   │   └── peer-awareness-engine.ts  # وعي الأقران
+│   │   │   ├── 📁 computational-notebook/ # الدفتر الحسابي
+│   │   │   │   ├── ScratchpadEngine.ts       # محرك Scratchpad
+│   │   │   │   ├── ScratchpadParser.ts       # محلل Scratchpad
+│   │   │   │   ├── ScratchpadGraph.ts        # رسوم Scratchpad
+│   │   │   │   ├── ScratchpadBindings.ts     # ربط Scratchpad
+│   │   │   │   ├── ScratchpadStore.ts        # تخزين Scratchpad
+│   │   │   │   ├── unit-calc-engine.ts       # حاسبة الوحدات
+│   │   │   │   └── types.ts                  # أنواع Scratchpad
+│   │   │   ├── 📁 converters/            # المحولات المشتركة
+│   │   │   │   ├── cad-vector-engine.ts       # محول CAD/Vectors
+│   │   │   │   ├── document-markup-engine.ts  # محول الترميز
+│   │   │   │   ├── image-format-engine.ts     # محول صيغ الصور
+│   │   │   │   ├── odf-engine.ts              # محول ODF
+│   │   │   │   ├── schema-data-engine.ts      # محول البيانات المخططية
+│   │   │   │   ├── universal-export-hub.ts    # مركز التصدير الموحد
+│   │   │   │   └── web-components-engine.ts   # مكونات الويب
+│   │   │   ├── 📁 document-pipeline/     # خط أنابيب المستندات
+│   │   │   │   ├── block-document-model.ts    # نموذج المستند بالكتل
+│   │   │   │   ├── clip-payload-engine.ts     # محرك القص
+│   │   │   │   ├── comments-thread-engine.ts  # محرك التعليقات
+│   │   │   │   ├── content-addressed-asset-engine.ts # أصول بالعنوان
+│   │   │   │   ├── dynamic-fields-engine.ts   # حقول ديناميكية
+│   │   │   │   ├── find-replace-engine.ts     # بحث واستبدال
+│   │   │   │   ├── history-diff-engine.ts     # اختلافات التاريخ
+│   │   │   │   ├── html-sanitizer.ts          # تنقية HTML
+│   │   │   │   ├── layer-document-compositor.ts # مركّب الطبقات
+│   │   │   │   ├── markdown-caret-engine.ts   # محرك Markdown Caret
+│   │   │   │   ├── plan-apply-agent-engine.ts # وكيل تطبيق الخطط
+│   │   │   │   ├── schema-driven-fields-engine.ts # حقول مخططية
+│   │   │   │   ├── smart-clipboard-engine.ts  # الحافظة الذكية
+│   │   │   │   └── tag-aware-find-replace.ts  # بحث بتاجات
+│   │   │   ├── 📁 events/               # أحداث مشتركة
+│   │   │   │   ├── comments-anchoring-engine.ts # تثبيت التعليقات
+│   │   │   │   ├── dockable-tab-engine.ts      # تبويبات قابلة للرسو
+│   │   │   │   ├── drag-selection-engine.ts    # تحديد بالسحب
+│   │   │   │   ├── mouse-interaction-trinity.ts # ثالوث تفاعل الماوس
+│   │   │   │   ├── sub-editor-orchestrator.ts  # منسّق المحررات الفرعية
+│   │   │   │   ├── universal-context-menu.ts   # القائمة السياقية الموحدة
+│   │   │   │   └── viewport-pan-zoom.ts        # تكبير/تصغير + تحريك
+│   │   │   ├── 📁 geometry/             # الهندسة
+│   │   │   │   ├── bezier-curves.ts            # منحنيات بيزييه
+│   │   │   │   ├── bezier-editing-tool.ts      # أداة تحرير بيزييه
+│   │   │   │   ├── bounding-box.ts             # صندوق التحديد
+│   │   │   │   ├── connector-rerouting-engine.ts # إعادة توجيه الوصلات
+│   │   │   │   ├── coordinate-transformer.ts   # محول الإحداثيات
+│   │   │   │   ├── line-connector-geometry.ts  # هندسة الوصلات
+│   │   │   │   ├── smart-shapes-engine.ts      # الأشكال الذكية
+│   │   │   │   └── snap-align-engine.ts        # التسنين والمحاذاة
+│   │   │   ├── 📁 grid-engine/           # محرك الشبكة (Calc)
+│   │   │   │   ├── a1-notation.ts              # ترميز A1 للخلايا
+│   │   │   │   ├── cell-formula-engine.ts       # محرك صيغ الخلايا
+│   │   │   │   ├── format-engine.ts            # محرك التنسيق
+│   │   │   │   ├── formula-evaluator.ts        # مُقيّم الصيغ
+│   │   │   │   ├── grid-core.ts                # نواة الشبكة
+│   │   │   │   ├── linked-chart-bridge.ts       # جسر الرسوم المرتبطة
+│   │   │   │   ├── runtime-safety.ts           # سلامة التشغيل
+│   │   │   │   └── selection-model.ts          # نموذج التحديد
+│   │   │   ├── 📁 latex/               # محرك LaTeX
+│   │   │   │   ├── LatexEngine.ts              # المحرك الرئيسي
+│   │   │   │   ├── LatexParser.ts              # المحلل
+│   │   │   │   ├── LatexRenderer.ts            # العارض
+│   │   │   │   ├── LatexSymbols.ts             # الرموز
+│   │   │   │   ├── LatexTypes.ts               # الأنواع
+│   │   │   │   └── LatexUI.ts                  # واجهة المستخدم
+│   │   │   ├── 📁 raster/               # معالجة الصور النقطية
+│   │   │   │   ├── background-removal-matte.ts # إزالة الخلفية
+│   │   │   │   ├── brush-engine.ts             # محرك الفرشاة
+│   │   │   │   ├── color-combine-engine.ts     # دمج الألوان
+│   │   │   │   ├── color-curves-histogram.ts   # منحنيات الألوان
+│   │   │   │   ├── dithering-quantization-engine.ts # 분할 양자화
+│   │   │   │   ├── image-filters-engine.ts     # فلاتر الصور
+│   │   │   │   ├── image-processing-core.ts    # نواة معالجة الصور
+│   │   │   │   ├── layer-blend-engine.ts       # مزج الطبقات
+│   │   │   │   ├── morphology-convolution-engine.ts # مورفولوجيا التليل
+│   │   │   │   └── vector-tracer-engine.ts     # متتبع المتجهات
+│   │   │   ├── index.ts                  #   Barrel Export
+│   │   ├── 📁 hooks/                     # خطافات مشتركة (React)
+│   │   ├── 📁 primitives/               # مكونات أساسية
+│   │   ├── 📁 styles/                   # أنماط مشتركة
+│   │   ├── 📁 tools/                    # أدوات مشتركة
+│   │   ├── 📁 utils/                    # أدوات مساعدة
+│   │   ├── 📁 vector-engine/            # محرك المتجهات
+│   │   └── 📄 package.json
+│   │
 │   └── 📁 playground/                    # [PLAY] الملعب التجريبي (لم يبدأ بعد)
 │
 ├── 📁 docs/                              # [DOC] التوثيق
@@ -546,6 +703,25 @@ libretext-editor-suite/
 │   └── 📁 examples/                      # أمثلة تطبيقية
 │
 ├── 📁 scripts/                           # [INFRA] أسكريبتات الأتمتة والفهرسة
+│   ├── analyze-blocks-and-tools.ts        #   تحليل الكتل والأدوات
+│   ├── atomic-inventory.ts                #   جرد ذري للملفات (160 ملف)
+│   ├── extract-line-numbers.ts            #   استخراج أرقام الأسطر من الملفات
+│   ├── extract-line-numbers-ast.ts        #   استخراج أرقام الأسطر عبر AST
+│   ├── extract-line-numbers-ast.js        #   نسخة JS من مستخرج أرقام الأسطر
+│   ├── extract-line-numbers.js            #   نسخة JS من مستخرج الأسطر
+│   ├── generate-block.ts                  #   توليد بلوكات جديدة
+│   ├── generate-file.ts                   #   توليد ملفات من القوالب
+│   ├── generate-header.ts                 #   توليد ترويسات الملفات الثنائية
+│   ├── generate-inventory.ts              #   توليد الجرد التلقائي
+│   ├── scaffold-block.ts                  #   هيكلة بلوكات جديدة
+│   ├── sync-canonical-tools.ts            #   مزامنة الأدوات الأساسية
+│   ├── sync-registry.ts                   #   مزامنة السجلات
+│   ├── sync-tools.ts                      #   مزامنة الأدوات بين الحزم
+│   ├── update-function-index.ts           #   تحديث فهرس الدوال
+│   ├── update-indexes.ts                  #   تحديث جميع الفهارس
+│   ├── update-logs.ts                     #   تحديث السجلات اليومية
+│   ├── validate-architecture.ts           #   التحقق من صحة الهيكلية
+│   └── work-monitor.ts                    #   مراقبة سير العمل
 ├── 📁 .github/                           # [INFRA] إعدادات CI/CD
 ├── 📄 package.json                       # [INFRA-001] إعدادات المشروع الجذري
 ├── 📄 pnpm-workspace.yaml                # [INFRA-006] إعدادات pnpm workspace
