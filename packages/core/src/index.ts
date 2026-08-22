@@ -181,6 +181,20 @@ export type { ComponentDependency, ResolveResult } from './engines/smart-compone
 export { renderCalloutSvg, createCallout } from './engines/callout-engine';
 export type { CalloutShape, CalloutColor, CalloutPosition, CalloutConfig } from './engines/callout-engine';
 
+// ─── Level 6: بروفايلات الكانفا ───
+export {
+  createCanvasProfile,
+  getFilteredTools,
+  mergeProfiles,
+  getFilteredToolsFromProfiles,
+  isToolAllowed,
+  WRITER_PROFILE,
+  CALC_PROFILE,
+  IMPRESS_PROFILE,
+  BASE_PROFILE,
+} from './engines/canvas-profile-engine';
+export type { CanvasProfile, FilterResult, CanvasProfileConfig } from './engines/canvas-profile-engine';
+
 // ─── كتل المحتوى ───
 export { createCodeEditorBlock } from './blocks/code-editor';
 export type { CodeEditorData, CodeEditorBlock } from './blocks/code-editor';
