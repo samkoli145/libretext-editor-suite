@@ -375,20 +375,64 @@ libretext-editor-suite/
 │   │   │   ├── 📁 ast/             # [CORE-001..003] تعريفات AST
 │   │   │   ├── 📁 state/           # [CORE-004..006] الحالة والعمليات
 │   │   │   ├── 📁 indexer/         # [CORE-007..008] نظام الفهرسة
-│   │   │   └── 📁 utils/           # [CORE-009..010] دوال مساعدة
+│   │   │   ├── 📁 utils/           # [CORE-009..010] دوال مساعدة
+│   │   │   ├── 📁 engines/         # المحركات (Levels 1-6)
+│   │   │   │   ├── context-menu-engine.ts
+│   │   │   │   ├── selection-gizmo-engine.ts
+│   │   │   │   ├── composable-traits-engine.ts
+│   │   │   │   ├── floating-gizmo-engine.ts
+│   │   │   │   ├── mouse-tooling-engine.ts
+│   │   │   │   ├── tool-registry.ts
+│   │   │   │   ├── doctor-self-healing-engine.ts
+│   │   │   │   ├── spatial-drag-engine.ts
+│   │   │   │   ├── marquee-selection-engine.ts
+│   │   │   │   ├── multi-selection-engine.ts
+│   │   │   │   ├── undo-redo-engine.ts
+│   │   │   │   ├── mouse-command-registry.ts
+│   │   │   │   ├── screen-edge-detector.ts
+│   │   │   │   ├── bounding-clamping-engine.ts
+│   │   │   │   ├── z-order-manager.ts
+│   │   │   │   ├── selection-manager.ts
+│   │   │   │   ├── block-mapper.ts
+│   │   │   │   ├── smart-component-engine.ts
+│   │   │   │   ├── callout-engine.ts
+│   │   │   │   ├── canvas-profile-engine.ts   # [CORE-ENG-021]
+│   │   │   │   ├── html-pipeline.ts
+│   │   │   │   ├── file-type-detection.ts
+│   │   │   │   ├── unified-ingestion.ts
+│   │   │   │   ├── image-pipeline.ts
+│   │   │   │   └── validation.ts
+│   │   │   ├── 📁 registry/        # سجل المكونات
+│   │   │   ├── 📁 converters/      # محول التنسيقات
+│   │   │   ├── 📁 blocks/          # كتل المحتوى
+│   │   │   ├── 📁 parsers/         # محللات
+│   │   │   └── 📄 types.ts
 │   │   ├── 📁 tests/               # [TEST-CORE] اختبارات النواة
+│   │   │   └── engines/            # اختبارات المحركات
 │   │   └── 📄 package.json         # [INFRA-005]
 │   │
 │   ├── 📁 algorithms/              # [ALGO] طبقة المنطق والخوارزميات
 │   │   ├── 📁 src/
 │   │   │   ├── 📁 command/         # [ALGO-001..003] Command Pattern
-│   │   │   ├── 📁 formula/         # [ALGO-004..006] Expression Evaluator
+│   │   │   ├── 📁 formula/         # [ALGO-004..006] Expression Evaluator (19 ملف)
 │   │   │   ├── 📁 spatial/         # [ALGO-007..009] Spatial Translation
-│   │   │   ├── 📁 simulation/      # [ALGO-020..021] Simulation Engine
+│   │   │   ├── 📁 vector/          # خوارزميات التفاعل
+│   │   │   ├── 📁 diagram/         # محرك الرسم البياني
+│   │   │   ├── 📁 computation/     # [ALGO-CALC-001] حاسبة الوحدات
+│   │   │   │   └── unit-calc-engine.ts
+│   │   │   ├── 📁 graph/           # خوارزميات الرسم البياني
+│   │   │   ├── 📁 tree/            # هياكل البيانات الشجرية
+│   │   │   ├── 📁 structure/       # هياكل البيانات
+│   │   │   ├── 📁 sort/            # خوارزميات الفرز
+│   │   │   ├── 📁 lookup/          # دوال البحث
 │   │   │   ├── 📁 search/          # [ALGO-022..024] Search & Replace
 │   │   │   ├── 📁 macro/           # [ALGO-025..027] Macro System
+│   │   │   ├── 📁 simulation/      # [ALGO-020..021] Simulation Engine
+│   │   │   ├── 📁 streets/         # بحث أسماء الشوارع
 │   │   │   └── 📄 index.ts         # Barrel Export
 │   │   ├── 📁 tests/               # [TEST-ALGO] اختبارات الخوارزميات
+│   │   │   └── computation/        # اختبارات الحاسبة
+│   │   │       └── unit-calc-engine.test.ts
 │   │   └── 📄 package.json
 │   │
 │   ├── 📁 storage/                 # [STORE] طبقة التخزين
