@@ -92,6 +92,7 @@ export interface ActionMenuItem extends BaseMenuItem {
   readonly label: string;
   readonly labelAr?: string;
   readonly iconName?: string;
+  readonly iconKey?: string;
   readonly shortcut?: string;
   readonly danger?: boolean;
   readonly disabled?: DynamicValue<boolean>;
@@ -104,6 +105,7 @@ export interface SubmenuMenuItem extends BaseMenuItem {
   readonly label: string;
   readonly labelAr?: string;
   readonly iconName?: string;
+  readonly iconKey?: string;
   readonly disabled?: DynamicValue<boolean>;
   readonly items: ContextMenuItem[] | ((ctx: ContextMenuContext) => ContextMenuItem[]);
 }
@@ -119,11 +121,13 @@ export type ResolvedMenuItem =
       readonly type: 'action';
       readonly disabled: boolean;
       readonly checked?: boolean;
+      readonly iconKey?: string;
     })
   | (Omit<SubmenuMenuItem, 'visible' | 'disabled' | 'items'> & {
       readonly type: 'submenu';
       readonly disabled: boolean;
       readonly items: readonly ResolvedMenuItem[];
+      readonly iconKey?: string;
     })
   | (SeparatorMenuItem & { readonly type: 'separator' });
 
@@ -246,6 +250,7 @@ function resolveSingleMenuItem(
       label: rawItem.label,
       labelAr: rawItem.labelAr,
       iconName: rawItem.iconName,
+      iconKey: rawItem.iconKey,
       order: rawItem.order,
       group: rawItem.group,
       disabled: isDisabled,
@@ -262,6 +267,7 @@ function resolveSingleMenuItem(
     label: rawItem.label,
     labelAr: rawItem.labelAr,
     iconName: rawItem.iconName,
+    iconKey: rawItem.iconKey,
     shortcut: rawItem.shortcut,
     danger: rawItem.danger,
     order: rawItem.order,
@@ -403,6 +409,67 @@ export function createContextMenuEngine(): ContextMenuEngine {
     clear,
     size,
   };
+}
+
+// ─── بناء مكونات القائمة المسبقة (Pre-built Menu Builders) ───
+
+export interface CanvasMenuActions {
+  readonly onDuplicate?: (ctx: ContextMenuContext) => void;
+  readonly onDelete?: (ctx: ContextMenuContext) => void;
+  readonly onBringForward?: (ctx: ContextMenuContext) => void;
+  readonly onSendBackward?: (ctx: ContextMenuContext) => void;
+  readonly onGroup?: (ctx: ContextMenuContext) => void;
+  readonly onLock?: (ctx: ContextMenuContext) => void;
+}
+
+export function buildCanvasMenuItems(actions: CanvasMenuActions): ContextMenuItem[] {
+  const items: ContextMenuItem[] = [];
+  if (actions.onDuplicate) {
+    items.push({ id: 'duplicate', type: 'action', label: 'Duplicate', labelAr: 'تكرار', iconKey: 'duplicate', order: 10, handler: actions.onDuplicate });
+  }
+  if (actions.onBringForward) {
+    items.push({ id: 'bring-forward', type: 'action', label: 'Bring Forward', labelAr: 'إلى الأمام', iconKey: 'bring-forward', order: 20, handler: actions.onBringForward });
+  }
+  if (actions.onSendBackward) {
+    items.push({ id: 'send-backward', type: 'action', label: 'Send Backward', labelAr: 'إلى الخلف', iconKey: 'send-backward', order: 30, handler: actions.onSendBackward });
+  }
+  if (actions.onGroup) {
+    items.push({ id: 'group', type: 'action', label: 'Group', labelAr: 'تجميع', iconKey: 'group', order: 40, handler: actions.onGroup });
+  }
+  if (actions.onLock) {
+    items.push({ id: 'lock', type: 'action', label: 'Lock', labelAr: 'قفل', iconKey: 'lock', order: 50, handler: actions.onLock });
+  }
+  if (actions.onDelete && items.length > 0) {
+    items.push({ id: 'sep-canvas', type: 'separator', order: 90 });
+  }
+  if (actions.onDelete) {
+    items.push({ id: 'delete', type: 'action', label: 'Delete', labelAr: 'حذف', iconKey: 'delete', danger: true, order: 100, handler: actions.onDelete });
+  }
+  return items;
+}
+
+export interface RichTextMenuActions {
+  readonly onCopy?: (ctx: ContextMenuContext) => void;
+  readonly onCut?: (ctx: ContextMenuContext) => void;
+  readonly onPaste?: (ctx: ContextMenuContext) => void;
+  readonly onBold?: (ctx: ContextMenuContext) => void;
+  readonly onItalic?: (ctx: ContextMenuContext) => void;
+  readonly onDelete?: (ctx: ContextMenuContext) => void;
+}
+
+export function buildRichTextMenuItems(actions: RichTextMenuActions): ContextMenuItem[] {
+  const items: ContextMenuItem[] = [];
+  if (actions.onCut) items.push({ id: 'cut', type: 'action', label: 'Cut', labelAr: 'قص', iconKey: 'cut', shortcut: 'Ctrl+X', order: 10, handler: actions.onCut });
+  if (actions.onCopy) items.push({ id: 'copy', type: 'action', label: 'Copy', labelAr: 'نسخ', iconKey: 'copy', shortcut: 'Ctrl+C', order: 20, handler: actions.onCopy });
+  if (actions.onPaste) items.push({ id: 'paste', type: 'action', label: 'Paste', labelAr: 'لصق', iconKey: 'paste', shortcut: 'Ctrl+V', order: 30, handler: actions.onPaste });
+  if (items.length > 0) items.push({ id: 'sep-rt', type: 'separator', order: 40 });
+  if (actions.onBold) items.push({ id: 'bold', type: 'action', label: 'Bold', labelAr: 'عريض', iconKey: 'bold', shortcut: 'Ctrl+B', order: 50, handler: actions.onBold });
+  if (actions.onItalic) items.push({ id: 'italic', type: 'action', label: 'Italic', labelAr: 'مائل', iconKey: 'italic', shortcut: 'Ctrl+I', order: 60, handler: actions.onItalic });
+  if (actions.onDelete) {
+    if (items.length > 0) items.push({ id: 'sep-rt-2', type: 'separator', order: 80 });
+    items.push({ id: 'delete', type: 'action', label: 'Delete', labelAr: 'حذف', iconKey: 'delete', danger: true, order: 100, handler: actions.onDelete });
+  }
+  return items;
 }
 
 // ─── النسخة الافتراضية العامة الموحدة (Default Global Instance) ───

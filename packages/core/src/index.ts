@@ -120,6 +120,61 @@ export * from './converters/universal-format-converter';
 export { ContextMenuEngine } from './engines/context-menu-engine';
 export type { ContextMenuItem, ContextMenuTarget, ContextMenuResult } from './engines/context-menu-engine';
 
+// ─── محرك القوائم السياقية المتقدم ───
+export {
+  createContextMenuEngine,
+  globalContextMenuEngine,
+  buildCanvasMenuItems,
+  buildRichTextMenuItems,
+  sanitizeMenuSeparators,
+} from './contextMenuEngine';
+export type {
+  ContextMenuContext,
+  ActionMenuItem,
+  SubmenuMenuItem,
+  SeparatorMenuItem,
+  ContextMenuItem as CtxMenuItem,
+  ResolvedMenuItem,
+  ContextMenuRegistration,
+  ContextMenuEngine as CtxEngine,
+  CanvasMenuActions,
+  RichTextMenuActions,
+  TargetMatcher,
+  DynamicValue,
+} from './contextMenuEngine';
+
+// ─── تفاعلات القوائم السياقية ───
+export {
+  createScrollCloseHandler,
+  createHoverTracker,
+  createKeyboardNavHandler,
+  resolveSemanticIcon,
+  CONTEXT_MENU_ICON_MAP,
+} from './engines/context-menu-interactions';
+export type {
+  ScrollCloseOptions,
+  HoverState,
+  HoverTracker,
+  KeyboardNavState,
+  KeyboardNavHandler,
+  ContextMenuIconKey,
+} from './engines/context-menu-interactions';
+
+// ─── أنماط CSS للقوائم السياقية ───
+export {
+  CONTEXT_MENU_KEYFRAMES,
+  CONTEXT_MENU_THEME,
+  CONTEXT_MENU_ITEM_STYLES,
+  generateContextMenuCss,
+  getMenuAnimationStyle,
+  getSubmenuAnimationStyle,
+} from './engines/context-menu-css';
+export type {
+  ContextMenuThemeTokens,
+  ContextMenuItemStyle,
+  MenuAnimationStyle,
+} from './engines/context-menu-css';
+
 export { SelectionGizmoEngine } from './engines/selection-gizmo-engine';
 export type { Handle, HandlePosition, GizmoToolbar, GizmoAction, Rect } from './engines/selection-gizmo-engine';
 
