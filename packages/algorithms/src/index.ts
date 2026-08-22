@@ -234,5 +234,21 @@ export {
   type AlignmentResult,
 } from './vector/smart-alignment';
 
+// Unit Calculation Engine (Zero-Dependency Magic Notes Engine)
+export {
+  evaluateCalc,
+  answerCalc,
+  formatCalcVal,
+  parseDefinition,
+  feedCalcLine,
+  buildPageCalcContext,
+  freshCalcContext,
+  asksForAnswer,
+  unitOf,
+  localToday,
+  type CalcVal,
+  type UnitCalcContext,
+} from './computation/unit-calc-engine';
+
 // Shared Types
 export type { Point2D, AABB, DependencyGraphData, CycleDetectionResult } from './types';
