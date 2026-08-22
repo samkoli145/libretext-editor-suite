@@ -370,137 +370,214 @@
 ```
 libretext-editor-suite/
 ├── 📁 packages/
-│   ├── 📁 core/                    # [CORE] النواة المجردة
+│   ├── 📁 core/                          # [CORE] النواة المجردة — صفر اعتماديات خارجية
 │   │   ├── 📁 src/
-│   │   │   ├── 📁 ast/             # [CORE-001..003] تعريفات AST
-│   │   │   ├── 📁 state/           # [CORE-004..006] الحالة والعمليات
-│   │   │   ├── 📁 indexer/         # [CORE-007..008] نظام الفهرسة
-│   │   │   ├── 📁 utils/           # [CORE-009..010] دوال مساعدة
-│   │   │   ├── 📁 engines/         # المحركات (Levels 1-6)
-│   │   │   │   ├── context-menu-engine.ts
-│   │   │   │   ├── selection-gizmo-engine.ts
-│   │   │   │   ├── composable-traits-engine.ts
-│   │   │   │   ├── floating-gizmo-engine.ts
-│   │   │   │   ├── mouse-tooling-engine.ts
-│   │   │   │   ├── tool-registry.ts
-│   │   │   │   ├── doctor-self-healing-engine.ts
-│   │   │   │   ├── spatial-drag-engine.ts
-│   │   │   │   ├── marquee-selection-engine.ts
-│   │   │   │   ├── multi-selection-engine.ts
-│   │   │   │   ├── undo-redo-engine.ts
-│   │   │   │   ├── mouse-command-registry.ts
-│   │   │   │   ├── screen-edge-detector.ts
-│   │   │   │   ├── bounding-clamping-engine.ts
-│   │   │   │   ├── z-order-manager.ts
-│   │   │   │   ├── selection-manager.ts
-│   │   │   │   ├── block-mapper.ts
-│   │   │   │   ├── smart-component-engine.ts
-│   │   │   │   ├── callout-engine.ts
-│   │   │   │   ├── canvas-profile-engine.ts   # [CORE-ENG-021]
-│   │   │   │   ├── html-pipeline.ts
-│   │   │   │   ├── file-type-detection.ts
-│   │   │   │   ├── unified-ingestion.ts
-│   │   │   │   ├── image-pipeline.ts
-│   │   │   │   └── validation.ts
-│   │   │   ├── 📁 registry/        # سجل المكونات
-│   │   │   ├── 📁 converters/      # محول التنسيقات
-│   │   │   ├── 📁 blocks/          # كتل المحتوى
-│   │   │   ├── 📁 parsers/         # محللات
-│   │   │   └── 📄 types.ts
-│   │   ├── 📁 tests/               # [TEST-CORE] اختبارات النواة
-│   │   │   └── engines/            # اختبارات المحركات
-│   │   └── 📄 package.json         # [INFRA-005]
-│   │
-│   ├── 📁 algorithms/              # [ALGO] طبقة المنطق والخوارزميات
-│   │   ├── 📁 src/
-│   │   │   ├── 📁 command/         # [ALGO-001..003] Command Pattern
-│   │   │   ├── 📁 formula/         # [ALGO-004..006] Expression Evaluator (19 ملف)
-│   │   │   ├── 📁 spatial/         # [ALGO-007..009] Spatial Translation
-│   │   │   ├── 📁 vector/          # خوارزميات التفاعل
-│   │   │   ├── 📁 diagram/         # محرك الرسم البياني
-│   │   │   ├── 📁 computation/     # [ALGO-CALC-001] حاسبة الوحدات
-│   │   │   │   └── unit-calc-engine.ts
-│   │   │   ├── 📁 graph/           # خوارزميات الرسم البياني
-│   │   │   ├── 📁 tree/            # هياكل البيانات الشجرية
-│   │   │   ├── 📁 structure/       # هياكل البيانات
-│   │   │   ├── 📁 sort/            # خوارزميات الفرز
-│   │   │   ├── 📁 lookup/          # دوال البحث
-│   │   │   ├── 📁 search/          # [ALGO-022..024] Search & Replace
-│   │   │   ├── 📁 macro/           # [ALGO-025..027] Macro System
-│   │   │   ├── 📁 simulation/      # [ALGO-020..021] Simulation Engine
-│   │   │   ├── 📁 streets/         # بحث أسماء الشوارع
-│   │   │   └── 📄 index.ts         # Barrel Export
-│   │   ├── 📁 tests/               # [TEST-ALGO] اختبارات الخوارزميات
-│   │   │   └── computation/        # اختبارات الحاسبة
-│   │   │       └── unit-calc-engine.test.ts
+│   │   │   ├── 📁 ast/                   # تعريفات ومخططات وبنّاء شجرة AST
+│   │   │   │   ├── types.ts              #   أنواع العُقد: نص، فقرة، عنوان، جدول، صورة...
+│   │   │   │   ├── schema.ts             #   مخطط التحقق من صحة العُقد
+│   │   │   │   └── builder.ts            #   بنّاء AST بنمط Builder
+│   │   │   ├── 📁 state/                 # إدارة حالة المحرر (Immutable Snapshots)
+│   │   │   │   ├── editor-state.ts       #   الحالة الأولية وإنشاء المستند
+│   │   │   │   ├── operations.ts         #   عمليات التحرير (إدراج، حذف، تحويل)
+│   │   │   │   ├── history.ts            #   سجل التراجع والإعادة
+│   │   │   │   └── tree.ts               #   تصفح شجرة العُقد
+│   │   │   ├── 📁 indexer/               # نظام الفهرسة والبحث في المستند
+│   │   │   │   ├── indexer.ts            #   فهرسة العُقد حسب النوع والمحتوى
+│   │   │   │   └── search.ts             #   بحث نصي بسيط ومتقدم
+│   │   │   ├── 📁 engines/               # محركات التفاعل بالماوس والقوائم السياقية
+│   │   │   │   ├── context-menu-engine.ts        # محرك القوائم السياقية البسيط
+│   │   │   │   ├── context-menu-interactions.ts  # تفاعل: تمرير، تحريك، لوحة مفاتيح، أيقونات
+│   │   │   │   ├── context-menu-css.ts           # أنماط CSS: @keyframes، ثيم فاتح، توليد
+│   │   │   │   ├── selection-gizmo-engine.ts     # جيزمو التحديد والتحكم بالعناصر
+│   │   │   │   ├── floating-gizmo-engine.ts      # جيزمو عائم للتنسيق السريع
+│   │   │   │   ├── composable-traits-engine.ts   # سمات قابلة للتركيب لكل عنصر
+│   │   │   │   ├── mouse-tooling-engine.ts       # بروفايل أدوات الماوس لكل نوع كتلة
+│   │   │   │   ├── tool-registry.ts              # سجل IoC للأدوات المسجلة
+│   │   │   │   ├── spatial-drag-engine.ts        # سحب مكاني مع تسنين وضبط حدود
+│   │   │   │   ├── marquee-selection-engine.ts   # تحديد بالصندوق المطاطي
+│   │   │   │   ├── multi-selection-engine.ts     # تحديد متعدد مع عكس وتحديد الكل
+│   │   │   │   ├── undo-redo-engine.ts           # تراجع/إعادة بسجلات وحد أقصى
+│   │   │   │   ├── mouse-command-registry.ts     # سجل أوامر الماوس المتعددة
+│   │   │   │   ├── screen-edge-detector.ts       # كشف حواف الشاشة وعكس القوائم
+│   │   │   │   ├── bounding-clamping-engine.ts   # تقييد العناصر داخل حدود اللوحة
+│   │   │   │   ├── z-order-manager.ts            # إدارة ترتيب الطبقات (Z-Index)
+│   │   │   │   ├── selection-manager.ts           # مدير التحديد الشامل
+│   │   │   │   ├── block-mapper.ts               # خريطة بلوكات بصرية
+│   │   │   │   ├── smart-component-engine.ts     # تجميع ذكي مع كشف التبعيات
+│   │   │   │   ├── callout-engine.ts             # صناديق التنبيه والملاحظات
+│   │   │   │   ├── canvas-profile-engine.ts      # بروفايلات الكانفا (Writer/Calc/Impress/Base)
+│   │   │   │   ├── doctor-self-healing-engine.ts # فحص وشفاء ذاتي للنظام
+│   │   │   │   ├── html-pipeline.ts              # خط أنابيب تنقية HTML
+│   │   │   │   ├── file-type-detection.ts        # التعرف على أنواع الملفات
+│   │   │   │   ├── unified-ingestion.ts          # خط الاستيراد الموحد
+│   │   │   │   ├── image-pipeline.ts             # معالجة الصور (EXIF، قص، فلاتر)
+│   │   │   │   └── validation.ts                 # فحص وتعقيم المحتوى
+│   │   │   ├── 📁 blocks/                # كتل المحتوى المخصصة
+│   │   │   │   ├── code-editor.ts         #   كتلة محرر الكود
+│   │   │   │   ├── code-editor.registry.ts#   تسجيل كتلة الكود
+│   │   │   │   ├── code-editor.styles.ts  #   أنماط كتلة الكود
+│   │   │   │   └── audio-block-block.ts   #   كتلة الصوت
+│   │   │   ├── 📁 parsers/               # محللات Markdown والبيانات الوصفية
+│   │   │   ├── 📁 converters/            # محول التنسيقات الشامل
+│   │   │   ├── 📁 registry/              # سجل المكونات المركزي
+│   │   │   ├── 📁 utils/                 # أدوات مساعدة: تعريف، تحقق، أنابيب، نص عربي
+│   │   │   ├── contextMenuEngine.ts      # محرك القوائم السياقية الرئيسي (410 سطر)
+│   │   │   ├── artboard.ts               # لوحة الرسم والسبورة البيضاء
+│   │   │   ├── types.ts                  # الأنواع المشتركة (DocumentModel, Plugin, FormattingState)
+│   │   │   └── index.ts                  # Barrel Export الرئيسي
+│   │   ├── 📁 tests/                     # اختبارات النواة (19 ملف اختبار)
 │   │   └── 📄 package.json
 │   │
-│   ├── 📁 storage/                 # [STORE] طبقة التخزين
+│   ├── 📁 algorithms/                    # [ALGO] طبقة المنطق والخوارزميات
 │   │   ├── 📁 src/
-│   │   │   ├── 📄 memory.ts        # [STORE-001] In-Memory Store
-│   │   │   ├── 📄 localStorage.ts  # [STORE-002] localStorage Adapter
-│   │   │   ├── 📄 indexeddb.ts     # [STORE-003] IndexedDB Adapter
-│   │   │   ├── 📄 snapshots.ts     # [STORE-004] Undo/Redo Snapshots
-│   │   │   └── 📄 index.ts         # Barrel Export
-│   │   ├── 📁 tests/               # [TEST-STORE] اختبارات التخزين
+│   │   │   ├── 📁 command/               # نمط الأوامر: تسجيل، تنفيذ، أنواع
+│   │   │   ├── 📁 formula/               # محلل الصيغ الحسابية (20 ملف)
+│   │   │   │   ├── parser.ts             #   محلل تنازلي تكراري للصيغ
+│   │   │   │   ├── tokenizer.ts          #   محلل رموز (Tokens)
+│   │   │   │   ├── evaluator.ts          #   مُقيّم الصيغ
+│   │   │   │   ├── functions.ts          #   الدوال المدمجة (SUM, AVERAGE, IF...)
+│   │   │   │   ├── functions-math.ts     #   دوال رياضية متقدمة
+│   │   │   │   ├── functions-text.ts     #   دوال نصية
+│   │   │   │   ├── functions-financial.ts#   دوال مالية
+│   │   │   │   ├── functions-arabic.ts   #   دوال عربية مخصصة
+│   │   │   │   ├── dependency-graph.ts   #   خريطة اعتمادات الخلايا
+│   │   │   │   ├── cell-utils.ts         #   أدوات الخلايا (A1 notation)
+│   │   │   │   ├── latex-engine.ts       #   محرك LaTeX → SVG/HTML
+│   │   │   │   └── markdown-engine.ts    #   محرك MD↔HTML ثنائي الاتجاه
+│   │   │   ├── 📁 spatial/               # الترجمة المكانية وخوارزميات التفاعل (20 ملف)
+│   │   │   │   ├── types.ts              #   أنواع الإحداثيات (Logical/Grid/Screen)
+│   │   │   │   ├── mapper.ts             #   مُحوّل الإحداثيات
+│   │   │   │   ├── commands.ts           #   أوامر مكانية (نقل، تحجيم، حذف)
+│   │   │   │   ├── smart-snap-engine.ts  #   تسنين ذكي مع خطوط إرشاد
+│   │   │   │   ├── dynamic-guide-lines.ts#   خطوط إرشاد حية
+│   │   │   │   ├── smart-rtl-alignment.ts#   كشف اتجاه النص RTL/LTR
+│   │   │   │   ├── bezier-engine.ts      #   مسارات بيزييه
+│   │   │   │   ├── boolean-ops.ts        #   عمليات منطقية على الأشكال
+│   │   │   │   └── vector-path.ts        #   مسارات المتجهات
+│   │   │   ├── 📁 vector/                # خوارزميات التفاعل بالماوس (8 ملفات)
+│   │   │   │   ├── common.ts             #   أنواع مشتركة (Point2D, BoundingBox)
+│   │   │   │   ├── coordinate-system.ts  #   تحويل screen↔world
+│   │   │   │   ├── mouse-algorithms.ts   #   8 مقابض تحكم + Ray Casting
+│   │   │   │   ├── snap.ts               #   تسنين متعدد الأهداف
+│   │   │   │   ├── ref-line.ts           #   خطوط إرشاد ديناميكية
+│   │   │   │   ├── control-handle-manager.ts # إدارة مقابض التحجيم
+│   │   │   │   └── smart-alignment.ts    #   محاذاة ذكية
+│   │   │   ├── 📁 computation/           # حاسبة الوحدات الفيزيائية
+│   │   │   │   └── unit-calc-engine.ts   #   73 اختبار، تحويل وحدات
+│   │   │   ├── 📁 diagram/               # محرك الرسم البياني
+│   │   │   ├── 📁 graph/                 # خوارزميات الرسم البياني والتوجيه
+│   │   │   ├── 📁 search/                # البحث والاستبدال في المستند
+│   │   │   ├── 📁 macro/                 # نظام التسجيل والتنفيد الآلي
+│   │   │   ├── 📁 simulation/            # محاكاة تنفيذ الأوامر
+│   │   │   ├── 📁 sort/                  # خوارزميات الفرز
+│   │   │   ├── 📁 lookup/                # دوال البحث العمودي
+│   │   │   ├── 📁 tree/                  # شجرة LLRB متوازنة
+│   │   │   ├── 📁 structure/             # مجموعة منفصلة (Disjoint Set)
+│   │   │   ├── 📁 streets/               # بحث أسماء الشوارع (6 ملفات)
+│   │   │   ├── types.ts                  # أنواع الخوارزميات
+│   │   │   └── index.ts                  # Barrel Export
+│   │   ├── 📁 tests/                     # اختبارات الخوارزميات (52 ملف اختبار)
 │   │   └── 📄 package.json
 │   │
-│   ├── 📁 templates/               # [TPL] نظام القوالب
+│   ├── 📁 storage/                       # [STORE] طبقة التخزين ثلاثية الطبقات
 │   │   ├── 📁 src/
-│   │   │   ├── 📄 registry.ts      # [TPL-001] Template Registry
-│   │   │   ├── 📁 writer/          # [TPL-002] قوالب Writer
-│   │   │   ├── 📁 calc/            # [TPL-003] قوالب Calc
-│   │   │   ├── 📁 impress/         # [TPL-004] قوالب Impress
-│   │   │   ├── 📁 base/            # [TPL-005] قوالب Base
-│   │   │   └── 📄 index.ts         # Barrel Export
-│   │   ├── 📁 tests/               # [TEST-TPL] اختبارات القوالب
+│   │   │   ├── memory.ts                 #   تخزين في الذاكرة العاملة
+│   │   │   ├── localStorage.ts           #   مخزن محلي للمتصفح
+│   │   │   ├── indexeddb.ts              #   مخزن IndexedDB للمستندات الكبيرة
+│   │   │   ├── indexeddb-utils.ts        #   أدوات مساعدة لـ IndexedDB
+│   │   │   ├── snapshots.ts              #   لقطات التراجع/الإعادة
+│   │   │   ├── storage-utils.ts          #   أدوات توليد المفاتيح والتحقق
+│   │   │   ├── types.ts                  #   أنواع التخزين
+│   │   │   └── index.ts                  #   Barrel Export
+│   │   ├── 📁 tests/                     # اختبارات التخزين (1 ملف اختبار)
 │   │   └── 📄 package.json
 │   │
-│   ├── 📁 serializers/             # [SER] المحولات
-│   │   ├── 📁 markdown/            # [SER-001]
-│   │   ├── 📁 html/                # [SER-002]
-│   │   ├── 📁 txt/                 # [SER-003]
-│   │   ├── 📁 pdf/                 # [SER-004]
-│   │   └── 📁 latex/               # [SER-005]
+│   ├── 📁 templates/                     # [TPL] نظام القوالب الأربعة
+│   │   ├── 📁 src/
+│   │   │   ├── registry.ts               #   سجل القوالب المركزي
+│   │   │   ├── registry-types.ts         #   أنواع القوالب
+│   │   │   ├── 📁 writer/                #   قوالب مستندات النصوص
+│   │   │   ├── 📁 calc/                  #   قوالب جداول البيانات
+│   │   │   ├── 📁 impress/               #   قوالب العروض التقديمية
+│   │   │   ├── 📁 base/                  #   قوالب قواعد البيانات
+│   │   │   └── index.ts                  #   Barrel Export
+│   │   ├── 📁 tests/                     # اختبارات القوالب (3 ملفات اختبار)
+│   │   └── 📄 package.json
 │   │
-│   ├── 📁 adapters/                # [ADAP] طبقات التكيف
-│   │   ├── 📁 react/               # [ADAP-001]
-│   │   ├── 📁 vue/                 # [ADAP-002]
-│   │   ├── 📁 web-component/       # [ADAP-003]
-│   │   └── 📁 vanilla/             # [ADAP-004]
+│   ├── 📁 serializers/                   # [SER] محولات التصدير (9 صيغ)
+│   │   ├── 📁 src/
+│   │   │   ├── 📁 basic/                 #   محولات الأساس: Markdown, HTML, TXT
+│   │   │   ├── 📁 advanced/              #   محولات متقدمة: PDF, LaTeX, ODF, SVG, ZIP
+│   │   │   ├── 📁 docx/                  #   محول مستندات Word DOCX (7 ملفات)
+│   │   │   ├── 📁 parsers/               #   محللات مشتركة (مطابقة لـ core)
+│   │   │   ├── odf-package.ts            #   محزم مستندات ODF/ODT
+│   │   │   └── index.ts                  #   Barrel Export
+│   │   ├── 📁 tests/                     # اختبارات المحولات (5 ملفات اختبار)
+│   │   └── 📄 package.json
 │   │
-│   ├── 📁 plugins/                 # [PLUG] الإضافات الرسمية
-│   │   ├── 📁 mermaid/             # [PLUG-001]
-│   │   └── 📁 math/                # [PLUG-002]
+│   ├── 📁 adapters/                      # [ADAP] طبقات التكيف للواجهات
+│   │   ├── 📁 src/
+│   │   │   ├── 📁 react/                 #   محرر React
+│   │   │   ├── 📁 vue/                   #   محرر Vue
+│   │   │   ├── 📁 web-component/         #   مكوّن ويب مستقل
+│   │   │   ├── 📁 vanilla/               #   بدون أطر عمل
+│   │   │   ├── 📁 shared/                #   Spatial Adapter المشترك
+│   │   │   └── index.ts                  #   Barrel Export
+│   │   ├── 📁 tests/                     # اختبارات التكيف (1 ملف اختبار)
+│   │   └── 📄 package.json
 │   │
-│   └── 📁 playground/              # [PLAY] الملعب التجريبي
-│       ├── [PLAY-001] index.html
-│       ├── [PLAY-002] main.ts
-│       └── [PLAY-003] examples.ts
+│   ├── 📁 plugins/                       # [PLUG] الإضافات الرسمية
+│   │   ├── 📁 src/
+│   │   │   ├── 📁 mermaid/               #   إضافة المخططات الهندسية
+│   │   │   ├── 📁 math/                  #   إضافة المعادلات الرياضية
+│   │   │   ├── 📁 canvas-designer/       #   مصمم الكانفا (5 ملفات)
+│   │   │   ├── 📁 vector/                #   محرر المتجهات
+│   │   │   ├── 📁 shared-tools/          #   أدوات مشتركة
+│   │   │   ├── registry.ts               #   سجل الإضافات
+│   │   │   └── index.ts                  #   Barrel Export
+│   │   ├── 📁 tests/                     # اختبارات الإضافات (5 ملفات اختبار)
+│   │   └── 📄 package.json
+│   │
+│   └── 📁 playground/                    # [PLAY] الملعب التجريبي (لم يبدأ بعد)
 │
-├── 📁 docs/                        # [DOC] التوثيق
-│   ├── 📁 api/                     # [DOC-API]
-│   ├── 📁 guides/                  # [DOC-GUIDE]
-│   └── 📁 examples/                # [DOC-EX]
+├── 📁 docs/                              # [DOC] التوثيق
+│   ├── 📁 api/                           # وثائق API
+│   ├── 📁 guides/                        # أدلة الاستخدام
+│   └── 📁 examples/                      # أمثلة تطبيقية
 │
-├── 📁 scripts/                     # [INFRA-003..004]
-├── 📁 .github/                     # [INFRA-007] CI/CD
-├── 📄 package.json                 # [INFRA-001]
-├── 📄 pnpm-workspace.yaml          # [INFRA-006]
-├── 📄 tsconfig.base.json           # [INFRA-002]
-├── 📄 AGENTS.md                    # [DOC-ADMIN-05] هذا الملف
-├── 📄 README.md                    # [DOC-000]
-├── 📄 LICENSE                      # [LEGAL-001]
-├── 📄 CONTRIBUTING.md              # [DOC-GUIDE-01]
-├── 📄 PLAN.md                      # [DOC-ADMIN-01]
-├── 📄 JOURNAL.md                   # [DOC-ADMIN-02]
-├── 📄 INDEX.md                     # [DOC-ADMIN-03]
-├── 📄 CHANGELOG.md                 # [DOC-ADMIN-04]
-├── 📄 Components Registry.md       # [DOC-ADMIN-06]
-├── 📄 API Registry.md              # [DOC-ADMIN-07]
-├── 📄 SystemInventory.json         # [DOC-ADMIN-08]
-├── 📄 FUNCTION_INDEX.md            # [DOC-ADMIN-09] فهرس الدوال الشامل
-└── 📄 INTEGRATION_MAP.md           # [DOC-ADMIN-10] خريطة الارتباطات
+├── 📁 scripts/                           # [INFRA] أسكريبتات الأتمتة والفهرسة
+├── 📁 .github/                           # [INFRA] إعدادات CI/CD
+├── 📄 package.json                       # [INFRA-001] إعدادات المشروع الجذري
+├── 📄 pnpm-workspace.yaml                # [INFRA-006] إعدادات pnpm workspace
+├── 📄 tsconfig.base.json                 # [INFRA-002] إعدادات TypeScript الأساسية
+├── 📄 tsconfig.json                      # [INFRA-002] إعدادات TypeScript (يوسع base)
+├── 📄 turbo.json                         # [INFRA-006] إعدادات Turborepo
+├── 📄 vitest.config.ts                   # [INFRA-002] إعدادات إطار الاختبارات
+├── 📄 AGENTS.md                          # [DOC-ADMIN-05] هذا الملف — تعليمات العميل التنفيذي
+├── 📄 README.md                          # [DOC-000] وصف المشروع الرئيسي
+├── 📄 LICENSE                            # [LEGAL-001] ترخيص MIT
+├── 📄 CONTRIBUTING.md                    # [DOC-GUIDE-01] إرشادات المساهمة
+├── 📄 PLAN.md                            # [DOC-ADMIN-01] الخطة المعمارية الشاملة
+├── 📄 JOURNAL.md                         # [DOC-ADMIN-02] يوميات العمل اليومية
+├── 📄 INDEX.md                           # [DOC-ADMIN-03] فهرس الملفات والشجرة الكاملة
+├── 📄 CHANGELOG.md                       # [DOC-ADMIN-04] سجل التغييرات والإصدارات
+├── 📄 Components Registry.md             # [DOC-ADMIN-06] سجل المكونات المسجلة
+├── 📄 API Registry.md                    # [DOC-ADMIN-07] سجل الـ APIs والدوال
+├── 📄 SystemInventory.json               # [DOC-ADMIN-08] جرد النظام الآلي
+├── 📄 FUNCTION_INDEX.md                  # [DOC-ADMIN-09] فهرس الدوال الشامل (4000+ سطر)
+├── 📄 INTEGRATION_MAP.md                 # [DOC-ADMIN-10] خريطة ارتباطات الحزم
+├── 📄 MIGRATION_NOTES.md                 # [DOC-ADMIN-11] ملاحظات هجرة الأرشيف القديم
+├── 📄 DESIGN_BOOK.md                     # [DOC-ADMIN-13] كتاب التصميم والمعايير القياسية
+├── 📄 DesignStandards.md                 # [DOC-ADMIN-14] معايير UI/UX الشاملة
+├── 📄 EDITOR_INVENTORY.md                # جرد المحررات (Writer 9, Calc 2, Impress 8, Base 2)
+├── 📄 BLOCKS_AND_TOOLS_REGISTRY.md       # سجل الكتل والأدوات التفصيلي
+├── 📄 SYSTEM_ANALYTICS.md                # تحليلات النظام والإحصائيات
+├── 📄 TOOLS_AUDIT_REPORT.md              # تقرير تدقيق الأدوات والتحسينات
+├── 📄 ATOMIC_INVENTORY.md                # الجرد الذري (160 ملف: 144 نشط، 4 مكرر، 3 غير مستخدم)
+├── 📄 ATOMIC_INVENTORY.json              # بيانات الجرد الذري
+├── 📄 BLOCKS_ANALYTICS.json              # تحليلات الكتل والخصائص
+├── 📄 RESTRUCTURING_PLAN.md              # خطة إعادة الهيكلة المعمارية
+└── 📄 TODONext_19_08_2026.md             # مهام التحديث القادمة
 ```
 
 ---
