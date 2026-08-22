@@ -354,3 +354,68 @@
 - `392c310` — المستوى 5: رسومات + سجل + تجميع + تعليقات
 - `5e317b0` — التوثيق: CHANGELOG + FUNCTION_INDEX
 - `da2fc51` — اختبارات: 20 ملف + 107 اختبار جديد
+
+---
+
+## 2026-08-22 — تحسينات القوائم السياقية وتكامل الأرشيف
+
+### المنجزات
+
+#### 1. تحسينات القوائم السياقية (Context Menu Enhancements)
+- **أيقونات دلالية غنية (CORE-ENG-022):**
+  - إضافة حقل `iconKey` لجميع أنواع عناصر القائمة (ActionMenuItem, SubmenuMenuItem, ResolvedMenuItem)
+  - إنشاء `CONTEXT_MENU_ICON_MAP` مع 47 تعيين أيقونة دلالي (scissors, clipboard, trash-2, etc.)
+  - دالة `resolveSemanticIcon()` للتوافق مع أي نظام أيقونات
+- **تنقل باللوحة المفاتيح:**
+  - `createKeyboardNavHandler()` — ArrowUp/Down/Enter/Escape
+  - لف حول الحدود، تخطي العناصر المعطلة
+  - إرجاع نوع الإجراء: 'select' | 'close' | 'navigate' | 'none'
+- **إغلاق تلقائي عند التمرير:**
+  - `createScrollCloseHandler()` مع `{ capture: true, passive: true }`
+  - إطلاق مرة واحدة على أي حدث scroll/wheel
+  - debounce اختياري، هدف قابل للحقن (للاختبار)
+- **تتبع تحريك الماوس:**
+  - `createHoverTracker()` مع استدعاء onChange
+  - تتبع hoveredIndex و hoveredId
+- **أنماط CSS والحركة (CORE-ENG-023):**
+  - `@keyframes menuEnter`: scale(0.95)->1 + opacity 0->1
+  - `@keyframes submenuEnter`: translateX(-6px)->0
+  - `cubic-bezier(0.16, 1, 0.3, 1)` = دخول سريع وخروج سلس
+  - `CONTEXT_MENU_THEME`: 12 رمز ثيم فاتح نقي (بدون ألوان داكنة)
+  - `generateContextMenuCss()`: سلسلة CSS كاملة للحقن
+- **بناؤون مسبقون (Pre-built Builders):**
+  - `buildCanvasMenuItems()` — قائمة سياقية للكانفا مع مفاتيح أيقونات
+  - `buildRichTextMenuItems()` — قائمة سياقية للنصوص الغنية مع اختصارات
+  - الفواصل تُضاف فقط عند وجود عناصر قبل/بعد
+
+#### 2. توثيق المعايير والكتل
+- **DESIGN_BOOK.md (DOC-ADMIN-13):** كتاب التصميم والمعايير القياسية — 218 سطر
+- **DesignStandards.md (DOC-ADMIN-14):** معايير UI/UX شاملة — 218 سطر
+
+#### 3. تكامل ملفات الأرشيف من المعدل 3
+- نسخ 9 ملفات جذرية:
+  - `ATOMIC_INVENTORY.json` + `ATOMIC_INVENTORY.md` — الجرد الذري
+  - `BLOCKS_ANALYTICS.json` + `BLOCKS_AND_TOOLS_REGISTRY.md` — تحليلات الكتل
+  - `EDITOR_INVENTORY.md` — جرد المحررات
+  - `RESTRUCTURING_PLAN.md` — خطة إعادة الهيكلة
+  - `SYSTEM_ANALYTICS.md` — تحليلات النظام
+  - `TOOLS_AUDIT_REPORT.md` — تقرير تدقيق الأدوات
+  - `TODONext_19_08_2026.md` — مهام التحديث
+- نسخ `MIGRATION_NOTES.md (DOC-ADMIN-11)` — ملاحظات هجرة الأرشيف القديم
+
+### الإحصائيات النهائية
+
+| المؤشر | القيمة |
+|--------|--------|
+| ملفات الاختبار | 71 ملف |
+| الاختبارات الناجحة | 1122 |
+| أخطاء TypeScript | 0 |
+| الملفات الجديدة اليوم | 12 ملف |
+| الأيقونات الدلالية | 47 أيقونة |
+
+### التزامات Git
+
+- `1f1ccc1` — نسخ DESIGN_BOOK.md و DesignStandards.md
+- `4738410` — تحسين context-menu-engine.ts (labelAr, checked, focus nav)
+- `3396547` — طبقة تفاعل القوائم الكاملة (interactions + css + icon map + builders)
+-_pending- — تكامل ملفات الأرشيف والجورنال
