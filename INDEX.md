@@ -376,6 +376,68 @@ libretext-editor-suite/
 | `SHARED-CMP-001` | `packages/shared/components/SharedContextMenu.tsx`   | المكون الموحد للقوائم السياقية    | Unified Context Menu UI    | تم            |
 | `SHARED-HOOK-001`| `packages/shared/hooks/useContextMenu.ts`            | خطاف إدارة القوائم السياقية      | Context Menu React Hook    | تم            |
 
+
+### المحركات المشتركة - Shared Engines
+
+| المعرف ID      | المسار Path                                    | الوصف Arabic              | Description English        | الحالة Status |
+| -------------- | ---------------------------------------------- | ------------------------- | -------------------------- | ------------- |
+| `SHARED-ENG-001` | `packages/shared/engines/AIEngine.ts`          | محرك الذكاء الاصطناعي     | AI Engine                  | تم            |
+| `SHARED-ENG-002` | `packages/shared/engines/codeEditorEngines.ts` | محركات محرر الكود         | Code Editor Engines        | تم            |
+| `SHARED-ENG-003` | `packages/shared/engines/ComponentRegistry.ts` | سجل المكونات              | Component Registry         | تم            |
+| `SHARED-ENG-004` | `packages/shared/engines/DiagramEngine.ts`     | محرك المخططات             | Diagram Engine             | تم            |
+| `SHARED-ENG-005` | `packages/shared/engines/LaTeXEngine.ts`       | محرك LaTeX                | LaTeX Engine               | تم            |
+| `SHARED-ENG-006` | `packages/shared/engines/MarkdownEngine.ts`    | محرك Markdown             | Markdown Engine            | تم            |
+| `SHARED-ENG-007` | `packages/shared/engines/MindMapEngine.ts`     | محرك خرائط الذهن          | Mind Map Engine            | تم            |
+| `SHARED-ENG-008` | `packages/shared/engines/PluginSystem.ts`      | نظام الإضافات             | Plugin System              | تم            |
+| `SHARED-ENG-009` | `packages/shared/engines/ToolRegistry.ts`      | سجل الأدوات               | Tool Registry              | تم            |
+| `SHARED-ENG-010` | `packages/shared/engines/ValidationEngine.ts`  | محرك التحقق               | Validation Engine          | تم            |
+
+### نظام اللغات - Language System
+
+| المعرف ID        | المسار Path                                              | الوصف Arabic         | Description English    | الحالة Status |
+| ---------------- | -------------------------------------------------------- | -------------------- | ---------------------- | ------------- |
+| `LANG-001`       | `packages/shared/engines/languages/language-registry.ts` | سجل اللغات          | Language Registry      | تم            |
+| `LANG-002`       | `packages/shared/engines/languages/language-runtime.ts`  | بيئة تشغيل اللغة     | Language Runtime       | تم            |
+| `LANG-003`       | `packages/shared/engines/languages/packs/typescript.ts`  | حزمة TypeScript     | TypeScript Pack        | تم            |
+| `LANG-004`       | `packages/shared/engines/languages/packs/python.ts`      | حزمة Python         | Python Pack            | تم            |
+| `LANG-005`       | `packages/shared/engines/languages/packs/cpp.ts`         | حزمة C++            | C++ Pack               | تم            |
+| `LANG-006`       | `packages/shared/engines/languages/packs/web.ts`         | حزم الويب           | Web Packs              | تم            |
+
+### مكتبة النواة المشتركة - lib-core
+
+| المعرف ID        | المسار Path                                              | الوصف Arabic              | Description English       | الحالة Status |
+| ---------------- | -------------------------------------------------------- | ------------------------- | ------------------------- | ------------- |
+| `LIBCORE-001`    | `packages/shared/lib-core/code-interpreter/`             | م interpreter الكود        | Code Interpreter          | تم            |
+| `LIBCORE-002`    | `packages/shared/lib-core/computational-notebook/`       | الدفتر الحسابي            | Computational Notebook    | تم            |
+| `LIBCORE-003`    | `packages/shared/lib-core/document-pipeline/`            | خط أنابيب المستندات       | Document Pipeline         | تم            |
+| `LIBCORE-004`    | `packages/shared/lib-core/geometry/`                     | الهندسة                   | Geometry                  | تم            |
+| `LIBCORE-005`    | `packages/shared/lib-core/grid-engine/`                  | محرك الشبكة (Calc)        | Grid Engine               | تم            |
+| `LIBCORE-006`    | `packages/shared/lib-core/latex/`                        | محرك LaTeX                | LaTeX Engine              | تم            |
+| `LIBCORE-007`    | `packages/shared/lib-core/raster/`                       | معالجة الصور النقطية      | Raster Processing         | تم            |
+| `LIBCORE-008`    | `packages/shared/lib-core/converters/`                   | المحولات المشتركة         | Shared Converters         | تم            |
+| `LIBCORE-009`    | `packages/shared/lib-core/events/`                       | أحداث مشتركة             | Shared Events             | تم            |
+| `LIBCORE-010`    | `packages/shared/lib-core/animation/`                    | محركات الحركة             | Animation Engines         | تم            |
+
+### السمات التفاعلية - Traits
+
+| المعرف ID        | المسار Path                                              | الوصف Arabic              | Description English       | الحالة Status |
+| ---------------- | -------------------------------------------------------- | ------------------------- | ------------------------- | ------------- |
+| `CORE-TRAIT-001` | `packages/core/src/traits/types.ts`                      | أنواع السمات              | Trait Types               | تم            |
+| `CORE-TRAIT-002` | `packages/core/src/traits/draggable.ts`                  | سمة السحب                 | Draggable Trait           | تم            |
+| `CORE-TRAIT-003` | `packages/core/src/traits/resizable.ts`                  | سمة التحجيم               | Resizable Trait           | تم            |
+| `CORE-TRAIT-004` | `packages/core/src/traits/styleable.ts`                  | سمة التنسيق               | Styleable Trait           | تم            |
+| `CORE-TRAIT-005` | `packages/core/src/traits/lockable.ts`                   | سمة القفل                 | Lockable Trait            | تم            |
+| `CORE-TRAIT-006` | `packages/core/src/traits/trait-context-menu-resolver.ts` | محلل القوائم السياقية     | Context Menu Resolver     | تم            |
+
+### Shell والdevelopment studio
+
+| المعرف ID        | المسار Path                                              | الوصف Arabic              | Description English       | الحالة Status |
+| ---------------- | -------------------------------------------------------- | ------------------------- | ------------------------- | ------------- |
+| `SHELL-001`      | `packages/shell/dev-studio/core/DevStudioEngine.ts`      | محرك بيئة التطوير         | Dev Studio Engine         | تم            |
+| `SHELL-002`      | `packages/shell/dev-studio/doctor/DoctorEngine.ts`       | محرك الفحص والشفاء        | Doctor Engine             | تم            |
+| `SHELL-003`      | `packages/shell/dev-studio/tree/ProjectTreeModel.ts`     | نموذج شجرة المشروع       | Project Tree Model        | تم            |
+| `SHELL-004`      | `packages/shell/Workbench.tsx`                           | سطح العمل الرئيسي         | Main Workbench            | تم            |
+
 ### الملعب التجريبي - Playground
 
 | المعرف ID  | المسار Path                       | الوصف Arabic    | Description English  | الحالة Status |

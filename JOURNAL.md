@@ -460,3 +460,138 @@
    - الاستيراد عبر المسارات النسبية العابرة للمجلدات (`../../core/src/...`) يكسر مبدأ العزل والاستقلالية ويفشل في الـ Bundling للإنتاج. الاعتماد على package specifiers المعتمدة في `tsconfig` و `vite.config` (`@libretext/core`) يضمن حماية معمارية الـ Zero-Dependency النواة.
 4. **اتساق الـ Overloads في الـ Hooks المشتركة:**
    - عند توفير أكثر من توقيع (Signature) لدالة فتح القوائم (`openMenu` بالإحداثيات مقابل `openContextMenu` بالحدث)، يجب أن تفضي جميع المسارات إلى نفس شكل الحالة الكامل (`State Shape`) دون إسقاط أي حقول مثل `items` أو `title`.
+---
+
+## 2026-08-22 (Part 3 — جلسة استيراد كامل من المعدل 4 و المعدل 5)
+
+### 🎯 الهدف والمهمة الرئيسية
+استيراد كافة الدوال والخوارزميات والملفات غير المضمنة من نسختي المعدل 4 والمعدل 5 إلى مشروعنا الرئيسي، مع ضمان عدم وجود أخطاء نوعية واختبارات ناجحة.
+
+### 📋 المنجزات التفصيلية
+
+#### المرحلة الأولى: استيراد المعدل 4 (346 ملف — 85,098 سطر)
+
+**Core Infrastructure (packages/core/):**
+- `commands/`: allCommandOptions.ts, CommandRegistry.ts — نظام الأوامر المركزي
+- `contributions/`: ContributionRegistry.ts — سجل المساهمات
+- `documents/`: DocumentManager.ts — مدير المستندات
+- `engines/`: HtmlPipelineEngine, FileTypeDetectionEngine, ImagePipelineEngine, UnifiedIngestionPipeline, index.ts
+- `events/`: EventBus.ts — ناقل الأحداث
+- `history/`: HistoryManager.ts — مدير سجل التغييرات
+- `plugins/`: PluginRegistry, PluginContext, BaseEditorPlugin, SnippetsPlugin, index.ts
+- `services/`: UiPreferencesService.ts
+- `system/`: ExtensionManager, Kernel, ServiceContainer — نواة النظام
+- `storage/`: IndexedDBDocumentStorage, LocalForageDocumentStorage
+- `types.ts`, `index.ts`, `createEditorServices.ts`
+
+**HTML Blocks (10 ملفات):**
+- html-unified-block, html-block-types, html-block-registry, html-block-generator
+- html-block-layout-engine, html-block-data-engine, html-block-tailwind-editor
+- html-block-operations, html-block-presets, html-block-tsx-generator
+
+**Canvas Engines (7 ملفات):**
+- BlockMapperEngine, CSSParserEngine, HTMLParserEngine, SelectionManager, SyncEngine, StyleExtractor
+
+**Shared Engines (26 محرك):**
+- AIEngine, AttributeCompletionEngine, codeEditorEngines, ComponentRegistry, Debouncer
+- DiagramEngine, DialogEngine, DoctorSelfHealingEngine, htmlBlockParsers
+- IconGeneratorEngine, IconLibraryEngine, ImageStyleEngine, ImageUploaderEngine
+- LaTeXEngine, MarkdownEngine, MindMapEngine, NoCodeExecutionEngine
+- NotificationEngine, PluginSystem, PresentationNotebookEngine, SmartComponentEngine
+- ToolRegistry, ValidationEngine, WebScrapingEngine, WYSIWYGCalloutEngine
+
+**Language System (15 ملف):**
+- 4 حزم لغات: C++, Python, TypeScript, Web
+- 6 مزوّدين: completion, diagnostics, formatter, hover, runner, symbol
+- 5 ملفات أساسية: definition, pack, registry, runtime, index
+
+**lib-core (80+ ملف):**
+- animation/: motion-morph-engine, motion-path-engine, motion-path-tooling-engine
+- archive/: zip-engine (بدون مكتبات خارجية)
+- charts/: zero-dependency-chart-engine
+- code-interpreter/: code-editor-module, code-sandbox-runner, css-generator-engine, live-interpreter-engine, regex-tester-engine
+- collaboration/: peer-awareness-engine
+- computational-notebook/: ScratchpadEngine, Parser, Graph, Bindings, Store, unit-calc-engine, types (10 ملفات)
+- converters/: cad-vector-engine, document-markup-engine, image-format-engine, obsidian-vault-import-engine, odf-engine, schema-data-engine, universal-export-hub, web-components-engine
+- document-pipeline/: 15 ملف (block-model, clip, comments, assets, dynamic-fields, find-replace, history-diff, HTML-sanitizer, LaTeX-tokenizer, layer-compositor, markdown-caret, plan-apply, schema-fields, smart-clipboard, tag-aware)
+- events/: 7 ملف (comments-anchoring, dockable-tab, drag-selection, mouse-interaction, sub-editor-orchestrator, universal-context-menu, viewport-pan-zoom)
+- geometry/: 8 ملف (bezier, bounding-box, connector-rerouting, coordinate-transformer, line-connector, smart-shapes, snap-align)
+- grid-engine/: 9 ملف (A1-notation, cell-formula, format, formula-evaluator, grid-core, linked-chart, runtime-safety, selection-model, types)
+- latex/: 6 ملف (Engine, Parser, Renderer, Symbols, Types, UI)
+- raster/: 10 ملف (background-removal, brush, color-combine, color-curves, dithering, image-filters, image-processing, layer-blend, morphology, vector-tracer)
+
+**Primitives/Utils (20 ملف):**
+- Disposable, LocalizedString, Result, Scheduler, SystemTypes
+- 16 React hooks, 5 utils, vector-engine (7 ملفات)
+
+**Shell (35 ملف):**
+- dev-studio/: adapters (5), bridge, checkpoint (2), core (3), doctor (6), pipeline, scaffolder, scratchpad, sync (2), tree (6), workbench + panels (4)
+
+**Features (60+ ملف):**
+- canvas-designer/: core (16 SVG), hooks (3), data, sub-editors (2), components (22 TSX)
+- rich-text/: core/NativeEditor, services (4), hooks (2), model, types, plugin
+- ui-designer/: hooks (3), model
+- pdf/: hooks (3), model
+- html-component/: model
+
+#### المرحلة الثانية: استيراد المعدل 5 (30 ملف — 4,950 سطر)
+
+**توثيق محدث:**
+- JOURNAL.md — تسجيل جلسة SharedContextMenu وتكامل السمات
+- INDEX.md — قسم المكونات والخطافات المشتركة
+- CHANGELOG.md — الإصدار v1.2.0
+
+**ملفات جديدة:**
+- BLOCK_REGISTRY.json — سجل البلوكات
+- DIAGNOSTICS_REPORT.json — تقرير التشخيصات
+
+**سمات تفاعلية (Traits — 7 ملفات):**
+- draggable.ts, resizable.ts, styleable.ts, lockable.ts
+- types.ts (TraitKey), index.ts, trait-context-menu-resolver.ts
+
+**نواة محسّنة:**
+- capability-registry.ts — FNV-1a hash + حماية التكرار
+- block-manifest.ts, AudioBlock.ts, blocks/types.ts
+- plugins/index.ts
+
+**تخزين:**
+- IndexedDBDocumentStorage.ts, LocalForageDocumentStorage.ts (localStorage stub)
+
+**إضافات واجهة:**
+- CanvasDesignerPlugin.tsx, HTMLComponentPlugin.tsx, PdfPlugin.tsx
+- RichTextEditor.tsx, UIDesignerPlugin.tsx
+
+**مكونات مشتركة:**
+- SharedContextMenu.tsx — ثيم فاتح نقي 100%، تفاعل ماوسي حصراً
+
+**هيكل تشغيل:**
+- Workbench.tsx, main.tsx
+
+**اختبارات جديدة:**
+- AudioBlock.test.ts, traits.test.ts, trait-context-menu-resolver.test.ts
+
+### 🔧 المشاكل المحلولة
+
+1. **مسارات استيراد خاطئة:** تصحيح مسارات `../../shared/` إلى `../../../shared/` في ملفات core/src/
+2. **憭/react type stub:** إنشاء `stubs/react.d.ts` لدعم ملفات UI Features
+3. **lucide-react:** إزالة تبعية خارجية من unifiedTools.ts واستبدالها بأيقونات نصية
+4. **localforage:** استبدال بـ localStorage stub للحفاظ على صفر اعتماديات
+5. **TraitKey:** إضافة نوع `TraitKey` إلى types.ts لدعم trait-context-menu-resolver
+6. **noUncheckedIndexedAccess:** تصحيح `existingList[0]?.id` في capability-registry
+
+### 📊 الإحصائيات النهائية
+
+| المؤشر | القيمة |
+|--------|--------|
+| ملفات الاختبار | 74 ملف |
+| الاختبارات الناجحة | 1142 |
+| أخطاء TypeScript | 0 |
+| الملفات الجديدة (المعدل 4) | 346 ملف |
+| الملفات الجديدة (المadol 5) | 30 ملف |
+| إجمالي الملفات المضافة | 376 ملف |
+
+### 💡 الدروس المستفادة
+
+1. **磕 luận y Import Paths في Monorepo:** يجب التحقق من مسارات الاستيراد النسبية قبل النسخ — المسار الصحيح من `packages/core/src/commands/` إلى `packages/shared/` هو `../../../shared/` وليس `../../shared/`.
+2. **الϐάση Dependencies في Zero-Dependency Core:** أي ملف يستورد مكتبة خارجية (lucide-react, localforage, react) يجب معالجته بـ stub أو حذفها للحفاظ على مبدأ الصفر اعتماديات.
+3. **الん็ipping Ahead:** نسخ ثم تصحيح أسرع من إعادة كتابة — لكن يجب تشغيل tsc فوراً بعد كل دفعة نسخ.

@@ -37,6 +37,42 @@
 التنسيق مبني على [Keep a Changelog](https://keepachangelog.com/),
 والإصدار يتبع [Semantic Versioning](https://semver.org/).
 
+
+## [v1.3.0] - 2026-08-22
+### Added
+- **Full Import from المعدل 4 (346 files, 85,098 lines):**
+  - Core infrastructure: commands, contributions, documents, engines, events, history, plugins, services, system, storage
+  - HTML blocks: 10 files (html-unified-block, types, registry, generator, layout-engine, data-engine, tailwind-editor, operations, presets, tsx-generator)
+  - Canvas engines: BlockMapperEngine, CSSParserEngine, HTMLParserEngine, SelectionManager, SyncEngine
+  - Shared engines: 26 engines (AI, AttributeCompletion, CodeEditor, ComponentRegistry, Debouncer, Diagram, Dialog, Doctor, HTML parsers, Icons, Images, LaTeX, Markdown, MindMap, NoCode, Notifications, PluginSystem, Presentation, Smart, ToolRegistry, Validation, WebScraping, WYSIWYG)
+  - Language system: 4 packs (C++, Python, TypeScript, Web) + 6 providers + 5 core files
+  - lib-core: 80+ files (animation, archive, charts, code-interpreter, collaboration, computational-notebook, converters, document-pipeline, events, geometry, grid-engine, latex, raster)
+  - Primitives: Disposable, LocalizedString, Result, Scheduler, SystemTypes
+  - Hooks: 16 React hooks for UI interactions
+  - Vector engine: AutoLayoutEngine, common, control_handle_manager, path_editor, ref_line, snap
+  - Shell dev-studio: adapters, bridge, checkpoint, core, doctor, pipeline, scaffolder, sync, tree, workbench
+  - Features: canvas-designer (core+hooks+components), rich-text, ui-designer, pdf, html-component
+- **Full Import from المعدل 5 (30 files, 4,950 lines):**
+  - Traits system: draggable, resizable, styleable, lockable, types, index, trait-context-menu-resolver
+  - Capability registry: FNV-1a hash + semantic duplicate guard
+  - Blocks: block-manifest, AudioBlock, types
+  - Storage: IndexedDBDocumentStorage, LocalForageDocumentStorage
+  - UI plugins: CanvasDesignerPlugin, HTMLComponentPlugin, PdfPlugin, RichTextEditor, UIDesignerPlugin
+  - Shared components: SharedContextMenu.tsx (Pure Daylight Theme)
+  - Shell: Workbench.tsx, main.tsx
+  - Tests: AudioBlock, traits, trait-context-menu-resolver
+  - Documentation: JOURNAL.md, INDEX.md, CHANGELOG.md updates
+  - Data: BLOCK_REGISTRY.json, DIAGNOSTICS_REPORT.json
+
+### Fixed
+- Import path corrections for cross-package references (core/src/ → shared/)
+- Added react type stub for UI feature files
+- Removed lucide-react dependency from unifiedTools.ts (zero-dependency compliance)
+- Replaced localforage with localStorage stub (zero-dependency compliance)
+- Added TraitKey type export to traits/types.ts
+- Fixed noUncheckedIndexedAccess error in capability-registry.ts
+
+
 ## [لم يُصدر بعد]
 
 ### Added (تمت الإضافة)

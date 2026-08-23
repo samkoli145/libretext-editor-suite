@@ -427,9 +427,18 @@ libretext-editor-suite/
 │   │   │   │   ├── html-block-operations.ts    # عمليات كتل HTML (قص، نسخ، لصق)
 │   │   │   │   ├── html-block-presets.ts        # قوالب HTML جاهزة
 │   │   │   │   └── html-block-tsx-generator.ts  # مولّد كود TSX من HTML
+│   │   │   ├── 📁 traits/               # سمات تفاعلية (Drag/Resize/Style/Lock)
+│   │   │   │   ├── types.ts             #   أنواع السمات (TraitKey, PositionState, SizeState...)
+│   │   │   │   ├── draggable.ts         #   سمة السحب (Draggable)
+│   │   │   │   ├── resizable.ts         #   سمة التحجيم (Resizable)
+│   │   │   │   ├── styleable.ts         #   سمة التنسيق (Styleable)
+│   │   │   │   ├── lockable.ts          #   سمة القفل (Lockable)
+│   │   │   │   ├── trait-context-menu-resolver.ts # محلل القوائم السياقية حسب السمات
+│   │   │   │   └── index.ts             #   Barrel Export
 │   │   │   ├── 📁 parsers/               # محللات Markdown والبيانات الوصفية
 │   │   │   ├── 📁 converters/            # محول التنسيقات الشامل
 │   │   │   ├── 📁 registry/              # سجل المكونات المركزي
+│   │   │   │   └── capability-registry.ts #   سجل القدرات (FNV-1a hash + حماية التكرار)
 │   │   │   ├── 📁 utils/                 # أدوات مساعدة: تعريف، تحقق، أنابيب، نص عربي
 │   │   │   ├── contextMenuEngine.ts      # محرك القوائم السياقية الرئيسي (410 سطر)
 │   │   │   ├── artboard.ts               # لوحة الرسم والسبورة البيضاء
@@ -437,6 +446,16 @@ libretext-editor-suite/
 │   │   │   └── index.ts                  # Barrel Export الرئيسي
 │   │   ├── 📁 tests/                     # اختبارات النواة (19 ملف اختبار)
 │   │   └── 📄 package.json
+│   │
+│   ├── 📁 canvas/                         # [CANVAS] محركات الكانفا والمعاينة
+│   │   ├── 📁 engine/
+│   │   │   ├── BlockMapperEngine.ts      #   محرك خريطة البلوكات
+│   │   │   ├── CSSParserEngine.ts        #   محلل CSS
+│   │   │   ├── HTMLParserEngine.ts       #   محلل HTML
+│   │   │   ├── SelectionManager.ts       #   مدير التحديد
+│   │   │   ├── SyncEngine.ts             #   محرك المزامنة
+│   │   │   └── index.ts                  #   Barrel Export
+│   │   └── StyleExtractor.ts             #   مستخرج الأنماط
 │   │
 │   ├── 📁 algorithms/                    # [ALGO] طبقة المنطق والخوارزميات
 │   │   ├── 📁 src/
@@ -694,6 +713,58 @@ libretext-editor-suite/
 │   │   ├── 📁 utils/                    # أدوات مساعدة
 │   │   ├── 📁 vector-engine/            # محرك المتجهات
 │   │   └── 📄 package.json
+│   │
+│   ├── 📁 shell/                          # [SHELL] غلاف التطبيق وبيئة التطوير
+│   │   ├── 📁 dev-studio/
+│   │   │   ├── 📁 adapters/              #   مكيّفات: Canvas, Editor, PDF, RichText, UI
+│   │   │   ├── 📁 bridge/                #   جسر EditorBridge
+│   │   │   ├── 📁 checkpoint/            #   RollbackManager, SnapshotEngine
+│   │   │   ├── 📁 core/                  #   DevStudioEngine, Events, Types
+│   │   │   ├── 📁 doctor/                #   DependencyAuditor, DoctorEngine, Validators (6)
+│   │   │   ├── 📁 pipeline/              #   TaskPipeline
+│   │   │   ├── 📁 scaffolder/            #   ToolScaffolder
+│   │   │   ├── 📁 scratchpad/            #   Scratchpad
+│   │   │   ├── 📁 sync/                  #   CodeGenerator, RegistrySync
+│   │   │   ├── 📁 tree/                  #   DecompositionEngine, DriftDetector, FileOps, ProjectTree (6)
+│   │   │   ├── 📁 workbench/             #   DevStudioWorkbench + panels (4)
+│   │   │   └── index.ts                  #   Barrel Export
+│   │   └── Workbench.tsx                 #   سطح العمل الرئيسي
+│   │
+│   ├── 📁 features/                      # [FEATURES] ميزات واجهة المستخدم
+│   │   ├── 📁 canvas-designer/           #   مصمم الكانفا (57 ملف)
+│   │   │   ├── core/                     #   SVG: animation, clipping, history, math, paint, path, selection...
+│   │   │   ├── components/               #   مكونات: CanvasHeader, Sidebar, ToolBar, Viewport, Properties...
+│   │   │   ├── hooks/                    #   useCanvasDragResize, useCanvasTransform, useCanvasShortcuts
+│   │   │   ├── data/                     #   advancedDesignTemplates
+│   │   │   ├── sub-editors/              #   BezierSubEditor, LineSubEditor
+│   │   │   └── CanvasDesignerPlugin.tsx  #   الإضافة الرئيسية
+│   │   ├── 📁 rich-text/                 #   محرر النصوص الغني
+│   │   │   ├── core/NativeEditor.ts      #   المحرر الأصلي
+│   │   │   ├── services/                 #   docxServices, docxUtils, fileUtils, zipUtils
+│   │   │   ├── hooks/                    #   useEditorShortcuts, useNativeEditor
+│   │   │   └── RichTextEditor.tsx        #   المكون الرئيسي
+│   │   ├── 📁 html-component/            #   مكوّن HTML
+│   │   │   ├── HTMLComponentPlugin.tsx
+│   │   │   └── model.ts
+│   │   ├── 📁 pdf/                       #   عارض PDF
+│   │   │   ├── hooks/                    #   usePdfAnnotations, usePdfDocument, usePdfPagination
+│   │   │   ├── PdfPlugin.tsx
+│   │   │   └── model.ts
+│   │   └── 📁 ui-designer/               #   مصمم الواجهات
+│   │       ├── hooks/                    #   useResponsiveGrid, useUIDesignerShortcuts, useUIDesignerTree
+│   │       ├── UIDesignerPlugin.tsx
+│   │       └── model.ts
+│   │
+│   ├── 📁 components/                    # [COMPONENTS] مكونات مشتركة
+│   │   ├── SettingsPanel.tsx             #   لوحة الإعدادات
+│   │   └── canvas/Canvas.tsx             #   مكوّن الكانفا
+│   │
+│   ├── 📁 app/                           # [APP] تطبيق الويب الرئيسي
+│   │   ├── App.tsx                       #   التطبيق الرئيسي
+│   │   ├── DocumentEditorHost.tsx        #   مستضيف محرر المستندات
+│   │   ├── providers.tsx                 #   مزوّدي الحالة
+│   │   ├── registerPlugins.ts            #   تسجيل الإضافات
+│   │   └── providers/DockableLayoutProvider.tsx
 │   │
 │   └── 📁 playground/                    # [PLAY] الملعب التجريبي (لم يبدأ بعد)
 │
