@@ -33,7 +33,10 @@
     "sync:canonical-tools": "tsx scripts/sync-canonical-tools.ts",
     "sync:tools": "tsx scripts/sync-tools.ts",
     "work:monitor": "tsx scripts/work-monitor.ts",
-    "turbo": "turbo"
+    "turbo": "turbo",
+    "devstudio": "tsx packages/shell/dev-studio/cli/index.ts",
+    "devstudio:scan": "tsx packages/shell/dev-studio/cli/index.ts scan",
+    "devstudio:status": "tsx packages/shell/dev-studio/cli/index.ts status"
   },
   "devDependencies": {
     "@types/node": "^22.14.0",
