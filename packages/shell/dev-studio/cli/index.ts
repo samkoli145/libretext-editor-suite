@@ -25,6 +25,7 @@ import {
   generateJournalEntry, generateChangelogEntry, createSession,
 } from '../knowledge/auto-reporter';
 import { cmdVerify, cmdCommitReady } from './DevStudioCommands';
+import { scanProject, formatReport } from '../pipeline/DebtGuardian';
 
 import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
@@ -106,8 +107,15 @@ function cmdImport(sourceDir: string): void {
 }
 
 function cmdVersion(): void {
-  console.log('DevStudio v1.0.0');
+  console.log('DevStudio v1.1.0');
   console.log('LibreText Editor Suite — Smart Development Partner');
+}
+
+async function cmdDebt(): Promise<void> {
+  console.log('🔎 جاري فحص الديون...\n');
+  const report = await scanProject(PROJECT_ROOT);
+  console.log(formatReport(report));
+  if (report.bySeverity.error > 0) process.exitCode = 1;
 }
 
 function cmdHelp(): void {
@@ -119,6 +127,7 @@ Oaramer available:
   devstudio import <path>    استيراد من مجلد خارجي (scan فقط)
   devstudio verify <files..> فحص شامل + طفرات (tsc + vitest + lint)
   devstudio commit-ready     فحص سريع — هل المشروع جاهز للالتزام؟
+  devstudio debt             فحص الديون الضارة (regex pattern scan)
   devstudio version          إصدار DevStudio
   devstudio help             هذه القائمة
   devstudio init             تهيئة الذاكرة لأول مرة
@@ -173,6 +182,9 @@ function main(): void {
       break;
     case 'commit-ready':
       cmdCommitReady([]).catch(e => { console.error(e); process.exit(1); });
+      break;
+    case 'debt':
+      cmdDebt().catch(e => { console.error(e); process.exit(1); });
       break;
     case 'init':
       cmdInit();
