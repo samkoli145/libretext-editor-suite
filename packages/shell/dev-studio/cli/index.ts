@@ -32,6 +32,7 @@ import { cmdVerify, cmdCommitReady } from './DevStudioCommands';
 import { scanProject as scanProjectDebt, formatReport } from '../pipeline/DebtGuardian';
 import { cmdGuard } from './RuleGuardianCommands';
 import { cmdHealth } from './HealthCommand';
+import { cmdFix } from './FixCommand';
 
 import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
@@ -140,6 +141,7 @@ Oaramer available:
   devstudio debt             فحص الديون الضارة (regex pattern scan)
   devstudio guard            فحص القواعد الصارمة (Rule Guardian)
   devstudio health           الفحص الصحي الشامل (tsc+test+lint+guard+debt)
+  devstudio fix [headers|lint|all]  إصلاح تلقائي (ترويسات + lint)
   devstudio version          إصدار DevStudio
   devstudio help             هذه القائمة
   devstudio init             تهيئة الذاكرة لأول مرة
@@ -217,6 +219,9 @@ function main(): void {
         console.error(e);
         process.exit(1);
       });
+      break;
+    case 'fix':
+      cmdFix(args[1] || 'all');
       break;
     case 'init':
       cmdInit();
