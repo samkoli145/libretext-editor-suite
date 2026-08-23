@@ -24,6 +24,7 @@ import {
 import {
   generateJournalEntry, generateChangelogEntry, createSession,
 } from '../knowledge/auto-reporter';
+import { cmdVerify, cmdCommitReady } from './DevStudioCommands';
 
 import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
@@ -111,11 +112,13 @@ function cmdVersion(): void {
 
 function cmdHelp(): void {
   console.log(`
-الأوامر المتاحة:
+Oaramer available:
 
   devstudio scan [--test]     مسح شامل للمشروع + حفظ لقطة
   devstudio status           عرض حالة المشروع والتاريخ
   devstudio import <path>    استيراد من مجلد خارجي (scan فقط)
+  devstudio verify <files..> فحص شامل + طفرات (tsc + vitest + lint)
+  devstudio commit-ready     فحص سريع — هل المشروع جاهز للالتزام؟
   devstudio version          إصدار DevStudio
   devstudio help             هذه القائمة
   devstudio init             تهيئة الذاكرة لأول مرة
@@ -124,6 +127,8 @@ function cmdHelp(): void {
   pnpm devstudio scan
   pnpm devstudio scan --test
   pnpm devstudio status
+  pnpm devstudio verify packages/core/src/types.ts packages/core/src/ast/types.ts
+  pnpm devstudio commit-ready
   pnpm devstudio import "/home/sam2/Projects/المعدل 6/project"
   `);
 }
@@ -158,6 +163,16 @@ function main(): void {
       break;
     case 'version':
       cmdVersion();
+      break;
+    case 'verify':
+      if (args.length < 2) {
+        console.error('❌ تحديد الملفات: devstudio verify <file1.ts> [file2.ts ...]');
+        process.exit(1);
+      }
+      cmdVerify(args.slice(1)).catch(e => { console.error(e); process.exit(1); });
+      break;
+    case 'commit-ready':
+      cmdCommitReady([]).catch(e => { console.error(e); process.exit(1); });
       break;
     case 'init':
       cmdInit();

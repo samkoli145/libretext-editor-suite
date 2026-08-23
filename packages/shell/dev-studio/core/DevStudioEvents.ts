@@ -39,15 +39,16 @@ export type DevStudioEventListener<K extends keyof DevStudioEventMap> = (
 ) => void;
 
 export class DevStudioEventBus {
-  private listeners: {
-    [K in keyof DevStudioEventMap]?: Set<DevStudioEventListener<K>>;
-  } = {};
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  private listeners = new Map<string, Set<DevStudioEventListener<any>>>();
 
   on<K extends keyof DevStudioEventMap>(event: K, listener: DevStudioEventListener<K>): () => void {
-    if (!this.listeners[event]) {
-      this.listeners[event] = new Set() as any;
+    let set = this.listeners.get(event);
+    if (!set) {
+      set = new Set();
+      this.listeners.set(event, set);
     }
-    (this.listeners[event] as Set<DevStudioEventListener<K>>).add(listener);
+    set.add(listener);
 
     return () => {
       this.off(event, listener);
@@ -55,14 +56,14 @@ export class DevStudioEventBus {
   }
 
   off<K extends keyof DevStudioEventMap>(event: K, listener: DevStudioEventListener<K>): void {
-    const set = this.listeners[event];
+    const set = this.listeners.get(event);
     if (set) {
-      (set as Set<DevStudioEventListener<K>>).delete(listener);
+      set.delete(listener);
     }
   }
 
   emit<K extends keyof DevStudioEventMap>(event: K, payload: DevStudioEventMap[K]): void {
-    const set = this.listeners[event];
+    const set = this.listeners.get(event);
     if (!set) return;
 
     for (const listener of set) {
@@ -75,7 +76,7 @@ export class DevStudioEventBus {
   }
 
   clear(): void {
-    this.listeners = {};
+    this.listeners.clear();
   }
 }
 

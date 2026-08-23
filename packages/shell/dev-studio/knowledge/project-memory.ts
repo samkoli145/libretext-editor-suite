@@ -66,8 +66,13 @@ function getMemoryPath(projectRoot: string): string {
 export function loadMemory(projectRoot: string): ProjectMemory {
   const memPath = getMemoryPath(projectRoot);
   if (fs.existsSync(memPath)) {
-    const raw = fs.readFileSync(memPath, 'utf-8');
-    return JSON.parse(raw) as ProjectMemory;
+    try {
+      const raw = fs.readFileSync(memPath, 'utf-8');
+      return JSON.parse(raw) as ProjectMemory;
+    } catch {
+      // ملف corrupted — نُعيد الذاكرة الفارغة بدلاً من crash
+      return createEmptyMemory();
+    }
   }
   return createEmptyMemory();
 }

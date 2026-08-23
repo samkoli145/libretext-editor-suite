@@ -14,6 +14,9 @@ import * as path from 'path';
 import { execSync } from 'child_process';
 import { ProjectSnapshot } from './project-memory';
 
+const GIT_TIMEOUT_MS = 5000;
+const TEST_TIMEOUT_MS = 120000;
+
 function countFiles(dir: string, ext: string): number {
   if (!fs.existsSync(dir)) return 0;
   let count = 0;
@@ -33,10 +36,10 @@ function countFiles(dir: string, ext: string): number {
 function getGitInfo(projectRoot: string): { lastCommit: string; branch: string } {
   try {
     const lastCommit = execSync('git log --oneline -1', {
-      cwd: projectRoot, encoding: 'utf-8', timeout: 5000
+      cwd: projectRoot, encoding: 'utf-8', timeout: GIT_TIMEOUT_MS
     }).trim();
     const branch = execSync('git branch --show-current', {
-      cwd: projectRoot, encoding: 'utf-8', timeout: 5000
+      cwd: projectRoot, encoding: 'utf-8', timeout: GIT_TIMEOUT_MS
     }).trim();
     return { lastCommit, branch };
   } catch {
@@ -54,7 +57,7 @@ function countPackages(projectRoot: string): number {
 function runTestsQuietly(projectRoot: string): { passed: number; errors: number } {
   try {
     const output = execSync('npx vitest run --reporter=json 2>/dev/null', {
-      cwd: projectRoot, encoding: 'utf-8', timeout: 120000
+      cwd: projectRoot, encoding: 'utf-8', timeout: TEST_TIMEOUT_MS
     });
     const json = JSON.parse(output);
     return {

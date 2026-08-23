@@ -53,3 +53,6 @@ export * from './codeEditorEngines';
 export * from './AIEngine';
 export * from './DoctorSelfHealingEngine';
 export * from './languages';
+export * from './Disposable';
+export * from './EventBus';
+export * from './Scheduler';
