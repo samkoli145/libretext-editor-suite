@@ -31,6 +31,7 @@ import {
 import { cmdVerify, cmdCommitReady } from './DevStudioCommands';
 import { scanProject as scanProjectDebt, formatReport } from '../pipeline/DebtGuardian';
 import { cmdGuard } from './RuleGuardianCommands';
+import { cmdHealth } from './HealthCommand';
 
 import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
@@ -138,6 +139,7 @@ Oaramer available:
   devstudio commit-ready     فحص سريع — هل المشروع جاهز للالتزام؟
   devstudio debt             فحص الديون الضارة (regex pattern scan)
   devstudio guard            فحص القواعد الصارمة (Rule Guardian)
+  devstudio health           الفحص الصحي الشامل (tsc+test+lint+guard+debt)
   devstudio version          إصدار DevStudio
   devstudio help             هذه القائمة
   devstudio init             تهيئة الذاكرة لأول مرة
@@ -207,6 +209,14 @@ function main(): void {
       break;
     case 'guard':
       cmdGuard(args.slice(1));
+      break;
+    case 'health':
+      cmdHealth().then(r => {
+        if (!r.passed) process.exitCode = 1;
+      }).catch(e => {
+        console.error(e);
+        process.exit(1);
+      });
       break;
     case 'init':
       cmdInit();
