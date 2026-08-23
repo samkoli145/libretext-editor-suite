@@ -30,6 +30,7 @@ import {
 } from '../knowledge/auto-reporter';
 import { cmdVerify, cmdCommitReady } from './DevStudioCommands';
 import { scanProject as scanProjectDebt, formatReport } from '../pipeline/DebtGuardian';
+import { cmdGuard } from './RuleGuardianCommands';
 
 import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
@@ -136,6 +137,7 @@ Oaramer available:
   devstudio verify <files..> فحص شامل + طفرات (tsc + vitest + lint)
   devstudio commit-ready     فحص سريع — هل المشروع جاهز للالتزام؟
   devstudio debt             فحص الديون الضارة (regex pattern scan)
+  devstudio guard            فحص القواعد الصارمة (Rule Guardian)
   devstudio version          إصدار DevStudio
   devstudio help             هذه القائمة
   devstudio init             تهيئة الذاكرة لأول مرة
@@ -202,6 +204,9 @@ function main(): void {
         console.error(e);
         process.exit(1);
       });
+      break;
+    case 'guard':
+      cmdGuard(args.slice(1));
       break;
     case 'init':
       cmdInit();
