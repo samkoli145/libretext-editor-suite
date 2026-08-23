@@ -55,7 +55,8 @@ export class CodeSandboxRunner {
    */
   public static extractDynamicControls(code: string): SandboxControlProp[] {
     const controls: SandboxControlProp[] = [];
-    const propRegex = /\/\*\s*@prop\s+(\w+)\s*(?:\[([\d.,\s-]+)\])?\s*([^*]+?)\s*-\s*([^*]+?)\*\//gi;
+    const propRegex =
+      /\/\*\s*@prop\s+(\w+)\s*(?:\[([\d.,\s-]+)\])?\s*([^*]+?)\s*-\s*([^*]+?)\*\//gi;
     let match: RegExpExecArray | null;
 
     while ((match = propRegex.exec(code)) !== null) {
@@ -168,7 +169,7 @@ export class CodeSandboxRunner {
       enableTailwind?: boolean;
       enableInteractivity?: boolean;
       containerBackground?: string;
-    } = {}
+    } = {},
   ): SandboxExecutionResult {
     const {
       enableTailwind = true,
@@ -182,10 +183,20 @@ export class CodeSandboxRunner {
     let detectedFramework: SandboxExecutionResult['detectedFramework'] = 'html-css';
     if (code.includes('<canvas') || code.includes('getContext(')) detectedFramework = 'canvas';
     else if (code.trim().startsWith('<svg')) detectedFramework = 'svg';
-    else if (code.includes('class="') && (code.includes('bg-') || code.includes('text-') || code.includes('flex'))) detectedFramework = 'tailwind';
-    else if (code.includes('export default') || code.includes('function App') || code.includes('return (')) detectedFramework = 'react-jsx';
+    else if (
+      code.includes('class="') &&
+      (code.includes('bg-') || code.includes('text-') || code.includes('flex'))
+    )
+      detectedFramework = 'tailwind';
+    else if (
+      code.includes('export default') ||
+      code.includes('function App') ||
+      code.includes('return (')
+    )
+      detectedFramework = 'react-jsx';
 
-    const hasScript = code.includes('<script') || language === 'javascript' || language === 'typescript';
+    const hasScript =
+      code.includes('<script') || language === 'javascript' || language === 'typescript';
 
     // حماية ونظام أمان Sandbox
     const scriptInterceptor = enableInteractivity

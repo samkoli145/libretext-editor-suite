@@ -58,7 +58,10 @@ export class DiagnosticsPanel {
    * ⚠️ الحقول المضافة: الغياب يعني "لا".
    * تقرير بلا أخطاء لا يحمل rejectionReason.
    */
-  draw(report: DoctorReport | null, checkpoints: Array<{ id: string; label: string; clean?: true }>): void {
+  draw(
+    report: DoctorReport | null,
+    checkpoints: Array<{ id: string; label: string; clean?: true }>,
+  ): void {
     this.el.innerHTML = '';
 
     // ── تقرير الدكتور ──
@@ -128,9 +131,14 @@ export class DiagnosticsPanel {
    * من story.ts: "DERIVED, NEVER STORED."
    */
   private deriveVerdict(report: DoctorReport): {
-    passed: number; failed: number; warnings: number; approved: boolean
+    passed: number;
+    failed: number;
+    warnings: number;
+    approved: boolean;
   } {
-    let passed = 0, failed = 0, warnings = 0;
+    let passed = 0,
+      failed = 0,
+      warnings = 0;
     for (const c of report.checks) {
       if (c.status === 'pass') passed++;
       else if (c.status === 'fail') failed++;

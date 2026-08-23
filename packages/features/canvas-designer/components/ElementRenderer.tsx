@@ -78,11 +78,7 @@ import {
   BookOpen,
 } from 'lucide-react';
 import type { CanvasElement } from '../model';
-import {
-  createPolygonPath,
-  createStarPath,
-  createArrowPath,
-} from '../core/svgPathUtils';
+import { createPolygonPath, createStarPath, createArrowPath } from '../core/svgPathUtils';
 import { CLIP_PRESETS } from '../core/svgClipping';
 import { SVG_ANIMATION_PRESETS } from '../core/svgAnimation';
 import { generateConnectorSVGPath } from '../connectorUtils';
@@ -93,7 +89,10 @@ import { CanvasLinkedChartComponent } from './CanvasLinkedChartComponent';
 import { bezierNodesToSvgPath } from '../../../shared/lib-core/geometry/bezier-curves';
 
 // خريطة أسماء الأيقونات المعروفة (تُستخدم في أنواع icon / kpi-card / avatar)
-const LUCIDE_ICON_MAP: Record<string, React.ComponentType<{ className?: string; style?: React.CSSProperties }>> = {
+const LUCIDE_ICON_MAP: Record<
+  string,
+  React.ComponentType<{ className?: string; style?: React.CSSProperties }>
+> = {
   sparkles: Sparkles,
   star: Star,
   heart: Heart,
@@ -136,7 +135,11 @@ const LUCIDE_ICON_MAP: Record<string, React.ComponentType<{ className?: string; 
 };
 
 // توليد نقاط مضلع منتظم (Regular Polygon) لرسم السداسي والثماني والخماسي
-function createRegularPolygonPoints(sides: number, w: number, h: number): { x: number; y: number }[] {
+function createRegularPolygonPoints(
+  sides: number,
+  w: number,
+  h: number,
+): { x: number; y: number }[] {
   const cx = w / 2;
   const cy = h / 2;
   const radius = Math.min(w, h) / 2;
@@ -269,13 +272,20 @@ export const ElementRenderer: React.FC<ElementRendererProps> = ({
               {element.text || 'صمم واجهاتك وصدّر الأكواد البرمجية فورياً'}
             </h1>
             <p className="text-xs text-slate-600 leading-relaxed mb-4 max-w-xl">
-              {element.subtitle || 'منظومة متكاملة لربط الكانفا الفيكتوري بصفحات الويب وعناصر HTML الحية.'}
+              {element.subtitle ||
+                'منظومة متكاملة لربط الكانفا الفيكتوري بصفحات الويب وعناصر HTML الحية.'}
             </p>
             <div className="flex items-center gap-3">
-              <button type="button" className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold rounded-lg shadow-xs transition cursor-pointer">
+              <button
+                type="button"
+                className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold rounded-lg shadow-xs transition cursor-pointer"
+              >
                 ابدأ التصميم مجاناً
               </button>
-              <button type="button" className="px-4 py-2 bg-white hover:bg-slate-50 text-slate-700 border border-slate-300 text-xs font-medium rounded-lg transition cursor-pointer">
+              <button
+                type="button"
+                className="px-4 py-2 bg-white hover:bg-slate-50 text-slate-700 border border-slate-300 text-xs font-medium rounded-lg transition cursor-pointer"
+              >
                 معاينة النماذج الحية
               </button>
             </div>
@@ -308,17 +318,23 @@ export const ElementRenderer: React.FC<ElementRendererProps> = ({
               <div className="p-3 bg-slate-50 border border-slate-100 rounded-xl">
                 <Zap className="w-5 h-5 text-blue-600 mb-1.5" />
                 <h3 className="text-xs font-bold text-slate-900 mb-0.5">سرعة فائقة</h3>
-                <p className="text-[11px] text-slate-500 leading-normal">توليد أكواد React و Tailwind فورياً.</p>
+                <p className="text-[11px] text-slate-500 leading-normal">
+                  توليد أكواد React و Tailwind فورياً.
+                </p>
               </div>
               <div className="p-3 bg-slate-50 border border-slate-100 rounded-xl">
                 <Layers className="w-5 h-5 text-emerald-600 mb-1.5" />
                 <h3 className="text-xs font-bold text-slate-900 mb-0.5">طبقات لا نهائية</h3>
-                <p className="text-[11px] text-slate-500 leading-normal">تحكم دقيق بالترتيب والعمق والتجميع.</p>
+                <p className="text-[11px] text-slate-500 leading-normal">
+                  تحكم دقيق بالترتيب والعمق والتجميع.
+                </p>
               </div>
               <div className="p-3 bg-slate-50 border border-slate-100 rounded-xl">
                 <Code2 className="w-5 h-5 text-indigo-600 mb-1.5" />
                 <h3 className="text-xs font-bold text-slate-900 mb-0.5">صفر مكتبات</h3>
-                <p className="text-[11px] text-slate-500 leading-normal">محركات أصلية خفيفة وعالية الكفاءة.</p>
+                <p className="text-[11px] text-slate-500 leading-normal">
+                  محركات أصلية خفيفة وعالية الكفاءة.
+                </p>
               </div>
             </div>
           </section>
@@ -329,20 +345,31 @@ export const ElementRenderer: React.FC<ElementRendererProps> = ({
         return (
           <section className="w-full h-full p-5 bg-white border border-slate-200 rounded-2xl flex flex-col justify-between shadow-xs select-none">
             <div className="text-center mb-3">
-              <h2 className="text-sm font-bold text-slate-900">{element.text || 'باقات الاشتراك والأسعار'}</h2>
+              <h2 className="text-sm font-bold text-slate-900">
+                {element.text || 'باقات الاشتراك والأسعار'}
+              </h2>
               <p className="text-[11px] text-slate-500">اختر الخطة المناسبة لاحتياجات فريقك</p>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div className="p-4 bg-slate-50 border border-slate-200 rounded-xl flex flex-col justify-between">
                 <div>
                   <h3 className="text-xs font-bold text-slate-900">الخطة الأساسية</h3>
-                  <div className="text-lg font-black text-slate-900 mt-1">مجاناً <span className="text-[10px] font-normal text-slate-500">/ للأبد</span></div>
+                  <div className="text-lg font-black text-slate-900 mt-1">
+                    مجاناً <span className="text-[10px] font-normal text-slate-500">/ للأبد</span>
+                  </div>
                   <ul className="text-[11px] text-slate-600 mt-2 space-y-1">
-                    <li className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" /> تصاميم غير محدودة</li>
-                    <li className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" /> تصدير HTML/TSX</li>
+                    <li className="flex items-center gap-1.5">
+                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" /> تصاميم غير محدودة
+                    </li>
+                    <li className="flex items-center gap-1.5">
+                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" /> تصدير HTML/TSX
+                    </li>
                   </ul>
                 </div>
-                <button type="button" className="mt-3 w-full py-1.5 bg-white border border-slate-300 hover:bg-slate-100 text-slate-800 text-xs font-semibold rounded-lg">
+                <button
+                  type="button"
+                  className="mt-3 w-full py-1.5 bg-white border border-slate-300 hover:bg-slate-100 text-slate-800 text-xs font-semibold rounded-lg"
+                >
                   اختيار الخطة
                 </button>
               </div>
@@ -350,15 +377,26 @@ export const ElementRenderer: React.FC<ElementRendererProps> = ({
                 <div>
                   <div className="flex justify-between items-center">
                     <h3 className="text-xs font-bold text-blue-900">الخطة الاحترافية</h3>
-                    <span className="text-[9px] bg-blue-600 text-white font-bold px-1.5 py-0.5 rounded">شائع</span>
+                    <span className="text-[9px] bg-blue-600 text-white font-bold px-1.5 py-0.5 rounded">
+                      شائع
+                    </span>
                   </div>
-                  <div className="text-lg font-black text-blue-900 mt-1">29$ <span className="text-[10px] font-normal text-slate-500">/ شهرياً</span></div>
+                  <div className="text-lg font-black text-blue-900 mt-1">
+                    29$ <span className="text-[10px] font-normal text-slate-500">/ شهرياً</span>
+                  </div>
                   <ul className="text-[11px] text-slate-700 mt-2 space-y-1">
-                    <li className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-blue-600" /> جميع الميزات المتقدمة</li>
-                    <li className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-blue-600" /> دعم مباشر 24/7</li>
+                    <li className="flex items-center gap-1.5">
+                      <CheckCircle2 className="w-3.5 h-3.5 text-blue-600" /> جميع الميزات المتقدمة
+                    </li>
+                    <li className="flex items-center gap-1.5">
+                      <CheckCircle2 className="w-3.5 h-3.5 text-blue-600" /> دعم مباشر 24/7
+                    </li>
                   </ul>
                 </div>
-                <button type="button" className="mt-3 w-full py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold rounded-lg">
+                <button
+                  type="button"
+                  className="mt-3 w-full py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold rounded-lg"
+                >
                   ترقية الحساب
                 </button>
               </div>
@@ -372,13 +410,20 @@ export const ElementRenderer: React.FC<ElementRendererProps> = ({
           <section className="w-full h-full p-5 bg-white border border-slate-200 rounded-2xl flex flex-col justify-between shadow-xs select-none">
             <div className="flex items-center gap-2 mb-2">
               <Quote className="w-5 h-5 text-blue-600" />
-              <h2 className="text-xs font-bold text-slate-900">{element.text || 'آراء وتجارب المستخدمين'}</h2>
+              <h2 className="text-xs font-bold text-slate-900">
+                {element.text || 'آراء وتجارب المستخدمين'}
+              </h2>
             </div>
             <p className="text-xs text-slate-600 leading-relaxed italic bg-slate-50 p-3 rounded-xl border border-slate-100">
-              "{element.subtitle || 'أحدثت هذه المنصة نقلة نوعية في سرعة بناء الواجهات التفاعلية وتصدير الأكواد النظيفة.'}"
+              "
+              {element.subtitle ||
+                'أحدثت هذه المنصة نقلة نوعية في سرعة بناء الواجهات التفاعلية وتصدير الأكواد النظيفة.'}
+              "
             </p>
             <div className="flex items-center justify-between text-[11px] text-slate-500 mt-2">
-              <span className="font-bold text-slate-800">م. عبد الرحمن الأحمد — مطور واجهات رئيسي</span>
+              <span className="font-bold text-slate-800">
+                م. عبد الرحمن الأحمد — مطور واجهات رئيسي
+              </span>
               <div className="flex text-amber-500">★★★★★</div>
             </div>
           </section>
@@ -394,8 +439,14 @@ export const ElementRenderer: React.FC<ElementRendererProps> = ({
             </h2>
             <div className="space-y-2">
               {[
-                { q: 'هل يعمل المحرر بدون أي اتصال بالإنترنت؟', a: 'نعم، المحرك أصلي ومستقل تماماً ويدعم العمل المحلي الكامل.' },
-                { q: 'كيف يتم تصدير الأكواد الناتجة؟', a: 'يمكنك تصدير كود React/TSX أو HTML/CSS نقي بنقرة واحدة بالفأرة.' },
+                {
+                  q: 'هل يعمل المحرر بدون أي اتصال بالإنترنت؟',
+                  a: 'نعم، المحرك أصلي ومستقل تماماً ويدعم العمل المحلي الكامل.',
+                },
+                {
+                  q: 'كيف يتم تصدير الأكواد الناتجة؟',
+                  a: 'يمكنك تصدير كود React/TSX أو HTML/CSS نقي بنقرة واحدة بالفأرة.',
+                },
               ].map((item, idx) => (
                 <div key={idx} className="border border-slate-200 rounded-xl overflow-hidden">
                   <button
@@ -404,7 +455,9 @@ export const ElementRenderer: React.FC<ElementRendererProps> = ({
                     className="w-full p-2.5 bg-slate-50 flex items-center justify-between text-right text-xs font-semibold text-slate-800 hover:bg-slate-100 transition cursor-pointer"
                   >
                     <span>{item.q}</span>
-                    <ChevronDown className={`w-3.5 h-3.5 transition-transform ${faqOpenIndex === idx ? 'rotate-180' : ''}`} />
+                    <ChevronDown
+                      className={`w-3.5 h-3.5 transition-transform ${faqOpenIndex === idx ? 'rotate-180' : ''}`}
+                    />
                   </button>
                   {faqOpenIndex === idx && (
                     <div className="p-2.5 bg-white text-[11px] text-slate-600 leading-relaxed border-t border-slate-100">
@@ -422,10 +475,17 @@ export const ElementRenderer: React.FC<ElementRendererProps> = ({
         return (
           <section className="w-full h-full p-6 bg-linear-to-r from-blue-50 to-indigo-50/50 border border-blue-200 rounded-2xl flex items-center justify-between shadow-xs select-none">
             <div>
-              <h2 className="text-sm font-bold text-slate-900">{element.text || 'جاهز للبدء في تصميم مشروعك القادم؟'}</h2>
-              <p className="text-xs text-slate-600 mt-1">{element.subtitle || 'انضم إلى آلاف المطورين والمصممين اليوم مجاناً.'}</p>
+              <h2 className="text-sm font-bold text-slate-900">
+                {element.text || 'جاهز للبدء في تصميم مشروعك القادم؟'}
+              </h2>
+              <p className="text-xs text-slate-600 mt-1">
+                {element.subtitle || 'انضم إلى آلاف المطورين والمصممين اليوم مجاناً.'}
+              </p>
             </div>
-            <button type="button" className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold rounded-lg shadow-xs transition cursor-pointer shrink-0">
+            <button
+              type="button"
+              className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold rounded-lg shadow-xs transition cursor-pointer shrink-0"
+            >
               ابدأ الآن مجاناً
             </button>
           </section>
@@ -457,12 +517,19 @@ export const ElementRenderer: React.FC<ElementRendererProps> = ({
                 <ListFilter className="w-4 h-4 text-blue-600" />
                 <span>{element.text || 'قائمة عناصر CMS المتكررة'}</span>
               </h3>
-              <span className="text-[10px] bg-blue-50 text-blue-700 px-2 py-0.5 rounded font-bold">تكرار ديناميكي</span>
+              <span className="text-[10px] bg-blue-50 text-blue-700 px-2 py-0.5 rounded font-bold">
+                تكرار ديناميكي
+              </span>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
               {[1, 2].map((i) => (
-                <div key={i} className="p-2.5 bg-slate-50 border border-slate-100 rounded-xl flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-lg bg-blue-100 text-blue-700 flex items-center justify-center font-bold text-xs">{i}</div>
+                <div
+                  key={i}
+                  className="p-2.5 bg-slate-50 border border-slate-100 rounded-xl flex items-center gap-2"
+                >
+                  <div className="w-8 h-8 rounded-lg bg-blue-100 text-blue-700 flex items-center justify-center font-bold text-xs">
+                    {i}
+                  </div>
                   <div>
                     <h4 className="text-xs font-semibold text-slate-800">مقال توضيحي #{i}</h4>
                     <p className="text-[10px] text-slate-500">تم جلب السجل من قاعدة البيانات.</p>
@@ -476,16 +543,30 @@ export const ElementRenderer: React.FC<ElementRendererProps> = ({
       // 10. Form Container
       case 'form':
         return (
-          <form className="w-full h-full p-5 bg-white border border-slate-200 rounded-2xl shadow-xs flex flex-col justify-between select-none" onSubmit={(e) => e.preventDefault()}>
+          <form
+            className="w-full h-full p-5 bg-white border border-slate-200 rounded-2xl shadow-xs flex flex-col justify-between select-none"
+            onSubmit={(e) => e.preventDefault()}
+          >
             <h3 className="text-xs font-bold text-slate-900 mb-2 flex items-center gap-1.5">
               <CheckSquare className="w-4 h-4 text-blue-600" />
               <span>{element.text || 'نموذج التواصل السريع'}</span>
             </h3>
             <div className="space-y-2">
-              <input type="text" placeholder="الاسم الكامل..." className="w-full p-2 text-xs bg-slate-50 border border-slate-200 rounded-lg outline-hidden focus:border-blue-500 focus:bg-white" />
-              <input type="email" placeholder="البريد الإلكتروني..." className="w-full p-2 text-xs bg-slate-50 border border-slate-200 rounded-lg outline-hidden focus:border-blue-500 focus:bg-white" />
+              <input
+                type="text"
+                placeholder="الاسم الكامل..."
+                className="w-full p-2 text-xs bg-slate-50 border border-slate-200 rounded-lg outline-hidden focus:border-blue-500 focus:bg-white"
+              />
+              <input
+                type="email"
+                placeholder="البريد الإلكتروني..."
+                className="w-full p-2 text-xs bg-slate-50 border border-slate-200 rounded-lg outline-hidden focus:border-blue-500 focus:bg-white"
+              />
             </div>
-            <button type="button" className="mt-3 w-full py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold rounded-lg transition cursor-pointer">
+            <button
+              type="button"
+              className="mt-3 w-full py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold rounded-lg transition cursor-pointer"
+            >
               إرسال الرسالة
             </button>
           </form>
@@ -495,7 +576,9 @@ export const ElementRenderer: React.FC<ElementRendererProps> = ({
       case 'input':
         return (
           <div className="w-full h-full flex flex-col justify-center">
-            <label className="text-[11px] font-semibold text-slate-700 mb-1">{element.text || 'حقل إدخال'}</label>
+            <label className="text-[11px] font-semibold text-slate-700 mb-1">
+              {element.text || 'حقل إدخال'}
+            </label>
             <input
               type="text"
               placeholder={element.subtitle || 'أدخل النص هنا...'}
@@ -518,7 +601,10 @@ export const ElementRenderer: React.FC<ElementRendererProps> = ({
               e.stopPropagation();
               setIsEditingInline(true);
             }}
-            style={{ color: element.textColor, fontSize: element.fontSize ? `${element.fontSize}px` : undefined }}
+            style={{
+              color: element.textColor,
+              fontSize: element.fontSize ? `${element.fontSize}px` : undefined,
+            }}
           >
             {element.text || 'عنوان رئيسي مميز'}
           </h2>
@@ -537,7 +623,10 @@ export const ElementRenderer: React.FC<ElementRendererProps> = ({
               e.stopPropagation();
               setIsEditingInline(true);
             }}
-            style={{ color: element.textColor, fontSize: element.fontSize ? `${element.fontSize}px` : undefined }}
+            style={{
+              color: element.textColor,
+              fontSize: element.fontSize ? `${element.fontSize}px` : undefined,
+            }}
           >
             {element.text || 'فقرة نصية توضيحية منضبطة المسافات والتباعد للقراءة السلسة والمريحة.'}
           </p>
@@ -558,7 +647,9 @@ export const ElementRenderer: React.FC<ElementRendererProps> = ({
             }}
           >
             <div className="flex items-center justify-between border-b border-slate-100 pb-2 mb-2">
-              <span className="text-xs font-bold text-slate-800">{element.text || 'حاوية كتل وتصميم'}</span>
+              <span className="text-xs font-bold text-slate-800">
+                {element.text || 'حاوية كتل وتصميم'}
+              </span>
               <span className="text-[10px] font-mono text-slate-400">{element.type}</span>
             </div>
             <div className="flex-1 flex items-center justify-center text-xs text-slate-400 border border-dashed border-slate-200 rounded-xl p-3">
@@ -571,20 +662,28 @@ export const ElementRenderer: React.FC<ElementRendererProps> = ({
       case 'image': {
         const shapeMask = element.shapeMask || 'none';
         const preset = CLIP_PRESETS.find((p) => p.id === shapeMask);
-        const clipPathD = preset && shapeMask !== 'none' ? preset.generatePathD(element.width, element.height) : '';
+        const clipPathD =
+          preset && shapeMask !== 'none' ? preset.generatePathD(element.width, element.height) : '';
         const clipId = `clip-${element.id}`;
 
         return (
           <div className="w-full h-full relative select-none overflow-hidden flex items-center justify-center">
             {clipPathD ? (
-              <svg className="w-full h-full absolute inset-0 pointer-events-none" viewBox={`0 0 ${element.width} ${element.height}`}>
+              <svg
+                className="w-full h-full absolute inset-0 pointer-events-none"
+                viewBox={`0 0 ${element.width} ${element.height}`}
+              >
                 <defs>
                   <clipPath id={clipId}>
                     <path d={clipPathD} />
                   </clipPath>
                 </defs>
                 <image
-                  href={element.imageUrl || element.src || 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=600&auto=format&fit=crop&q=80'}
+                  href={
+                    element.imageUrl ||
+                    element.src ||
+                    'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=600&auto=format&fit=crop&q=80'
+                  }
                   width={element.width}
                   height={element.height}
                   preserveAspectRatio="xMidYMid slice"
@@ -593,7 +692,11 @@ export const ElementRenderer: React.FC<ElementRendererProps> = ({
               </svg>
             ) : (
               <img
-                src={element.imageUrl || element.src || 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=600&auto=format&fit=crop&q=80'}
+                src={
+                  element.imageUrl ||
+                  element.src ||
+                  'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=600&auto=format&fit=crop&q=80'
+                }
                 alt={element.text || 'صورة الكانفا'}
                 className="w-full h-full object-cover"
                 style={{
@@ -611,7 +714,9 @@ export const ElementRenderer: React.FC<ElementRendererProps> = ({
         return (
           <div className="w-full h-full bg-slate-100 border border-slate-200 rounded-2xl flex flex-col items-center justify-center text-slate-500 shadow-xs select-none">
             <VideoIcon className="w-8 h-8 text-blue-600 mb-2" />
-            <span className="text-xs font-bold text-slate-700">{element.text || 'مشغل فيديو تفاعلي'}</span>
+            <span className="text-xs font-bold text-slate-700">
+              {element.text || 'مشغل فيديو تفاعلي'}
+            </span>
             <span className="text-[10px] text-slate-400 mt-1">انقر لمعاينة أو تخصيص الرابط</span>
           </div>
         );
@@ -637,8 +742,8 @@ export const ElementRenderer: React.FC<ElementRendererProps> = ({
               isWarning
                 ? 'bg-amber-50/70 border-amber-200 text-amber-950'
                 : isQuote
-                ? 'bg-slate-50 border-r-4 border-r-blue-600 border-slate-200 text-slate-800'
-                : 'bg-white border-blue-200 text-slate-800 shadow-xs'
+                  ? 'bg-slate-50 border-r-4 border-r-blue-600 border-slate-200 text-slate-800'
+                  : 'bg-white border-blue-200 text-slate-800 shadow-xs'
             }`}
             style={{
               borderColor: element.strokeColor,
@@ -696,7 +801,12 @@ export const ElementRenderer: React.FC<ElementRendererProps> = ({
               <div className="absolute top-10 z-30 w-56 bg-white border border-slate-200 rounded-xl p-3 shadow-lg text-xs text-right">
                 <div className="flex items-center justify-between border-b border-slate-100 pb-1.5 mb-1.5 font-bold text-slate-900">
                   <span>{element.text || 'نقطة توضيح'}</span>
-                  <button onClick={() => setPopoverOpen(false)} className="text-slate-400 hover:text-slate-600">✕</button>
+                  <button
+                    onClick={() => setPopoverOpen(false)}
+                    className="text-slate-400 hover:text-slate-600"
+                  >
+                    ✕
+                  </button>
                 </div>
                 <p className="text-slate-600 m-0 leading-relaxed text-[11px]">
                   {element.subtitle || 'شرح تفصيلي للمنطقة المحددة بالفأرة.'}
@@ -717,8 +827,12 @@ export const ElementRenderer: React.FC<ElementRendererProps> = ({
               {element.stepNumber || activeStep}
             </div>
             <div className="text-right">
-              <div className="text-xs font-bold text-slate-800">{element.text || 'خطوة إجرائية'}</div>
-              {element.subtitle && <div className="text-[10px] text-slate-500">{element.subtitle}</div>}
+              <div className="text-xs font-bold text-slate-800">
+                {element.text || 'خطوة إجرائية'}
+              </div>
+              {element.subtitle && (
+                <div className="text-[10px] text-slate-500">{element.subtitle}</div>
+              )}
             </div>
           </div>
         );
@@ -768,10 +882,13 @@ export const ElementRenderer: React.FC<ElementRendererProps> = ({
         const h = Math.max(element.height || 40, 20);
         const strokeColor = element.strokeColor || '#2563eb';
         const strokeW = element.strokeWidth || 2;
-        const routing = element.routing || (element.type === 'connector' ? 'orthogonal' : 'straight');
-        const hasArrowEnd = element.arrowEnd !== false && (element.type === 'arrow' || element.type === 'connector' || element.arrowEnd === true);
+        const routing =
+          element.routing || (element.type === 'connector' ? 'orthogonal' : 'straight');
+        const hasArrowEnd =
+          element.arrowEnd !== false &&
+          (element.type === 'arrow' || element.type === 'connector' || element.arrowEnd === true);
         const hasArrowStart = element.arrowStart === true;
-        
+
         const p1 = { x: 4, y: h / 2 };
         const p2 = { x: w - 4, y: h / 2 };
         const { path, labelPoint } = generateConnectorSVGPath(p1, p2, routing);
@@ -822,8 +939,8 @@ export const ElementRenderer: React.FC<ElementRendererProps> = ({
                   element.strokeStyle === 'dashed'
                     ? '6 4'
                     : element.strokeStyle === 'dotted'
-                    ? '2 4'
-                    : undefined
+                      ? '2 4'
+                      : undefined
                 }
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -891,8 +1008,14 @@ export const ElementRenderer: React.FC<ElementRendererProps> = ({
               fontWeight: element.fontWeight || 'normal',
               color: element.textColor || '#1e293b',
               textAlign: element.textAlign || 'right',
-              backgroundColor: element.fillColor && element.fillColor !== 'transparent' ? element.fillColor : 'transparent',
-              border: element.strokeWidth && element.strokeWidth > 0 ? `${element.strokeWidth}px ${element.strokeStyle || 'solid'} ${element.strokeColor || '#cbd5e1'}` : 'none',
+              backgroundColor:
+                element.fillColor && element.fillColor !== 'transparent'
+                  ? element.fillColor
+                  : 'transparent',
+              border:
+                element.strokeWidth && element.strokeWidth > 0
+                  ? `${element.strokeWidth}px ${element.strokeStyle || 'solid'} ${element.strokeColor || '#cbd5e1'}`
+                  : 'none',
               borderRadius: element.borderRadius ? `${element.borderRadius}px` : undefined,
               lineHeight: element.lineHeight || 1.6,
             }}
@@ -914,7 +1037,8 @@ export const ElementRenderer: React.FC<ElementRendererProps> = ({
       case 'path': {
         const stroke = element.strokeColor || '#2563eb';
         const strokeW = element.strokeWidth || 3;
-        const fill = element.fillColor && element.fillColor !== 'transparent' ? element.fillColor : 'none';
+        const fill =
+          element.fillColor && element.fillColor !== 'transparent' ? element.fillColor : 'none';
         return (
           <div className="w-full h-full relative select-none">
             <svg
@@ -930,7 +1054,13 @@ export const ElementRenderer: React.FC<ElementRendererProps> = ({
                   strokeWidth={strokeW}
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  strokeDasharray={element.strokeStyle === 'dashed' ? '6 4' : element.strokeStyle === 'dotted' ? '2 4' : undefined}
+                  strokeDasharray={
+                    element.strokeStyle === 'dashed'
+                      ? '6 4'
+                      : element.strokeStyle === 'dotted'
+                        ? '2 4'
+                        : undefined
+                  }
                 />
               ) : (
                 <polyline
@@ -1009,7 +1139,8 @@ export const ElementRenderer: React.FC<ElementRendererProps> = ({
             style={{
               backgroundColor: element.fillColor || '#ffffff',
               border: `${element.strokeWidth || 1}px ${element.strokeStyle || 'solid'} ${element.strokeColor || '#cbd5e1'}`,
-              borderRadius: element.borderRadius !== undefined ? `${element.borderRadius}px` : '12px',
+              borderRadius:
+                element.borderRadius !== undefined ? `${element.borderRadius}px` : '12px',
               color: element.textColor || '#1e293b',
               fontFamily: element.fontFamily,
               fontSize: element.fontSize ? `${element.fontSize}px` : undefined,
@@ -1041,13 +1172,23 @@ export const ElementRenderer: React.FC<ElementRendererProps> = ({
         const pathD = createPolygonPath(pts);
         return (
           <div className="w-full h-full relative flex items-center justify-center select-none">
-            <svg className="w-full h-full overflow-visible" viewBox={`0 0 ${w} ${h}`} preserveAspectRatio="none">
+            <svg
+              className="w-full h-full overflow-visible"
+              viewBox={`0 0 ${w} ${h}`}
+              preserveAspectRatio="none"
+            >
               <path
                 d={pathD}
                 fill={element.fillColor || '#fefce8'}
                 stroke={element.strokeColor || '#ca8a04'}
                 strokeWidth={element.strokeWidth ?? 2}
-                strokeDasharray={element.strokeStyle === 'dashed' ? '6 4' : element.strokeStyle === 'dotted' ? '2 4' : undefined}
+                strokeDasharray={
+                  element.strokeStyle === 'dashed'
+                    ? '6 4'
+                    : element.strokeStyle === 'dotted'
+                      ? '2 4'
+                      : undefined
+                }
               />
             </svg>
             {element.text && (
@@ -1066,13 +1207,23 @@ export const ElementRenderer: React.FC<ElementRendererProps> = ({
         const pathD = createStarPath(w / 2, h / 2, 5, Math.min(w, h) / 2, Math.min(w, h) / 4);
         return (
           <div className="w-full h-full relative flex items-center justify-center select-none">
-            <svg className="w-full h-full overflow-visible" viewBox={`0 0 ${w} ${h}`} preserveAspectRatio="none">
+            <svg
+              className="w-full h-full overflow-visible"
+              viewBox={`0 0 ${w} ${h}`}
+              preserveAspectRatio="none"
+            >
               <path
                 d={pathD}
                 fill={element.fillColor || '#fef08a'}
                 stroke={element.strokeColor || '#eab308'}
                 strokeWidth={element.strokeWidth ?? 2}
-                strokeDasharray={element.strokeStyle === 'dashed' ? '6 4' : element.strokeStyle === 'dotted' ? '2 4' : undefined}
+                strokeDasharray={
+                  element.strokeStyle === 'dashed'
+                    ? '6 4'
+                    : element.strokeStyle === 'dotted'
+                      ? '2 4'
+                      : undefined
+                }
               />
             </svg>
             {element.text && (
@@ -1097,13 +1248,23 @@ export const ElementRenderer: React.FC<ElementRendererProps> = ({
         const pathD = createPolygonPath(pts);
         return (
           <div className="w-full h-full relative flex items-center justify-center select-none">
-            <svg className="w-full h-full overflow-visible" viewBox={`0 0 ${w} ${h}`} preserveAspectRatio="none">
+            <svg
+              className="w-full h-full overflow-visible"
+              viewBox={`0 0 ${w} ${h}`}
+              preserveAspectRatio="none"
+            >
               <path
                 d={pathD}
                 fill={element.fillColor || '#eff6ff'}
                 stroke={element.strokeColor || '#2563eb'}
                 strokeWidth={element.strokeWidth ?? 2}
-                strokeDasharray={element.strokeStyle === 'dashed' ? '6 4' : element.strokeStyle === 'dotted' ? '2 4' : undefined}
+                strokeDasharray={
+                  element.strokeStyle === 'dashed'
+                    ? '6 4'
+                    : element.strokeStyle === 'dotted'
+                      ? '2 4'
+                      : undefined
+                }
               />
             </svg>
             {element.text && (
@@ -1127,18 +1288,35 @@ export const ElementRenderer: React.FC<ElementRendererProps> = ({
         if (element.type === 'shield') {
           pathD = createShieldPath(w, h);
         } else {
-          const sides = element.type === 'hexagon' ? 6 : element.type === 'octagon' ? 8 : element.type === 'pentagon' ? 5 : (element.sides || 6);
+          const sides =
+            element.type === 'hexagon'
+              ? 6
+              : element.type === 'octagon'
+                ? 8
+                : element.type === 'pentagon'
+                  ? 5
+                  : element.sides || 6;
           pathD = createPolygonPath(createRegularPolygonPoints(sides, w, h));
         }
         return (
           <div className="w-full h-full relative flex items-center justify-center select-none">
-            <svg className="w-full h-full overflow-visible" viewBox={`0 0 ${w} ${h}`} preserveAspectRatio="none">
+            <svg
+              className="w-full h-full overflow-visible"
+              viewBox={`0 0 ${w} ${h}`}
+              preserveAspectRatio="none"
+            >
               <path
                 d={pathD}
                 fill={element.fillColor || '#f5f3ff'}
                 stroke={element.strokeColor || '#8b5cf6'}
                 strokeWidth={element.strokeWidth ?? 2}
-                strokeDasharray={element.strokeStyle === 'dashed' ? '6 4' : element.strokeStyle === 'dotted' ? '2 4' : undefined}
+                strokeDasharray={
+                  element.strokeStyle === 'dashed'
+                    ? '6 4'
+                    : element.strokeStyle === 'dotted'
+                      ? '2 4'
+                      : undefined
+                }
               />
             </svg>
             {element.text && (
@@ -1192,7 +1370,9 @@ export const ElementRenderer: React.FC<ElementRendererProps> = ({
               style={{
                 color: iconColor,
                 opacity: element.opacity ?? 1,
-                filter: element.glossEffect ? 'drop-shadow(0 2px 4px rgba(37, 99, 235, 0.25))' : undefined,
+                filter: element.glossEffect
+                  ? 'drop-shadow(0 2px 4px rgba(37, 99, 235, 0.25))'
+                  : undefined,
               }}
             />
           </div>
@@ -1290,7 +1470,9 @@ export const ElementRenderer: React.FC<ElementRendererProps> = ({
             }}
           >
             <div className="flex items-center justify-between gap-2">
-              <span className="text-[10px] font-bold text-slate-500">{element.subtitle || 'مؤشر الأداء الرئيسي'}</span>
+              <span className="text-[10px] font-bold text-slate-500">
+                {element.subtitle || 'مؤشر الأداء الرئيسي'}
+              </span>
               <span
                 className="w-7 h-7 rounded-lg bg-blue-50 border border-blue-100 flex items-center justify-center text-blue-600"
                 style={{ color: element.textColor || '#2563eb' }}
@@ -1298,8 +1480,12 @@ export const ElementRenderer: React.FC<ElementRendererProps> = ({
                 <KpiIcon className="w-4 h-4" />
               </span>
             </div>
-            <strong className="text-lg font-black text-slate-900 leading-none">{element.text || '٩٨٪'}</strong>
-            <span className="text-[10px] font-semibold text-emerald-600">{element.calloutDescription || 'نمو ١٢٪ عن الربع السابق'}</span>
+            <strong className="text-lg font-black text-slate-900 leading-none">
+              {element.text || '٩٨٪'}
+            </strong>
+            <span className="text-[10px] font-semibold text-emerald-600">
+              {element.calloutDescription || 'نمو ١٢٪ عن الربع السابق'}
+            </span>
           </div>
         );
       }
@@ -1317,7 +1503,9 @@ export const ElementRenderer: React.FC<ElementRendererProps> = ({
             }}
           >
             <div className="flex items-center justify-between mb-2">
-              <span className="text-[10px] font-bold text-amber-700">{element.subtitle || 'ملاحظة'}</span>
+              <span className="text-[10px] font-bold text-amber-700">
+                {element.subtitle || 'ملاحظة'}
+              </span>
               <MapPin className="w-3.5 h-3.5 text-amber-500" />
             </div>
             <p
@@ -1331,9 +1519,13 @@ export const ElementRenderer: React.FC<ElementRendererProps> = ({
                 setIsEditingInline(true);
               }}
             >
-              {element.text || element.calloutDescription || 'انقر بالزر الأيمن لتحرير نص الملاحظة.'}
+              {element.text ||
+                element.calloutDescription ||
+                'انقر بالزر الأيمن لتحرير نص الملاحظة.'}
             </p>
-            <span className="text-[9px] text-slate-400 mt-2 text-left">أُنشئت في الكانفا الفيكتوري</span>
+            <span className="text-[9px] text-slate-400 mt-2 text-left">
+              أُنشئت في الكانفا الفيكتوري
+            </span>
           </div>
         );
 
@@ -1411,8 +1603,8 @@ export const ElementRenderer: React.FC<ElementRendererProps> = ({
                   element.strokeStyle === 'dashed'
                     ? '6 4'
                     : element.strokeStyle === 'dotted'
-                    ? '2 4'
-                    : undefined
+                      ? '2 4'
+                      : undefined
                 }
               />
             </svg>

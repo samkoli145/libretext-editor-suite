@@ -23,7 +23,10 @@
  * ═══════════════════════════════════════════════════════════════════════════
  */
 
-import type { DocumentLayer, GridPatternType } from '../shared/lib-core/document-pipeline/layer-document-compositor';
+import type {
+  DocumentLayer,
+  GridPatternType,
+} from '../shared/lib-core/document-pipeline/layer-document-compositor';
 import type { FloatingImageItem } from '../shared/components/media/FloatingImageLayer';
 import type { CalloutVariant } from '../shared/components/typography/AcademicCalloutBox';
 
@@ -52,12 +55,7 @@ export type StampVariant =
   | 'perfect-score';
 
 export type ShapeGeometryType =
-  | 'rectangle'
-  | 'rounded-rectangle'
-  | 'circle'
-  | 'ellipse'
-  | 'arrow'
-  | 'line';
+  'rectangle' | 'rounded-rectangle' | 'circle' | 'ellipse' | 'arrow' | 'line';
 
 export type BorderStrokeStyle = 'solid' | 'dashed' | 'dotted';
 

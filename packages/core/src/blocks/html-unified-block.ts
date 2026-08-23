@@ -4,7 +4,7 @@
  * ═══════════════════════════════════════════════════════════════════════════
  * 📄 الملف: html-unified-block.ts
  * 📂 المسار: packages/core/src/blocks/html-unified-block.ts
- * 🎯 الهدف الرئيسي: توحيد أدوات محرر Canva و PDF والمستندات الغنية ومحرر واجهة 
+ * 🎯 الهدف الرئيسي: توحيد أدوات محرر Canva و PDF والمستندات الغنية ومحرر واجهة
  *    المستخدم في كتلة HTML موحدة (Headless Core) قابلة للتوسع.
  * 📋 المعايير: Zero-Dependency, Pure Light Theme, Mouse-Only, < 50 lines/function.
  * 🧪 الاختبارات: packages/core/tests/blocks/html-unified-block.test.ts

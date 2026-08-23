@@ -207,7 +207,12 @@ export const jsonPack: LanguagePack = {
   completion: {
     languageId: 'json',
     provideCompletions: () => [
-      { label: '"key": value', kind: 'property' as const, detail: 'زوج مفتاح/قيمة JSON', insertText: '"key": ' },
+      {
+        label: '"key": value',
+        kind: 'property' as const,
+        detail: 'زوج مفتاح/قيمة JSON',
+        insertText: '"key": ',
+      },
       { label: '{ }', kind: 'snippet' as const, detail: 'كائن JSON', insertText: '{\n  \n}' },
       { label: '[ ]', kind: 'snippet' as const, detail: 'مصفوفة JSON', insertText: '[\n  \n]' },
     ],

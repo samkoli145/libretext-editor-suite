@@ -79,10 +79,26 @@ export interface MindMapConnector {
 }
 
 export const MINDMAP_THEMES = [
-  { name: 'أزرق عصري', root: '#2563eb', branches: ['#3b82f6', '#0ea5e9', '#06b6d4', '#6366f1', '#8b5cf6'] },
-  { name: 'طبيعي زمردي', root: '#059669', branches: ['#10b981', '#14b8a6', '#84cc16', '#22c55e', '#0d9488'] },
-  { name: 'دافئ احترافي', root: '#d97706', branches: ['#f59e0b', '#ea580c', '#e11d48', '#d946ef', '#f97316'] },
-  { name: 'بنفسجي ملكي', root: '#7c3aed', branches: ['#8b5cf6', '#a855f7', '#ec4899', '#3b82f6', '#6366f1'] },
+  {
+    name: 'أزرق عصري',
+    root: '#2563eb',
+    branches: ['#3b82f6', '#0ea5e9', '#06b6d4', '#6366f1', '#8b5cf6'],
+  },
+  {
+    name: 'طبيعي زمردي',
+    root: '#059669',
+    branches: ['#10b981', '#14b8a6', '#84cc16', '#22c55e', '#0d9488'],
+  },
+  {
+    name: 'دافئ احترافي',
+    root: '#d97706',
+    branches: ['#f59e0b', '#ea580c', '#e11d48', '#d946ef', '#f97316'],
+  },
+  {
+    name: 'بنفسجي ملكي',
+    root: '#7c3aed',
+    branches: ['#8b5cf6', '#a855f7', '#ec4899', '#3b82f6', '#6366f1'],
+  },
 ];
 
 export class MindMapEngine {
@@ -124,8 +140,22 @@ export class MindMapEngine {
           level: 1,
           isExpanded: true,
           children: [
-            { id: 'sub-1-1', parentId: 'branch-1', text: 'تحديد الأهداف', level: 2, color: '#93c5fd', textColor: '#1e3a8a' },
-            { id: 'sub-1-2', parentId: 'branch-1', text: 'الجدول الزمني', level: 2, color: '#93c5fd', textColor: '#1e3a8a' },
+            {
+              id: 'sub-1-1',
+              parentId: 'branch-1',
+              text: 'تحديد الأهداف',
+              level: 2,
+              color: '#93c5fd',
+              textColor: '#1e3a8a',
+            },
+            {
+              id: 'sub-1-2',
+              parentId: 'branch-1',
+              text: 'الجدول الزمني',
+              level: 2,
+              color: '#93c5fd',
+              textColor: '#1e3a8a',
+            },
           ],
         },
         {
@@ -139,8 +169,22 @@ export class MindMapEngine {
           level: 1,
           isExpanded: true,
           children: [
-            { id: 'sub-2-1', parentId: 'branch-2', text: 'واجهات المستخدم', level: 2, color: '#a7f3d0', textColor: '#064e3b' },
-            { id: 'sub-2-2', parentId: 'branch-2', text: 'مخططات التدفق', level: 2, color: '#a7f3d0', textColor: '#064e3b' },
+            {
+              id: 'sub-2-1',
+              parentId: 'branch-2',
+              text: 'واجهات المستخدم',
+              level: 2,
+              color: '#a7f3d0',
+              textColor: '#064e3b',
+            },
+            {
+              id: 'sub-2-2',
+              parentId: 'branch-2',
+              text: 'مخططات التدفق',
+              level: 2,
+              color: '#a7f3d0',
+              textColor: '#064e3b',
+            },
           ],
         },
         {
@@ -154,8 +198,22 @@ export class MindMapEngine {
           level: 1,
           isExpanded: true,
           children: [
-            { id: 'sub-3-1', parentId: 'branch-3', text: 'بناء المكونات', level: 2, color: '#fde68a', textColor: '#78350f' },
-            { id: 'sub-3-2', parentId: 'branch-3', text: 'المعالجة والأمان', level: 2, color: '#fde68a', textColor: '#78350f' },
+            {
+              id: 'sub-3-1',
+              parentId: 'branch-3',
+              text: 'بناء المكونات',
+              level: 2,
+              color: '#fde68a',
+              textColor: '#78350f',
+            },
+            {
+              id: 'sub-3-2',
+              parentId: 'branch-3',
+              text: 'المعالجة والأمان',
+              level: 2,
+              color: '#fde68a',
+              textColor: '#78350f',
+            },
           ],
         },
         {
@@ -169,8 +227,22 @@ export class MindMapEngine {
           level: 1,
           isExpanded: true,
           children: [
-            { id: 'sub-4-1', parentId: 'branch-4', text: 'مراجعة الأداء', level: 2, color: '#ddd6fe', textColor: '#4c1d95' },
-            { id: 'sub-4-2', parentId: 'branch-4', text: 'تجهيز المستندات', level: 2, color: '#ddd6fe', textColor: '#4c1d95' },
+            {
+              id: 'sub-4-1',
+              parentId: 'branch-4',
+              text: 'مراجعة الأداء',
+              level: 2,
+              color: '#ddd6fe',
+              textColor: '#4c1d95',
+            },
+            {
+              id: 'sub-4-2',
+              parentId: 'branch-4',
+              text: 'تجهيز المستندات',
+              level: 2,
+              color: '#ddd6fe',
+              textColor: '#4c1d95',
+            },
           ],
         },
       ],
@@ -180,7 +252,11 @@ export class MindMapEngine {
   /**
    * حساب الإحداثيات والتموضع التلقائي لجميع العقد
    */
-  public layoutMindMap(root: MindMapNode, centerX = 500, centerY = 350): { nodes: MindMapNode[]; connectors: MindMapConnector[] } {
+  public layoutMindMap(
+    root: MindMapNode,
+    centerX = 500,
+    centerY = 350,
+  ): { nodes: MindMapNode[]; connectors: MindMapConnector[] } {
     const nodes: MindMapNode[] = [];
     const connectors: MindMapConnector[] = [];
 
@@ -293,7 +369,7 @@ export class MindMapEngine {
     const connectorsSvg = connectors
       .map(
         (c) =>
-          `<path d="${c.pathD}" fill="none" stroke="${c.color}" stroke-width="${c.width}" stroke-linecap="round" />`
+          `<path d="${c.pathD}" fill="none" stroke="${c.color}" stroke-width="${c.width}" stroke-linecap="round" />`,
       )
       .join('\n');
 
@@ -314,10 +390,14 @@ export class MindMapEngine {
   <text x="${w / 2}" y="${n.subtitle ? h / 2 - 2 : h / 2 + 4}" fill="${textColor}" font-size="${isRoot ? 14 : 12}" font-weight="bold" text-anchor="middle" font-family="sans-serif">
     ${n.text}
   </text>
-  ${n.subtitle ? `
+  ${
+    n.subtitle
+      ? `
   <text x="${w / 2}" y="${h / 2 + 14}" fill="${textColor}" opacity="0.85" font-size="10" text-anchor="middle" font-family="sans-serif">
     ${n.subtitle}
-  </text>` : ''}
+  </text>`
+      : ''
+  }
 </g>`.trim();
       })
       .join('\n');

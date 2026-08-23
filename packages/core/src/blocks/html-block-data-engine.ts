@@ -61,9 +61,9 @@ import type { HtmlBlockNode, TailwindClasses } from './html-block-types';
 
 /**
  * حساب فئات DataTable من الخصائص.
- * 
+ *
  * ⚠️ يُضيف فئات الجدول الافتراضية.
- * 
+ *
  * // @function-index: #39/4 — computeTableStyles
  */
 export function computeTableStyles(): TailwindClasses {
@@ -75,11 +75,11 @@ export function computeTableStyles(): TailwindClasses {
 
 /**
  * فرز الجدول حسب عمود معين.
- * 
+ *
  * ⚠️ يُعيد نسخة جديدة من العقدة (immutable).
  * ⚠️ columnIndex يجب أن يكون ضمن الحدود.
  * ⚠️ direction يجب أن يكون 'asc' أو 'desc'.
- * 
+ *
  * // @function-index: #40/4 — sortTable
  */
 export function sortTable(
@@ -89,17 +89,17 @@ export function sortTable(
 ): HtmlBlockNode {
   const headers = node.props.headers as string[] | undefined;
   const rows = node.props.rows as string[][] | undefined;
-  
+
   if (!headers || !rows) return node;
   if (columnIndex < 0 || columnIndex >= headers.length) return node;
-  
+
   const sorted = [...rows].sort((a, b) => {
     const va = a[columnIndex] ?? '';
     const vb = b[columnIndex] ?? '';
     const cmp = va.localeCompare(vb, undefined, { numeric: true });
     return direction === 'asc' ? cmp : -cmp;
   });
-  
+
   return {
     ...node,
     props: { ...node.props, rows: sorted, sortColumn: columnIndex, sortDirection: direction },
@@ -108,11 +108,11 @@ export function sortTable(
 
 /**
  * ترقيم صفحات الجدول.
- * 
+ *
  * ⚠️ يُعيد نسخة جديدة من العقدة (immutable).
  * ⚠️ pageIndex يجب أن يكون ضمن الحدود.
  * ⚠️ pageSize يجب أن يكون رقم موجب.
- * 
+ *
  * // @function-index: #41/4 — paginateTable
  */
 export function paginateTable(
@@ -122,13 +122,13 @@ export function paginateTable(
 ): HtmlBlockNode {
   const rows = node.props.rows as string[][] | undefined;
   if (!rows) return node;
-  
+
   const totalPages = Math.ceil(rows.length / pageSize) || 1;
   const page = Math.max(0, Math.min(totalPages - 1, pageIndex));
   const start = page * pageSize;
   const end = start + pageSize;
   const pageRows = rows.slice(start, end);
-  
+
   return {
     ...node,
     props: { ...node.props, pageRows, pageIndex: page, pageSize, totalPages },
@@ -141,9 +141,9 @@ export function paginateTable(
 
 /**
  * حساب فئات StatCard من الخصائص.
- * 
+ *
  * ⚠️ يُضيف فئات البطاقة الافتراضية.
- * 
+ *
  * // @function-index: #42/4 — computeStatCardStyles
  */
 export function computeStatCardStyles(): TailwindClasses {
@@ -160,9 +160,9 @@ export function computeStatCardStyles(): TailwindClasses {
 
 /**
  * حساب فئات Pagination من الخصائص.
- * 
+ *
  * ⚠️ يُضيف فئات ترقيم الصفحات الافتراضية.
- * 
+ *
  * // @function-index: #43/4 — computePaginationStyles
  */
 export function computePaginationStyles(): TailwindClasses {
@@ -173,10 +173,10 @@ export function computePaginationStyles(): TailwindClasses {
 
 /**
  * تحديث خصائص DataTable.
- * 
+ *
  * ⚠️ يُعيد نسخة جديدة من العقدة (immutable).
  * ⚠️ يحسب الفئات تلقائياً من الخصائص الجديدة.
- * 
+ *
  * // @function-index: #44/4 — updateTableProps
  */
 export function updateTableProps(
@@ -184,7 +184,7 @@ export function updateTableProps(
   props: Record<string, unknown>,
 ): HtmlBlockNode {
   const styles = computeTableStyles();
-  
+
   return {
     ...node,
     props: { ...node.props, ...props },

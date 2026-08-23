@@ -26,7 +26,10 @@
  */
 
 import React, { useCallback, useState } from 'react';
-import { UnifiedIngestionPipeline, type IngestionResult } from '../../core/engines/UnifiedIngestionPipeline';
+import {
+  UnifiedIngestionPipeline,
+  type IngestionResult,
+} from '../../core/engines/UnifiedIngestionPipeline';
 
 export interface UseIngestionDropZoneOptions {
   onIngest: (result: IngestionResult) => void | Promise<void>;
@@ -68,7 +71,7 @@ export function useIngestionDropZone(options: UseIngestionDropZoneOptions) {
         setIsProcessing(false);
       }
     },
-    [options]
+    [options],
   );
 
   const handlePaste = useCallback(
@@ -92,7 +95,7 @@ export function useIngestionDropZone(options: UseIngestionDropZoneOptions) {
         setIsProcessing(false);
       }
     },
-    [options]
+    [options],
   );
 
   return {

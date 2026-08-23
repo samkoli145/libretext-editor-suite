@@ -37,7 +37,7 @@ export async function cmdVerify(filePaths: string[]): Promise<void> {
   const lintResult = await runSingleCheck('lint');
 
   const baseResults = [tscResult, vitestResult, lintResult];
-  const baseAllPassed = baseResults.every(r => r.passed);
+  const baseAllPassed = baseResults.every((r) => r.passed);
 
   console.log('📊 نتائج الفحوصات الأساسية:');
   for (const r of baseResults) {
@@ -88,7 +88,7 @@ export async function cmdCommitReady(filePaths: string[]): Promise<void> {
   const result = await autoVerify(
     buildPatchFromFile(filePaths[0] || 'package.json'),
     ['tsc'],
-    runSingleCheck
+    runSingleCheck,
   );
   if (result.ok) {
     console.log('✅ المشروع جاهز للالتزام.');

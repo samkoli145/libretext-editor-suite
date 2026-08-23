@@ -23,38 +23,34 @@
  * ═══════════════════════════════════════════════════════════════════════════
  */
 
-import type { ComponentType } from "react";
+import type { ComponentType } from 'react';
 
 /**
  * أنواع المستندات المعروفة داخل المشروع وصيغ التنسيقات المدعومة
  */
-export type KnownDocumentType =
-  | "rich-text"
-  | "ui-page"
-  | "canvas"
-  | "pdf";
+export type KnownDocumentType = 'rich-text' | 'ui-page' | 'canvas' | 'pdf';
 
 /**
  * التنسيقات والامتدادات المدعومة في النظام
  */
 export type SupportedFileFormat =
-  | "doc"
-  | "docx"
-  | "odt"
-  | "md"
-  | "markdown"
-  | "html"
-  | "htm"
-  | "txt"
-  | "pdf"
-  | "pdf.json"
-  | "canvas.json"
-  | "svg"
-  | "png"
-  | "ui.json"
-  | "tsx"
-  | "jsx"
-  | "json";
+  | 'doc'
+  | 'docx'
+  | 'odt'
+  | 'md'
+  | 'markdown'
+  | 'html'
+  | 'htm'
+  | 'txt'
+  | 'pdf'
+  | 'pdf.json'
+  | 'canvas.json'
+  | 'svg'
+  | 'png'
+  | 'ui.json'
+  | 'tsx'
+  | 'jsx'
+  | 'json';
 
 export type DocumentType = KnownDocumentType | (string & {});
 
@@ -134,4 +130,3 @@ export interface SharedFormattingState {
   letterSpacing?: number;
   textTransform?: 'none' | 'uppercase' | 'lowercase' | 'capitalize';
 }
-

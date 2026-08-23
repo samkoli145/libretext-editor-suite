@@ -6,6 +6,7 @@
   "description": "مكتبة محررات نصية متعددة الصيغ مبنية على TypeScript بمعمارية كتلية - Multi-format text editor library built with TypeScript block-based architecture",
   "author": "Hossam El-Din Abdel-Moaty El-Khouly",
   "license": "MIT",
+  "packageManager": "pnpm@11.18.0",
   "scripts": {
     "dev": "pnpm --filter @libretext/playground dev",
     "build": "turbo run build",

@@ -38,7 +38,10 @@ import {
 } from '../../../shared/vector-engine';
 import type { GuideLine } from '../core';
 import { CanvasCollaboratorsOverlay } from './CanvasCollaboratorsOverlay';
-import type { PeerAwarenessEngine, RemotePeer } from '../../../shared/lib-core/collaboration/peer-awareness-engine';
+import type {
+  PeerAwarenessEngine,
+  RemotePeer,
+} from '../../../shared/lib-core/collaboration/peer-awareness-engine';
 
 export interface CanvasViewportProps {
   viewportContainerRef: React.RefObject<HTMLDivElement | null>;
@@ -67,7 +70,11 @@ export interface CanvasViewportProps {
   peerAwarenessEngine?: PeerAwarenessEngine;
   onJumpToPeer?: (peer: RemotePeer) => void;
   marqueeBox?: { x: number; y: number; width: number; height: number } | null;
-  activeDragFeedback?: { isAxisLocked?: boolean; lockedAxis?: 'horizontal' | 'vertical' | null; isCloneActive?: boolean } | null;
+  activeDragFeedback?: {
+    isAxisLocked?: boolean;
+    lockedAxis?: 'horizontal' | 'vertical' | null;
+    isCloneActive?: boolean;
+  } | null;
   onViewportMouseDown: (e: React.MouseEvent) => void;
   onStageMouseDown: (e: React.MouseEvent) => void;
   onElementMouseDown: (e: React.MouseEvent, el: CanvasElement) => void;
@@ -191,7 +198,11 @@ export function CanvasViewport({
           onMouseDown={onStageMouseDown}
         >
           {/* Mechanical Event & Codeless Interaction Guides Overlay */}
-          <InteractiveGuidesOverlay elements={elements} selectedElementId={selectedElementId} zoom={zoom} />
+          <InteractiveGuidesOverlay
+            elements={elements}
+            selectedElementId={selectedElementId}
+            zoom={zoom}
+          />
 
           {/* Active Bézier Pen Tool Drawing Overlay */}
           {activeTool === 'bezier-pen' && (
@@ -236,7 +247,17 @@ export function CanvasViewport({
                 onDoubleClick={(e) => {
                   e.stopPropagation();
                   if (
-                    ['path', 'freehand', 'polygon', 'star', 'triangle', 'diamond', 'hexagon', 'rectangle', 'circle'].includes(el.type) ||
+                    [
+                      'path',
+                      'freehand',
+                      'polygon',
+                      'star',
+                      'triangle',
+                      'diamond',
+                      'hexagon',
+                      'rectangle',
+                      'circle',
+                    ].includes(el.type) ||
                     Boolean(el.pathData) ||
                     Boolean(el.points)
                   ) {
@@ -348,22 +369,22 @@ export function CanvasViewport({
           )}
 
           {/* Live Drag Interaction Feedback Badge (Shift Axis Lock / Alt-Ctrl Clone) */}
-          {activeDragFeedback && (activeDragFeedback.isAxisLocked || activeDragFeedback.isCloneActive) && (
-            <div
-              className="fixed bottom-12 left-1/2 -translate-x-1/2 z-50 px-3.5 py-1.5 bg-white/95 text-slate-800 text-xs font-semibold rounded-full shadow-lg border border-slate-200 flex items-center gap-2 pointer-events-none transition-all"
-            >
-              {activeDragFeedback.isCloneActive && (
-                <span className="flex items-center gap-1 text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
-                  <span className="font-bold">+</span> سحب مع النسخ (Alt/Ctrl)
-                </span>
-              )}
-              {activeDragFeedback.isAxisLocked && (
-                <span className="flex items-center gap-1 text-blue-600 bg-blue-50 px-2 py-0.5 rounded-full border border-blue-200">
-                  🔒 قفل المحور ({activeDragFeedback.lockedAxis === 'horizontal' ? 'أفقي ↔' : 'عمودي ↕'})
-                </span>
-              )}
-            </div>
-          )}
+          {activeDragFeedback &&
+            (activeDragFeedback.isAxisLocked || activeDragFeedback.isCloneActive) && (
+              <div className="fixed bottom-12 left-1/2 -translate-x-1/2 z-50 px-3.5 py-1.5 bg-white/95 text-slate-800 text-xs font-semibold rounded-full shadow-lg border border-slate-200 flex items-center gap-2 pointer-events-none transition-all">
+                {activeDragFeedback.isCloneActive && (
+                  <span className="flex items-center gap-1 text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
+                    <span className="font-bold">+</span> سحب مع النسخ (Alt/Ctrl)
+                  </span>
+                )}
+                {activeDragFeedback.isAxisLocked && (
+                  <span className="flex items-center gap-1 text-blue-600 bg-blue-50 px-2 py-0.5 rounded-full border border-blue-200">
+                    🔒 قفل المحور (
+                    {activeDragFeedback.lockedAxis === 'horizontal' ? 'أفقي ↔' : 'عمودي ↕'})
+                  </span>
+                )}
+              </div>
+            )}
         </div>
       </main>
     </CanvasRulers>

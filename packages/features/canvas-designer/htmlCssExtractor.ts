@@ -48,7 +48,7 @@ export class HtmlCssExtractor {
     originX = 80,
     originY = 80,
     layerId = 'layer-main',
-    stageWidth = 1200
+    stageWidth = 1200,
   ): ExtractedWebResult {
     const parser = new DOMParser();
     const doc = parser.parseFromString(html, 'text/html');
@@ -56,7 +56,7 @@ export class HtmlCssExtractor {
     const elements: CanvasElement[] = [];
     const colors = new Set<string>();
     const fonts = new Set<string>();
-    let zIndexCounter = 10;
+    const zIndexCounter = 10;
 
     // استخراج عناصر body
     const bodyChildren = Array.from(doc.body.children);
@@ -78,7 +78,7 @@ export class HtmlCssExtractor {
           layerId,
           zIndexCounter,
           maxAvailableWidth,
-          stageWidth
+          stageWidth,
         );
 
         if (rootId) {
@@ -112,7 +112,7 @@ export class HtmlCssExtractor {
     layerId: string,
     zIndexCounter: number,
     maxAvailableWidth = 1160,
-    stageWidth = 1200
+    stageWidth = 1200,
   ): string | null {
     const tagName = el.tagName.toLowerCase();
 
@@ -132,7 +132,11 @@ export class HtmlCssExtractor {
     if (parsedStyles['font-family']) fonts.add(parsedStyles['font-family']);
 
     const elId = `el-${tagName}-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`;
-    let { type, width, height, isContainer } = this.determineElementTypeAndDimensions(el, tagName, parsedStyles);
+    const { type, width, height, isContainer } = this.determineElementTypeAndDimensions(
+      el,
+      tagName,
+      parsedStyles,
+    );
 
     // Responsive Clamping for Root Elements (parentId === undefined)
     let finalX = x;
@@ -156,7 +160,10 @@ export class HtmlCssExtractor {
       .filter(Boolean)
       .join(' ');
 
-    if (directText || ['button', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'span', 'a', 'badge'].includes(tagName)) {
+    if (
+      directText ||
+      ['button', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'span', 'a', 'badge'].includes(tagName)
+    ) {
       textContent = directText || el.innerText?.trim();
     }
 
@@ -174,10 +181,20 @@ export class HtmlCssExtractor {
       text: textContent,
       fillColor: parsedStyles['background-color'] || (isContainer ? '#ffffff' : undefined),
       strokeColor: parsedStyles['border-color'] || (isContainer ? '#e2e8f0' : undefined),
-      strokeWidth: parsedStyles['border-width'] ? parseInt(parsedStyles['border-width'], 10) : (isContainer ? 1 : 0),
-      borderRadius: parsedStyles['border-radius'] ? parseInt(parsedStyles['border-radius'], 10) : (isContainer ? 10 : 4),
+      strokeWidth: parsedStyles['border-width']
+        ? parseInt(parsedStyles['border-width'], 10)
+        : isContainer
+          ? 1
+          : 0,
+      borderRadius: parsedStyles['border-radius']
+        ? parseInt(parsedStyles['border-radius'], 10)
+        : isContainer
+          ? 10
+          : 4,
       textColor: parsedStyles.color || '#0f172a',
-      fontSize: parsedStyles['font-size'] ? parseInt(parsedStyles['font-size'], 10) : this.getDefaultFontSize(tagName),
+      fontSize: parsedStyles['font-size']
+        ? parseInt(parsedStyles['font-size'], 10)
+        : this.getDefaultFontSize(tagName),
       textAlign: (parsedStyles['text-align'] as any) || 'right',
       rawCss: inlineStyle || undefined,
       tailwindClasses: tailwindClasses || classList || undefined,
@@ -206,7 +223,7 @@ export class HtmlCssExtractor {
         layerId,
         zIndexCounter + 1,
         width - 32,
-        width
+        width,
       );
 
       if (childId) {
@@ -256,7 +273,7 @@ export class HtmlCssExtractor {
   private static determineElementTypeAndDimensions(
     el: HTMLElement,
     tagName: string,
-    styles: Record<string, string>
+    styles: Record<string, string>,
   ): { type: CanvasElementType; width: number; height: number; isContainer: boolean } {
     let width = styles.width ? parseInt(styles.width, 10) : 0;
     let height = styles.height ? parseInt(styles.height, 10) : 0;
@@ -334,7 +351,7 @@ export class HtmlCssExtractor {
   private static computeTailwindClasses(
     tagName: string,
     styles: Record<string, string>,
-    existingClasses: string
+    existingClasses: string,
   ): string {
     const classes: string[] = [];
 

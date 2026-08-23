@@ -40,14 +40,13 @@ export interface RichTextData {
   content: string | unknown;
 }
 
-export const emptyRichTextContent = "<p><br></p>";
+export const emptyRichTextContent = '<p><br></p>';
 
 /**
  * استخراج المحتوى كـ HTML دلالي قياسي
  */
 export function normalizeRichTextContent(content?: unknown): string {
   if (!content) return emptyRichTextContent;
-  if (typeof content === "string") return content;
+  if (typeof content === 'string') return content;
   return emptyRichTextContent;
 }
-

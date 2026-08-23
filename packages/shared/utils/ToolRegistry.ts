@@ -32,11 +32,7 @@ import {
   type ArithmeticToolItem,
   type EditorExecutionContext,
 } from '../tools/ToolRegistry';
-import {
-  type UnifiedToolItem,
-  type ToolCategory,
-  UNIFIED_TOOL_ITEMS,
-} from '../tools/unifiedTools';
+import { type UnifiedToolItem, type ToolCategory, UNIFIED_TOOL_ITEMS } from '../tools/unifiedTools';
 
 export {
   ToolRegistry,
@@ -59,10 +55,7 @@ export function getUnifiedToolRegistry(): ToolRegistry {
 /**
  * تنفيذ أداة مباشرة بنقرة فأرة
  */
-export function executeUnifiedTool(
-  toolId: string,
-  context: EditorExecutionContext
-): boolean {
+export function executeUnifiedTool(toolId: string, context: EditorExecutionContext): boolean {
   return ToolRegistry.getInstance().executeTool(toolId, context);
 }
 

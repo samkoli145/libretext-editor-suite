@@ -26,16 +26,52 @@ export const OPERATOR_SYMBOLS: SymbolDefinition[] = [
 ];
 
 export const RELATION_SYMBOLS: SymbolDefinition[] = [
-  { command: '\\leq', symbol: '≤', name: 'leq', category: 'relations', description: 'أصغر أو يساوي' },
-  { command: '\\geq', symbol: '≥', name: 'geq', category: 'relations', description: 'أكبر أو يساوي' },
+  {
+    command: '\\leq',
+    symbol: '≤',
+    name: 'leq',
+    category: 'relations',
+    description: 'أصغر أو يساوي',
+  },
+  {
+    command: '\\geq',
+    symbol: '≥',
+    name: 'geq',
+    category: 'relations',
+    description: 'أكبر أو يساوي',
+  },
   { command: '\\neq', symbol: '≠', name: 'neq', category: 'relations', description: 'لا يساوي' },
-  { command: '\\approx', symbol: '≈', name: 'approx', category: 'relations', description: 'تقريباً' },
+  {
+    command: '\\approx',
+    symbol: '≈',
+    name: 'approx',
+    category: 'relations',
+    description: 'تقريباً',
+  },
 ];
 
 export const ARROW_SYMBOLS: SymbolDefinition[] = [
-  { command: '\\rightarrow', symbol: '→', name: 'rightarrow', category: 'arrows', description: 'سهم يمين' },
-  { command: '\\leftarrow', symbol: '←', name: 'leftarrow', category: 'arrows', description: 'سهم يسار' },
-  { command: '\\Rightarrow', symbol: '⇒', name: 'Rightarrow', category: 'arrows', description: 'يستلزم' },
+  {
+    command: '\\rightarrow',
+    symbol: '→',
+    name: 'rightarrow',
+    category: 'arrows',
+    description: 'سهم يمين',
+  },
+  {
+    command: '\\leftarrow',
+    symbol: '←',
+    name: 'leftarrow',
+    category: 'arrows',
+    description: 'سهم يسار',
+  },
+  {
+    command: '\\Rightarrow',
+    symbol: '⇒',
+    name: 'Rightarrow',
+    category: 'arrows',
+    description: 'يستلزم',
+  },
 ];
 
 export const SET_SYMBOLS: SymbolDefinition[] = [
@@ -81,28 +117,32 @@ export const ALL_SYMBOLS: SymbolDefinition[] = [
 ];
 
 export function findSymbol(query: string): SymbolDefinition | null {
-  const q = query.toLowerCase().trim()
-  return ALL_SYMBOLS.find(s =>
-    s.command.toLowerCase() === q ||
-    s.name.toLowerCase() === q ||
-    s.symbol === q ||
-    s.description?.toLowerCase() === q
-  ) ?? null
+  const q = query.toLowerCase().trim();
+  return (
+    ALL_SYMBOLS.find(
+      (s) =>
+        s.command.toLowerCase() === q ||
+        s.name.toLowerCase() === q ||
+        s.symbol === q ||
+        s.description?.toLowerCase() === q,
+    ) ?? null
+  );
 }
 
 export function searchSymbols(query: string): SymbolDefinition[] {
-  if (!query.trim()) return ALL_SYMBOLS
-  const q = query.toLowerCase()
-  return ALL_SYMBOLS.filter(s =>
-    s.command.toLowerCase().includes(q) ||
-    s.name.toLowerCase().includes(q) ||
-    s.symbol.includes(q) ||
-    (s.description?.toLowerCase().includes(q) ?? false)
-  )
+  if (!query.trim()) return ALL_SYMBOLS;
+  const q = query.toLowerCase();
+  return ALL_SYMBOLS.filter(
+    (s) =>
+      s.command.toLowerCase().includes(q) ||
+      s.name.toLowerCase().includes(q) ||
+      s.symbol.includes(q) ||
+      (s.description?.toLowerCase().includes(q) ?? false),
+  );
 }
 
 export function symbolsByCategory(category: SymbolDefinition['category']): SymbolDefinition[] {
-  return ALL_SYMBOLS.filter(s => s.category === category)
+  return ALL_SYMBOLS.filter((s) => s.category === category);
 }
 
 export const ENVIRONMENTS: EnvironmentDefinition[] = [
@@ -111,7 +151,7 @@ export const ENVIRONMENTS: EnvironmentDefinition[] = [
 ];
 
 export function findEnvironment(name: string): EnvironmentDefinition | null {
-  return ENVIRONMENTS.find(e => e.name === name) ?? null
+  return ENVIRONMENTS.find((e) => e.name === name) ?? null;
 }
 
 export const CATEGORY_NAMES: Record<SymbolDefinition['category'], string> = {

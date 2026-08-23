@@ -39,8 +39,8 @@ export class ImageFiltersEngine {
   public static applyAdjustments(
     imageData: ImageData,
     brightness = 0, // -100 to 100
-    contrast = 0,   // -100 to 100
-    saturation = 0  // -100 to 100
+    contrast = 0, // -100 to 100
+    saturation = 0, // -100 to 100
   ): ImageData {
     const data = imageData.data;
     const bFactor = brightness * 2.55;
@@ -110,7 +110,7 @@ export class ImageFiltersEngine {
     imageData: ImageData,
     kernel: number[],
     divisor = 1,
-    offset = 0
+    offset = 0,
   ): ImageData {
     const w = imageData.width;
     const h = imageData.height;
@@ -119,7 +119,9 @@ export class ImageFiltersEngine {
 
     for (let y = 1; y < h - 1; y++) {
       for (let x = 1; x < w - 1; x++) {
-        let r = 0, g = 0, b = 0;
+        let r = 0,
+          g = 0,
+          b = 0;
 
         for (let ky = -1; ky <= 1; ky++) {
           for (let kx = -1; kx <= 1; kx++) {

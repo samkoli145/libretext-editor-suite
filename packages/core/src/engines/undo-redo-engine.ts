@@ -44,11 +44,22 @@ export function createUndoRedoEngine<T = unknown>(maxSize = 50) {
     return stack[pointer]!;
   }
 
-  function canUndo(): boolean { return pointer >= 0; }
-  function canRedo(): boolean { return pointer < stack.length - 1; }
-  function current(): Snapshot<T> | null { return pointer >= 0 ? stack[pointer]! : null; }
-  function clear(): void { stack = []; pointer = -1; }
-  function size(): number { return stack.length; }
+  function canUndo(): boolean {
+    return pointer >= 0;
+  }
+  function canRedo(): boolean {
+    return pointer < stack.length - 1;
+  }
+  function current(): Snapshot<T> | null {
+    return pointer >= 0 ? stack[pointer]! : null;
+  }
+  function clear(): void {
+    stack = [];
+    pointer = -1;
+  }
+  function size(): number {
+    return stack.length;
+  }
 
   return { push, undo, redo, canUndo, canRedo, current, clear, size };
 }

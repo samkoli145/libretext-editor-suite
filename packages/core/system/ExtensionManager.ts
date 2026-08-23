@@ -48,9 +48,7 @@ export class ExtensionManager {
       return ok(undefined);
     } catch (e) {
       const msg = e instanceof Error ? e.message : String(e);
-      return err(
-        new Error(`Failed to activate extension ${extension.id}: ${msg}`)
-      );
+      return err(new Error(`Failed to activate extension ${extension.id}: ${msg}`));
     }
   }
 
@@ -68,9 +66,7 @@ export class ExtensionManager {
       return ok(undefined);
     } catch (e) {
       const msg = e instanceof Error ? e.message : String(e);
-      return err(
-        new Error(`Failed to deactivate extension ${extensionId}: ${msg}`)
-      );
+      return err(new Error(`Failed to deactivate extension ${extensionId}: ${msg}`));
     }
   }
 

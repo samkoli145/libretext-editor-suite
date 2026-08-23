@@ -27,7 +27,7 @@
  * ═══════════════════════════════════════════════════════════════════════════
  */
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react';
 import {
   BezNode,
   Pt,
@@ -36,16 +36,16 @@ import {
   splitSegment,
   mirrorPoint,
   nearestT,
-} from '../../../shared/lib-core/geometry/bezier-curves'
-import { Check, Scissors, CornerDownRight } from 'lucide-react'
+} from '../../../shared/lib-core/geometry/bezier-curves';
+import { Check, Scissors, CornerDownRight } from 'lucide-react';
 
 export interface CanvasBezierShapeEditorProps {
-  elementId: string
-  pathData: string
-  elementBounds: { x: number; y: number; width: number; height: number }
-  zoom: number
-  onUpdatePath: (newD: string) => void
-  onClose: () => void
+  elementId: string;
+  pathData: string;
+  elementBounds: { x: number; y: number; width: number; height: number };
+  zoom: number;
+  onUpdatePath: (newD: string) => void;
+  onClose: () => void;
 }
 
 export function CanvasBezierShapeEditor({
@@ -57,108 +57,117 @@ export function CanvasBezierShapeEditor({
   onClose,
 }: CanvasBezierShapeEditorProps) {
   const [nodes, setNodes] = useState<BezNode[]>(() => {
-    const { nodes: parsedNodes } = parseBezier(pathData || 'M 0 0 C 40 0, 80 40, 120 40')
-    return parsedNodes
-  })
+    const { nodes: parsedNodes } = parseBezier(pathData || 'M 0 0 C 40 0, 80 40, 120 40');
+    return parsedNodes;
+  });
   const [isClosed, setIsClosed] = useState<boolean>(() => {
-    const { closed } = parseBezier(pathData || '')
-    return closed
-  })
-  const [selectedNodeIndex, setSelectedNodeIndex] = useState<number | null>(0)
+    const { closed } = parseBezier(pathData || '');
+    return closed;
+  });
+  const [selectedNodeIndex, setSelectedNodeIndex] = useState<number | null>(0);
 
-  const originX = elementBounds.x
-  const originY = elementBounds.y
+  const originX = elementBounds.x;
+  const originY = elementBounds.y;
 
   // تحديث المسار الخارجي
   const commitPath = (newNodes: BezNode[], closed: boolean) => {
-    const serialized = serializeBezier(newNodes, closed)
-    onUpdatePath(serialized)
-  }
+    const serialized = serializeBezier(newNodes, closed);
+    onUpdatePath(serialized);
+  };
 
   // سحب نقطة تثبيت (Anchor Drag)
   const handleAnchorMouseDown = (e: React.MouseEvent, index: number) => {
-    e.stopPropagation()
-    setSelectedNodeIndex(index)
+    e.stopPropagation();
+    setSelectedNodeIndex(index);
 
-    const startClientX = e.clientX
-    const startClientY = e.clientY
-    const initialNode = nodes[index]
-    const initialP = { ...initialNode.p }
-    const initialIn = initialNode.in ? { ...initialNode.in } : undefined
-    const initialOut = initialNode.out ? { ...initialNode.out } : undefined
+    const startClientX = e.clientX;
+    const startClientY = e.clientY;
+    const initialNode = nodes[index];
+    const initialP = { ...initialNode.p };
+    const initialIn = initialNode.in ? { ...initialNode.in } : undefined;
+    const initialOut = initialNode.out ? { ...initialNode.out } : undefined;
 
     const handleMouseMove = (moveEvent: MouseEvent) => {
-      const dx = (moveEvent.clientX - startClientX) / zoom
-      const dy = (moveEvent.clientY - startClientY) / zoom
+      const dx = (moveEvent.clientX - startClientX) / zoom;
+      const dy = (moveEvent.clientY - startClientY) / zoom;
 
       setNodes((prevNodes) => {
-        const nextNodes = [...prevNodes]
-        const newP = { x: Math.round(initialP.x + dx), y: Math.round(initialP.y + dy) }
-        const deltaX = newP.x - initialP.x
-        const deltaY = newP.y - initialP.y
+        const nextNodes = [...prevNodes];
+        const newP = { x: Math.round(initialP.x + dx), y: Math.round(initialP.y + dy) };
+        const deltaX = newP.x - initialP.x;
+        const deltaY = newP.y - initialP.y;
 
         nextNodes[index] = {
           ...initialNode,
           p: newP,
-          in: initialIn ? { x: Math.round(initialIn.x + deltaX), y: Math.round(initialIn.y + deltaY) } : undefined,
-          out: initialOut ? { x: Math.round(initialOut.x + deltaX), y: Math.round(initialOut.y + deltaY) } : undefined,
-        }
-        return nextNodes
-      })
-    }
+          in: initialIn
+            ? { x: Math.round(initialIn.x + deltaX), y: Math.round(initialIn.y + deltaY) }
+            : undefined,
+          out: initialOut
+            ? { x: Math.round(initialOut.x + deltaX), y: Math.round(initialOut.y + deltaY) }
+            : undefined,
+        };
+        return nextNodes;
+      });
+    };
 
     const handleMouseUp = () => {
-      window.removeEventListener('mousemove', handleMouseMove)
-      window.removeEventListener('mouseup', handleMouseUp)
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mouseup', handleMouseUp);
       setNodes((latest) => {
-        commitPath(latest, isClosed)
-        return latest
-      })
-    }
+        commitPath(latest, isClosed);
+        return latest;
+      });
+    };
 
-    window.addEventListener('mousemove', handleMouseMove)
-    window.addEventListener('mouseup', handleMouseUp)
-  }
+    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mouseup', handleMouseUp);
+  };
 
   // سحب مقبض بيزير (Handle Drag)
-  const handleHandleMouseDown = (
-    e: React.MouseEvent,
-    index: number,
-    handleType: 'in' | 'out'
-  ) => {
-    e.stopPropagation()
-    const startClientX = e.clientX
-    const startClientY = e.clientY
-    const node = nodes[index]
-    const targetHandle = handleType === 'in' ? node.in : node.out
-    if (!targetHandle) return
+  const handleHandleMouseDown = (e: React.MouseEvent, index: number, handleType: 'in' | 'out') => {
+    e.stopPropagation();
+    const startClientX = e.clientX;
+    const startClientY = e.clientY;
+    const node = nodes[index];
+    const targetHandle = handleType === 'in' ? node.in : node.out;
+    if (!targetHandle) return;
 
-    const initialHandle = { ...targetHandle }
+    const initialHandle = { ...targetHandle };
 
     const handleMouseMove = (moveEvent: MouseEvent) => {
-      const dx = (moveEvent.clientX - startClientX) / zoom
-      const dy = (moveEvent.clientY - startClientY) / zoom
-      const isAlt = moveEvent.altKey
+      const dx = (moveEvent.clientX - startClientX) / zoom;
+      const dy = (moveEvent.clientY - startClientY) / zoom;
+      const isAlt = moveEvent.altKey;
 
       setNodes((prevNodes) => {
-        const nextNodes = [...prevNodes]
-        const currentNode = nextNodes[index]
-        const newHandlePt = { x: Math.round(initialHandle.x + dx), y: Math.round(initialHandle.y + dy) }
+        const nextNodes = [...prevNodes];
+        const currentNode = nextNodes[index];
+        const newHandlePt = {
+          x: Math.round(initialHandle.x + dx),
+          y: Math.round(initialHandle.y + dy),
+        };
 
-        let newIn = currentNode.in
-        let newOut = currentNode.out
+        let newIn = currentNode.in;
+        let newOut = currentNode.out;
 
         if (handleType === 'in') {
-          newIn = newHandlePt
+          newIn = newHandlePt;
           if (!isAlt && !currentNode.corner && currentNode.out) {
-            const oppLen = Math.hypot(currentNode.out.x - currentNode.p.x, currentNode.out.y - currentNode.p.y)
-            newOut = mirrorPoint(currentNode.p, newIn, oppLen)
+            const oppLen = Math.hypot(
+              currentNode.out.x - currentNode.p.x,
+              currentNode.out.y - currentNode.p.y,
+            );
+            newOut = mirrorPoint(currentNode.p, newIn, oppLen);
           }
         } else {
-          newOut = newHandlePt
+          newOut = newHandlePt;
           if (!isAlt && !currentNode.corner && currentNode.in) {
-            const oppLen = Math.hypot(currentNode.in.x - currentNode.p.x, currentNode.in.y - currentNode.p.y)
-            newIn = mirrorPoint(currentNode.p, newOut, oppLen)
+            const oppLen = Math.hypot(
+              currentNode.in.x - currentNode.p.x,
+              currentNode.in.y - currentNode.p.y,
+            );
+            newIn = mirrorPoint(currentNode.p, newOut, oppLen);
           }
         }
 
@@ -167,33 +176,33 @@ export function CanvasBezierShapeEditor({
           in: newIn,
           out: newOut,
           corner: isAlt ? true : currentNode.corner,
-        }
-        return nextNodes
-      })
-    }
+        };
+        return nextNodes;
+      });
+    };
 
     const handleMouseUp = () => {
-      window.removeEventListener('mousemove', handleMouseMove)
-      window.removeEventListener('mouseup', handleMouseUp)
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mouseup', handleMouseUp);
       setNodes((latest) => {
-        commitPath(latest, isClosed)
-        return latest
-      })
-    }
+        commitPath(latest, isClosed);
+        return latest;
+      });
+    };
 
-    window.addEventListener('mousemove', handleMouseMove)
-    window.addEventListener('mouseup', handleMouseUp)
-  }
+    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mouseup', handleMouseUp);
+  };
 
   // حذف نقطة بالنقر المزدوج
   const handleAnchorDoubleClick = (e: React.MouseEvent, index: number) => {
-    e.stopPropagation()
-    if (nodes.length <= 2) return
-    const nextNodes = nodes.filter((_, idx) => idx !== index)
-    setNodes(nextNodes)
-    setSelectedNodeIndex(null)
-    commitPath(nextNodes, isClosed)
-  }
+    e.stopPropagation();
+    if (nodes.length <= 2) return;
+    const nextNodes = nodes.filter((_, idx) => idx !== index);
+    setNodes(nextNodes);
+    setSelectedNodeIndex(null);
+    commitPath(nextNodes, isClosed);
+  };
 
   // إنشاء المسار المعروض
   const renderedPathD = serializeBezier(
@@ -203,10 +212,10 @@ export function CanvasBezierShapeEditor({
       out: n.out ? { x: originX + n.out.x, y: originY + n.out.y } : undefined,
       corner: n.corner,
     })),
-    isClosed
-  )
+    isClosed,
+  );
 
-  const selectedNode = selectedNodeIndex !== null ? nodes[selectedNodeIndex] : null
+  const selectedNode = selectedNodeIndex !== null ? nodes[selectedNodeIndex] : null;
 
   return (
     <>
@@ -222,22 +231,22 @@ export function CanvasBezierShapeEditor({
           strokeWidth={2.5}
           className="pointer-events-auto cursor-pointer"
           onDoubleClick={(e) => {
-            e.stopPropagation()
+            e.stopPropagation();
             // تقسيم الشريحة الأولى بالنقر المزدوج
             if (nodes.length >= 2) {
-              const { a, mid, b } = splitSegment(nodes[0], nodes[1], 0.5)
-              const updated = [a, mid, b, ...nodes.slice(2)]
-              setNodes(updated)
-              commitPath(updated, isClosed)
+              const { a, mid, b } = splitSegment(nodes[0], nodes[1], 0.5);
+              const updated = [a, mid, b, ...nodes.slice(2)];
+              setNodes(updated);
+              commitPath(updated, isClosed);
             }
           }}
         />
 
         {/* نقاط التثبيت ومقابض التحكم */}
         {nodes.map((node, idx) => {
-          const absX = originX + node.p.x
-          const absY = originY + node.p.y
-          const isSelected = idx === selectedNodeIndex
+          const absX = originX + node.p.x;
+          const absY = originY + node.p.y;
+          const isSelected = idx === selectedNodeIndex;
 
           return (
             <g key={`bez-node-${idx}`}>
@@ -303,7 +312,7 @@ export function CanvasBezierShapeEditor({
                 onDoubleClick={(e) => handleAnchorDoubleClick(e, idx)}
               />
             </g>
-          )
+          );
         })}
       </svg>
 
@@ -316,9 +325,9 @@ export function CanvasBezierShapeEditor({
 
         <button
           onClick={() => {
-            const nextClosed = !isClosed
-            setIsClosed(nextClosed)
-            commitPath(nodes, nextClosed)
+            const nextClosed = !isClosed;
+            setIsClosed(nextClosed);
+            commitPath(nodes, nextClosed);
           }}
           className={`px-2.5 py-1 rounded-lg border font-medium transition-colors ${
             isClosed
@@ -332,16 +341,16 @@ export function CanvasBezierShapeEditor({
         {selectedNode && (
           <button
             onClick={() => {
-              if (selectedNodeIndex === null) return
+              if (selectedNodeIndex === null) return;
               setNodes((prev) => {
-                const next = [...prev]
+                const next = [...prev];
                 next[selectedNodeIndex] = {
                   ...next[selectedNodeIndex],
                   corner: !next[selectedNodeIndex].corner,
-                }
-                commitPath(next, isClosed)
-                return next
-              })
+                };
+                commitPath(next, isClosed);
+                return next;
+              });
             }}
             className={`px-2.5 py-1 rounded-lg border font-medium flex items-center gap-1 transition-colors ${
               selectedNode.corner
@@ -364,5 +373,5 @@ export function CanvasBezierShapeEditor({
         </button>
       </div>
     </>
-  )
+  );
 }

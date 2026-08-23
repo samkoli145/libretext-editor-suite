@@ -30,24 +30,24 @@ import {
   type ScratchpadColumnType,
   isValidVarName,
   isValidVarId,
-} from './types.ts'
+} from './types.ts';
 
 export function generateVarId(): string {
-  return `var_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 9)}`
+  return `var_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 9)}`;
 }
 
 export function findVar(notebook: Notebook, nameOrId: string): ScratchpadVar | undefined {
   if (isValidVarId(nameOrId)) {
-    return notebook.vars.get(nameOrId)
+    return notebook.vars.get(nameOrId);
   }
-  const str = String(nameOrId)
-  const clean = str.startsWith('$') ? str.slice(1).toLowerCase() : str.toLowerCase()
+  const str = String(nameOrId);
+  const clean = str.startsWith('$') ? str.slice(1).toLowerCase() : str.toLowerCase();
   for (const v of notebook.vars.values()) {
     if (v.name.toLowerCase() === clean) {
-      return v
+      return v;
     }
   }
-  return undefined
+  return undefined;
 }
 
 export function setScratchpadVar(
@@ -55,67 +55,67 @@ export function setScratchpadVar(
   name: string,
   expr: string,
   options?: {
-    type?: ScratchpadColumnType
-    format?: string
-    description?: string
-  }
+    type?: ScratchpadColumnType;
+    format?: string;
+    description?: string;
+  },
 ): ScratchpadPatch[] {
-  const cleanName = name.startsWith('$') ? name.slice(1).toLowerCase() : name.toLowerCase()
+  const cleanName = name.startsWith('$') ? name.slice(1).toLowerCase() : name.toLowerCase();
   if (!isValidVarName(cleanName)) {
-    throw new Error(`Invalid variable name: "${name}"`)
+    throw new Error(`Invalid variable name: "${name}"`);
   }
 
-  const existing = findVar(notebook, cleanName)
-  const varId = existing ? existing.id : generateVarId()
+  const existing = findVar(notebook, cleanName);
+  const varId = existing ? existing.id : generateVarId();
 
   const props: {
-    name: string
-    expr: string
-    type?: ScratchpadColumnType
-    format?: string
-    description?: string
+    name: string;
+    expr: string;
+    type?: ScratchpadColumnType;
+    format?: string;
+    description?: string;
   } = {
     name: cleanName,
     expr,
-  }
+  };
 
-  const drop: string[] = []
+  const drop: string[] = [];
 
   if (options?.type !== undefined) {
-    props.type = options.type
+    props.type = options.type;
   } else if (existing?.type !== undefined) {
-    drop.push('type')
+    drop.push('type');
   }
 
   if (options?.format !== undefined && options.format !== '') {
-    props.format = options.format
+    props.format = options.format;
   } else if (existing?.format !== undefined) {
-    drop.push('format')
+    drop.push('format');
   }
 
   if (options?.description !== undefined && options.description !== '') {
-    props.description = options.description
+    props.description = options.description;
   } else if (existing?.description !== undefined) {
-    drop.push('description')
+    drop.push('description');
   }
 
   // Calculate strict inverse
-  let inverse: ScratchpadPatch
+  let inverse: ScratchpadPatch;
   if (existing) {
     const invProps: Record<string, unknown> = {
       name: existing.name,
       expr: existing.expr,
-    }
-    const invDrop: string[] = []
+    };
+    const invDrop: string[] = [];
 
-    if (existing.type !== undefined) invProps.type = existing.type
-    else if (props.type !== undefined) invDrop.push('type')
+    if (existing.type !== undefined) invProps.type = existing.type;
+    else if (props.type !== undefined) invDrop.push('type');
 
-    if (existing.format !== undefined) invProps.format = existing.format
-    else if (props.format !== undefined) invDrop.push('format')
+    if (existing.format !== undefined) invProps.format = existing.format;
+    else if (props.format !== undefined) invDrop.push('format');
 
-    if (existing.description !== undefined) invProps.description = existing.description
-    else if (props.description !== undefined) invDrop.push('description')
+    if (existing.description !== undefined) invProps.description = existing.description;
+    else if (props.description !== undefined) invDrop.push('description');
 
     inverse = {
       op: 'setScratchpadVar',
@@ -124,14 +124,14 @@ export function setScratchpadVar(
       props: invProps,
       drop: invDrop.length > 0 ? invDrop : undefined,
       inverse: { op: 'noop' },
-    }
+    };
   } else {
     inverse = {
       op: 'deleteScratchpadVar',
       notebookId: notebook.id,
       varId,
       inverse: { op: 'noop' },
-    }
+    };
   }
 
   return [
@@ -143,13 +143,13 @@ export function setScratchpadVar(
       drop: drop.length > 0 ? drop : undefined,
       inverse,
     },
-  ]
+  ];
 }
 
 export function deleteScratchpadVar(notebook: Notebook, nameOrId: string): ScratchpadPatch[] {
-  const existing = findVar(notebook, nameOrId)
+  const existing = findVar(notebook, nameOrId);
   if (!existing) {
-    throw new Error(`Variable not found: "${nameOrId}"`)
+    throw new Error(`Variable not found: "${nameOrId}"`);
   }
 
   const patches: ScratchpadPatch[] = [
@@ -169,29 +169,31 @@ export function deleteScratchpadVar(notebook: Notebook, nameOrId: string): Scrat
         data: { ...existing },
       },
     },
-  ]
+  ];
 
-  return patches
+  return patches;
 }
 
 export function renameScratchpadVar(
   notebook: Notebook,
   oldNameOrId: string,
-  newName: string
+  newName: string,
 ): ScratchpadPatch[] {
-  const existing = findVar(notebook, oldNameOrId)
+  const existing = findVar(notebook, oldNameOrId);
   if (!existing) {
-    throw new Error(`Variable not found: "${oldNameOrId}"`)
+    throw new Error(`Variable not found: "${oldNameOrId}"`);
   }
 
-  const cleanNewName = newName.startsWith('$') ? newName.slice(1).toLowerCase() : newName.toLowerCase()
+  const cleanNewName = newName.startsWith('$')
+    ? newName.slice(1).toLowerCase()
+    : newName.toLowerCase();
   if (!isValidVarName(cleanNewName)) {
-    throw new Error(`Invalid new variable name: "${newName}"`)
+    throw new Error(`Invalid new variable name: "${newName}"`);
   }
 
-  const collision = findVar(notebook, cleanNewName)
+  const collision = findVar(notebook, cleanNewName);
   if (collision && collision.id !== existing.id) {
-    throw new Error(`Variable name already in use: "${cleanNewName}"`)
+    throw new Error(`Variable name already in use: "${cleanNewName}"`);
   }
 
   const inverse: ScratchpadPatch = {
@@ -200,7 +202,7 @@ export function renameScratchpadVar(
     varId: existing.id,
     props: { name: existing.name, expr: existing.expr },
     inverse: { op: 'noop' },
-  }
+  };
 
   return [
     {
@@ -210,7 +212,7 @@ export function renameScratchpadVar(
       props: { name: cleanNewName, expr: existing.expr },
       inverse,
     },
-  ]
+  ];
 }
 
 export function createNotebook(notebookId: string, name: string): ScratchpadPatch[] {
@@ -224,7 +226,7 @@ export function createNotebook(notebookId: string, name: string): ScratchpadPatc
         notebookId,
       },
     },
-  ]
+  ];
 }
 
 export function deleteNotebook(notebook: Notebook): ScratchpadPatch[] {
@@ -241,7 +243,7 @@ export function deleteNotebook(notebook: Notebook): ScratchpadPatch[] {
         },
       },
     },
-  ]
+  ];
 }
 
 export function renameNotebook(notebook: Notebook, newName: string): ScratchpadPatch[] {
@@ -256,5 +258,5 @@ export function renameNotebook(notebook: Notebook, newName: string): ScratchpadP
         newName: notebook.name,
       },
     },
-  ]
+  ];
 }

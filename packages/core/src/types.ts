@@ -27,11 +27,7 @@
  * ═══════════════════════════════════════════════════════════════════════════
  */
 
-export type KnownDocumentType =
-  | 'rich-text'
-  | 'ui-page'
-  | 'canvas'
-  | 'pdf';
+export type KnownDocumentType = 'rich-text' | 'ui-page' | 'canvas' | 'pdf';
 
 export type SupportedFileFormat =
   | 'doc'

@@ -175,7 +175,10 @@ export class LaTeXEngine {
 
     // Replace basic functions like \sin, \cos, \tan, \log, \ln
     const funcRegex = /\\(sin|cos|tan|cot|sec|csc|log|ln|exp|max|min|det|deg)/g;
-    expr = expr.replace(funcRegex, '<span class="math-function font-semibold text-slate-700 mx-0.5">$1</span>');
+    expr = expr.replace(
+      funcRegex,
+      '<span class="math-function font-semibold text-slate-700 mx-0.5">$1</span>',
+    );
 
     // Replace matrices \begin{matrix} ... \end{matrix} or pmatrix / bmatrix
     expr = this.parseMatrices(expr);
@@ -251,16 +254,31 @@ export class LaTeXEngine {
   private parseSuperSubscripts(str: string): string {
     let result = str;
     // Superscript + Subscript combo: x_{1}^{2} or x^{2}_{1}
-    result = result.replace(/([a-zA-Z0-9\)\}\]])_\{([^{}]+)\}\^\{([^{}]+)\}/g, '$1<sub class="text-[0.75em]">$2</sub><sup class="text-[0.75em]">$3</sup>');
-    result = result.replace(/([a-zA-Z0-9\)\}\]])\^\{([^{}]+)\}_\{([^{}]+)\}/g, '$1<sup class="text-[0.75em]">$2</sup><sub class="text-[0.75em]">$3</sup>');
+    result = result.replace(
+      /([a-zA-Z0-9\)\}\]])_\{([^{}]+)\}\^\{([^{}]+)\}/g,
+      '$1<sub class="text-[0.75em]">$2</sub><sup class="text-[0.75em]">$3</sup>',
+    );
+    result = result.replace(
+      /([a-zA-Z0-9\)\}\]])\^\{([^{}]+)\}_\{([^{}]+)\}/g,
+      '$1<sup class="text-[0.75em]">$2</sup><sub class="text-[0.75em]">$3</sup>',
+    );
 
     // Single Superscript: x^{2} or x^2
-    result = result.replace(/\^\{([^{}]+)\}/g, '<sup class="text-[0.75em] text-slate-800">$1</sup>');
-    result = result.replace(/\^([a-zA-Z0-9])/g, '<sup class="text-[0.75em] text-slate-800">$1</sup>');
+    result = result.replace(
+      /\^\{([^{}]+)\}/g,
+      '<sup class="text-[0.75em] text-slate-800">$1</sup>',
+    );
+    result = result.replace(
+      /\^([a-zA-Z0-9])/g,
+      '<sup class="text-[0.75em] text-slate-800">$1</sup>',
+    );
 
     // Single Subscript: x_{1} or x_1
     result = result.replace(/_\{([^{}]+)\}/g, '<sub class="text-[0.75em] text-slate-800">$1</sub>');
-    result = result.replace(/_([a-zA-Z0-9])/g, '<sub class="text-[0.75em] text-slate-800">$1</sub>');
+    result = result.replace(
+      /_([a-zA-Z0-9])/g,
+      '<sub class="text-[0.75em] text-slate-800">$1</sub>',
+    );
 
     return result;
   }
@@ -272,7 +290,12 @@ export class LaTeXEngine {
       const rows = content.trim().split('\\\\');
       const rowsHtml = rows
         .map((r: string) => {
-          const cells = r.split('&').map((c: string) => `<td class="px-2 py-1 text-center">${this.renderToHtml(c.trim(), false)}</td>`);
+          const cells = r
+            .split('&')
+            .map(
+              (c: string) =>
+                `<td class="px-2 py-1 text-center">${this.renderToHtml(c.trim(), false)}</td>`,
+            );
           return `<tr>${cells.join('')}</tr>`;
         })
         .join('');

@@ -74,21 +74,15 @@ export function CanvasHeader({
   onExportSvg,
   onOpenPreview,
 }: CanvasHeaderProps) {
-  const {
-    height,
-    isCollapsed,
-    isPinned,
-    toggleCollapse,
-    togglePin,
-    startResize,
-  } = useCollapsibleTopBar({
-    id: 'canvas-header-bar',
-    defaultHeight: 44,
-    minHeight: 32,
-    maxHeight: 75,
-    defaultCollapsed: false,
-    defaultPinned: true,
-  });
+  const { height, isCollapsed, isPinned, toggleCollapse, togglePin, startResize } =
+    useCollapsibleTopBar({
+      id: 'canvas-header-bar',
+      defaultHeight: 44,
+      minHeight: 32,
+      maxHeight: 75,
+      defaultCollapsed: false,
+      defaultPinned: true,
+    });
 
   return (
     <header
@@ -109,7 +103,11 @@ export function CanvasHeader({
           }`}
           title="تبديل اللوحة الجانبية"
         >
-          {isLeftPanelOpen ? <PanelLeftClose className="w-3.5 h-3.5" /> : <PanelLeftOpen className="w-3.5 h-3.5" />}
+          {isLeftPanelOpen ? (
+            <PanelLeftClose className="w-3.5 h-3.5" />
+          ) : (
+            <PanelLeftOpen className="w-3.5 h-3.5" />
+          )}
         </button>
 
         {/* Undo / Redo */}
@@ -168,7 +166,9 @@ export function CanvasHeader({
                 type="button"
                 onClick={() => onSetBreakpoint('desktop')}
                 className={`flex items-center gap-1 px-2 py-0.5 text-xs font-semibold rounded transition cursor-pointer ${
-                  breakpoint === 'desktop' ? 'bg-white text-blue-600 shadow-xs' : 'text-slate-600 hover:text-slate-900'
+                  breakpoint === 'desktop'
+                    ? 'bg-white text-blue-600 shadow-xs'
+                    : 'text-slate-600 hover:text-slate-900'
                 }`}
               >
                 <Monitor className="w-3 h-3" />
@@ -178,7 +178,9 @@ export function CanvasHeader({
                 type="button"
                 onClick={() => onSetBreakpoint('tablet')}
                 className={`flex items-center gap-1 px-2 py-0.5 text-xs font-semibold rounded transition cursor-pointer ${
-                  breakpoint === 'tablet' ? 'bg-white text-blue-600 shadow-xs' : 'text-slate-600 hover:text-slate-900'
+                  breakpoint === 'tablet'
+                    ? 'bg-white text-blue-600 shadow-xs'
+                    : 'text-slate-600 hover:text-slate-900'
                 }`}
               >
                 <Tablet className="w-3 h-3" />
@@ -188,7 +190,9 @@ export function CanvasHeader({
                 type="button"
                 onClick={() => onSetBreakpoint('mobile')}
                 className={`flex items-center gap-1 px-2 py-0.5 text-xs font-semibold rounded transition cursor-pointer ${
-                  breakpoint === 'mobile' ? 'bg-white text-blue-600 shadow-xs' : 'text-slate-600 hover:text-slate-900'
+                  breakpoint === 'mobile'
+                    ? 'bg-white text-blue-600 shadow-xs'
+                    : 'text-slate-600 hover:text-slate-900'
                 }`}
               >
                 <Smartphone className="w-3 h-3" />
@@ -269,4 +273,3 @@ export function CanvasHeader({
     </header>
   );
 }
-

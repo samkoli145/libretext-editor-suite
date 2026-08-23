@@ -66,7 +66,7 @@ export class StyleExtractor {
     html: string,
     originX = 100,
     originY = 100,
-    layerId = 'layer-main'
+    layerId = 'layer-main',
   ): {
     elements: CanvasElement[];
     schemas: ExtractedStyleSchema[];
@@ -141,7 +141,7 @@ export class StyleExtractor {
     schema: ExtractedStyleSchema,
     node: ASTNode,
     layerId: string,
-    zIndex: number
+    zIndex: number,
   ): CanvasElement {
     return {
       id: schema.id,

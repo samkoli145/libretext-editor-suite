@@ -79,19 +79,52 @@ export function calculateResizedDimensions(
     deltaY = Math.round(deltaY / snapGrid) * snapGrid;
   }
   const { handleDirection, startWidth, startHeight, lockAspectRatio } = state;
-  const ratio = state.aspectRatio || (startWidth > 0 && startHeight > 0 ? startWidth / startHeight : 1);
+  const ratio =
+    state.aspectRatio || (startWidth > 0 && startHeight > 0 ? startWidth / startHeight : 1);
   let width: number | undefined;
   let height: number | undefined;
 
   switch (handleDirection) {
-    case 'r': width = Math.max(minWidth, startWidth + deltaX); if (lockAspectRatio) height = Math.max(minHeight, width / ratio); break;
-    case 'l': width = Math.max(minWidth, startWidth - deltaX); if (lockAspectRatio) height = Math.max(minHeight, width / ratio); break;
-    case 'b': height = Math.max(minHeight, startHeight + deltaY); if (lockAspectRatio) width = Math.max(minWidth, height * ratio); break;
-    case 't': height = Math.max(minHeight, startHeight - deltaY); if (lockAspectRatio) width = Math.max(minWidth, height * ratio); break;
-    case 'br': width = Math.max(minWidth, startWidth + deltaX); height = lockAspectRatio ? Math.max(minHeight, width / ratio) : Math.max(minHeight, startHeight + deltaY); break;
-    case 'bl': width = Math.max(minWidth, startWidth - deltaX); height = lockAspectRatio ? Math.max(minHeight, width / ratio) : Math.max(minHeight, startHeight + deltaY); break;
-    case 'tr': width = Math.max(minWidth, startWidth + deltaX); height = lockAspectRatio ? Math.max(minHeight, width / ratio) : Math.max(minHeight, startHeight - deltaY); break;
-    case 'tl': width = Math.max(minWidth, startWidth - deltaX); height = lockAspectRatio ? Math.max(minHeight, width / ratio) : Math.max(minHeight, startHeight - deltaY); break;
+    case 'r':
+      width = Math.max(minWidth, startWidth + deltaX);
+      if (lockAspectRatio) height = Math.max(minHeight, width / ratio);
+      break;
+    case 'l':
+      width = Math.max(minWidth, startWidth - deltaX);
+      if (lockAspectRatio) height = Math.max(minHeight, width / ratio);
+      break;
+    case 'b':
+      height = Math.max(minHeight, startHeight + deltaY);
+      if (lockAspectRatio) width = Math.max(minWidth, height * ratio);
+      break;
+    case 't':
+      height = Math.max(minHeight, startHeight - deltaY);
+      if (lockAspectRatio) width = Math.max(minWidth, height * ratio);
+      break;
+    case 'br':
+      width = Math.max(minWidth, startWidth + deltaX);
+      height = lockAspectRatio
+        ? Math.max(minHeight, width / ratio)
+        : Math.max(minHeight, startHeight + deltaY);
+      break;
+    case 'bl':
+      width = Math.max(minWidth, startWidth - deltaX);
+      height = lockAspectRatio
+        ? Math.max(minHeight, width / ratio)
+        : Math.max(minHeight, startHeight + deltaY);
+      break;
+    case 'tr':
+      width = Math.max(minWidth, startWidth + deltaX);
+      height = lockAspectRatio
+        ? Math.max(minHeight, width / ratio)
+        : Math.max(minHeight, startHeight - deltaY);
+      break;
+    case 'tl':
+      width = Math.max(minWidth, startWidth - deltaX);
+      height = lockAspectRatio
+        ? Math.max(minHeight, width / ratio)
+        : Math.max(minHeight, startHeight - deltaY);
+      break;
   }
   return { width, height };
 }
@@ -110,13 +143,18 @@ export function calculateRotationAngle(
   return Math.round(degrees);
 }
 
-export function isPointInPolygon(point: { x: number; y: number }, polygon: { x: number; y: number }[]): boolean {
+export function isPointInPolygon(
+  point: { x: number; y: number },
+  polygon: { x: number; y: number }[],
+): boolean {
   let inside = false;
   const n = polygon.length;
   for (let i = 0, j = n - 1; i < n; j = i++) {
-    const xi = polygon[i]!.x, yi = polygon[i]!.y;
-    const xj = polygon[j]!.x, yj = polygon[j]!.y;
-    if ((yi > point.y) !== (yj > point.y) && point.x < ((xj - xi) * (point.y - yi)) / (yj - yi) + xi) {
+    const xi = polygon[i]!.x,
+      yi = polygon[i]!.y;
+    const xj = polygon[j]!.x,
+      yj = polygon[j]!.y;
+    if (yi > point.y !== yj > point.y && point.x < ((xj - xi) * (point.y - yi)) / (yj - yi) + xi) {
       inside = !inside;
     }
   }

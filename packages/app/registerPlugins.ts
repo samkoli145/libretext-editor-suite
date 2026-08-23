@@ -22,12 +22,12 @@
  * ═══════════════════════════════════════════════════════════════════════════
  */
 
-import type { EditorServices } from "../core/createEditorServices";
-import { HTMLComponentPlugin } from "../features/html-component/HTMLComponentPlugin";
-import { RichTextPlugin } from "../features/rich-text";
-import { CanvasDesignerPlugin } from "../features/canvas-designer/CanvasDesignerPlugin";
-import { UIDesignerPlugin } from "../features/ui-designer/UIDesignerPlugin";
-import { PdfPlugin } from "../features/pdf/PdfPlugin";
+import type { EditorServices } from '../core/createEditorServices';
+import { HTMLComponentPlugin } from '../features/html-component/HTMLComponentPlugin';
+import { RichTextPlugin } from '../features/rich-text';
+import { CanvasDesignerPlugin } from '../features/canvas-designer/CanvasDesignerPlugin';
+import { UIDesignerPlugin } from '../features/ui-designer/UIDesignerPlugin';
+import { PdfPlugin } from '../features/pdf/PdfPlugin';
 
 export function registerPlugins(services: EditorServices): void {
   registerCoreCommands(services);
@@ -46,50 +46,50 @@ function registerHTMLComponentPlugin(services: EditorServices): void {
 
   const context = services.createPluginContext(htmlPlugin.id);
 
-  if (!services.commands.has("html-component:create")) {
+  if (!services.commands.has('html-component:create')) {
     context.registerCommand({
-      id: "html-component:create",
-      title: "إنشاء مستند مكونات HTML جديد",
-      category: "HTML Component",
-      shortcut: "Ctrl+Alt+H",
+      id: 'html-component:create',
+      title: 'إنشاء مستند مكونات HTML جديد',
+      category: 'HTML Component',
+      shortcut: 'Ctrl+Alt+H',
       run: () => {
-        services.documents.createDocument("html-component" as any, "مستند مكونات HTML جديد");
+        services.documents.createDocument('html-component' as any, 'مستند مكونات HTML جديد');
       },
     });
   }
 }
 
 function registerCoreCommands(services: EditorServices): void {
-  if (!services.commands.has("document:save")) {
+  if (!services.commands.has('document:save')) {
     services.commands.register({
-      id: "document:save",
-      title: "حفظ المستند",
-      category: "Document",
-      shortcut: "Ctrl+S",
+      id: 'document:save',
+      title: 'حفظ المستند',
+      category: 'Document',
+      shortcut: 'Ctrl+S',
       run: async () => {
         await services.documents.saveDocument();
       },
     });
   }
 
-  if (!services.commands.has("document:save-all")) {
+  if (!services.commands.has('document:save-all')) {
     services.commands.register({
-      id: "document:save-all",
-      title: "حفظ كل المستندات",
-      category: "Document",
-      shortcut: "Ctrl+Shift+S",
+      id: 'document:save-all',
+      title: 'حفظ كل المستندات',
+      category: 'Document',
+      shortcut: 'Ctrl+Shift+S',
       run: async () => {
         await services.documents.saveAll();
       },
     });
   }
 
-  if (!services.commands.has("document:close-active")) {
+  if (!services.commands.has('document:close-active')) {
     services.commands.register({
-      id: "document:close-active",
-      title: "إغلاق المستند النشط",
-      category: "Document",
-      shortcut: "Ctrl+W",
+      id: 'document:close-active',
+      title: 'إغلاق المستند النشط',
+      category: 'Document',
+      shortcut: 'Ctrl+W',
       run: () => {
         const active = services.documents.activeDocument;
         if (active) {
@@ -109,35 +109,35 @@ function registerRichTextPlugin(services: EditorServices): void {
 
   const context = services.createPluginContext(richTextPlugin.id);
 
-  if (!services.commands.has("rich-text:create")) {
+  if (!services.commands.has('rich-text:create')) {
     context.registerCommand({
-      id: "rich-text:create",
-      title: "إنشاء مستند نصي جديد",
-      category: "Rich Text",
-      shortcut: "Ctrl+Alt+N",
+      id: 'rich-text:create',
+      title: 'إنشاء مستند نصي جديد',
+      category: 'Rich Text',
+      shortcut: 'Ctrl+Alt+N',
       run: () => {
-        services.documents.createDocument("rich-text", "مستند نصي جديد");
+        services.documents.createDocument('rich-text', 'مستند نصي جديد');
       },
     });
   }
 
-  if (!services.commands.has("rich-text:export-docx")) {
+  if (!services.commands.has('rich-text:export-docx')) {
     context.registerCommand({
-      id: "rich-text:export-docx",
-      title: "تصدير المستند كملف Word (DOCX)",
-      category: "Export",
+      id: 'rich-text:export-docx',
+      title: 'تصدير المستند كملف Word (DOCX)',
+      category: 'Export',
       run: () => {
-        services.events.emit("rich-editor:export-docx");
+        services.events.emit('rich-editor:export-docx');
       },
     });
   }
 
-  if (!services.commands.has("rich-text:export-pdf")) {
+  if (!services.commands.has('rich-text:export-pdf')) {
     context.registerCommand({
-      id: "rich-text:export-pdf",
-      title: "تصدير المستند كملف PDF",
-      category: "Export",
-      shortcut: "Ctrl+P",
+      id: 'rich-text:export-pdf',
+      title: 'تصدير المستند كملف PDF',
+      category: 'Export',
+      shortcut: 'Ctrl+P',
       run: () => {
         window.print();
       },
@@ -153,13 +153,13 @@ function registerCanvasPlugin(services: EditorServices): void {
 
   const context = services.createPluginContext(canvasPlugin.id);
 
-  if (!services.commands.has("canvas:create")) {
+  if (!services.commands.has('canvas:create')) {
     context.registerCommand({
-      id: "canvas:create",
-      title: "إنشاء لوحة رسم وكانفا جديدة",
-      category: "Canvas Designer",
+      id: 'canvas:create',
+      title: 'إنشاء لوحة رسم وكانفا جديدة',
+      category: 'Canvas Designer',
       run: () => {
-        services.documents.createDocument("canvas", "لوحة رسم جديدة");
+        services.documents.createDocument('canvas', 'لوحة رسم جديدة');
       },
     });
   }
@@ -173,13 +173,13 @@ function registerUIPlugin(services: EditorServices): void {
 
   const context = services.createPluginContext(uiPlugin.id);
 
-  if (!services.commands.has("ui-designer:create")) {
+  if (!services.commands.has('ui-designer:create')) {
     context.registerCommand({
-      id: "ui-designer:create",
-      title: "إنشاء صفحة واجهة مستخدم جديدة",
-      category: "UI Designer",
+      id: 'ui-designer:create',
+      title: 'إنشاء صفحة واجهة مستخدم جديدة',
+      category: 'UI Designer',
       run: () => {
-        services.documents.createDocument("ui-page", "صفحة واجهة جديدة");
+        services.documents.createDocument('ui-page', 'صفحة واجهة جديدة');
       },
     });
   }
@@ -193,13 +193,13 @@ function registerPdfPlugin(services: EditorServices): void {
 
   const context = services.createPluginContext(pdfPlugin.id);
 
-  if (!services.commands.has("pdf:create")) {
+  if (!services.commands.has('pdf:create')) {
     context.registerCommand({
-      id: "pdf:create",
-      title: "فتح مستند PDF جديد",
-      category: "PDF Suite",
+      id: 'pdf:create',
+      title: 'فتح مستند PDF جديد',
+      category: 'PDF Suite',
       run: () => {
-        services.documents.createDocument("pdf", "مستند PDF جديد");
+        services.documents.createDocument('pdf', 'مستند PDF جديد');
       },
     });
   }

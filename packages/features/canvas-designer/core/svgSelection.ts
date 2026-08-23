@@ -31,16 +31,7 @@ import {
   getRotatedBBox,
 } from './svgMath';
 
-export type HandleType =
-  | 'nw'
-  | 'n'
-  | 'ne'
-  | 'e'
-  | 'se'
-  | 's'
-  | 'sw'
-  | 'w'
-  | 'rot';
+export type HandleType = 'nw' | 'n' | 'ne' | 'e' | 'se' | 's' | 'sw' | 'w' | 'rot';
 
 export interface HandlePosition {
   type: HandleType;
@@ -59,10 +50,7 @@ export interface TransformResult {
 /**
  * توليد مواضع المقابض الثمانية ومقبض التدوير لمستطيل معين
  */
-export function getHandlePositions(
-  bbox: BoundingBox,
-  rotationDeg = 0
-): HandlePosition[] {
+export function getHandlePositions(bbox: BoundingBox, rotationDeg = 0): HandlePosition[] {
   const { x, y, width, height } = bbox;
   const cx = x + width / 2;
   const cy = y + height / 2;
@@ -104,7 +92,7 @@ export function getSelectionBoundingBox(
     width: number;
     height: number;
     rotation?: number;
-  }>
+  }>,
 ): BoundingBox | null {
   if (!elements || elements.length === 0) {
     return null;
@@ -122,7 +110,7 @@ export function getSelectionBoundingBox(
         { x: el.x, y: el.y },
         { x: el.x + w, y: el.y },
         { x: el.x + w, y: el.y + h },
-        { x: el.x, y: el.y + h }
+        { x: el.x, y: el.y + h },
       );
     } else {
       const center: Point = { x: el.x + w / 2, y: el.y + h / 2 };
@@ -130,7 +118,7 @@ export function getSelectionBoundingBox(
         rotatePoint({ x: el.x, y: el.y }, center, rot),
         rotatePoint({ x: el.x + w, y: el.y }, center, rot),
         rotatePoint({ x: el.x + w, y: el.y + h }, center, rot),
-        rotatePoint({ x: el.x, y: el.y + h }, center, rot)
+        rotatePoint({ x: el.x, y: el.y + h }, center, rot),
       );
     }
   }
@@ -147,7 +135,7 @@ export function calculateHandleTransform(
   deltaX: number,
   deltaY: number,
   lockAspectRatio = false,
-  minSize = 10
+  minSize = 10,
 ): TransformResult {
   let { x, y, width, height } = startBBox;
   const initialAspect = startBBox.width / (startBBox.height || 1);

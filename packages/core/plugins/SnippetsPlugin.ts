@@ -36,42 +36,48 @@ export const HTML_SNIPPETS: CodeSnippet[] = [
     id: 'div-block',
     label: 'كتلة حاوية (Div Block)',
     detail: 'كتلة WebPainter مرنة لاحتواء العناصر',
-    template: '<div class="p-4 bg-white rounded-lg border border-slate-200 shadow-sm" data-node-id="block-${id}">\n  ${cursor}\n</div>',
+    template:
+      '<div class="p-4 bg-white rounded-lg border border-slate-200 shadow-sm" data-node-id="block-${id}">\n  ${cursor}\n</div>',
     category: 'layout',
   },
   {
     id: 'img-block',
     label: 'كتلة صورة (Image Block)',
     detail: 'عنصر صورة متجاوب مع نص بديل',
-    template: '<img src="${src}" alt="${alt}" class="w-full h-auto rounded-lg object-cover" data-node-id="img-${id}" />',
+    template:
+      '<img src="${src}" alt="${alt}" class="w-full h-auto rounded-lg object-cover" data-node-id="img-${id}" />',
     category: 'media',
   },
   {
     id: 'link-block',
     label: 'كتلة رابط (Link Block)',
     detail: 'رابط تشعبي أنيق قابل للنقر',
-    template: '<a href="${url}" target="_blank" class="text-blue-600 hover:text-blue-700 underline font-medium" data-node-id="link-${id}">${text}</a>',
+    template:
+      '<a href="${url}" target="_blank" class="text-blue-600 hover:text-blue-700 underline font-medium" data-node-id="link-${id}">${text}</a>',
     category: 'interactive',
   },
   {
     id: 'button-block',
     label: 'كتلة زر تفاعلي (Button Block)',
     detail: 'زر بتصميم حديث وثيم فاتح',
-    template: '<button class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium shadow-sm transition-colors" data-node-id="btn-${id}">${text}</button>',
+    template:
+      '<button class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium shadow-sm transition-colors" data-node-id="btn-${id}">${text}</button>',
     category: 'interactive',
   },
   {
     id: 'card-block',
     label: 'بطاقة محتوى (Card Block)',
     detail: 'بطاقة بتصميم فاخر وظلال خفيفة',
-    template: '<div class="p-6 bg-white rounded-xl border border-slate-200 shadow-sm space-y-3" data-node-id="card-${id}">\n  <h3 class="text-lg font-bold text-slate-800">عنوان البطاقة</h3>\n  <p class="text-slate-600 text-sm leading-relaxed">تفاصيل ووصف المحتوى التوضيحي داخل البطاقة.</p>\n</div>',
+    template:
+      '<div class="p-6 bg-white rounded-xl border border-slate-200 shadow-sm space-y-3" data-node-id="card-${id}">\n  <h3 class="text-lg font-bold text-slate-800">عنوان البطاقة</h3>\n  <p class="text-slate-600 text-sm leading-relaxed">تفاصيل ووصف المحتوى التوضيحي داخل البطاقة.</p>\n</div>',
     category: 'layout',
   },
   {
     id: 'grid-block',
     label: 'شبكة أعمدة (Grid Layout)',
     detail: 'شبكة أعمدة متجاوبة بتصميم نظيف',
-    template: '<div class="grid grid-cols-1 md:grid-cols-3 gap-4" data-node-id="grid-${id}">\n  <div class="p-4 bg-slate-50 rounded-lg border border-slate-200">العمود 1</div>\n  <div class="p-4 bg-slate-50 rounded-lg border border-slate-200">العمود 2</div>\n  <div class="p-4 bg-slate-50 rounded-lg border border-slate-200">العمود 3</div>\n</div>',
+    template:
+      '<div class="grid grid-cols-1 md:grid-cols-3 gap-4" data-node-id="grid-${id}">\n  <div class="p-4 bg-slate-50 rounded-lg border border-slate-200">العمود 1</div>\n  <div class="p-4 bg-slate-50 rounded-lg border border-slate-200">العمود 2</div>\n  <div class="p-4 bg-slate-50 rounded-lg border border-slate-200">العمود 3</div>\n</div>',
     category: 'layout',
   },
 ];
@@ -81,7 +87,7 @@ export const HTML_SNIPPETS: CodeSnippet[] = [
  */
 export function generateSnippetHtml(
   snippetId: string,
-  params: Record<string, string> = {}
+  params: Record<string, string> = {},
 ): string | null {
   const snippet = HTML_SNIPPETS.find((s) => s.id === snippetId);
   if (!snippet) return null;

@@ -50,7 +50,14 @@ export type DialogType =
 export interface ImageDialogProps {
   initialUrl?: string;
   initialAlt?: string;
-  onConfirm?: (data: { url: string; alt: string; width?: string; height?: string; className?: string; wrapMode?: 'inline' | 'left' | 'right' | 'break' }) => void;
+  onConfirm?: (data: {
+    url: string;
+    alt: string;
+    width?: string;
+    height?: string;
+    className?: string;
+    wrapMode?: 'inline' | 'left' | 'right' | 'break';
+  }) => void;
 }
 
 export interface ImageEditorDialogProps {
@@ -217,4 +224,3 @@ export class DialogEngine {
 }
 
 export const dialogEngine = DialogEngine.getInstance();
-

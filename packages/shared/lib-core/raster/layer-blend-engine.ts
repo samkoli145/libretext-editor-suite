@@ -51,10 +51,7 @@ export class LayerBlendEngine {
   /**
    * رسم ومزج طبقة على سياق الرسم الوجهة باستخدام أنماط المزج القياسية
    */
-  public static compositeLayer(
-    destCtx: CanvasRenderingContext2D,
-    layer: RasterLayer
-  ): void {
+  public static compositeLayer(destCtx: CanvasRenderingContext2D, layer: RasterLayer): void {
     if (!layer.visible || layer.opacity <= 0) return;
 
     destCtx.save();
@@ -71,7 +68,7 @@ export class LayerBlendEngine {
     layers: RasterLayer[],
     width: number,
     height: number,
-    backgroundColor = '#ffffff'
+    backgroundColor = '#ffffff',
   ): HTMLCanvasElement {
     const outputCanvas = document.createElement('canvas');
     outputCanvas.width = width;

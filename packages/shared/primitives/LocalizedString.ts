@@ -32,10 +32,7 @@ export interface LocalizedString {
   en: string;
 }
 
-export function localize(
-  str: LocalizedString | string,
-  lang: 'ar' | 'en' = 'ar'
-): string {
+export function localize(str: LocalizedString | string, lang: 'ar' | 'en' = 'ar'): string {
   if (typeof str === 'string') return str;
   return str[lang] || str.ar || str.en || '';
 }

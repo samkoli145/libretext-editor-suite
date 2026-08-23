@@ -164,15 +164,13 @@ export class ProjectTreeModel {
       if (isLast && child.kind !== this.kindOf(acc)) {
         throw new Error(
           `[ProjectTreeModel] identity conflict at "${acc}": ` +
-          `node is ${child.kind} but path says ${this.kindOf(acc)}`,
+            `node is ${child.kind} but path says ${this.kindOf(acc)}`,
         );
       }
 
       if (!isLast) {
         if (child.kind !== 'dir') {
-          throw new Error(
-            `[ProjectTreeModel] "${acc}" is a file but has children`,
-          );
+          throw new Error(`[ProjectTreeModel] "${acc}" is a file but has children`);
         }
         current = child;
       }
@@ -263,9 +261,29 @@ export class ProjectTreeModel {
         category: 'core',
         status: 'healthy',
         children: [
-          { id: 'f-contracts', name: 'contracts.ts', nameAr: 'عقود المحركات', path: 'src/core/contracts.ts', type: 'file', category: 'core', status: 'healthy', linesCount: 95, sizeKb: 3.2 },
-          { id: 'f-engines', name: 'engines.ts', nameAr: 'محركات النظام', path: 'src/core/engines.ts', type: 'file', category: 'core', status: 'healthy', linesCount: 140, sizeKb: 5.1 }
-        ]
+          {
+            id: 'f-contracts',
+            name: 'contracts.ts',
+            nameAr: 'عقود المحركات',
+            path: 'src/core/contracts.ts',
+            type: 'file',
+            category: 'core',
+            status: 'healthy',
+            linesCount: 95,
+            sizeKb: 3.2,
+          },
+          {
+            id: 'f-engines',
+            name: 'engines.ts',
+            nameAr: 'محركات النظام',
+            path: 'src/core/engines.ts',
+            type: 'file',
+            category: 'core',
+            status: 'healthy',
+            linesCount: 140,
+            sizeKb: 5.1,
+          },
+        ],
       },
       {
         id: 'tree-shared',
@@ -285,10 +303,40 @@ export class ProjectTreeModel {
             category: 'shared',
             status: 'healthy',
             children: [
-              { id: 'f-zip', name: 'zip-engine.ts', nameAr: 'محرك الأرشيف النقي', path: 'src/shared/lib-core/archive/zip-engine.ts', type: 'file', category: 'shared', status: 'healthy', linesCount: 220, sizeKb: 8.4 },
-              { id: 'f-unit-calc', name: 'unit-calc-engine.ts', nameAr: 'محرك الحسابات والوحدات', path: 'src/shared/lib-core/computational-notebook/unit-calc-engine.ts', type: 'file', category: 'shared', status: 'healthy', linesCount: 310, sizeKb: 12.1 },
-              { id: 'f-doctor-eng', name: 'DoctorSelfHealingEngine.ts', nameAr: 'دكتور الإصلاح الذاتي', path: 'src/shared/engines/DoctorSelfHealingEngine.ts', type: 'file', category: 'shared', status: 'healthy', linesCount: 380, sizeKb: 14.5 }
-            ]
+              {
+                id: 'f-zip',
+                name: 'zip-engine.ts',
+                nameAr: 'محرك الأرشيف النقي',
+                path: 'src/shared/lib-core/archive/zip-engine.ts',
+                type: 'file',
+                category: 'shared',
+                status: 'healthy',
+                linesCount: 220,
+                sizeKb: 8.4,
+              },
+              {
+                id: 'f-unit-calc',
+                name: 'unit-calc-engine.ts',
+                nameAr: 'محرك الحسابات والوحدات',
+                path: 'src/shared/lib-core/computational-notebook/unit-calc-engine.ts',
+                type: 'file',
+                category: 'shared',
+                status: 'healthy',
+                linesCount: 310,
+                sizeKb: 12.1,
+              },
+              {
+                id: 'f-doctor-eng',
+                name: 'DoctorSelfHealingEngine.ts',
+                nameAr: 'دكتور الإصلاح الذاتي',
+                path: 'src/shared/engines/DoctorSelfHealingEngine.ts',
+                type: 'file',
+                category: 'shared',
+                status: 'healthy',
+                linesCount: 380,
+                sizeKb: 14.5,
+              },
+            ],
           },
           {
             id: 'tree-tools',
@@ -299,11 +347,31 @@ export class ProjectTreeModel {
             category: 'shared',
             status: 'healthy',
             children: [
-              { id: 'f-unified-tools', name: 'unifiedTools.ts', nameAr: 'الأدوات الموحدة الـ 160+', path: 'src/shared/tools/unifiedTools.ts', type: 'file', category: 'shared', status: 'healthy', linesCount: 450, sizeKb: 18.2 },
-              { id: 'f-tool-registry', name: 'ToolRegistry.ts', nameAr: 'سجل الأدوات الشامل', path: 'src/shared/tools/ToolRegistry.ts', type: 'file', category: 'shared', status: 'healthy', linesCount: 905, sizeKb: 51.2 }
-            ]
-          }
-        ]
+              {
+                id: 'f-unified-tools',
+                name: 'unifiedTools.ts',
+                nameAr: 'الأدوات الموحدة الـ 160+',
+                path: 'src/shared/tools/unifiedTools.ts',
+                type: 'file',
+                category: 'shared',
+                status: 'healthy',
+                linesCount: 450,
+                sizeKb: 18.2,
+              },
+              {
+                id: 'f-tool-registry',
+                name: 'ToolRegistry.ts',
+                nameAr: 'سجل الأدوات الشامل',
+                path: 'src/shared/tools/ToolRegistry.ts',
+                type: 'file',
+                category: 'shared',
+                status: 'healthy',
+                linesCount: 905,
+                sizeKb: 51.2,
+              },
+            ],
+          },
+        ],
       },
       {
         id: 'tree-features',
@@ -314,11 +382,43 @@ export class ProjectTreeModel {
         category: 'features',
         status: 'healthy',
         children: [
-          { id: 'f-canvas', name: 'canvas-designer', nameAr: 'محرر الكانفا والمخططات', path: 'src/features/canvas-designer', type: 'folder', category: 'features', status: 'healthy' },
-          { id: 'f-ui-des', name: 'ui-designer', nameAr: 'مصمم واجهات وتطبيقات الويب', path: 'src/features/ui-designer', type: 'folder', category: 'features', status: 'healthy' },
-          { id: 'f-rich-txt', name: 'rich-text', nameAr: 'محرر المستندات والنصوص الغنية', path: 'src/features/rich-text', type: 'folder', category: 'features', status: 'healthy' },
-          { id: 'f-pdf', name: 'pdf', nameAr: 'استوديو ومحرر ملفات PDF', path: 'src/features/pdf', type: 'folder', category: 'features', status: 'healthy' }
-        ]
+          {
+            id: 'f-canvas',
+            name: 'canvas-designer',
+            nameAr: 'محرر الكانفا والمخططات',
+            path: 'src/features/canvas-designer',
+            type: 'folder',
+            category: 'features',
+            status: 'healthy',
+          },
+          {
+            id: 'f-ui-des',
+            name: 'ui-designer',
+            nameAr: 'مصمم واجهات وتطبيقات الويب',
+            path: 'src/features/ui-designer',
+            type: 'folder',
+            category: 'features',
+            status: 'healthy',
+          },
+          {
+            id: 'f-rich-txt',
+            name: 'rich-text',
+            nameAr: 'محرر المستندات والنصوص الغنية',
+            path: 'src/features/rich-text',
+            type: 'folder',
+            category: 'features',
+            status: 'healthy',
+          },
+          {
+            id: 'f-pdf',
+            name: 'pdf',
+            nameAr: 'استوديو ومحرر ملفات PDF',
+            path: 'src/features/pdf',
+            type: 'folder',
+            category: 'features',
+            status: 'healthy',
+          },
+        ],
       },
       {
         id: 'tree-shell',
@@ -329,11 +429,41 @@ export class ProjectTreeModel {
         category: 'shell',
         status: 'healthy',
         children: [
-          { id: 'f-dev-engine', name: 'DevStudioEngine.ts', nameAr: 'المحرك الأوركسترالي', path: 'src/shell/dev-studio/core/DevStudioEngine.ts', type: 'file', category: 'shell', status: 'healthy', linesCount: 160, sizeKb: 6.2 },
-          { id: 'f-dev-doctor', name: 'DoctorEngine.ts', nameAr: 'صمام أمان الدكتور', path: 'src/shell/dev-studio/doctor/DoctorEngine.ts', type: 'file', category: 'shell', status: 'healthy', linesCount: 110, sizeKb: 4.8 },
-          { id: 'f-dev-snap', name: 'SnapshotEngine.ts', nameAr: 'محرك اللقطات والرجوع', path: 'src/shell/dev-studio/checkpoint/SnapshotEngine.ts', type: 'file', category: 'shell', status: 'healthy', linesCount: 90, sizeKb: 3.9 }
-        ]
-      }
+          {
+            id: 'f-dev-engine',
+            name: 'DevStudioEngine.ts',
+            nameAr: 'المحرك الأوركسترالي',
+            path: 'src/shell/dev-studio/core/DevStudioEngine.ts',
+            type: 'file',
+            category: 'shell',
+            status: 'healthy',
+            linesCount: 160,
+            sizeKb: 6.2,
+          },
+          {
+            id: 'f-dev-doctor',
+            name: 'DoctorEngine.ts',
+            nameAr: 'صمام أمان الدكتور',
+            path: 'src/shell/dev-studio/doctor/DoctorEngine.ts',
+            type: 'file',
+            category: 'shell',
+            status: 'healthy',
+            linesCount: 110,
+            sizeKb: 4.8,
+          },
+          {
+            id: 'f-dev-snap',
+            name: 'SnapshotEngine.ts',
+            nameAr: 'محرك اللقطات والرجوع',
+            path: 'src/shell/dev-studio/checkpoint/SnapshotEngine.ts',
+            type: 'file',
+            category: 'shell',
+            status: 'healthy',
+            linesCount: 90,
+            sizeKb: 3.9,
+          },
+        ],
+      },
     ];
   }
 }

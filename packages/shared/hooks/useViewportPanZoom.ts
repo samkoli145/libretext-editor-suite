@@ -34,7 +34,7 @@ import {
 
 export function useViewportPanZoom(
   initialState: Partial<ViewportTransform> = {},
-  config: PanZoomConfig = {}
+  config: PanZoomConfig = {},
 ) {
   const engine = useMemo(() => new ViewportPanZoomEngine(config), [config]);
   const [viewport, setViewport] = useState<ViewportTransform>({
@@ -47,17 +47,24 @@ export function useViewportPanZoom(
   const startPanPos = useRef({ x: 0, y: 0 });
 
   const handleZoom = useCallback(
-    (deltaY: number, screenX: number, screenY: number, containerRect: { left: number; top: number }) => {
-      setViewport((prev) => engine.calculateZoomAtPoint(prev, deltaY, screenX, screenY, containerRect));
+    (
+      deltaY: number,
+      screenX: number,
+      screenY: number,
+      containerRect: { left: number; top: number },
+    ) => {
+      setViewport((prev) =>
+        engine.calculateZoomAtPoint(prev, deltaY, screenX, screenY, containerRect),
+      );
     },
-    [engine]
+    [engine],
   );
 
   const handlePan = useCallback(
     (dx: number, dy: number) => {
       setViewport((prev) => engine.calculatePan(prev, dx, dy));
     },
-    [engine]
+    [engine],
   );
 
   const handleReset = useCallback(() => {
@@ -77,7 +84,7 @@ export function useViewportPanZoom(
       startPanPos.current = { x: clientX, y: clientY };
       setViewport((prev) => engine.calculatePan(prev, dx, dy));
     },
-    [engine]
+    [engine],
   );
 
   const endPan = useCallback(() => {

@@ -59,7 +59,7 @@ import {
   ICON_SIZES,
   type UiPreferences,
   type IconSizeMode,
-} from '../core/services/UiPreferencesService';
+} from '../core/src/services/UiPreferencesService';
 import { UiIcon } from '../shared/components/UiIcon';
 import { useTabs } from '../app/providers';
 
@@ -73,18 +73,21 @@ type TabKey = 'matrix' | 'appearance' | 'studios';
 export function SettingsPanel({ isOpen, onClose }: SettingsPanelProps) {
   const [activeTab, setActiveTab] = useState<TabKey>('matrix');
   const [components, setComponents] = useState<UIComponentRegistration[]>(() =>
-    ComponentMatrix.getAllComponents()
+    ComponentMatrix.getAllComponents(),
   );
-  const [prefs, setPrefs] = useState<UiPreferences>(() =>
-    UiPreferencesService.getPreferences()
-  );
+  const [prefs, setPrefs] = useState<UiPreferences>(() => UiPreferencesService.getPreferences());
 
   const { activeDocument, createDocument, openDocuments } = useTabs();
 
   // Dynamic Movable Panel (Mouse Drag) State
   const [position, setPosition] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
-  const dragStartRef = useRef<{ startX: number; startY: number; initialPosX: number; initialPosY: number }>({
+  const dragStartRef = useRef<{
+    startX: number;
+    startY: number;
+    initialPosX: number;
+    initialPosY: number;
+  }>({
     startX: 0,
     startY: 0,
     initialPosX: 0,
@@ -135,7 +138,7 @@ export function SettingsPanel({ isOpen, onClose }: SettingsPanelProps) {
         initialPosY: position.y,
       };
     },
-    [position]
+    [position],
   );
 
   useEffect(() => {
@@ -144,8 +147,14 @@ export function SettingsPanel({ isOpen, onClose }: SettingsPanelProps) {
     const handleMouseMove = (e: MouseEvent) => {
       const dx = e.clientX - dragStartRef.current.startX;
       const dy = e.clientY - dragStartRef.current.startY;
-      const newX = Math.max(10, Math.min(window.innerWidth - 300, dragStartRef.current.initialPosX + dx));
-      const newY = Math.max(10, Math.min(window.innerHeight - 150, dragStartRef.current.initialPosY + dy));
+      const newX = Math.max(
+        10,
+        Math.min(window.innerWidth - 300, dragStartRef.current.initialPosX + dx),
+      );
+      const newY = Math.max(
+        10,
+        Math.min(window.innerHeight - 150, dragStartRef.current.initialPosY + dy),
+      );
       setPosition({ x: newX, y: newY });
     };
 
@@ -366,7 +375,9 @@ export function SettingsPanel({ isOpen, onClose }: SettingsPanelProps) {
                       {comp.settingsConfig.allowPositionChange && (
                         <select
                           value={comp.currentPosition}
-                          onChange={(e) => handlePositionChange(comp.id, e.target.value as UIPosition)}
+                          onChange={(e) =>
+                            handlePositionChange(comp.id, e.target.value as UIPosition)
+                          }
                           className="bg-white border border-slate-200 rounded-lg px-2 py-1 text-[11px] text-slate-700 font-sans cursor-pointer focus:outline-none focus:border-blue-500"
                         >
                           <option value="top-bar">أعلى</option>
@@ -440,7 +451,10 @@ export function SettingsPanel({ isOpen, onClose }: SettingsPanelProps) {
                             : 'bg-white hover:bg-slate-50 border-slate-200 text-slate-700'
                         }`}
                       >
-                        <Sparkles style={{ width: `${cfg.px}px`, height: `${cfg.px}px` }} className="text-blue-600" />
+                        <Sparkles
+                          style={{ width: `${cfg.px}px`, height: `${cfg.px}px` }}
+                          className="text-blue-600"
+                        />
                         <span className="text-[11px]">{cfg.label}</span>
                       </button>
                     );
@@ -462,7 +476,9 @@ export function SettingsPanel({ isOpen, onClose }: SettingsPanelProps) {
                       <button
                         key={font.id}
                         type="button"
-                        onClick={() => UiPreferencesService.updatePreferences({ fontFamily: font.fontStack })}
+                        onClick={() =>
+                          UiPreferencesService.updatePreferences({ fontFamily: font.fontStack })
+                        }
                         className={`p-2.5 rounded-xl border flex items-center justify-between gap-2 transition cursor-pointer text-right ${
                           isSelected
                             ? 'bg-blue-50 border-blue-500 text-blue-900 shadow-2xs'
@@ -542,7 +558,9 @@ export function SettingsPanel({ isOpen, onClose }: SettingsPanelProps) {
                     <Palette size={18} />
                   </div>
                   <div>
-                    <div className="font-bold text-slate-900 text-xs">استوديو الكانفا والفيكتور</div>
+                    <div className="font-bold text-slate-900 text-xs">
+                      استوديو الكانفا والفيكتور
+                    </div>
                     <div className="text-[11px] text-slate-500 mt-0.5">
                       رسم المتجهات، والطبقات، والمنحنيات، وفلاتر الصور
                     </div>

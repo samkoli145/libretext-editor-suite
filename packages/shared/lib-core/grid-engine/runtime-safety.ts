@@ -30,22 +30,20 @@ export class InvariantViolation extends Error {
   constructor(
     public readonly invariant: string,
     public readonly context: Record<string, unknown>,
-    message: string
+    message: string,
   ) {
     super(`[Invariant: ${invariant}] ${message}`);
     this.name = 'InvariantViolation';
   }
 }
 
-const IS_DEV = typeof process !== 'undefined'
-  ? process.env.NODE_ENV !== 'production'
-  : true;
+const IS_DEV = typeof process !== 'undefined' ? process.env.NODE_ENV !== 'production' : true;
 
 export function assertInvariant(
   condition: boolean,
   invariant: string,
   message: string,
-  context: Record<string, unknown> = {}
+  context: Record<string, unknown> = {},
 ): void {
   if (!IS_DEV) return;
   if (!condition) {
@@ -61,7 +59,11 @@ export function checkCellKeyBijectivity(row: number, col: number): boolean {
     const key = cellKey(row, col);
     const decoded = cellFromKey(key);
     const valid = decoded.row === row && decoded.col === col;
-    assertInvariant(valid, 'CellKeyBijectivity', `Bijective violation for (${row}, ${col}) -> key ${key}`);
+    assertInvariant(
+      valid,
+      'CellKeyBijectivity',
+      `Bijective violation for (${row}, ${col}) -> key ${key}`,
+    );
     return valid;
   } catch (err) {
     assertInvariant(false, 'CellKeyBijectivity', `Exception during key conversion: ${err}`);
@@ -84,7 +86,7 @@ export function checkTopologicalOrderValidity(source: CellSource, result: CellRe
   assertInvariant(
     result.order.length <= source.rows * source.cols,
     'TopologicalOrderValidity',
-    'Evaluation order exceeds maximum sheet cell capacity'
+    'Evaluation order exceeds maximum sheet cell capacity',
   );
 
   return true;

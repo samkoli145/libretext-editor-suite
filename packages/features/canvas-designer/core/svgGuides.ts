@@ -79,7 +79,7 @@ export function calculateSnapAndGuides(
   width: number,
   height: number,
   allElements: CanvasElement[],
-  tolerance: number = 6
+  tolerance: number = 6,
 ): SnapResult {
   let finalX = targetX;
   let finalY = targetY;
@@ -274,7 +274,7 @@ export function calculateResizeSnapAndGuides(
   targetWidth: number,
   targetHeight: number,
   allElements: CanvasElement[],
-  tolerance: number = 6
+  tolerance: number = 6,
 ): ResizeSnapResult {
   let finalX = targetX;
   let finalY = targetY;
@@ -418,4 +418,3 @@ export function calculateResizeSnapAndGuides(
     guides,
   };
 }
-

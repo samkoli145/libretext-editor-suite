@@ -65,7 +65,7 @@ export function calculateResizedWidth(
   startWidth: number,
   deltaX: number,
   direction: 'left' | 'right',
-  constraints: ResizeConstraints
+  constraints: ResizeConstraints,
 ): number {
   // في اللغات من اليمين لليسار RTL، زيادة الإزاحة يميناً أو يساراً تعتمد على موضع اللوحة
   const multiplier = direction === 'left' ? -1 : 1;
@@ -81,7 +81,7 @@ export function checkDockHitZone(
   clientY: number,
   windowWidth: number,
   dockEdge: 'left' | 'right' | 'top',
-  thresholdPx: number = 40
+  thresholdPx: number = 40,
 ): boolean {
   if (dockEdge === 'right') {
     return clientX >= windowWidth - thresholdPx;

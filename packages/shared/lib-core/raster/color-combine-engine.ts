@@ -46,7 +46,14 @@ function clampAlpha(a: number): number {
 function expandHex(hex: string): string {
   const h = hex.toLowerCase();
   if (/^#[0-9a-f]{3}$/.test(h)) {
-    return '#' + h.slice(1).split('').map((c) => c + c).join('');
+    return (
+      '#' +
+      h
+        .slice(1)
+        .split('')
+        .map((c) => c + c)
+        .join('')
+    );
   }
   return h;
 }
@@ -63,13 +70,22 @@ export function parseColorHex(v: string): ColorWithAlpha {
 
   const rgba = s.match(/^rgba?\(([^)]+)\)$/i);
   if (rgba) {
-    const parts = rgba[1].split(/[\s,/]+/).filter(Boolean).map((x) => parseFloat(x));
+    const parts = rgba[1]
+      .split(/[\s,/]+/)
+      .filter(Boolean)
+      .map((x) => parseFloat(x));
     const [r, g, b] = parts;
     const a = parts.length > 3 && Number.isFinite(parts[3]) ? parts[3] : 1;
     if ([r, g, b].every((n) => Number.isFinite(n))) {
-      const hex = '#' + [r, g, b]
-        .map((n) => Math.round(Math.min(Math.max(n, 0), 255)).toString(16).padStart(2, '0'))
-        .join('');
+      const hex =
+        '#' +
+        [r, g, b]
+          .map((n) =>
+            Math.round(Math.min(Math.max(n, 0), 255))
+              .toString(16)
+              .padStart(2, '0'),
+          )
+          .join('');
       return { hex, a: clampAlpha(a) };
     }
   }
@@ -108,7 +124,12 @@ export function roundAlpha(a: number): number {
 }
 
 /** تحويل {hex, a} إلى كائن {r,g,b,a} صالح — لعرض قيم لوحة الخصائص. */
-export function colorWithAlphaToRgba(c: ColorWithAlpha): { r: number; g: number; b: number; a: number } {
+export function colorWithAlphaToRgba(c: ColorWithAlpha): {
+  r: number;
+  g: number;
+  b: number;
+  a: number;
+} {
   const expanded = expandHex(c.hex);
   const match = expanded.match(/^#([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$/);
   if (!match) return { r: 0, g: 0, b: 0, a: clampAlpha(c.a) };

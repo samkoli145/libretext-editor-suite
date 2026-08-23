@@ -33,12 +33,7 @@
 import { WebBlock } from './types';
 
 export type NoCodeConditionOperator =
-  | 'equals'
-  | 'not_equals'
-  | 'contains'
-  | 'greater_than'
-  | 'less_than'
-  | 'is_empty';
+  'equals' | 'not_equals' | 'contains' | 'greater_than' | 'less_than' | 'is_empty';
 
 export interface NoCodeCondition {
   field: string;
@@ -51,7 +46,8 @@ export interface NoCodeActionRule {
   trigger: 'on_click' | 'on_hover' | 'on_change' | 'on_submit' | 'on_view';
   conditions?: NoCodeCondition[];
   actions: {
-    type: 'UPDATE_STYLE' | 'UPDATE_ATTR' | 'TOGGLE_VISIBILITY' | 'SET_CONTENT' | 'EMIT_NOTIFICATION';
+    type:
+      'UPDATE_STYLE' | 'UPDATE_ATTR' | 'TOGGLE_VISIBILITY' | 'SET_CONTENT' | 'EMIT_NOTIFICATION';
     targetBlockId: string;
     payload: any;
   }[];
@@ -120,7 +116,7 @@ export class NoCodeExecutionEngine {
     blockId: string,
     trigger: NoCodeActionRule['trigger'],
     contextData: Record<string, any> = {},
-    blocksTree: WebBlock[]
+    blocksTree: WebBlock[],
   ): WebBlock[] {
     const blockRules = this.rules.get(blockId) || [];
     const matchingRules = blockRules.filter((r) => r.trigger === trigger);
@@ -131,7 +127,7 @@ export class NoCodeExecutionEngine {
 
     for (const rule of matchingRules) {
       const allConditionsMet = (rule.conditions || []).every((cond) =>
-        this.evaluateCondition(cond, contextData)
+        this.evaluateCondition(cond, contextData),
       );
 
       if (!allConditionsMet && rule.conditions && rule.conditions.length > 0) {
@@ -150,7 +146,7 @@ export class NoCodeExecutionEngine {
     tree: WebBlock[],
     targetId: string,
     actionType: NoCodeActionRule['actions'][0]['type'],
-    payload: any
+    payload: any,
   ): boolean {
     for (const node of tree) {
       if (node.id === targetId) {

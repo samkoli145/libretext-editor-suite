@@ -51,7 +51,7 @@ import { MathPadPanel } from './panels/MathPadPanel';
  * تماماً مثل applyAccordion في panels.ts.
  */
 export const WINGS = ['Tree', 'Tasks', 'Doctor', 'Math'] as const;
-export type Wing = typeof WINGS[number];
+export type Wing = (typeof WINGS)[number];
 
 /**
  * الأجنحة المغلقة افتراضياً حتى يفتحها المستخدم.
@@ -165,9 +165,8 @@ export class DevStudioWorkbench {
    * في جسم قابل للطي. حالة الفتح محفوظة بالعنوان.
    */
   buildWing(name: Wing, buildBody: () => HTMLElement): HTMLElement {
-    const wing = typeof document !== 'undefined'
-      ? document.createElement('div')
-      : ({} as HTMLElement);
+    const wing =
+      typeof document !== 'undefined' ? document.createElement('div') : ({} as HTMLElement);
     if (!wing.style) return wing;
 
     wing.className = 'dsw-wing';

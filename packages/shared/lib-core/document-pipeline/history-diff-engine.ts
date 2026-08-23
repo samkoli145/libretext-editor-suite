@@ -114,7 +114,11 @@ export class HistoryDiffEngine<T> {
     }
 
     const now = Date.now();
-    if (this.debounceMs > 0 && now - this.lastPushedTimestamp < this.debounceMs && this.past.length > 0) {
+    if (
+      this.debounceMs > 0 &&
+      now - this.lastPushedTimestamp < this.debounceMs &&
+      this.past.length > 0
+    ) {
       // Overwrite present state if within debounce interval
       this.present.state = this.cloneState(nextState);
       if (description) this.present.description = description;

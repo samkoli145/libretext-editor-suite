@@ -71,8 +71,15 @@ export function createMultiSelectionEngine() {
   }
 
   return {
-    select, addToSelection, removeFromSelection, toggleSelection,
-    invertSelection, selectAll, clearSelection, getSelection,
-    isSelected, count,
+    select,
+    addToSelection,
+    removeFromSelection,
+    toggleSelection,
+    invertSelection,
+    selectAll,
+    clearSelection,
+    getSelection,
+    isSelected,
+    count,
   };
 }

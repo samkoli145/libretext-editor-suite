@@ -79,7 +79,7 @@ export interface UseContextMenuReturn {
   openContextMenu: (
     eOrX: React.MouseEvent | MouseEvent | number,
     itemsOrY?: ContextMenuItem[] | number,
-    titleOrContext?: string | React.ReactNode | Record<string, unknown>
+    titleOrContext?: string | React.ReactNode | Record<string, unknown>,
   ) => void;
 }
 
@@ -110,7 +110,7 @@ export function useContextMenu(options?: UseContextMenuOptions): UseContextMenuR
 
       // البحث عن أقرب عنصر يحمل سمات سياق
       const contextTarget = target.closest?.(
-        '[data-element-id], [data-block-type], [data-editable], [data-context-target]'
+        '[data-element-id], [data-block-type], [data-editable], [data-context-target]',
       ) as HTMLElement | null;
 
       // تطبيق المرشح الإضافي إذا كان موجودًا
@@ -131,9 +131,7 @@ export function useContextMenu(options?: UseContextMenuOptions): UseContextMenuR
       if (contextTarget && contextTarget.dataset) {
         for (const [key, value] of Object.entries(contextTarget.dataset)) {
           if (key.startsWith('context') && key !== 'contextTarget') {
-            const contextKey = key
-              .replace('context', '')
-              .replace(/^[A-Z]/, (m) => m.toLowerCase());
+            const contextKey = key.replace('context', '').replace(/^[A-Z]/, (m) => m.toLowerCase());
 
             try {
               context[contextKey] = JSON.parse(value ?? 'null');
@@ -157,7 +155,7 @@ export function useContextMenu(options?: UseContextMenuOptions): UseContextMenuR
       setState(newState);
       onOpen?.(newState);
     },
-    [enabled, onOpen, shouldOpen]
+    [enabled, onOpen, shouldOpen],
   );
 
   /**
@@ -185,7 +183,7 @@ export function useContextMenu(options?: UseContextMenuOptions): UseContextMenuR
       setState(newState);
       onOpen?.(newState);
     },
-    [onOpen]
+    [onOpen],
   );
 
   /**
@@ -195,10 +193,14 @@ export function useContextMenu(options?: UseContextMenuOptions): UseContextMenuR
     (
       eOrX: React.MouseEvent | MouseEvent | number,
       itemsOrY?: ContextMenuItem[] | number,
-      titleOrContext?: string | React.ReactNode | Record<string, unknown>
+      titleOrContext?: string | React.ReactNode | Record<string, unknown>,
     ) => {
       if (typeof eOrX === 'number' && typeof itemsOrY === 'number') {
-        openMenu(eOrX, itemsOrY, typeof titleOrContext === 'object' ? (titleOrContext as Record<string, unknown>) : {});
+        openMenu(
+          eOrX,
+          itemsOrY,
+          typeof titleOrContext === 'object' ? (titleOrContext as Record<string, unknown>) : {},
+        );
         return;
       }
 
@@ -207,16 +209,18 @@ export function useContextMenu(options?: UseContextMenuOptions): UseContextMenuR
       event.stopPropagation?.();
 
       const items = Array.isArray(itemsOrY) ? itemsOrY : undefined;
-      const title = typeof titleOrContext === 'string' || React.isValidElement(titleOrContext)
-        ? (titleOrContext as React.ReactNode)
-        : undefined;
-      const context = (typeof titleOrContext === 'object' && !React.isValidElement(titleOrContext))
-        ? (titleOrContext as Record<string, unknown>)
-        : {};
+      const title =
+        typeof titleOrContext === 'string' || React.isValidElement(titleOrContext)
+          ? (titleOrContext as React.ReactNode)
+          : undefined;
+      const context =
+        typeof titleOrContext === 'object' && !React.isValidElement(titleOrContext)
+          ? (titleOrContext as Record<string, unknown>)
+          : {};
 
       const target = (event.target as HTMLElement) || null;
       const contextTarget = target?.closest?.(
-        '[data-element-id], [data-block-type], [data-editable], [data-context-target]'
+        '[data-element-id], [data-block-type], [data-editable], [data-context-target]',
       ) as HTMLElement | null;
 
       const targetId = contextTarget?.dataset?.elementId ?? null;
@@ -241,7 +245,7 @@ export function useContextMenu(options?: UseContextMenuOptions): UseContextMenuR
       setState(newState);
       onOpen?.(newState);
     },
-    [openMenu, onOpen]
+    [openMenu, onOpen],
   );
 
   // ربط/فصل مستمع الأحداث
@@ -314,7 +318,7 @@ export function useContextMenuCommands() {
         return false;
       }
     },
-    []
+    [],
   );
 
   return { executeCommand };
@@ -347,7 +351,7 @@ export function useGlobalContextMenu() {
         return false;
       }
     },
-    []
+    [],
   );
 
   return {

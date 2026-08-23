@@ -50,7 +50,10 @@ function scanDirectory(dir: string, fileList: string[] = []): string[] {
     const stat = fs.statSync(fullPath);
     if (stat.isDirectory()) {
       scanDirectory(fullPath, fileList);
-    } else if ((fullPath.endsWith('.ts') || fullPath.endsWith('.tsx')) && !fullPath.endsWith('.test.ts')) {
+    } else if (
+      (fullPath.endsWith('.ts') || fullPath.endsWith('.tsx')) &&
+      !fullPath.endsWith('.test.ts')
+    ) {
       fileList.push(fullPath);
     }
   }
@@ -70,7 +73,13 @@ function extractSymbols(filePath: string): CodeSymbol[] {
     const fnMatch = line.match(/^export\s+(?:async\s+)?function\s+(\w+)/);
     if (fnMatch) {
       const params = line.match(/\(([^)]*)\)/)?.[1]?.substring(0, 60) || '';
-      symbols.push({ name: fnMatch[1]!, type: 'function', file: relativePath, line: i + 1, params });
+      symbols.push({
+        name: fnMatch[1]!,
+        type: 'function',
+        file: relativePath,
+        line: i + 1,
+        params,
+      });
       continue;
     }
 
@@ -148,7 +157,10 @@ function generateFunctionIndexMd(packages: PackageInfo[]): string {
       md += `|---|-------|-------|-----------|----------|\n`;
 
       syms.forEach((sym, idx) => {
-        const typeEmoji = { function: '⚙️', class: '🏗️', interface: '📐', type: '🏷️', constant: '📌', enum: '📋' }[sym.type] || '';
+        const typeEmoji =
+          { function: '⚙️', class: '🏗️', interface: '📐', type: '🏷️', constant: '📌', enum: '📋' }[
+            sym.type
+          ] || '';
         md += `| ${idx + 1}/${syms.length} | \`${sym.name}\` | ${typeEmoji} ${sym.type} | \`${path.basename(sym.file)}:${sym.line}\` | \`${sym.params || '—'}\` |\n`;
       });
       md += `\n`;
@@ -169,7 +181,11 @@ function updateSystemInventory(packages: PackageInfo[]): void {
   try {
     const inventory = JSON.parse(fs.readFileSync(inventoryPath, 'utf-8'));
 
-    let totalFunctions = 0, totalClasses = 0, totalInterfaces = 0, totalTypes = 0, totalConstants = 0;
+    let totalFunctions = 0,
+      totalClasses = 0,
+      totalInterfaces = 0,
+      totalTypes = 0,
+      totalConstants = 0;
     for (const pkg of packages) {
       for (const sym of pkg.symbols) {
         if (sym.type === 'function') totalFunctions++;
@@ -229,7 +245,9 @@ function main() {
       totalLines,
     });
 
-    console.log(`  📦 ${pkgName}: ${allSymbols.length} symbols in ${files.length} files (${totalLines} lines)`);
+    console.log(
+      `  📦 ${pkgName}: ${allSymbols.length} symbols in ${files.length} files (${totalLines} lines)`,
+    );
   }
 
   // Generate FUNCTION_INDEX.md

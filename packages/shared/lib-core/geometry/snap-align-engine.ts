@@ -57,7 +57,7 @@ export class SnapAlignEngine {
   public calculateSnap(
     target: { x: number; y: number; width: number; height: number },
     otherItems: (RectBounds & { id?: string })[],
-    canvasSize?: { width: number; height: number }
+    canvasSize?: { width: number; height: number },
   ): SnapResult {
     let snappedX = target.x;
     let snappedY = target.y;
@@ -76,8 +76,16 @@ export class SnapAlignEngine {
 
     if (canvasSize) {
       // Center of canvas
-      xSnapPoints.push({ pos: canvasSize.width / 2, alignWith: canvasSize.width / 2, type: 'center' });
-      ySnapPoints.push({ pos: canvasSize.height / 2, alignWith: canvasSize.height / 2, type: 'center' });
+      xSnapPoints.push({
+        pos: canvasSize.width / 2,
+        alignWith: canvasSize.width / 2,
+        type: 'center',
+      });
+      ySnapPoints.push({
+        pos: canvasSize.height / 2,
+        alignWith: canvasSize.height / 2,
+        type: 'center',
+      });
     }
 
     for (const item of otherItems) {
@@ -90,14 +98,14 @@ export class SnapAlignEngine {
       xSnapPoints.push(
         { pos: item.x, alignWith: item.x, type: 'left' },
         { pos: itemCenterX, alignWith: itemCenterX, type: 'center' },
-        { pos: itemRightX, alignWith: itemRightX, type: 'right' }
+        { pos: itemRightX, alignWith: itemRightX, type: 'right' },
       );
 
       // Y snap points (Top, Center, Bottom)
       ySnapPoints.push(
         { pos: item.y, alignWith: item.y, type: 'top' },
         { pos: itemCenterY, alignWith: itemCenterY, type: 'center' },
-        { pos: itemBottomY, alignWith: itemBottomY, type: 'bottom' }
+        { pos: itemBottomY, alignWith: itemBottomY, type: 'bottom' },
       );
     }
 

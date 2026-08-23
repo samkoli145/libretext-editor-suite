@@ -46,13 +46,13 @@ import {
   nearestT,
   serializeBezier,
   splitSegment,
-} from './bezier-curves'
+} from './bezier-curves';
 
-const CORNER_ANGLE_RAD = 0.14 // ≈ 8° — عتبة الزاوية لتصنيف النقطة كزاوية
+const CORNER_ANGLE_RAD = 0.14; // ≈ 8° — عتبة الزاوية لتصنيف النقطة كزاوية
 
 /** حارس نوع: هل المسار يحمل أوامر بيزير فعلية (منحنى وليس مضلعاً مستقيماً)؟ */
 export function isBezierCurve(el: { type: string; shape?: string; d?: string }): boolean {
-  return el.type === 'shape' && el.shape === 'path' && /[csq]/i.test(el.d ?? '')
+  return el.type === 'shape' && el.shape === 'path' && /[csq]/i.test(el.d ?? '');
 }
 
 /**
@@ -61,23 +61,23 @@ export function isBezierCurve(el: { type: string; shape?: string; d?: string }):
  */
 export function markBezierNode(n: BezNode): BezNode {
   if (n.in && n.out) {
-    const a = Math.atan2(n.p.y - n.in.y, n.p.x - n.in.x)
-    const b = Math.atan2(n.out.y - n.p.y, n.out.x - n.p.x)
-    let diff = Math.abs(a - b)
-    if (diff > Math.PI) diff = 2 * Math.PI - diff
-    return { ...n, corner: diff > CORNER_ANGLE_RAD }
+    const a = Math.atan2(n.p.y - n.in.y, n.p.x - n.in.x);
+    const b = Math.atan2(n.out.y - n.p.y, n.out.x - n.p.x);
+    let diff = Math.abs(a - b);
+    if (diff > Math.PI) diff = 2 * Math.PI - diff;
+    return { ...n, corner: diff > CORNER_ANGLE_RAD };
   }
-  return n
+  return n;
 }
 
 /** تصنيف كل العقد دفعة واحدة (تُستخدم عند فتح مسار للتحرير). */
 export function markAllBezierNodes(nodes: BezNode[]): BezNode[] {
-  return nodes.map(markBezierNode)
+  return nodes.map(markBezierNode);
 }
 
 /** تبديل حالة العقدة بين ناعمة (Smooth) وزاوية (Corner) — Alt-click. */
 export function toggleBezierNodeCorner(n: BezNode): BezNode {
-  return { ...n, corner: !n.corner }
+  return { ...n, corner: !n.corner };
 }
 
 /**
@@ -90,12 +90,13 @@ export function dragBezierHandle(
   node: BezNode,
   which: 'in' | 'out',
   newHandle: Pt,
-  opts?: { breakCorner?: boolean }
+  opts?: { breakCorner?: boolean },
 ): BezNode {
-  const moved = which === 'in' ? { ...node, in: { ...newHandle } } : { ...node, out: { ...newHandle } }
-  const next = opts?.breakCorner ? { ...moved, corner: true } : moved
-  if (next.corner) return next
-  return mirrorHandle(next, which, true)
+  const moved =
+    which === 'in' ? { ...node, in: { ...newHandle } } : { ...node, out: { ...newHandle } };
+  const next = opts?.breakCorner ? { ...moved, corner: true } : moved;
+  if (next.corner) return next;
+  return mirrorHandle(next, which, true);
 }
 
 /**
@@ -107,48 +108,48 @@ export function dragBezierHandle(
 export function insertBezierNodeAt(
   nodes: BezNode[],
   closed: boolean,
-  q: Pt
+  q: Pt,
 ): { nodes: BezNode[]; index: number; point: Pt } {
-  if (nodes.length < 2) return { nodes: [...nodes], index: -1, point: q }
+  if (nodes.length < 2) return { nodes: [...nodes], index: -1, point: q };
 
-  const segmentCount = closed ? nodes.length : nodes.length - 1
-  let best = 0
-  let bestT = 0.5
-  let bestD = Infinity
+  const segmentCount = closed ? nodes.length : nodes.length - 1;
+  let best = 0;
+  let bestT = 0.5;
+  let bestD = Infinity;
 
   for (let i = 0; i < segmentCount; i++) {
-    const a = nodes[i]
-    const b = nodes[(i + 1) % nodes.length]
-    const c1 = a.out ?? a.p
-    const c2 = b.in ?? b.p
-    const t = nearestT(a.p, c1, c2, b.p, q)
-    const pt = cubicAt(a.p, c1, c2, b.p, t)
-    const dd = (pt.x - q.x) ** 2 + (pt.y - q.y) ** 2
+    const a = nodes[i];
+    const b = nodes[(i + 1) % nodes.length];
+    const c1 = a.out ?? a.p;
+    const c2 = b.in ?? b.p;
+    const t = nearestT(a.p, c1, c2, b.p, q);
+    const pt = cubicAt(a.p, c1, c2, b.p, t);
+    const dd = (pt.x - q.x) ** 2 + (pt.y - q.y) ** 2;
     if (dd < bestD) {
-      bestD = dd
-      best = i
-      bestT = t
+      bestD = dd;
+      best = i;
+      bestT = t;
     }
   }
 
-  const a = nodes[best]
-  const b = nodes[(best + 1) % nodes.length]
-  const split = splitSegment(a, b, bestT)
-  const next = [...nodes]
-  next[best] = split.a
-  next[(best + 1) % nodes.length] = split.b
-  next.splice(best + 1, 0, split.mid)
+  const a = nodes[best];
+  const b = nodes[(best + 1) % nodes.length];
+  const split = splitSegment(a, b, bestT);
+  const next = [...nodes];
+  next[best] = split.a;
+  next[(best + 1) % nodes.length] = split.b;
+  next.splice(best + 1, 0, split.mid);
 
-  return { nodes: next, index: best + 1, point: split.mid.p }
+  return { nodes: next, index: best + 1, point: split.mid.p };
 }
 
 /**
  * حذف عقدة (بالفهرس) مع فرض حد أدنى بعقدتين — المسار الواحد لا يُسمح بحذفه.
  */
 export function removeBezierNode(nodes: BezNode[], index: number): BezNode[] {
-  if (nodes.length <= 2) return nodes
-  if (index < 0 || index >= nodes.length) return nodes
-  return nodes.filter((_, i) => i !== index)
+  if (nodes.length <= 2) return nodes;
+  if (index < 0 || index >= nodes.length) return nodes;
+  return nodes.filter((_, i) => i !== index);
 }
 
 /**
@@ -159,71 +160,74 @@ export function removeBezierNode(nodes: BezNode[], index: number): BezNode[] {
 export function curveBoundsForNodes(
   nodes: BezNode[],
   closed: boolean,
-  samplesPerSegment = 24
+  samplesPerSegment = 24,
 ): { x: number; y: number; w: number; h: number } {
-  if (nodes.length === 0) return { x: 0, y: 0, w: 0, h: 0 }
+  if (nodes.length === 0) return { x: 0, y: 0, w: 0, h: 0 };
   if (nodes.length === 1) {
-    return { x: nodes[0].p.x, y: nodes[0].p.y, w: 0, h: 0 }
+    return { x: nodes[0].p.x, y: nodes[0].p.y, w: 0, h: 0 };
   }
 
-  const pts: Pt[] = []
-  const segmentCount = closed ? nodes.length : nodes.length - 1
+  const pts: Pt[] = [];
+  const segmentCount = closed ? nodes.length : nodes.length - 1;
 
   for (let i = 0; i < segmentCount; i++) {
-    const a = nodes[i]
-    const b = nodes[(i + 1) % nodes.length]
-    const p0 = a.p
-    const c1 = a.out ?? a.p
-    const c2 = b.in ?? b.p
-    const p3 = b.p
-    pts.push(p0)
+    const a = nodes[i];
+    const b = nodes[(i + 1) % nodes.length];
+    const p0 = a.p;
+    const c1 = a.out ?? a.p;
+    const c2 = b.in ?? b.p;
+    const p3 = b.p;
+    pts.push(p0);
     for (let s = 1; s <= samplesPerSegment; s++) {
-      pts.push(cubicAt(p0, c1, c2, p3, s / samplesPerSegment))
+      pts.push(cubicAt(p0, c1, c2, p3, s / samplesPerSegment));
     }
-    if (a.in) pts.push(a.in)
-    if (a.out) pts.push(a.out)
-    if (b.in) pts.push(b.in)
-    if (b.out) pts.push(b.out)
+    if (a.in) pts.push(a.in);
+    if (a.out) pts.push(a.out);
+    if (b.in) pts.push(b.in);
+    if (b.out) pts.push(b.out);
   }
 
-  let minX = Infinity
-  let minY = Infinity
-  let maxX = -Infinity
-  let maxY = -Infinity
+  let minX = Infinity;
+  let minY = Infinity;
+  let maxX = -Infinity;
+  let maxY = -Infinity;
   for (const p of pts) {
-    if (p.x < minX) minX = p.x
-    if (p.y < minY) minY = p.y
-    if (p.x > maxX) maxX = p.x
-    if (p.y > maxY) maxY = p.y
+    if (p.x < minX) minX = p.x;
+    if (p.y < minY) minY = p.y;
+    if (p.x > maxX) maxX = p.x;
+    if (p.y > maxY) maxY = p.y;
   }
 
-  if (!Number.isFinite(minX)) return { x: 0, y: 0, w: 0, h: 0 }
-  return { x: minX, y: minY, w: maxX - minX, h: maxY - minY }
+  if (!Number.isFinite(minX)) return { x: 0, y: 0, w: 0, h: 0 };
+  return { x: minX, y: minY, w: maxX - minX, h: maxY - minY };
 }
 
 /**
  * حساب أبعاد الصندوق المطابق للمسار من عقد بالمساحة المحلية وإرجاع مسار
  * SVG مع `pathBox` مطبَّع — مساعدة لإعادة الكتابة بعد التحرير.
  */
-export function normalizeBezierNodes(nodes: BezNode[], closed: boolean): {
-  d: string
-  box: { x: number; y: number; w: number; h: number }
-  nodes: BezNode[]
+export function normalizeBezierNodes(
+  nodes: BezNode[],
+  closed: boolean,
+): {
+  d: string;
+  box: { x: number; y: number; w: number; h: number };
+  nodes: BezNode[];
 } {
-  const bb = curveBoundsForNodes(nodes, closed)
-  const w = Math.max(bb.w, 1)
-  const h = Math.max(bb.h, 1)
-  const rnd = (v: number): number => Math.round(v * 100) / 100
-  const loc = (p: Pt): Pt => ({ x: rnd(p.x - bb.x), y: rnd(p.y - bb.y) })
+  const bb = curveBoundsForNodes(nodes, closed);
+  const w = Math.max(bb.w, 1);
+  const h = Math.max(bb.h, 1);
+  const rnd = (v: number): number => Math.round(v * 100) / 100;
+  const loc = (p: Pt): Pt => ({ x: rnd(p.x - bb.x), y: rnd(p.y - bb.y) });
   const local = nodes.map((n) => ({
     p: loc(n.p),
     in: n.in && loc(n.in),
     out: n.out && loc(n.out),
     corner: n.corner,
-  }))
+  }));
   return {
     d: serializeBezier(local, closed),
     box: { x: rnd(bb.x), y: rnd(bb.y), w: rnd(w), h: rnd(h) },
     nodes: local,
-  }
+  };
 }

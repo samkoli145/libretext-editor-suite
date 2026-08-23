@@ -177,7 +177,7 @@ export class SmartComponentEngine {
   public triggerEvent(
     blockId: string,
     eventName: 'click' | 'change' | 'submit' | 'load' | 'hover',
-    eventData?: any
+    eventData?: any,
   ): void {
     const config = this.componentConfigs.get(blockId);
     if (!config) return;

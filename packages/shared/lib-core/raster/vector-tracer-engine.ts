@@ -132,7 +132,7 @@ export class VectorTracerEngine {
     height: number,
     turdSize: number = 4,
     tolerance: number = 1.0,
-    useCurves: boolean = true
+    useCurves: boolean = true,
   ): string[] {
     const visited = new Uint8Array(width * height);
     const paths: string[] = [];
@@ -217,10 +217,7 @@ export class VectorTracerEngine {
   /**
    * تحويل ImageData إلى SVG نقي متعدد الطبقات
    */
-  public static traceImageData(
-    imageData: ImageData,
-    options: TraceOptions = {}
-  ): TraceResult {
+  public static traceImageData(imageData: ImageData, options: TraceOptions = {}): TraceResult {
     const {
       threshold = 128,
       colorLayers = 4,
@@ -252,7 +249,14 @@ export class VectorTracerEngine {
         grid[idx] = invert ? (val === 1 ? 0 : 1) : val;
       }
 
-      const paths = this.traceBinaryMatrix(grid, width, height, turdSize, smoothPrecision, curveFitting);
+      const paths = this.traceBinaryMatrix(
+        grid,
+        width,
+        height,
+        turdSize,
+        smoothPrecision,
+        curveFitting,
+      );
       totalPaths += paths.length;
       layers.push({
         color: '#0f172a',
@@ -277,7 +281,14 @@ export class VectorTracerEngine {
           grid[idx] = lum >= low && lum <= high ? 1 : 0;
         }
 
-        const paths = this.traceBinaryMatrix(grid, width, height, turdSize, smoothPrecision, curveFitting);
+        const paths = this.traceBinaryMatrix(
+          grid,
+          width,
+          height,
+          turdSize,
+          smoothPrecision,
+          curveFitting,
+        );
         if (paths.length > 0) {
           const hexVal = Math.round(targetLum).toString(16).padStart(2, '0');
           layers.push({

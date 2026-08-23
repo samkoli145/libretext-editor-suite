@@ -57,7 +57,10 @@ export function sanitizeHtml(html: string, options?: { stripStyles?: boolean }):
   allElements.forEach((el) => {
     const attributes = Array.from(el.attributes);
     for (const attr of attributes) {
-      if (attr.name.toLowerCase().startsWith('on') || attr.value.toLowerCase().startsWith('javascript:')) {
+      if (
+        attr.name.toLowerCase().startsWith('on') ||
+        attr.value.toLowerCase().startsWith('javascript:')
+      ) {
         el.removeAttribute(attr.name);
       }
       if (options?.stripStyles && attr.name.toLowerCase() === 'style') {
@@ -74,8 +77,16 @@ export function sanitizeHtml(html: string, options?: { stripStyles?: boolean }):
  */
 export function htmlToRichTextDocument(
   htmlContent: string,
-  options?: HtmlToRichTextOptions
-): { id: string; type: string; title: string; createdAt: string; updatedAt: string; version: number; data: RichTextData } {
+  options?: HtmlToRichTextOptions,
+): {
+  id: string;
+  type: string;
+  title: string;
+  createdAt: string;
+  updatedAt: string;
+  version: number;
+  data: RichTextData;
+} {
   const cleanHtml = sanitizeHtml(htmlContent, { stripStyles: options?.stripStyles });
   const title = options?.title || extractHtmlTitle(htmlContent) || 'مستند HTML مستورد';
   const now = new Date().toISOString();
@@ -96,7 +107,11 @@ export function htmlToRichTextDocument(
 /**
  * تصدير المستند إلى شفرة HTML5 عربية نقية بمعايير الثيم الفاتح.
  */
-export function exportDocumentToCleanHtml(document: { title?: string; type: string; data: unknown }): string {
+export function exportDocumentToCleanHtml(document: {
+  title?: string;
+  type: string;
+  data: unknown;
+}): string {
   const title = document.title || 'مستند';
   let bodyContent = '';
 
@@ -170,7 +185,9 @@ export function stripHtmlTags(text: string): string {
  */
 export function readAttr(attrs: string, name: string): string {
   const escaped = name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-  const match = attrs.match(new RegExp(`\\b${escaped}\\s*=\\s*(?:"([^"]*)"|'([^']*)'|([^\\s>]+))`, 'i'));
+  const match = attrs.match(
+    new RegExp(`\\b${escaped}\\s*=\\s*(?:"([^"]*)"|'([^']*)'|([^\\s>]+))`, 'i'),
+  );
   if (!match) return '';
   return match[1] ?? match[2] ?? match[3] ?? '';
 }

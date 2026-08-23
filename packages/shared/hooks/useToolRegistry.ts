@@ -33,10 +33,7 @@ import {
   type LatexFormulaPreset,
   type ArithmeticToolItem,
 } from '../tools/ToolRegistry';
-import {
-  type UnifiedToolItem,
-  type ToolCategory,
-} from '../tools/unifiedTools';
+import { type UnifiedToolItem, type ToolCategory } from '../tools/unifiedTools';
 import { type WebTemplateItem } from '../../features/canvas-designer/componentLibrary';
 
 export type EditorScope = 'canvas' | 'rich-text' | 'ui-page' | 'pdf' | 'all';
@@ -119,16 +116,13 @@ export function useToolRegistry(options: UseToolRegistryOptions = {}) {
   // 2. تصفية حسب الفئة والبحث
   const filteredTools = useMemo(() => {
     return tools.filter((tool) => {
-      const matchCategory =
-        activeCategory === 'all' || tool.category === activeCategory;
+      const matchCategory = activeCategory === 'all' || tool.category === activeCategory;
       const matchQuery =
         !searchQuery.trim() ||
         tool.titleAr.toLowerCase().includes(searchQuery.toLowerCase()) ||
         tool.titleEn.toLowerCase().includes(searchQuery.toLowerCase()) ||
         tool.descriptionAr.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        tool.keywords.some((k) =>
-          k.toLowerCase().includes(searchQuery.toLowerCase())
-        );
+        tool.keywords.some((k) => k.toLowerCase().includes(searchQuery.toLowerCase()));
 
       return matchCategory && matchQuery;
     });
@@ -144,7 +138,7 @@ export function useToolRegistry(options: UseToolRegistryOptions = {}) {
       insertHtml,
       insertCanvasElement,
     }),
-    [scope, services, richEditor, canvasStore, insertHtml, insertCanvasElement]
+    [scope, services, richEditor, canvasStore, insertHtml, insertCanvasElement],
   );
 
   // 4. تنفيذ أداة بنقرة فأرة واحدة
@@ -159,33 +153,30 @@ export function useToolRegistry(options: UseToolRegistryOptions = {}) {
 
       return registry.executeTool(toolId, mergedContext);
     },
-    [registry, executionContext]
+    [registry, executionContext],
   );
 
   // 5. دوال مساعدة لرموز وقوالب الرياضيات والتدفق
   const getLatexSymbols = useCallback(
     (category?: LatexSymbolItem['category']) => registry.getLatexSymbols(category),
-    [registry]
+    [registry],
   );
 
   const getFormulaPresets = useCallback(
     (category?: LatexFormulaPreset['category']) => registry.getFormulaPresets(category),
-    [registry]
+    [registry],
   );
 
-  const getArithmeticTools = useCallback(
-    () => registry.getArithmeticTools(),
-    [registry]
-  );
+  const getArithmeticTools = useCallback(() => registry.getArithmeticTools(), [registry]);
 
   const getFlowComponents = useCallback(
     (): WebTemplateItem[] => registry.getFlowComponents(),
-    [registry]
+    [registry],
   );
 
   const renderLatexHtml = useCallback(
     (code: string, isBlock = true) => registry.renderLatexHtml(code, isBlock),
-    [registry]
+    [registry],
   );
 
   return {

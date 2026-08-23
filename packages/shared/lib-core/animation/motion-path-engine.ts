@@ -39,33 +39,33 @@ import {
   handleLen,
   anchorsToPath,
   parseAnchors,
-} from '../geometry/bezier-curves'
+} from '../geometry/bezier-curves';
 
 export interface MotionPathWaypoint {
-  id: string
-  point: Pt
-  inHandle?: Pt
-  outHandle?: Pt
-  isManual: boolean
-  isCorner: boolean
-  speedFactor: number // معامل السرعة عند هذه النقطة (الافتراضي 1.0)
-  holdSeconds?: number // فترة توقف اختيارية عند النقطة
+  id: string;
+  point: Pt;
+  inHandle?: Pt;
+  outHandle?: Pt;
+  isManual: boolean;
+  isCorner: boolean;
+  speedFactor: number; // معامل السرعة عند هذه النقطة (الافتراضي 1.0)
+  holdSeconds?: number; // فترة توقف اختيارية عند النقطة
 }
 
 export interface MotionPathData {
-  pathString: string
-  waypoints: MotionPathWaypoint[]
-  isClosed: boolean
-  durationSeconds: number
-  loop: boolean
-  autoRotate: boolean
+  pathString: string;
+  waypoints: MotionPathWaypoint[];
+  isClosed: boolean;
+  durationSeconds: number;
+  loop: boolean;
+  autoRotate: boolean;
 }
 
 export interface MotionSamplePoint {
-  x: number
-  y: number
-  rotationDeg: number
-  progress: number
+  x: number;
+  y: number;
+  rotationDeg: number;
+  progress: number;
 }
 
 /**
@@ -74,15 +74,15 @@ export interface MotionSamplePoint {
 export function createMotionPathFromSvg(
   d: string,
   durationSeconds: number = 3.0,
-  loop: boolean = true
+  loop: boolean = true,
 ): MotionPathData {
   if (!d || !d.trim()) {
     const defaultPts: Pt[] = [
       { x: 0, y: 0 },
       { x: 120, y: -60 },
       { x: 240, y: 0 },
-    ]
-    const defPath = anchorsToPath(defaultPts)
+    ];
+    const defPath = anchorsToPath(defaultPts);
     return {
       pathString: defPath,
       waypoints: defaultPts.map((pt, idx) => ({
@@ -96,10 +96,10 @@ export function createMotionPathFromSvg(
       durationSeconds,
       loop,
       autoRotate: true,
-    }
+    };
   }
 
-  const { nodes, closed } = parseBezier(d)
+  const { nodes, closed } = parseBezier(d);
   const waypoints: MotionPathWaypoint[] = nodes.map((node, idx) => ({
     id: `wp-${idx}-${Math.random().toString(36).substring(2, 6)}`,
     point: node.p,
@@ -108,7 +108,7 @@ export function createMotionPathFromSvg(
     isManual: Boolean(node.in || node.out),
     isCorner: Boolean(node.corner),
     speedFactor: 1.0,
-  }))
+  }));
 
   return {
     pathString: d,
@@ -117,7 +117,7 @@ export function createMotionPathFromSvg(
     durationSeconds,
     loop,
     autoRotate: true,
-  }
+  };
 }
 
 /**
@@ -129,59 +129,62 @@ export function serializeMotionPath(motionData: MotionPathData): MotionPathData 
     in: wp.inHandle,
     out: wp.outHandle,
     corner: wp.isCorner,
-  }))
+  }));
 
-  const pathString = serializeBezier(nodes, motionData.isClosed)
+  const pathString = serializeBezier(nodes, motionData.isClosed);
   return {
     ...motionData,
     pathString,
-  }
+  };
 }
 
 /**
  * أخذ عينة نقطية للمسار عند الزمن t ∈ [0, 1] لمحاكاة الحركة الحية
  */
-export function sampleMotionPath(
-  motionData: MotionPathData,
-  t: number
-): MotionSamplePoint {
-  const { waypoints, isClosed } = motionData
+export function sampleMotionPath(motionData: MotionPathData, t: number): MotionSamplePoint {
+  const { waypoints, isClosed } = motionData;
   if (waypoints.length === 0) {
-    return { x: 0, y: 0, rotationDeg: 0, progress: t }
+    return { x: 0, y: 0, rotationDeg: 0, progress: t };
   }
   if (waypoints.length === 1) {
-    return { x: waypoints[0].point.x, y: waypoints[0].point.y, rotationDeg: 0, progress: t }
+    return { x: waypoints[0].point.x, y: waypoints[0].point.y, rotationDeg: 0, progress: t };
   }
 
-  const clampedT = Math.max(0, Math.min(1, t))
-  const segmentCount = isClosed ? waypoints.length : waypoints.length - 1
-  const scaledT = clampedT * segmentCount
-  const segIndex = Math.min(Math.floor(scaledT), segmentCount - 1)
-  const localT = scaledT - segIndex
+  const clampedT = Math.max(0, Math.min(1, t));
+  const segmentCount = isClosed ? waypoints.length : waypoints.length - 1;
+  const scaledT = clampedT * segmentCount;
+  const segIndex = Math.min(Math.floor(scaledT), segmentCount - 1);
+  const localT = scaledT - segIndex;
 
-  const a = waypoints[segIndex]
-  const b = waypoints[(segIndex + 1) % waypoints.length]
+  const a = waypoints[segIndex];
+  const b = waypoints[(segIndex + 1) % waypoints.length];
 
-  const p0 = a.point
-  const c1 = a.outHandle ?? { x: a.point.x + (b.point.x - a.point.x) / 3, y: a.point.y + (b.point.y - a.point.y) / 3 }
-  const c2 = b.inHandle ?? { x: a.point.x + (2 * (b.point.x - a.point.x)) / 3, y: a.point.y + (2 * (b.point.y - a.point.y)) / 3 }
-  const p3 = b.point
+  const p0 = a.point;
+  const c1 = a.outHandle ?? {
+    x: a.point.x + (b.point.x - a.point.x) / 3,
+    y: a.point.y + (b.point.y - a.point.y) / 3,
+  };
+  const c2 = b.inHandle ?? {
+    x: a.point.x + (2 * (b.point.x - a.point.x)) / 3,
+    y: a.point.y + (2 * (b.point.y - a.point.y)) / 3,
+  };
+  const p3 = b.point;
 
-  const currentPt = cubicAt(p0, c1, c2, p3, localT)
+  const currentPt = cubicAt(p0, c1, c2, p3, localT);
 
   // حساب زاوية الدوران اللحظية عبر مماس السرعة
-  const deltaT = 0.01
-  const nextLocalT = Math.min(1, localT + deltaT)
-  const nextPt = cubicAt(p0, c1, c2, p3, nextLocalT)
-  const angleRad = Math.atan2(nextPt.y - currentPt.y, nextPt.x - currentPt.x)
-  const rotationDeg = (angleRad * 180) / Math.PI
+  const deltaT = 0.01;
+  const nextLocalT = Math.min(1, localT + deltaT);
+  const nextPt = cubicAt(p0, c1, c2, p3, nextLocalT);
+  const angleRad = Math.atan2(nextPt.y - currentPt.y, nextPt.x - currentPt.x);
+  const rotationDeg = (angleRad * 180) / Math.PI;
 
   return {
     x: currentPt.x,
     y: currentPt.y,
     rotationDeg: motionData.autoRotate ? rotationDeg : 0,
     progress: clampedT,
-  }
+  };
 }
 
 /**
@@ -190,25 +193,25 @@ export function sampleMotionPath(
 export function insertWaypointOnSegment(
   motionData: MotionPathData,
   segmentIndex: number,
-  t: number
+  t: number,
 ): MotionPathData {
-  const { waypoints } = motionData
-  if (segmentIndex < 0 || segmentIndex >= waypoints.length) return motionData
+  const { waypoints } = motionData;
+  if (segmentIndex < 0 || segmentIndex >= waypoints.length) return motionData;
 
-  const a = waypoints[segmentIndex]
-  const nextIdx = (segmentIndex + 1) % waypoints.length
-  const b = waypoints[nextIdx]
+  const a = waypoints[segmentIndex];
+  const nextIdx = (segmentIndex + 1) % waypoints.length;
+  const b = waypoints[nextIdx];
 
-  const nodeA: BezNode = { p: a.point, in: a.inHandle, out: a.outHandle, corner: a.isCorner }
-  const nodeB: BezNode = { p: b.point, in: b.inHandle, out: b.outHandle, corner: b.isCorner }
+  const nodeA: BezNode = { p: a.point, in: a.inHandle, out: a.outHandle, corner: a.isCorner };
+  const nodeB: BezNode = { p: b.point, in: b.inHandle, out: b.outHandle, corner: b.isCorner };
 
-  const { a: newA, mid, b: newB } = splitSegment(nodeA, nodeB, t)
+  const { a: newA, mid, b: newB } = splitSegment(nodeA, nodeB, t);
 
-  const newWaypoints = [...waypoints]
+  const newWaypoints = [...waypoints];
   newWaypoints[segmentIndex] = {
     ...a,
     outHandle: newA.out,
-  }
+  };
 
   const insertedWaypoint: MotionPathWaypoint = {
     id: `wp-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
@@ -218,39 +221,36 @@ export function insertWaypointOnSegment(
     isManual: true,
     isCorner: false,
     speedFactor: (a.speedFactor + b.speedFactor) / 2,
-  }
+  };
 
   if (nextIdx === 0 && motionData.isClosed) {
-    newWaypoints.push(insertedWaypoint)
-    newWaypoints[0] = { ...newWaypoints[0], inHandle: newB.in }
+    newWaypoints.push(insertedWaypoint);
+    newWaypoints[0] = { ...newWaypoints[0], inHandle: newB.in };
   } else {
-    newWaypoints.splice(segmentIndex + 1, 0, insertedWaypoint)
+    newWaypoints.splice(segmentIndex + 1, 0, insertedWaypoint);
     newWaypoints[segmentIndex + 2] = {
       ...newWaypoints[segmentIndex + 2],
       inHandle: newB.in,
-    }
+    };
   }
 
   return serializeMotionPath({
     ...motionData,
     waypoints: newWaypoints,
-  })
+  });
 }
 
 /**
  * حذف نقطة تثبيت
  */
-export function removeWaypoint(
-  motionData: MotionPathData,
-  waypointId: string
-): MotionPathData {
+export function removeWaypoint(motionData: MotionPathData, waypointId: string): MotionPathData {
   if (motionData.waypoints.length <= 2) {
-    return motionData // يجب الإبقاء على نقطتين على الأقل
+    return motionData; // يجب الإبقاء على نقطتين على الأقل
   }
 
-  const updatedWaypoints = motionData.waypoints.filter((wp) => wp.id !== waypointId)
+  const updatedWaypoints = motionData.waypoints.filter((wp) => wp.id !== waypointId);
   return serializeMotionPath({
     ...motionData,
     waypoints: updatedWaypoints,
-  })
+  });
 }

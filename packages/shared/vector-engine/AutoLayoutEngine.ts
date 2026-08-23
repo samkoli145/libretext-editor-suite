@@ -26,7 +26,8 @@
  */
 
 export type AutoLayoutDirection = 'horizontal' | 'vertical' | 'grid' | 'wrap';
-export type AutoLayoutJustify = 'start' | 'center' | 'end' | 'space-between' | 'space-around' | 'space-evenly';
+export type AutoLayoutJustify =
+  'start' | 'center' | 'end' | 'space-between' | 'space-around' | 'space-evenly';
 export type AutoLayoutAlign = 'start' | 'center' | 'end' | 'stretch';
 export type AutoLayoutSizing = 'hug' | 'fixed' | 'fill';
 
@@ -93,7 +94,7 @@ export class AutoLayoutEngine {
     originX = 0,
     originY = 0,
     containerWidth?: number,
-    containerHeight?: number
+    containerHeight?: number,
   ): {
     items: T[];
     computedWidth: number;
@@ -114,7 +115,15 @@ export class AutoLayoutEngine {
       padding: { ...DEFAULT_AUTOLAYOUT_CONFIG.padding, ...(config.padding || {}) },
     };
 
-    const { direction, gap, padding, justifyContent, alignItems, gridColumns = 3, wrap } = fullConfig;
+    const {
+      direction,
+      gap,
+      padding,
+      justifyContent,
+      alignItems,
+      gridColumns = 3,
+      wrap,
+    } = fullConfig;
 
     const clonedItems = items.map((item) => ({ ...item }));
 
@@ -129,7 +138,7 @@ export class AutoLayoutEngine {
         originY,
         containerWidth,
         containerHeight,
-        wrap
+        wrap,
       );
     } else if (direction === 'vertical') {
       return this.computeVerticalLayout(
@@ -141,7 +150,7 @@ export class AutoLayoutEngine {
         originX,
         originY,
         containerWidth,
-        containerHeight
+        containerHeight,
       );
     } else if (direction === 'grid') {
       return this.computeGridLayout(
@@ -151,7 +160,7 @@ export class AutoLayoutEngine {
         padding,
         originX,
         originY,
-        containerWidth
+        containerWidth,
       );
     }
 
@@ -175,7 +184,7 @@ export class AutoLayoutEngine {
     originY: number,
     containerWidth?: number,
     containerHeight?: number,
-    wrap?: boolean
+    wrap?: boolean,
   ) {
     if (wrap && containerWidth && containerWidth > 0) {
       return this.computeWrapLayout(
@@ -185,7 +194,7 @@ export class AutoLayoutEngine {
         alignItems,
         originX,
         originY,
-        containerWidth
+        containerWidth,
       );
     }
 
@@ -194,13 +203,15 @@ export class AutoLayoutEngine {
     const contentWidth = totalItemsWidth + totalGapsWidth;
     const maxItemHeight = items.reduce((acc, it) => Math.max(acc, it.height || 0), 0);
 
-    const calcWidth = containerWidth && containerWidth > contentWidth + padding.left + padding.right
-      ? containerWidth
-      : contentWidth + padding.left + padding.right;
+    const calcWidth =
+      containerWidth && containerWidth > contentWidth + padding.left + padding.right
+        ? containerWidth
+        : contentWidth + padding.left + padding.right;
 
-    const calcHeight = containerHeight && containerHeight > maxItemHeight + padding.top + padding.bottom
-      ? containerHeight
-      : maxItemHeight + padding.top + padding.bottom;
+    const calcHeight =
+      containerHeight && containerHeight > maxItemHeight + padding.top + padding.bottom
+        ? containerHeight
+        : maxItemHeight + padding.top + padding.bottom;
 
     const innerAvailableWidth = calcWidth - padding.left - padding.right;
     const freeSpace = Math.max(0, innerAvailableWidth - contentWidth);
@@ -265,20 +276,22 @@ export class AutoLayoutEngine {
     originX: number,
     originY: number,
     containerWidth?: number,
-    containerHeight?: number
+    containerHeight?: number,
   ) {
     const totalItemsHeight = items.reduce((acc, it) => acc + (it.height || 0), 0);
     const totalGapsHeight = Math.max(0, items.length - 1) * gap;
     const contentHeight = totalItemsHeight + totalGapsHeight;
     const maxItemWidth = items.reduce((acc, it) => Math.max(acc, it.width || 0), 0);
 
-    const calcWidth = containerWidth && containerWidth > maxItemWidth + padding.left + padding.right
-      ? containerWidth
-      : maxItemWidth + padding.left + padding.right;
+    const calcWidth =
+      containerWidth && containerWidth > maxItemWidth + padding.left + padding.right
+        ? containerWidth
+        : maxItemWidth + padding.left + padding.right;
 
-    const calcHeight = containerHeight && containerHeight > contentHeight + padding.top + padding.bottom
-      ? containerHeight
-      : contentHeight + padding.top + padding.bottom;
+    const calcHeight =
+      containerHeight && containerHeight > contentHeight + padding.top + padding.bottom
+        ? containerHeight
+        : contentHeight + padding.top + padding.bottom;
 
     const innerAvailableHeight = calcHeight - padding.top - padding.bottom;
     const freeSpace = Math.max(0, innerAvailableHeight - contentHeight);
@@ -341,14 +354,18 @@ export class AutoLayoutEngine {
     padding: AutoLayoutPadding,
     originX: number,
     originY: number,
-    containerWidth?: number
+    containerWidth?: number,
   ) {
     const cols = Math.max(1, columns);
     const maxItemWidth = items.reduce((acc, it) => Math.max(acc, it.width || 80), 80);
     const maxItemHeight = items.reduce((acc, it) => Math.max(acc, it.height || 40), 40);
 
-    const availableInnerWidth = containerWidth ? containerWidth - padding.left - padding.right : undefined;
-    const colWidth = availableInnerWidth ? (availableInnerWidth - (cols - 1) * gap) / cols : maxItemWidth;
+    const availableInnerWidth = containerWidth
+      ? containerWidth - padding.left - padding.right
+      : undefined;
+    const colWidth = availableInnerWidth
+      ? (availableInnerWidth - (cols - 1) * gap) / cols
+      : maxItemWidth;
 
     let row = 0;
     let col = 0;
@@ -368,8 +385,10 @@ export class AutoLayoutEngine {
     });
 
     const totalRows = Math.ceil(items.length / cols);
-    const calcWidth = containerWidth || padding.left + cols * colWidth + (cols - 1) * gap + padding.right;
-    const calcHeight = padding.top + totalRows * maxItemHeight + Math.max(0, totalRows - 1) * gap + padding.bottom;
+    const calcWidth =
+      containerWidth || padding.left + cols * colWidth + (cols - 1) * gap + padding.right;
+    const calcHeight =
+      padding.top + totalRows * maxItemHeight + Math.max(0, totalRows - 1) * gap + padding.bottom;
 
     return {
       items,
@@ -388,7 +407,7 @@ export class AutoLayoutEngine {
     alignItems: AutoLayoutAlign,
     originX: number,
     originY: number,
-    containerWidth: number
+    containerWidth: number,
   ) {
     const maxLineWidth = containerWidth - padding.left - padding.right;
     let currentX = originX + padding.left;
@@ -399,7 +418,10 @@ export class AutoLayoutEngine {
       const itemW = item.width || 80;
       const itemH = item.height || 40;
 
-      if (currentX + itemW > originX + padding.left + maxLineWidth && currentX > originX + padding.left) {
+      if (
+        currentX + itemW > originX + padding.left + maxLineWidth &&
+        currentX > originX + padding.left
+      ) {
         // Move to next line
         currentX = originX + padding.left;
         currentY += lineMaxHeight + gap;

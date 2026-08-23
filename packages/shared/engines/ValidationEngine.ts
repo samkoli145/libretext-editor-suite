@@ -54,7 +54,21 @@ export class ValidationEngine {
 
     // 1. Tag balance check
     const openTags: string[] = [];
-    const selfClosing = ['br', 'hr', 'img', 'input', 'meta', 'link', 'area', 'base', 'col', 'embed', 'source', 'track', 'wbr'];
+    const selfClosing = [
+      'br',
+      'hr',
+      'img',
+      'input',
+      'meta',
+      'link',
+      'area',
+      'base',
+      'col',
+      'embed',
+      'source',
+      'track',
+      'wbr',
+    ];
 
     const tagRegex = /<\/?([a-z0-9]+)[^>]*>/gi;
     let match;

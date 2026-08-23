@@ -36,28 +36,28 @@
  * مسارات الحركة الحالي.
  */
 
-import { type BezNode, type Pt, parseBezier, serializeBezier } from '../geometry/bezier-curves'
-import { type MotionPathWaypoint } from './motion-path-engine'
+import { type BezNode, type Pt, parseBezier, serializeBezier } from '../geometry/bezier-curves';
+import { type MotionPathWaypoint } from './motion-path-engine';
 
-export const SPEED_MIN = 0.2
-export const SPEED_MAX = 4
-export const SPEED_STEP = 0.1
-export const AUTO_NEAR_EPSILON = 0.6
+export const SPEED_MIN = 0.2;
+export const SPEED_MAX = 4;
+export const SPEED_STEP = 0.1;
+export const AUTO_NEAR_EPSILON = 0.6;
 
 /** مماسات Catmull-Rom لنقطة التثبيت i — مطابقة تماماً لمخرجات anchorsToPath:
  *  out = P + (Pnext − Pprev)/6، in = P − (Pnext − Pprev)/6 (النهايات مثبتة). */
 export function autoHandlesForWaypoints(pts: Pt[], i: number): { in?: Pt; out?: Pt } {
-  const n = pts.length
-  if (n === 0) return {}
-  const prev = pts[Math.max(0, i - 1)]
-  const next = pts[Math.min(n - 1, i + 1)]
-  const dx = (next.x - prev.x) / 6
-  const dy = (next.y - prev.y) / 6
-  const p = pts[i]
+  const n = pts.length;
+  if (n === 0) return {};
+  const prev = pts[Math.max(0, i - 1)];
+  const next = pts[Math.min(n - 1, i + 1)];
+  const dx = (next.x - prev.x) / 6;
+  const dy = (next.y - prev.y) / 6;
+  const p = pts[i];
   return {
     in: i > 0 ? { x: p.x - dx, y: p.y - dy } : undefined,
     out: i < n - 1 ? { x: p.x + dx, y: p.y + dy } : undefined,
-  }
+  };
 }
 
 /**
@@ -65,20 +65,24 @@ export function autoHandlesForWaypoints(pts: Pt[], i: number): { in?: Pt; out?: 
  * تأخذ مماسات Catmull-Rom المشتقة — الناتج يغذي التسلسل والقطع والمحاكاة.
  */
 export function resolveEffectiveWaypoints(waypoints: MotionPathWaypoint[]): BezNode[] {
-  const pts = waypoints.map((w) => w.point)
+  const pts = waypoints.map((w) => w.point);
   return waypoints.map((w, i) => {
     if (w.isManual) {
-      return { p: { ...w.point }, in: w.inHandle && { ...w.inHandle }, out: w.outHandle && { ...w.outHandle } }
+      return {
+        p: { ...w.point },
+        in: w.inHandle && { ...w.inHandle },
+        out: w.outHandle && { ...w.outHandle },
+      };
     }
-    const a = autoHandlesForWaypoints(pts, i)
-    return { p: { ...w.point }, in: a.in, out: a.out }
-  })
+    const a = autoHandlesForWaypoints(pts, i);
+    return { p: { ...w.point }, in: a.in, out: a.out };
+  });
 }
 
 /** تسلسل نقاط التثبيت الهجينة إلى مسار SVG (C مفتوح أو مغلق). */
 export function hybridWaypointsToPath(waypoints: MotionPathWaypoint[], closed: boolean): string {
-  if (waypoints.length === 0) return ''
-  return serializeBezier(resolveEffectiveWaypoints(waypoints), closed)
+  if (waypoints.length === 0) return '';
+  return serializeBezier(resolveEffectiveWaypoints(waypoints), closed);
 }
 
 /**
@@ -88,19 +92,25 @@ export function hybridWaypointsToPath(waypoints: MotionPathWaypoint[], closed: b
  * فتُعاد المسارات القديمة AUTO كاملة وتحفظ المسارات المضبوطة يدوياً بدقة.
  */
 export function classifyHybridWaypoints(pathString: string): MotionPathWaypoint[] {
-  if (!pathString || !pathString.trim()) return []
-  const { nodes, closed } = parseBezier(pathString)
-  const hadCurves = /[csq]/i.test(pathString)
-  const pts = nodes.map((n) => n.p)
+  if (!pathString || !pathString.trim()) return [];
+  const { nodes, closed } = parseBezier(pathString);
+  const hadCurves = /[csq]/i.test(pathString);
+  const pts = nodes.map((n) => n.p);
 
   return nodes.map((n, i) => {
     if (!hadCurves) {
-      return { id: `wp-${i}`, point: { ...n.p }, isManual: false, isCorner: false, speedFactor: 1.0 }
+      return {
+        id: `wp-${i}`,
+        point: { ...n.p },
+        isManual: false,
+        isCorner: false,
+        speedFactor: 1.0,
+      };
     }
-    const a = autoHandlesForWaypoints(pts, i)
+    const a = autoHandlesForWaypoints(pts, i);
     const near = (p?: Pt, q?: Pt): boolean =>
-      (!p && !q) || (!!p && !!q && Math.hypot(p.x - q.x, p.y - q.y) < AUTO_NEAR_EPSILON)
-    const auto = near(n.in, a.in) && near(n.out, a.out)
+      (!p && !q) || (!!p && !!q && Math.hypot(p.x - q.x, p.y - q.y) < AUTO_NEAR_EPSILON);
+    const auto = near(n.in, a.in) && near(n.out, a.out);
     return auto
       ? { id: `wp-${i}`, point: { ...n.p }, isManual: false, isCorner: false, speedFactor: 1.0 }
       : {
@@ -111,53 +121,57 @@ export function classifyHybridWaypoints(pathString: string): MotionPathWaypoint[
           isManual: true,
           isCorner: Boolean(n.corner),
           speedFactor: 1.0,
-        }
-  })
+        };
+  });
 }
 
 /**
  * تحويل نقاط التثبيت إلى BezNode (بدون مقابض AUTO) مع الحفاظ على تمييز
  * `manual` الداخلي للمعالجات المتقدمة.
  */
-export function waypointsToBezNodes(waypoints: MotionPathWaypoint[]): Array<BezNode & { manual?: boolean }> {
+export function waypointsToBezNodes(
+  waypoints: MotionPathWaypoint[],
+): Array<BezNode & { manual?: boolean }> {
   return waypoints.map((w) => ({
     p: { ...w.point },
     in: w.inHandle && { ...w.inHandle },
     out: w.outHandle && { ...w.outHandle },
     corner: w.isCorner,
     manual: w.isManual,
-  }))
+  }));
 }
 
 /** ضبط سرعة نقطة (بمطابقة المعرّف) مع حصر نطاق [0.2, 4] وستيب 0.1. */
 export function setWaypointSpeed(
   waypoints: MotionPathWaypoint[],
   waypointId: string,
-  speed: number
+  speed: number,
 ): MotionPathWaypoint[] {
-  const clamped = Math.round(clampSpeed(speed) / SPEED_STEP) * SPEED_STEP
-  return waypoints.map((w) => (w.id === waypointId ? { ...w, speedFactor: roundSpeed(clamped) } : w))
+  const clamped = Math.round(clampSpeed(speed) / SPEED_STEP) * SPEED_STEP;
+  return waypoints.map((w) =>
+    w.id === waypointId ? { ...w, speedFactor: roundSpeed(clamped) } : w,
+  );
 }
 
 /** مضاعفة سرعة نقطة (تمرير العجلة) بخطوة ثابتة 0.1 ضمن النطاق الآمن. */
 export function nudgeWaypointSpeed(
   waypoints: MotionPathWaypoint[],
   waypointId: string,
-  delta: number
+  delta: number,
 ): MotionPathWaypoint[] {
-  const target = waypoints.find((w) => w.id === waypointId)?.speedFactor ?? 1.0
-  return setWaypointSpeed(waypoints, waypointId, target + delta * SPEED_STEP)
+  const target = waypoints.find((w) => w.id === waypointId)?.speedFactor ?? 1.0;
+  return setWaypointSpeed(waypoints, waypointId, target + delta * SPEED_STEP);
 }
 
 /** حصر قيمة السرعة في النطاق المسموح [0.2, 4]. */
 export function clampSpeed(speed: number): number {
-  if (!Number.isFinite(speed)) return 1.0
-  return Math.max(SPEED_MIN, Math.min(SPEED_MAX, speed))
+  if (!Number.isFinite(speed)) return 1.0;
+  return Math.max(SPEED_MIN, Math.min(SPEED_MAX, speed));
 }
 
 /** تقريب السرعة لدرجة عشرية واحدة (تمنع خطأ الفاصلة العائمة). */
 export function roundSpeed(speed: number): number {
-  return Math.round(speed * 10) / 10
+  return Math.round(speed * 10) / 10;
 }
 
 /**
@@ -165,5 +179,5 @@ export function roundSpeed(speed: number): number {
  * المقابض الصريحة تبقى محفوظة، والـ AUTO تتحول إلى MANUAL عند كسرها.
  */
 export function toggleWaypointCorner(waypoint: MotionPathWaypoint): MotionPathWaypoint {
-  return { ...waypoint, isCorner: !waypoint.isCorner, isManual: true }
+  return { ...waypoint, isCorner: !waypoint.isCorner, isManual: true };
 }

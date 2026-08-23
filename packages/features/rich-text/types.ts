@@ -52,16 +52,11 @@ export interface TextStyleAttributes {
   fontSize?: string;
   color?: string;
   backgroundColor?: string;
-  textAlign?: "left" | "center" | "right" | "justify";
+  textAlign?: 'left' | 'center' | 'right' | 'justify';
   lineHeight?: string;
 }
 
-export type EditorEventType =
-  | "transaction"
-  | "update"
-  | "selectionUpdate"
-  | "focus"
-  | "blur";
+export type EditorEventType = 'transaction' | 'update' | 'selectionUpdate' | 'focus' | 'blur';
 
 export interface ChainCommands {
   focus: () => ChainCommands;
@@ -76,7 +71,7 @@ export interface ChainCommands {
   toggleStrike: () => ChainCommands;
   toggleSubscript: () => ChainCommands;
   toggleSuperscript: () => ChainCommands;
-  setTextAlign: (alignment: "left" | "center" | "right" | "justify") => ChainCommands;
+  setTextAlign: (alignment: 'left' | 'center' | 'right' | 'justify') => ChainCommands;
   toggleHeading: (attrs: { level: 1 | 2 | 3 | 4 | 5 | 6 }) => ChainCommands;
   setParagraph: () => ChainCommands;
   toggleBulletList: () => ChainCommands;
@@ -100,7 +95,11 @@ export interface ChainCommands {
   setImage: (attrs: { src: string; alt?: string; title?: string }) => ChainCommands;
   insertContent: (content: string) => ChainCommands;
   setPageBreak: () => ChainCommands;
-  insertTable: (options?: { rows?: number; cols?: number; withHeaderRow?: boolean }) => ChainCommands;
+  insertTable: (options?: {
+    rows?: number;
+    cols?: number;
+    withHeaderRow?: boolean;
+  }) => ChainCommands;
   addRowBefore: () => ChainCommands;
   addRowAfter: () => ChainCommands;
   deleteRow: () => ChainCommands;
@@ -147,7 +146,7 @@ export interface INativeEditor {
     toggleStrike: () => boolean;
     toggleSubscript: () => boolean;
     toggleSuperscript: () => boolean;
-    setTextAlign: (alignment: "left" | "center" | "right" | "justify") => boolean;
+    setTextAlign: (alignment: 'left' | 'center' | 'right' | 'justify') => boolean;
     toggleHeading: (attrs: { level: 1 | 2 | 3 | 4 | 5 | 6 }) => boolean;
     setParagraph: () => boolean;
     toggleBulletList: () => boolean;

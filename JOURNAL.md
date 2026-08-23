@@ -225,7 +225,7 @@
   - `scripts/update-indexes.ts` (INFRA-014) — فاحص شامل للمشروع (947 رمز في 7 حزم)
   - `scripts/generate-inventory.ts` (INFRA-015) — مولّد جرد المكونات لكل محرر
   - `scripts/atomic-inventory.ts` (INFRA-016) — مولّد الجرد الذري مع كشف التكرار والفجوات
-- ** kotob  scripts**
+- ** kotob scripts**
   - `EDITOR_INVENTORY.md` — جرد المكونات (Writer 9, Calc 2, Impress 8, Base 2)
   - `EXECUTION_QUEUE.md` — قائمة التنفيذ المرقمة Q-001..Q-024
   - `ATOMIC_INVENTORY.md` — الجرد الذري (160 ملف: 144 نشط, 4 مكرر, 3 غير مستخدم, 9 كبير)
@@ -233,13 +233,13 @@
 
 ### نتائج التحليل الذري (Atomic Inventory)
 
-| الفئة | العدد | ملاحظات |
-|-------|-------|---------|
-| إجمالي الملفات | 160 | |
-| نشط | 144 | ✅ |
-| مكرر | 4 | 2 أزواج متطابقة (parsers) |
-| غير مستخدم | 3 | `document-validator.ts`, `odf-package.ts`, `calc-templates.ts` |
-| كبير (>400 سطر) | 9 | `functions-matrix.ts` (847) هو الأكبر |
+| الفئة           | العدد | ملاحظات                                                        |
+| --------------- | ----- | -------------------------------------------------------------- |
+| إجمالي الملفات  | 160   |                                                                |
+| نشط             | 144   | ✅                                                             |
+| مكرر            | 4     | 2 أزواج متطابقة (parsers)                                      |
+| غير مستخدم      | 3     | `document-validator.ts`, `odf-package.ts`, `calc-templates.ts` |
+| كبير (>400 سطر) | 9     | `functions-matrix.ts` (847) هو الأكبر                          |
 
 ### التكرارات المكتشفة
 
@@ -285,6 +285,7 @@
 ### المنجزات
 
 #### تكامل النسخة الاحتياطية الجديدة (`المعدل`)
+
 - اندمجت ملفات المحركات من النسخة الاحتياطية الجديدة:
   - `mouse-tooling-engine.ts` (CORE-017) — بروفايل أدوات لكل بلوك
   - `tool-registry.ts` (CORE-020) — سجل IoC للأدوات
@@ -298,6 +299,7 @@
 - حُذفت النسخة الاحتياطية الأولى (`0000000000000`)
 
 #### المستوى 2 — تفاعل (Q-006..Q-010)
+
 - `spatial-drag-engine.ts` (CORE-ENG-009): سحب مكاني مع تسنين وضبط حدود
 - `marquee-selection-engine.ts` (CORE-ENG-010): تحديد بالصندوق المطاطي
 - `multi-selection-engine.ts` (CORE-ENG-011): تحديد متعدد مع عكس وتحديد الكل
@@ -305,6 +307,7 @@
 - `mouse-command-registry.ts` (CORE-ENG-013): سجل أوامر الماوس
 
 #### المستوى 3 — ذكاء (Q-011..Q-016)
+
 - `smart-snap-engine.ts` (ALGO-031): تسنين ذكي مع خطوط إرشاد
 - `dynamic-guide-lines.ts` (ALGO-032): خطوط إرشاد حية + مؤشرات قياس
 - `smart-rtl-alignment.ts` (ALGO-033): كشف اتجاه النص RTL/LTR
@@ -313,6 +316,7 @@
 - `z-order-manager.ts` (CORE-ENG-016): إدارة ترتيب الطبقات
 
 #### المستوى 4 — بلوكات وأدوات (Q-017..Q-022)
+
 - `vector/snap.ts` (ALGO-034): تسنين متعدد الأهداف
 - `vector/ref-line.ts` (ALGO-035): خطوط إرشاد ديناميكية
 - `vector/control-handle-manager.ts` (ALGO-036): 8 مقابض تحجيم + تدوير
@@ -320,30 +324,33 @@
 - `block-mapper.ts` (CORE-ENG-018): خريطة بلوكات بصرية
 
 #### المستوى 5 — محركات متوسطة (Q-023..Q-028)
+
 - `diagram-engine.ts` (ALGO-037): محرك رسومات SVG
 - `component-registry.ts` (CORE-REG-001): سجل مكونات مركزي
 - `smart-component-engine.ts` (CORE-ENG-019): تجميع ذكي مع كشف تبعيات
 - `callout-engine.ts` (CORE-ENG-020): صناديق تعليق بصرية
 
 #### LEVEL 6 — توثيق
+
 - `CHANGELOG.md` — توثيق شامل لجميع المستويات 1-5
 - `FUNCTION_INDEX.md` — 1134 رمز مفهرس (كان 947)
 
 #### الاختبارات
+
 - 20 ملف اختبار جديد — +107 اختبار (963 إجمالي من 856)
 - 66 ملف اختبار ناجح — صفر خطأ tsc
 
 ### الإحصائيات النهائية
 
-| المؤشر | القيمة |
-|--------|--------|
-| إجمالي المهام | 31 |
-| مكتملة | 30 (97%) |
-| مُؤجّلة | 1 (الملعب التجريبي) |
-| ملفات المحركات | 30+ محرك |
-| ملفات الاختبار | 66 ملف |
-| الاختبارات الناجحة | 963 |
-| الرموز المفهرسة | 1134 |
+| المؤشر             | القيمة              |
+| ------------------ | ------------------- |
+| إجمالي المهام      | 31                  |
+| مكتملة             | 30 (97%)            |
+| مُؤجّلة            | 1 (الملعب التجريبي) |
+| ملفات المحركات     | 30+ محرك            |
+| ملفات الاختبار     | 66 ملف              |
+| الاختبارات الناجحة | 963                 |
+| الرموز المفهرسة    | 1134                |
 
 ### التزامات Git
 
@@ -362,6 +369,7 @@
 ### المنجزات
 
 #### 1. تحسينات القوائم السياقية (Context Menu Enhancements)
+
 - **أيقونات دلالية غنية (CORE-ENG-022):**
   - إضافة حقل `iconKey` لجميع أنواع عناصر القائمة (ActionMenuItem, SubmenuMenuItem, ResolvedMenuItem)
   - إنشاء `CONTEXT_MENU_ICON_MAP` مع 47 تعيين أيقونة دلالي (scissors, clipboard, trash-2, etc.)
@@ -389,10 +397,12 @@
   - الفواصل تُضاف فقط عند وجود عناصر قبل/بعد
 
 #### 2. توثيق المعايير والكتل
+
 - **DESIGN_BOOK.md (DOC-ADMIN-13):** كتاب التصميم والمعايير القياسية — 218 سطر
 - **DesignStandards.md (DOC-ADMIN-14):** معايير UI/UX شاملة — 218 سطر
 
 #### 3. تكامل ملفات الأرشيف من المعدل 3
+
 - نسخ 9 ملفات جذرية:
   - `ATOMIC_INVENTORY.json` + `ATOMIC_INVENTORY.md` — الجرد الذري
   - `BLOCKS_ANALYTICS.json` + `BLOCKS_AND_TOOLS_REGISTRY.md` — تحليلات الكتل
@@ -405,20 +415,20 @@
 
 ### الإحصائيات النهائية
 
-| المؤشر | القيمة |
-|--------|--------|
-| ملفات الاختبار | 71 ملف |
-| الاختبارات الناجحة | 1122 |
-| أخطاء TypeScript | 0 |
-| الملفات الجديدة اليوم | 12 ملف |
-| الأيقونات الدلالية | 47 أيقونة |
+| المؤشر                | القيمة    |
+| --------------------- | --------- |
+| ملفات الاختبار        | 71 ملف    |
+| الاختبارات الناجحة    | 1122      |
+| أخطاء TypeScript      | 0         |
+| الملفات الجديدة اليوم | 12 ملف    |
+| الأيقونات الدلالية    | 47 أيقونة |
 
 ### التزامات Git
 
 - `1f1ccc1` — نسخ DESIGN_BOOK.md و DesignStandards.md
 - `4738410` — تحسين context-menu-engine.ts (labelAr, checked, focus nav)
 - `3396547` — طبقة تفاعل القوائم الكاملة (interactions + css + icon map + builders)
--_pending- — تكامل ملفات الأرشيف والجورنال
+  -_pending- — تكامل ملفات الأرشيف والجورنال
 
 - **2026-08-22**: مزامنة فهارس النظام والمكونات تلقائياً عبر سكربت `sync-registry.ts`. تم رصد واكتشاف 2754 رمزاً ومكوناً نشطاً.
 
@@ -427,9 +437,11 @@
 ## 2026-08-22 (Part 2 — جلسة توحيد القوائم السياقية والربط المكاني)
 
 ### 🎯 الهدف والمهمة الرئيسية
+
 إنهاء الفجوة بين طبقة النواة المجردة (`@libretext/core`) وواجهات المستخدم، وبناء مكون القائمة السياقية المشترك (`SharedContextMenu`) وربطه فعلياً بمحرر الكانفا (`CanvasDesignerPlugin`) وفق عقد موحد صارم، ثيم فاتح نقي 100%، وتفاعل ماوسي بحت دون اختصارات إلزامية.
 
 ### 📋 المنجزات التفصيلية
+
 1. **إنشاء المكون الموحد `SharedContextMenu.tsx` (`SHARED-CMP-001`):**
    - المسار: `packages/shared/components/SharedContextMenu.tsx`.
    - استيراد عقد `ContextMenuItem` الموحد حصراً من `@libretext/core` بدون أي `as any` أو تشويش نوعي.
@@ -460,11 +472,13 @@
    - الاستيراد عبر المسارات النسبية العابرة للمجلدات (`../../core/src/...`) يكسر مبدأ العزل والاستقلالية ويفشل في الـ Bundling للإنتاج. الاعتماد على package specifiers المعتمدة في `tsconfig` و `vite.config` (`@libretext/core`) يضمن حماية معمارية الـ Zero-Dependency النواة.
 4. **اتساق الـ Overloads في الـ Hooks المشتركة:**
    - عند توفير أكثر من توقيع (Signature) لدالة فتح القوائم (`openMenu` بالإحداثيات مقابل `openContextMenu` بالحدث)، يجب أن تفضي جميع المسارات إلى نفس شكل الحالة الكامل (`State Shape`) دون إسقاط أي حقول مثل `items` أو `title`.
+
 ---
 
 ## 2026-08-22 (Part 3 — جلسة استيراد كامل من المعدل 4 و المعدل 5)
 
 ### 🎯 الهدف والمهمة الرئيسية
+
 استيراد كافة الدوال والخوارزميات والملفات غير المضمنة من نسختي المعدل 4 والمعدل 5 إلى مشروعنا الرئيسي، مع ضمان عدم وجود أخطاء نوعية واختبارات ناجحة.
 
 ### 📋 المنجزات التفصيلية
@@ -472,6 +486,7 @@
 #### المرحلة الأولى: استيراد المعدل 4 (346 ملف — 85,098 سطر)
 
 **Core Infrastructure (packages/core/):**
+
 - `commands/`: allCommandOptions.ts, CommandRegistry.ts — نظام الأوامر المركزي
 - `contributions/`: ContributionRegistry.ts — سجل المساهمات
 - `documents/`: DocumentManager.ts — مدير المستندات
@@ -485,14 +500,17 @@
 - `types.ts`, `index.ts`, `createEditorServices.ts`
 
 **HTML Blocks (10 ملفات):**
+
 - html-unified-block, html-block-types, html-block-registry, html-block-generator
 - html-block-layout-engine, html-block-data-engine, html-block-tailwind-editor
 - html-block-operations, html-block-presets, html-block-tsx-generator
 
 **Canvas Engines (7 ملفات):**
+
 - BlockMapperEngine, CSSParserEngine, HTMLParserEngine, SelectionManager, SyncEngine, StyleExtractor
 
 **Shared Engines (26 محرك):**
+
 - AIEngine, AttributeCompletionEngine, codeEditorEngines, ComponentRegistry, Debouncer
 - DiagramEngine, DialogEngine, DoctorSelfHealingEngine, htmlBlockParsers
 - IconGeneratorEngine, IconLibraryEngine, ImageStyleEngine, ImageUploaderEngine
@@ -501,11 +519,13 @@
 - ToolRegistry, ValidationEngine, WebScrapingEngine, WYSIWYGCalloutEngine
 
 **Language System (15 ملف):**
+
 - 4 حزم لغات: C++, Python, TypeScript, Web
 - 6 مزوّدين: completion, diagnostics, formatter, hover, runner, symbol
 - 5 ملفات أساسية: definition, pack, registry, runtime, index
 
 **lib-core (80+ ملف):**
+
 - animation/: motion-morph-engine, motion-path-engine, motion-path-tooling-engine
 - archive/: zip-engine (بدون مكتبات خارجية)
 - charts/: zero-dependency-chart-engine
@@ -521,13 +541,16 @@
 - raster/: 10 ملف (background-removal, brush, color-combine, color-curves, dithering, image-filters, image-processing, layer-blend, morphology, vector-tracer)
 
 **Primitives/Utils (20 ملف):**
+
 - Disposable, LocalizedString, Result, Scheduler, SystemTypes
 - 16 React hooks, 5 utils, vector-engine (7 ملفات)
 
 **Shell (35 ملف):**
+
 - dev-studio/: adapters (5), bridge, checkpoint (2), core (3), doctor (6), pipeline, scaffolder, scratchpad, sync (2), tree (6), workbench + panels (4)
 
 **Features (60+ ملف):**
+
 - canvas-designer/: core (16 SVG), hooks (3), data, sub-editors (2), components (22 TSX)
 - rich-text/: core/NativeEditor, services (4), hooks (2), model, types, plugin
 - ui-designer/: hooks (3), model
@@ -537,37 +560,46 @@
 #### المرحلة الثانية: استيراد المعدل 5 (30 ملف — 4,950 سطر)
 
 **توثيق محدث:**
+
 - JOURNAL.md — تسجيل جلسة SharedContextMenu وتكامل السمات
 - INDEX.md — قسم المكونات والخطافات المشتركة
 - CHANGELOG.md — الإصدار v1.2.0
 
 **ملفات جديدة:**
+
 - BLOCK_REGISTRY.json — سجل البلوكات
 - DIAGNOSTICS_REPORT.json — تقرير التشخيصات
 
 **سمات تفاعلية (Traits — 7 ملفات):**
+
 - draggable.ts, resizable.ts, styleable.ts, lockable.ts
 - types.ts (TraitKey), index.ts, trait-context-menu-resolver.ts
 
 **نواة محسّنة:**
+
 - capability-registry.ts — FNV-1a hash + حماية التكرار
 - block-manifest.ts, AudioBlock.ts, blocks/types.ts
 - plugins/index.ts
 
 **تخزين:**
+
 - IndexedDBDocumentStorage.ts, LocalForageDocumentStorage.ts (localStorage stub)
 
 **إضافات واجهة:**
+
 - CanvasDesignerPlugin.tsx, HTMLComponentPlugin.tsx, PdfPlugin.tsx
 - RichTextEditor.tsx, UIDesignerPlugin.tsx
 
 **مكونات مشتركة:**
+
 - SharedContextMenu.tsx — ثيم فاتح نقي 100%، تفاعل ماوسي حصراً
 
 **هيكل تشغيل:**
+
 - Workbench.tsx, main.tsx
 
 **اختبارات جديدة:**
+
 - AudioBlock.test.ts, traits.test.ts, trait-context-menu-resolver.test.ts
 
 ### 🔧 المشاكل المحلولة
@@ -581,14 +613,14 @@
 
 ### 📊 الإحصائيات النهائية
 
-| المؤشر | القيمة |
-|--------|--------|
-| ملفات الاختبار | 74 ملف |
-| الاختبارات الناجحة | 1142 |
-| أخطاء TypeScript | 0 |
-| الملفات الجديدة (المعدل 4) | 346 ملف |
-| الملفات الجديدة (المadol 5) | 30 ملف |
-| إجمالي الملفات المضافة | 376 ملف |
+| المؤشر                      | القيمة  |
+| --------------------------- | ------- |
+| ملفات الاختبار              | 74 ملف  |
+| الاختبارات الناجحة          | 1142    |
+| أخطاء TypeScript            | 0       |
+| الملفات الجديدة (المعدل 4)  | 346 ملف |
+| الملفات الجديدة (المadol 5) | 30 ملف  |
+| إجمالي الملفات المضافة      | 376 ملف |
 
 ### 💡 الدروس المستفادة
 
@@ -601,9 +633,11 @@
 ## 2026-08-23 (Part 4 — تفعيل DevStudio كشريك ذكي)
 
 ### 🎯 الهدف
+
 جعل DevStudio الشريك الذكي للمطور — ينفذ المهام الروتينية والتكرارية ويوفر الوقت والجهد.
 
 ### 📋 المنجزات
+
 1. **بناء CLI:** `cli/index.ts` — أوامر scan, status, import, init, help
 2. **ذاكرة دائمة:** `knowledge/project-memory.ts` — JSON snapshot + sessions + decisions
 3. **ماسح مشروع حي:** `knowledge/project-scanner.ts` — fs + git + vitest
@@ -616,6 +650,7 @@
 > **المطور يركز على القرارات المعمارية فقط.**
 
 هذا القرار يُوسّع دور DevStudio تدريجياً:
+
 - المرحلة 1 (مكتملة): scan + memory + reporter
 - المرحلة 2 (قريب): typecheck/test تلقائي + كشف تضاربات
 - المرحلة 3 (قريب): نسخ + تصحيح + تحديث فهارس

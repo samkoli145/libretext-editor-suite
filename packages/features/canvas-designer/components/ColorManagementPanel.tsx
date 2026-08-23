@@ -43,7 +43,10 @@ import {
   ChevronUp,
 } from 'lucide-react';
 import type { CanvasElement, ColorPaletteGroup, ColorSwatchItem } from '../model';
-import { SharedContextMenu, type ContextMenuItem } from '../../../shared/components/SharedContextMenu';
+import {
+  SharedContextMenu,
+  type ContextMenuItem,
+} from '../../../shared/components/SharedContextMenu';
 import { notificationEngine } from '../../../shared/engines/NotificationEngine';
 
 interface ColorManagementPanelProps {
@@ -110,8 +113,14 @@ export const ColorManagementPanel: React.FC<ColorManagementPanelProps> = ({
   const [palettes, setPalettes] = useState<ColorPaletteGroup[]>(DEFAULT_PALETTES);
   const [selectedColorHex, setSelectedColorHex] = useState<string>('#2563eb');
   const [newColorName, setNewColorName] = useState<string>('لون مخصص');
-  const [targetApplication, setTargetApplication] = useState<'fill' | 'stroke' | 'text' | 'background'>('fill');
-  const [expandedPaletteIds, setExpandedPaletteIds] = useState<string[]>(['palette-brand', 'palette-pastels', 'palette-status']);
+  const [targetApplication, setTargetApplication] = useState<
+    'fill' | 'stroke' | 'text' | 'background'
+  >('fill');
+  const [expandedPaletteIds, setExpandedPaletteIds] = useState<string[]>([
+    'palette-brand',
+    'palette-pastels',
+    'palette-status',
+  ]);
 
   const [contextMenu, setContextMenu] = useState<{
     isOpen: boolean;
@@ -127,7 +136,7 @@ export const ColorManagementPanel: React.FC<ColorManagementPanelProps> = ({
 
   const togglePaletteExpand = (id: string) => {
     setExpandedPaletteIds((prev) =>
-      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
+      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id],
     );
   };
 
@@ -176,8 +185,8 @@ export const ColorManagementPanel: React.FC<ColorManagementPanelProps> = ({
 
     setPalettes((prev) =>
       prev.map((pal) =>
-        pal.id === paletteId ? { ...pal, colors: [...pal.colors, newSwatch] } : pal
-      )
+        pal.id === paletteId ? { ...pal, colors: [...pal.colors, newSwatch] } : pal,
+      ),
     );
     notificationEngine.success(`تم حفظ العينة (${selectedColorHex}) في لوحة الألوان`);
   };
@@ -216,7 +225,7 @@ export const ColorManagementPanel: React.FC<ColorManagementPanelProps> = ({
           return { ...pal, colors: [...pal.colors, ...newSwatches] };
         }
         return pal;
-      })
+      }),
     );
 
     notificationEngine.success(`تم استخراج وحفظ ${colorsToCapture.length} لون من العنصر المحدد`);
@@ -236,7 +245,9 @@ export const ColorManagementPanel: React.FC<ColorManagementPanelProps> = ({
         // ألغى المستخدم القطارة
       }
     } else {
-      notificationEngine.info('أداة القطارة المدعومة متاحة في المتصفحات الحديثة، يمكنك كتابة كود HEX يدوياً');
+      notificationEngine.info(
+        'أداة القطارة المدعومة متاحة في المتصفحات الحديثة، يمكنك كتابة كود HEX يدوياً',
+      );
     }
   };
 
@@ -246,8 +257,8 @@ export const ColorManagementPanel: React.FC<ColorManagementPanelProps> = ({
       prev.map((pal) =>
         pal.id === paletteId
           ? { ...pal, colors: pal.colors.filter((c) => c.id !== swatchId) }
-          : pal
-      )
+          : pal,
+      ),
     );
     notificationEngine.info('تم حذف العينة من اللوحة');
   };
@@ -256,7 +267,7 @@ export const ColorManagementPanel: React.FC<ColorManagementPanelProps> = ({
   const handleContextMenu = (
     e: React.MouseEvent,
     colorItem: ColorSwatchItem,
-    paletteId: string
+    paletteId: string,
   ) => {
     e.preventDefault();
     e.stopPropagation();
@@ -322,7 +333,10 @@ export const ColorManagementPanel: React.FC<ColorManagementPanelProps> = ({
     : [];
 
   return (
-    <div className="flex flex-col h-full bg-white text-slate-800 text-xs" style={{ direction: 'rtl' }}>
+    <div
+      className="flex flex-col h-full bg-white text-slate-800 text-xs"
+      style={{ direction: 'rtl' }}
+    >
       {/* الترويسة وأداة اختيار اللون النشط */}
       <div className="p-3 border-b border-slate-200 bg-slate-50/70 space-y-3">
         <div className="flex items-center justify-between">
@@ -331,8 +345,12 @@ export const ColorManagementPanel: React.FC<ColorManagementPanelProps> = ({
               <Palette className="w-4 h-4" />
             </div>
             <div>
-              <h3 className="font-semibold text-slate-800 text-xs">مدير الألوان والباليتات المخصصة</h3>
-              <p className="text-[10px] text-slate-500">اختر أو احفظ عينات الألوان وطبقها بنقرة واحدة</p>
+              <h3 className="font-semibold text-slate-800 text-xs">
+                مدير الألوان والباليتات المخصصة
+              </h3>
+              <p className="text-[10px] text-slate-500">
+                اختر أو احفظ عينات الألوان وطبقها بنقرة واحدة
+              </p>
             </div>
           </div>
         </div>
@@ -387,7 +405,9 @@ export const ColorManagementPanel: React.FC<ColorManagementPanelProps> = ({
 
           {/* تبديل وضع التطبيق بنقرة واحدة */}
           <div>
-            <div className="text-[10px] text-slate-500 mb-1">الهدف عند النقر على أي عينة لونيّة:</div>
+            <div className="text-[10px] text-slate-500 mb-1">
+              الهدف عند النقر على أي عينة لونيّة:
+            </div>
             <div className="grid grid-cols-4 gap-1">
               <button
                 type="button"
@@ -447,14 +467,19 @@ export const ColorManagementPanel: React.FC<ColorManagementPanelProps> = ({
         {palettes.map((palette) => {
           const isExpanded = expandedPaletteIds.includes(palette.id);
           return (
-            <div key={palette.id} className="border border-slate-200 rounded-xl overflow-hidden bg-white shadow-xs">
+            <div
+              key={palette.id}
+              className="border border-slate-200 rounded-xl overflow-hidden bg-white shadow-xs"
+            >
               <div
                 onClick={() => togglePaletteExpand(palette.id)}
                 className="p-2.5 bg-slate-50 flex items-center justify-between cursor-pointer select-none hover:bg-slate-100 transition-colors"
               >
                 <div className="flex items-center gap-1.5">
                   <span className="font-semibold text-slate-800 text-[11px]">{palette.nameAr}</span>
-                  <span className="text-[10px] text-slate-400 font-mono">({palette.colors.length})</span>
+                  <span className="text-[10px] text-slate-400 font-mono">
+                    ({palette.colors.length})
+                  </span>
                 </div>
                 <div className="flex items-center gap-1">
                   {isExpanded ? (

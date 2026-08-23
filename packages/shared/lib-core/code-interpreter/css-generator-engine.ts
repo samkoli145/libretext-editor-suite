@@ -94,9 +94,7 @@ export const SHADOW_STACK_PRESETS: ShadowStackPreset[] = [
     id: 'crisp-inset-panel',
     nameAr: 'حفر غائر نقي (Inset Input / Well)',
     descriptionAr: 'ظل داخلي خفيف يعطي إحساساً بالعمق لحقول الإدخال',
-    layers: [
-      { x: 0, y: 2, blur: 4, spread: 0, color: '#0f172a', opacity: 0.06, inset: true },
-    ],
+    layers: [{ x: 0, y: 2, blur: 4, spread: 0, color: '#0f172a', opacity: 0.06, inset: true }],
   },
 ];
 
@@ -146,7 +144,8 @@ export const LIGHT_GRADIENTS_PRESETS: LightGradientPreset[] = [
       { color: '#dcfce7', positionPercent: 50 },
       { color: '#ffffff', positionPercent: 100 },
     ],
-    tailwindClass: 'bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-emerald-50 via-emerald-100/40 to-white',
+    tailwindClass:
+      'bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-emerald-50 via-emerald-100/40 to-white',
   },
 ];
 
@@ -188,7 +187,10 @@ export class CssGeneratorEngine {
   /**
    * توليد نمط الزجاج الفاتح النقي (Pure Light Frosted Glass)
    */
-  public static generateFrostedGlassCss(blurAmount = 12, alpha = 0.8): {
+  public static generateFrostedGlassCss(
+    blurAmount = 12,
+    alpha = 0.8,
+  ): {
     css: string;
     tailwind: string;
   } {
@@ -201,7 +203,11 @@ export class CssGeneratorEngine {
   /**
    * توليد تخطيط شبكي تفاعلي CSS Grid
    */
-  public static generateGridCss(cols: number, gapPx: number, minColWidthPx = 200): {
+  public static generateGridCss(
+    cols: number,
+    gapPx: number,
+    minColWidthPx = 200,
+  ): {
     css: string;
     tailwind: string;
   } {

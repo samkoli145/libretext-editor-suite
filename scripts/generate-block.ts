@@ -34,15 +34,30 @@ function parseArgs(): BlockOptions {
   let dryRun = false;
   for (const a of args) {
     if (a.startsWith('--name=')) name = a.slice(7).trim();
-    else if (a.startsWith('--domain=')) { const d = a.slice(9).trim(); if (['Writer','Calc','Impress','Base','Universal'].includes(d)) domain = d as BlockOptions['domain']; }
-    else if (a.startsWith('--traits=')) traits = a.slice(9).split(',').map(t => t.trim()).filter(Boolean);
+    else if (a.startsWith('--domain=')) {
+      const d = a.slice(9).trim();
+      if (['Writer', 'Calc', 'Impress', 'Base', 'Universal'].includes(d))
+        domain = d as BlockOptions['domain'];
+    } else if (a.startsWith('--traits='))
+      traits = a
+        .slice(9)
+        .split(',')
+        .map((t) => t.trim())
+        .filter(Boolean);
     else if (a === '--dry-run') dryRun = true;
   }
   return { name, domain, traits, dryRun };
 }
 
-function toKebab(s: string): string { return s.replace(/([a-z])([A-Z])/g, '$1-$2').replace(/[\s_]+/g, '-').toLowerCase(); }
-function toPascal(s: string): string { return s.replace(/(?:^|[-_])(\w)/g, (_, c) => c ? c.toUpperCase() : '').replace(/\s+/g, ''); }
+function toKebab(s: string): string {
+  return s
+    .replace(/([a-z])([A-Z])/g, '$1-$2')
+    .replace(/[\s_]+/g, '-')
+    .toLowerCase();
+}
+function toPascal(s: string): string {
+  return s.replace(/(?:^|[-_])(\w)/g, (_, c) => (c ? c.toUpperCase() : '')).replace(/\s+/g, '');
+}
 
 function genSource(opts: BlockOptions, kebab: string, pascal: string, date: string): string {
   return `/**
@@ -66,7 +81,7 @@ export interface ${pascal}Block {
   readonly data: ${pascal}Data;
 }
 
-export const ${pascal}DefaultTraits = [${opts.traits.map(t => `'${t}'`).join(', ')}] as const;
+export const ${pascal}DefaultTraits = [${opts.traits.map((t) => `'${t}'`).join(', ')}] as const;
 
 export function create${pascal}Block(id: string, data: Partial<${pascal}Data> = {}): ${pascal}Block {
   return {
@@ -111,7 +126,7 @@ export const ${pascal}RegistryEntry = {
   id: '${kebab}',
   name: '${pascal}',
   domain: '${opts.domain}',
-  traits: [${opts.traits.map(t => `'${t}'`).join(', ')}],
+  traits: [${opts.traits.map((t) => `'${t}'`).join(', ')}],
   hasContextMenu: true,
   hasFloatingGizmo: true,
   createdAt: '${date}',
@@ -158,12 +173,30 @@ export function runGenerateBlock(): void {
     return;
   }
 
-  for (const d of [blocksDir, testsDir]) { if (!fs.existsSync(d)) fs.mkdirSync(d, { recursive: true }); }
+  for (const d of [blocksDir, testsDir]) {
+    if (!fs.existsSync(d)) fs.mkdirSync(d, { recursive: true });
+  }
 
-  fs.writeFileSync(path.join(blocksDir, `${kebab}.ts`), genSource(opts, kebab, pascal, date), 'utf-8');
-  fs.writeFileSync(path.join(blocksDir, `${kebab}.styles.ts`), genStyles(pascal, kebab, date), 'utf-8');
-  fs.writeFileSync(path.join(blocksDir, `${kebab}.registry.ts`), genRegistry(opts, pascal, kebab, date), 'utf-8');
-  fs.writeFileSync(path.join(testsDir, `${kebab}.test.ts`), genTest(opts, pascal, kebab, date), 'utf-8');
+  fs.writeFileSync(
+    path.join(blocksDir, `${kebab}.ts`),
+    genSource(opts, kebab, pascal, date),
+    'utf-8',
+  );
+  fs.writeFileSync(
+    path.join(blocksDir, `${kebab}.styles.ts`),
+    genStyles(pascal, kebab, date),
+    'utf-8',
+  );
+  fs.writeFileSync(
+    path.join(blocksDir, `${kebab}.registry.ts`),
+    genRegistry(opts, pascal, kebab, date),
+    'utf-8',
+  );
+  fs.writeFileSync(
+    path.join(testsDir, `${kebab}.test.ts`),
+    genTest(opts, pascal, kebab, date),
+    'utf-8',
+  );
 
   console.log(`[generate:block] Created 4 files for "${opts.name}" (${opts.domain}):`);
   console.log(`  Source:   ${blocksDir}/${kebab}.ts`);
@@ -172,4 +205,4 @@ export function runGenerateBlock(): void {
   console.log(`  Test:     ${testsDir}/${kebab}.test.ts`);
 }
 
-import.meta.url === `file://${process.argv[1]}` && runGenerateBlock();
+if (import.meta.url === `file://${process.argv[1]}`) runGenerateBlock();

@@ -42,14 +42,23 @@ interface EditorInventory {
 }
 
 function getFileLines(filePath: string): number {
-  try { return fs.readFileSync(filePath, 'utf-8').split('\n').length; } catch { return 0; }
+  try {
+    return fs.readFileSync(filePath, 'utf-8').split('\n').length;
+  } catch {
+    return 0;
+  }
 }
 
 function fileExists(filePath: string): boolean {
   return fs.existsSync(filePath);
 }
 
-function buildEntry(backupPath: string, localPath: string, desc: string, hasUI: boolean): InventoryEntry {
+function buildEntry(
+  backupPath: string,
+  localPath: string,
+  desc: string,
+  hasUI: boolean,
+): InventoryEntry {
   const fullPath = path.join(BACKUP_DIR, backupPath);
   return {
     file: backupPath,
@@ -123,28 +132,78 @@ function main() {
   console.log('📋 [Inventory] Generating editor component inventory...\n');
 
   const writer: EditorInventory = {
-    name: 'Writer', nameAr: '📝 المحرر النصي (Writer)', engines: [], components: [], tools: [],
-    totalFiles: 0, integratedCount: 0,
+    name: 'Writer',
+    nameAr: '📝 المحرر النصي (Writer)',
+    engines: [],
+    components: [],
+    tools: [],
+    totalFiles: 0,
+    integratedCount: 0,
   };
 
   writer.engines = [
-    buildEntry('core/engines/HtmlPipelineEngine.ts', 'packages/core/src/engines/html-pipeline.ts', 'محرك HTML Pipeline', false),
-    buildEntry('core/engines/FileTypeDetectionEngine.ts', 'packages/core/src/engines/file-type-detection.ts', 'التعرف على أنواع الملفات', false),
-    buildEntry('core/engines/UnifiedIngestionPipeline.ts', 'packages/core/src/engines/unified-ingestion.ts', 'خط الاستيراد الموحد', false),
-    buildEntry('core/engines/ImagePipelineEngine.ts', 'packages/core/src/engines/image-pipeline.ts', 'محرك الصور', false),
-    buildEntry('shared/engines/ValidationEngine.ts', 'packages/core/src/engines/validation.ts', 'محرك الفحص والتعقيم', false),
-    buildEntry('shared/engines/MarkdownEngine.ts', 'packages/algorithms/src/formula/markdown-engine.ts', 'محرك Markdown', false),
-    buildEntry('shared/engines/LaTeXEngine.ts', 'packages/algorithms/src/formula/latex-engine.ts', 'محرك LaTeX', false),
+    buildEntry(
+      'core/engines/HtmlPipelineEngine.ts',
+      'packages/core/src/engines/html-pipeline.ts',
+      'محرك HTML Pipeline',
+      false,
+    ),
+    buildEntry(
+      'core/engines/FileTypeDetectionEngine.ts',
+      'packages/core/src/engines/file-type-detection.ts',
+      'التعرف على أنواع الملفات',
+      false,
+    ),
+    buildEntry(
+      'core/engines/UnifiedIngestionPipeline.ts',
+      'packages/core/src/engines/unified-ingestion.ts',
+      'خط الاستيراد الموحد',
+      false,
+    ),
+    buildEntry(
+      'core/engines/ImagePipelineEngine.ts',
+      'packages/core/src/engines/image-pipeline.ts',
+      'محرك الصور',
+      false,
+    ),
+    buildEntry(
+      'shared/engines/ValidationEngine.ts',
+      'packages/core/src/engines/validation.ts',
+      'محرك الفحص والتعقيم',
+      false,
+    ),
+    buildEntry(
+      'shared/engines/MarkdownEngine.ts',
+      'packages/algorithms/src/formula/markdown-engine.ts',
+      'محرك Markdown',
+      false,
+    ),
+    buildEntry(
+      'shared/engines/LaTeXEngine.ts',
+      'packages/algorithms/src/formula/latex-engine.ts',
+      'محرك LaTeX',
+      false,
+    ),
   ];
 
   writer.tools = [
-    buildEntry('shared/converters/UniversalFormatConverter.ts', 'packages/core/src/converters/universal-format-converter.ts', 'محول التنسيقات الشامل', false),
+    buildEntry(
+      'shared/converters/UniversalFormatConverter.ts',
+      'packages/core/src/converters/universal-format-converter.ts',
+      'محول التنسيقات الشامل',
+      false,
+    ),
     buildEntry('core/types.ts', 'packages/core/src/types.ts', 'أنواع المستندات', false),
   ];
 
   const calc: EditorInventory = {
-    name: 'Calc', nameAr: '📊 جدول البيانات (Calc)', engines: [], components: [], tools: [],
-    totalFiles: 0, integratedCount: 0,
+    name: 'Calc',
+    nameAr: '📊 جدول البيانات (Calc)',
+    engines: [],
+    components: [],
+    tools: [],
+    totalFiles: 0,
+    integratedCount: 0,
   };
 
   calc.engines = [
@@ -153,8 +212,13 @@ function main() {
   ];
 
   const impress: EditorInventory = {
-    name: 'Impress', nameAr: '🎨 العرض التقديمي (Impress)', engines: [], components: [], tools: [],
-    totalFiles: 0, integratedCount: 0,
+    name: 'Impress',
+    nameAr: '🎨 العرض التقديمي (Impress)',
+    engines: [],
+    components: [],
+    tools: [],
+    totalFiles: 0,
+    integratedCount: 0,
   };
 
   impress.engines = [
@@ -162,15 +226,40 @@ function main() {
     buildEntry('shared/vector-engine/ref_line.ts', '', 'خطوط الإرشاد الديناميكية', false),
     buildEntry('shared/vector-engine/control_handle_manager.ts', '', 'مدير مقابض التحكم', false),
     buildEntry('shared/vector-engine/AutoLayoutEngine.ts', '', 'محرك التخطيط التلقائي', false),
-    buildEntry('shared/vector-engine/common.ts', 'packages/algorithms/src/vector/common.ts', 'أدوات هندسية مشتركة', false),
-    buildEntry('canvas/engine/CoordinateSystem.ts', 'packages/algorithms/src/vector/coordinate-system.ts', 'نظام الإحداثيات', false),
-    buildEntry('canvas/engine/MouseAlgorithms.ts', 'packages/algorithms/src/vector/mouse-algorithms.ts', 'خوارزميات الفأرة', false),
-    buildEntry('canvas/engine/SmartAlignment.ts', 'packages/algorithms/src/vector/smart-alignment.ts', 'المحاذاة الذكية', false),
+    buildEntry(
+      'shared/vector-engine/common.ts',
+      'packages/algorithms/src/vector/common.ts',
+      'أدوات هندسية مشتركة',
+      false,
+    ),
+    buildEntry(
+      'canvas/engine/CoordinateSystem.ts',
+      'packages/algorithms/src/vector/coordinate-system.ts',
+      'نظام الإحداثيات',
+      false,
+    ),
+    buildEntry(
+      'canvas/engine/MouseAlgorithms.ts',
+      'packages/algorithms/src/vector/mouse-algorithms.ts',
+      'خوارزميات الفأرة',
+      false,
+    ),
+    buildEntry(
+      'canvas/engine/SmartAlignment.ts',
+      'packages/algorithms/src/vector/smart-alignment.ts',
+      'المحاذاة الذكية',
+      false,
+    ),
   ];
 
   const base: EditorInventory = {
-    name: 'Base', nameAr: '🗄️ قاعدة البيانات (Base)', engines: [], components: [], tools: [],
-    totalFiles: 0, integratedCount: 0,
+    name: 'Base',
+    nameAr: '🗄️ قاعدة البيانات (Base)',
+    engines: [],
+    components: [],
+    tools: [],
+    totalFiles: 0,
+    integratedCount: 0,
   };
 
   base.tools = [
@@ -180,7 +269,9 @@ function main() {
 
   for (const editor of [writer, calc, impress, base]) {
     editor.totalFiles = editor.engines.length + editor.components.length + editor.tools.length;
-    editor.integratedCount = [...editor.engines, ...editor.components, ...editor.tools].filter((e) => e.integrated).length;
+    editor.integratedCount = [...editor.engines, ...editor.components, ...editor.tools].filter(
+      (e) => e.integrated,
+    ).length;
   }
 
   const inventories = [writer, calc, impress, base];

@@ -57,7 +57,9 @@ export class DisposableStore implements Disposable {
     for (const item of this.toDispose) {
       try {
         item.dispose();
-      } catch (_e) { /* */ }
+      } catch (_e) {
+        /* */
+      }
     }
     this.toDispose.clear();
     this.isDisposed = false;

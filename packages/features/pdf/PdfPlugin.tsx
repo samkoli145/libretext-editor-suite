@@ -10,9 +10,9 @@
  * ═══════════════════════════════════════════════════════════════════════════
  */
 
-import React, { useState } from "react";
-import type { EditorPlugin, EditorPluginProps, DocumentModel } from "../../core/types";
-import { FileCheck, Download, Printer, Plus, Trash2, Eye, FileText } from "lucide-react";
+import React, { useState } from 'react';
+import type { EditorPlugin, EditorPluginProps, DocumentModel } from '../../core/types';
+import { FileCheck, Download, Printer, Plus, Trash2, Eye, FileText } from 'lucide-react';
 
 export interface PdfDocumentData {
   title: string;
@@ -25,25 +25,22 @@ export interface PdfDocumentData {
   zoom: number;
 }
 
-export function createDefaultPdfData(title = "مستند PDF جديد"): PdfDocumentData {
+export function createDefaultPdfData(title = 'مستند PDF جديد'): PdfDocumentData {
   return {
     title,
     zoom: 1,
     pages: [
       {
-        id: "page-1",
+        id: 'page-1',
         pageNumber: 1,
-        content: "صفحة PDF رئيسية جاهزة للعرض وتأشير القراءة والطباعة.",
-        annotations: [{ id: "ann-1", text: "ملاحظة مراجعة أولى", x: 50, y: 50 }],
+        content: 'صفحة PDF رئيسية جاهزة للعرض وتأشير القراءة والطباعة.',
+        annotations: [{ id: 'ann-1', text: 'ملاحظة مراجعة أولى', x: 50, y: 50 }],
       },
     ],
   };
 }
 
-export function PdfEditor({
-  document,
-  onChange,
-}: EditorPluginProps<PdfDocumentData>) {
+export function PdfEditor({ document, onChange }: EditorPluginProps<PdfDocumentData>) {
   const data = document.data || createDefaultPdfData();
   const [activePage, setActivePage] = useState<number>(1);
 
@@ -115,8 +112,8 @@ export function PdfEditor({
                 onClick={() => setActivePage(p.pageNumber)}
                 className={`p-2 rounded-lg border text-center cursor-pointer transition-all ${
                   p.pageNumber === activePage
-                    ? "border-rose-500 bg-rose-50/40 text-rose-700 font-bold shadow-2xs"
-                    : "border-slate-200 hover:bg-slate-50 text-slate-600"
+                    ? 'border-rose-500 bg-rose-50/40 text-rose-700 font-bold shadow-2xs'
+                    : 'border-slate-200 hover:bg-slate-50 text-slate-600'
                 }`}
               >
                 <FileText className="w-5 h-5 mx-auto mb-1 text-rose-500" />
@@ -157,23 +154,23 @@ export function PdfEditor({
 }
 
 export class PdfPlugin implements EditorPlugin<PdfDocumentData> {
-  id = "pdf-plugin";
-  name = "مستندات PDF وتأشيرات";
-  documentType = "pdf";
-  iconName = "FileCheck";
-  fileExtensions = ["pdf", "pdf.json", "json"] as const;
-  description = "محرر وقارئ مستندات PDF وتأشيرات القراءة والطباعة";
+  id = 'pdf-plugin';
+  name = 'مستندات PDF وتأشيرات';
+  documentType = 'pdf';
+  iconName = 'FileCheck';
+  fileExtensions = ['pdf', 'pdf.json', 'json'] as const;
+  description = 'محرر وقارئ مستندات PDF وتأشيرات القراءة والطباعة';
 
   renderEditor(props: EditorPluginProps<PdfDocumentData>) {
     return <PdfEditor {...props} />;
   }
 
-  createDefaultDocument(title = "مستند PDF جديد"): DocumentModel<PdfDocumentData> {
+  createDefaultDocument(title = 'مستند PDF جديد'): DocumentModel<PdfDocumentData> {
     return {
       id: `doc-${Date.now()}`,
-      type: "pdf",
+      type: 'pdf',
       title,
-      fileExtension: "pdf.json",
+      fileExtension: 'pdf.json',
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
       version: 1,

@@ -36,7 +36,8 @@ import type {
  */
 export function detectTextScriptDirection(text?: string): 'rtl' | 'ltr' {
   if (!text || typeof text !== 'string') return 'ltr';
-  const rtlRegex = /[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF\u0590-\u05FF]/;
+  const rtlRegex =
+    /[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF\u0590-\u05FF]/;
   return rtlRegex.test(text) ? 'rtl' : 'ltr';
 }
 
@@ -67,7 +68,7 @@ export function smartAlignByScript(
   elements: readonly SimulatedCanvasElement[],
   selectedIds: readonly string[],
   canvasWidth: number,
-  targetScript: TextScriptDirection = 'auto'
+  targetScript: TextScriptDirection = 'auto',
 ): readonly SimulatedCanvasElement[] {
   const targetIds = selectedIds.length > 0 ? selectedIds : elements.map((e) => e.id);
   const bounds = calculateGroupBounds(elements, targetIds);
@@ -79,13 +80,12 @@ export function smartAlignByScript(
     let newX = el.x;
 
     if (direction === 'rtl') {
-      newX = bounds && selectedIds.length > 1
-        ? bounds.maxX - el.width
-        : Math.max(0, canvasWidth - el.width - margin);
+      newX =
+        bounds && selectedIds.length > 1
+          ? bounds.maxX - el.width
+          : Math.max(0, canvasWidth - el.width - margin);
     } else {
-      newX = bounds && selectedIds.length > 1
-        ? bounds.minX
-        : margin;
+      newX = bounds && selectedIds.length > 1 ? bounds.minX : margin;
     }
 
     return {
@@ -108,7 +108,7 @@ export function calculateSmartSnapAndGuides(
   height: number,
   canvasWidth: number,
   canvasHeight: number,
-  threshold = 6
+  threshold = 6,
 ): { snappedX: number; snappedY: number; guides: readonly AlignmentGuideLine[] } {
   let snappedX = proposedX;
   let snappedY = proposedY;
@@ -211,7 +211,7 @@ export function pushHistoryState(
   currentIndex: number,
   newElements: readonly SimulatedCanvasElement[],
   description: string,
-  maxEntries = 30
+  maxEntries = 30,
 ): { newHistory: readonly StateHistoryEntry[]; newIndex: number } {
   const truncated = history.slice(0, currentIndex + 1);
   const nextEntry: StateHistoryEntry = {
@@ -248,7 +248,7 @@ export function snapCoordinate(value: number, gridSize: number, enabled: boolean
  */
 export function calculateGroupBounds(
   elements: readonly SimulatedCanvasElement[],
-  selectedIds: readonly string[]
+  selectedIds: readonly string[],
 ): CanvasBoundingBox | null {
   const selected = elements.filter((el) => selectedIds.includes(el.id));
   if (selected.length === 0) return null;
@@ -289,7 +289,7 @@ export function clampWithinCanvas(
   width: number,
   height: number,
   canvasWidth: number,
-  canvasHeight: number
+  canvasHeight: number,
 ): { x: number; y: number } {
   const clampedX = Math.max(0, Math.min(x, Math.max(0, canvasWidth - width)));
   const clampedY = Math.max(0, Math.min(y, Math.max(0, canvasHeight - height)));
@@ -306,7 +306,7 @@ export function applyDeltaToSelection(
   deltaY: number,
   canvasBounds: { width: number; height: number },
   snapGrid: number,
-  isSnapEnabled: boolean
+  isSnapEnabled: boolean,
 ): readonly SimulatedCanvasElement[] {
   return elements.map((el) => {
     const initPos = initialPositions.get(el.id);
@@ -324,7 +324,7 @@ export function applyDeltaToSelection(
       el.width,
       el.height,
       canvasBounds.width,
-      canvasBounds.height
+      canvasBounds.height,
     );
 
     return {
@@ -341,7 +341,7 @@ export function applyDeltaToSelection(
 export function toggleElementSelection(
   currentSelection: readonly string[],
   clickedId: string,
-  isShiftPressed: boolean
+  isShiftPressed: boolean,
 ): readonly string[] {
   if (!isShiftPressed) {
     return [clickedId];
@@ -361,7 +361,7 @@ export function toggleElementSelection(
  */
 export function getMarqueeIntersectingIds(
   elements: readonly SimulatedCanvasElement[],
-  marquee: MarqueeSelectionState
+  marquee: MarqueeSelectionState,
 ): readonly string[] {
   if (!marquee.isActive) return [];
 
@@ -374,23 +374,13 @@ export function getMarqueeIntersectingIds(
     .filter((el) => {
       const elMaxX = el.x + el.width;
       const elMaxY = el.y + el.height;
-      return (
-        el.x < boxMaxX &&
-        elMaxX > boxMinX &&
-        el.y < boxMaxY &&
-        elMaxY > boxMinY
-      );
+      return el.x < boxMaxX && elMaxX > boxMinX && el.y < boxMaxY && elMaxY > boxMinY;
     })
     .map((el) => el.id);
 }
 
 export type SpatialAlignmentType =
-  | 'align-left'
-  | 'align-center-x'
-  | 'align-right'
-  | 'align-top'
-  | 'align-center-y'
-  | 'align-bottom';
+  'align-left' | 'align-center-x' | 'align-right' | 'align-top' | 'align-center-y' | 'align-bottom';
 
 /**
  * محاذاة العناصر المحددة هندسياً وفق النوع المطلوب
@@ -398,7 +388,7 @@ export type SpatialAlignmentType =
 export function alignSelectedElements(
   elements: readonly SimulatedCanvasElement[],
   selectedIds: readonly string[],
-  type: SpatialAlignmentType
+  type: SpatialAlignmentType,
 ): readonly SimulatedCanvasElement[] {
   const bounds = calculateGroupBounds(elements, selectedIds);
   if (!bounds || selectedIds.length < 2) return elements;
@@ -446,10 +436,9 @@ export type SpatialDistributionType = 'distribute-horizontal' | 'distribute-vert
 export function distributeSelectedElements(
   elements: readonly SimulatedCanvasElement[],
   selectedIds: readonly string[],
-  type: SpatialDistributionType
+  type: SpatialDistributionType,
 ): readonly SimulatedCanvasElement[] {
-  const targetElements = elements
-    .filter((el) => selectedIds.includes(el.id) && !el.isLocked);
+  const targetElements = elements.filter((el) => selectedIds.includes(el.id) && !el.isLocked);
 
   if (targetElements.length < 3) return elements;
 
@@ -457,7 +446,7 @@ export function distributeSelectedElements(
     const sorted = [...targetElements].sort((a, b) => a.x - b.x);
     const minX = sorted[0]!.x;
     const last = sorted[sorted.length - 1]!;
-    const totalSpan = (last.x + last.width) - minX;
+    const totalSpan = last.x + last.width - minX;
     const totalItemWidths = sorted.reduce((sum, item) => sum + item.width, 0);
     const totalGaps = sorted.length - 1;
     const gap = Math.max(0, (totalSpan - totalItemWidths) / totalGaps);
@@ -477,7 +466,7 @@ export function distributeSelectedElements(
     const sorted = [...targetElements].sort((a, b) => a.y - b.y);
     const minY = sorted[0]!.y;
     const last = sorted[sorted.length - 1]!;
-    const totalSpan = (last.y + last.height) - minY;
+    const totalSpan = last.y + last.height - minY;
     const totalItemHeights = sorted.reduce((sum, item) => sum + item.height, 0);
     const totalGaps = sorted.length - 1;
     const gap = Math.max(0, (totalSpan - totalItemHeights) / totalGaps);
@@ -502,7 +491,7 @@ export function distributeSelectedElements(
 export function rotateSelectedElements(
   elements: readonly SimulatedCanvasElement[],
   selectedIds: readonly string[],
-  deltaAngle: number
+  deltaAngle: number,
 ): readonly SimulatedCanvasElement[] {
   return elements.map((el) => {
     if (!selectedIds.includes(el.id) || el.isLocked) return el;
@@ -518,7 +507,7 @@ export function rotateSelectedElements(
 export function reorderLayers(
   elements: readonly SimulatedCanvasElement[],
   selectedIds: readonly string[],
-  action: 'bring-to-front' | 'send-to-back' | 'bring-forward' | 'send-backward'
+  action: 'bring-to-front' | 'send-to-back' | 'bring-forward' | 'send-backward',
 ): readonly SimulatedCanvasElement[] {
   if (selectedIds.length === 0) return elements;
 

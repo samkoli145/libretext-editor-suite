@@ -99,7 +99,8 @@ const SHAPE_BUILDERS: Array<{
   },
   {
     keys: ['مربع', 'square', 'صندوق', 'بطاقة'],
-    build: (c, s, g) => `<rect x="12" y="12" width="40" height="40" rx="8" ${getFillOrStroke(c, s, g)} />`,
+    build: (c, s, g) =>
+      `<rect x="12" y="12" width="40" height="40" rx="8" ${getFillOrStroke(c, s, g)} />`,
   },
   {
     keys: ['مثلث', 'triangle'],
@@ -122,8 +123,7 @@ const SHAPE_BUILDERS: Array<{
   },
   {
     keys: ['برق', 'صاعقة', 'bolt', 'lightning', 'طاقة'],
-    build: (c, s, g) =>
-      `<path d="M36 6L14 36h14l-4 22 22-30H32z" ${getFillOrStroke(c, s, g)} />`,
+    build: (c, s, g) => `<path d="M36 6L14 36h14l-4 22 22-30H32z" ${getFillOrStroke(c, s, g)} />`,
   },
   {
     keys: ['سحابة', 'غيمة', 'cloud', 'سحابي'],

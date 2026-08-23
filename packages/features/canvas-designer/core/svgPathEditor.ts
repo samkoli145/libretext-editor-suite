@@ -43,7 +43,9 @@ function perpendicularDistance(point: Point2D, lineStart: Point2D, lineEnd: Poin
   if (mag === 0) {
     return Math.hypot(point.x - lineStart.x, point.y - lineStart.y);
   }
-  return Math.abs(dy * point.x - dx * point.y + lineEnd.x * lineStart.y - lineEnd.y * lineStart.x) / mag;
+  return (
+    Math.abs(dy * point.x - dx * point.y + lineEnd.x * lineStart.y - lineEnd.y * lineStart.x) / mag
+  );
 }
 
 /**
@@ -78,7 +80,8 @@ export function simplifyPoints(points: Point2D[], tolerance: number = 2): Point2
  */
 export function pointsToSmoothSvgPath(points: Point2D[]): string {
   if (!points || points.length === 0) return '';
-  if (points.length === 1) return `M ${points[0].x} ${points[0].y} L ${points[0].x + 0.1} ${points[0].y + 0.1}`;
+  if (points.length === 1)
+    return `M ${points[0].x} ${points[0].y} L ${points[0].x + 0.1} ${points[0].y + 0.1}`;
   if (points.length === 2) return `M ${points[0].x} ${points[0].y} L ${points[1].x} ${points[1].y}`;
 
   let d = `M ${points[0].x} ${points[0].y}`;

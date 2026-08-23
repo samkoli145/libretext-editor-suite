@@ -83,7 +83,7 @@ export function clampMenuCoordinates(
   menuWidth = 220,
   menuHeight = 300,
   viewportWidth = window.innerWidth,
-  viewportHeight = window.innerHeight
+  viewportHeight = window.innerHeight,
 ): { x: number; y: number } {
   let adjustedX = x;
   let adjustedY = y;

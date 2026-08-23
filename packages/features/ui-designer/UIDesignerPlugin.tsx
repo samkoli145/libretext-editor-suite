@@ -10,9 +10,9 @@
  * ═══════════════════════════════════════════════════════════════════════════
  */
 
-import React, { useState } from "react";
-import type { EditorPlugin, EditorPluginProps, DocumentModel } from "../../core/types";
-import { UIDesignerData, createDefaultUIDesignerData, UIComponentNode } from "./model";
+import React, { useState } from 'react';
+import type { EditorPlugin, EditorPluginProps, DocumentModel } from '../../core/types';
+import { UIDesignerData, createDefaultUIDesignerData, UIComponentNode } from './model';
 import {
   Layout,
   Smartphone,
@@ -24,18 +24,15 @@ import {
   Square,
   Layers,
   Sparkles,
-} from "lucide-react";
+} from 'lucide-react';
 
-export function UIDesignerEditor({
-  document,
-  onChange,
-}: EditorPluginProps<UIDesignerData>) {
+export function UIDesignerEditor({ document, onChange }: EditorPluginProps<UIDesignerData>) {
   const data = document.data || createDefaultUIDesignerData();
   const [selectedId, setSelectedId] = useState<string>(
-    data.selectedComponentId || data.rootComponentId
+    data.selectedComponentId || data.rootComponentId,
   );
-  const [device, setDevice] = useState<"desktop" | "tablet" | "mobile">(
-    data.devicePreview || "desktop"
+  const [device, setDevice] = useState<'desktop' | 'tablet' | 'mobile'>(
+    data.devicePreview || 'desktop',
   );
 
   const updateData = (newData: UIDesignerData) => {
@@ -54,9 +51,9 @@ export function UIDesignerEditor({
       type,
       label,
       props: {
-        text: type === "Button" ? "زر جديد" : type === "Heading" ? "عنوان جديد" : "نص تجريبي",
-        fontSize: "14px",
-        textColor: "#0f172a",
+        text: type === 'Button' ? 'زر جديد' : type === 'Heading' ? 'عنوان جديد' : 'نص تجريبي',
+        fontSize: '14px',
+        textColor: '#0f172a',
       },
       parentId: data.rootComponentId,
     };
@@ -85,9 +82,7 @@ export function UIDesignerEditor({
     if (newComps[data.rootComponentId]) {
       newComps[data.rootComponentId] = {
         ...newComps[data.rootComponentId],
-        childrenIds: (newComps[data.rootComponentId].childrenIds || []).filter(
-          (cId) => cId !== id
-        ),
+        childrenIds: (newComps[data.rootComponentId].childrenIds || []).filter((cId) => cId !== id),
       };
     }
 
@@ -112,33 +107,33 @@ export function UIDesignerEditor({
         {/* Device Switcher */}
         <div className="flex items-center gap-1 bg-slate-100 p-0.5 rounded-lg border border-slate-200 text-xs">
           <button
-            onClick={() => setDevice("desktop")}
+            onClick={() => setDevice('desktop')}
             className={`flex items-center gap-1 px-2.5 py-1 rounded-md transition-all ${
-              device === "desktop"
-                ? "bg-white text-emerald-700 shadow-2xs font-semibold"
-                : "text-slate-600 hover:text-slate-900"
+              device === 'desktop'
+                ? 'bg-white text-emerald-700 shadow-2xs font-semibold'
+                : 'text-slate-600 hover:text-slate-900'
             }`}
           >
             <Monitor className="w-3.5 h-3.5" />
             <span>حاسوب</span>
           </button>
           <button
-            onClick={() => setDevice("tablet")}
+            onClick={() => setDevice('tablet')}
             className={`flex items-center gap-1 px-2.5 py-1 rounded-md transition-all ${
-              device === "tablet"
-                ? "bg-white text-emerald-700 shadow-2xs font-semibold"
-                : "text-slate-600 hover:text-slate-900"
+              device === 'tablet'
+                ? 'bg-white text-emerald-700 shadow-2xs font-semibold'
+                : 'text-slate-600 hover:text-slate-900'
             }`}
           >
             <Tablet className="w-3.5 h-3.5" />
             <span>لوحي</span>
           </button>
           <button
-            onClick={() => setDevice("mobile")}
+            onClick={() => setDevice('mobile')}
             className={`flex items-center gap-1 px-2.5 py-1 rounded-md transition-all ${
-              device === "mobile"
-                ? "bg-white text-emerald-700 shadow-2xs font-semibold"
-                : "text-slate-600 hover:text-slate-900"
+              device === 'mobile'
+                ? 'bg-white text-emerald-700 shadow-2xs font-semibold'
+                : 'text-slate-600 hover:text-slate-900'
             }`}
           >
             <Smartphone className="w-3.5 h-3.5" />
@@ -158,14 +153,14 @@ export function UIDesignerEditor({
             </div>
             <div className="grid grid-cols-2 gap-1.5">
               <button
-                onClick={() => handleAddComponent("Heading", "عنوان جديد")}
+                onClick={() => handleAddComponent('Heading', 'عنوان جديد')}
                 className="p-2 border border-slate-200 rounded-lg hover:border-emerald-400 hover:bg-emerald-50 text-right flex items-center gap-1.5 transition-colors"
               >
                 <Type className="w-3.5 h-3.5 text-emerald-600" />
                 <span>عنوان</span>
               </button>
               <button
-                onClick={() => handleAddComponent("Button", "زر تفاعلي")}
+                onClick={() => handleAddComponent('Button', 'زر تفاعلي')}
                 className="p-2 border border-slate-200 rounded-lg hover:border-emerald-400 hover:bg-emerald-50 text-right flex items-center gap-1.5 transition-colors"
               >
                 <Square className="w-3.5 h-3.5 text-blue-600" />
@@ -186,8 +181,8 @@ export function UIDesignerEditor({
                   onClick={() => setSelectedId(comp.id)}
                   className={`flex items-center justify-between p-2 rounded-lg cursor-pointer transition-colors ${
                     comp.id === selectedId
-                      ? "bg-emerald-50 text-emerald-700 font-semibold border border-emerald-200"
-                      : "hover:bg-slate-100 text-slate-700 border border-transparent"
+                      ? 'bg-emerald-50 text-emerald-700 font-semibold border border-emerald-200'
+                      : 'hover:bg-slate-100 text-slate-700 border border-transparent'
                   }`}
                 >
                   <span className="truncate">{comp.label || comp.type}</span>
@@ -212,11 +207,11 @@ export function UIDesignerEditor({
         <div className="flex-1 p-8 bg-slate-100/90 overflow-auto flex items-center justify-center">
           <div
             className={`bg-white rounded-2xl shadow-xl border border-slate-200 p-6 transition-all duration-200 space-y-4 ${
-              device === "mobile"
-                ? "w-[360px] min-h-[500px]"
-                : device === "tablet"
-                ? "w-[600px] min-h-[550px]"
-                : "w-[800px] min-h-[600px]"
+              device === 'mobile'
+                ? 'w-[360px] min-h-[500px]'
+                : device === 'tablet'
+                  ? 'w-[600px] min-h-[550px]'
+                  : 'w-[800px] min-h-[600px]'
             }`}
           >
             <div className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-2 pb-2 border-b border-slate-100 flex items-center justify-between">
@@ -236,22 +231,22 @@ export function UIDesignerEditor({
                   }}
                   className={`p-3 rounded-lg transition-all cursor-pointer ${
                     isSelected
-                      ? "ring-2 ring-emerald-500 bg-emerald-50/30"
-                      : "hover:bg-slate-50 border border-slate-200"
+                      ? 'ring-2 ring-emerald-500 bg-emerald-50/30'
+                      : 'hover:bg-slate-50 border border-slate-200'
                   }`}
                 >
-                  {comp.type === "Heading" && (
+                  {comp.type === 'Heading' && (
                     <h2 className="text-xl font-bold text-slate-900">{comp.props.text}</h2>
                   )}
-                  {comp.type === "Text" && (
+                  {comp.type === 'Text' && (
                     <p className="text-sm text-slate-600 leading-relaxed">{comp.props.text}</p>
                   )}
-                  {comp.type === "Button" && (
+                  {comp.type === 'Button' && (
                     <button className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium shadow-xs hover:bg-blue-700">
                       {comp.props.text}
                     </button>
                   )}
-                  {comp.type === "Input" && (
+                  {comp.type === 'Input' && (
                     <input
                       type="text"
                       readOnly
@@ -321,23 +316,23 @@ export function UIDesignerEditor({
 }
 
 export class UIDesignerPlugin implements EditorPlugin<UIDesignerData> {
-  id = "ui-designer-plugin";
-  name = "مصمم الواجهات وصفحات المستخدم";
-  documentType = "ui-page";
-  iconName = "Layout";
-  fileExtensions = ["ui.json", "json", "tsx"] as const;
-  description = "محرر ومصمم صفحات واجهات المستخدم مع معاينات تفاعلية للأجهزة";
+  id = 'ui-designer-plugin';
+  name = 'مصمم الواجهات وصفحات المستخدم';
+  documentType = 'ui-page';
+  iconName = 'Layout';
+  fileExtensions = ['ui.json', 'json', 'tsx'] as const;
+  description = 'محرر ومصمم صفحات واجهات المستخدم مع معاينات تفاعلية للأجهزة';
 
   renderEditor(props: EditorPluginProps<UIDesignerData>) {
     return <UIDesignerEditor {...props} />;
   }
 
-  createDefaultDocument(title = "صفحة واجهة جديدة"): DocumentModel<UIDesignerData> {
+  createDefaultDocument(title = 'صفحة واجهة جديدة'): DocumentModel<UIDesignerData> {
     return {
       id: `doc-${Date.now()}`,
-      type: "ui-page",
+      type: 'ui-page',
       title,
-      fileExtension: "ui.json",
+      fileExtension: 'ui.json',
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
       version: 1,

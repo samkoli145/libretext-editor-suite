@@ -52,10 +52,11 @@ export function useResponsiveGrid() {
   }, []);
 
   const toggleGridOverlay = useCallback(() => {
-    setShowGridOverlay(prev => !prev);
+    setShowGridOverlay((prev) => !prev);
   }, []);
 
-  const currentBreakpointConfig = BREAKPOINTS.find(b => b.id === activeBreakpoint) || BREAKPOINTS[2];
+  const currentBreakpointConfig =
+    BREAKPOINTS.find((b) => b.id === activeBreakpoint) || BREAKPOINTS[2];
 
   return {
     activeBreakpoint,

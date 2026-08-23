@@ -40,7 +40,11 @@ import {
   FolderTree,
 } from 'lucide-react';
 import { HtmlCssExtractor } from '../htmlCssExtractor';
-import { WEB_COMPONENT_LIBRARY, type ComponentCategory, instantiateTemplate } from '../componentLibrary';
+import {
+  WEB_COMPONENT_LIBRARY,
+  type ComponentCategory,
+  instantiateTemplate,
+} from '../componentLibrary';
 import type { CanvasElement } from '../model';
 
 interface WebDropInspectorProps {
@@ -48,10 +52,7 @@ interface WebDropInspectorProps {
   activeLayerId: string;
 }
 
-export function WebDropInspector({
-  onInsertElements,
-  activeLayerId,
-}: WebDropInspectorProps) {
+export function WebDropInspector({ onInsertElements, activeLayerId }: WebDropInspectorProps) {
   const [activeCategory, setActiveCategory] = useState<ComponentCategory | 'all'>('all');
   const [htmlInput, setHtmlInput] = useState('');
   const [isDragOver, setIsDragOver] = useState(false);
@@ -65,13 +66,15 @@ export function WebDropInspector({
         htmlContent,
         100 + Math.random() * 40,
         100 + Math.random() * 40,
-        activeLayerId
+        activeLayerId,
       );
 
       if (result.elements.length > 0) {
         onInsertElements(result.elements, result.detectedColors);
         setParsedColors(result.detectedColors);
-        setStatusMessage(`تم استخراج وتوليد ${result.elements.length} عنصر ويب بطبقات عمق تداخلية!`);
+        setStatusMessage(
+          `تم استخراج وتوليد ${result.elements.length} عنصر ويب بطبقات عمق تداخلية!`,
+        );
         setTimeout(() => setStatusMessage(null), 3000);
       }
     } catch (err) {
@@ -85,7 +88,7 @@ export function WebDropInspector({
       templateId,
       120 + Math.random() * 30,
       120 + Math.random() * 30,
-      activeLayerId
+      activeLayerId,
     );
     if (elements.length > 0) {
       onInsertElements(elements);
@@ -123,9 +126,10 @@ export function WebDropInspector({
   };
 
   // Filter templates
-  const filteredTemplates = activeCategory === 'all'
-    ? WEB_COMPONENT_LIBRARY
-    : WEB_COMPONENT_LIBRARY.filter((t) => t.category === activeCategory);
+  const filteredTemplates =
+    activeCategory === 'all'
+      ? WEB_COMPONENT_LIBRARY
+      : WEB_COMPONENT_LIBRARY.filter((t) => t.category === activeCategory);
 
   return (
     <div className="flex flex-col gap-3 text-xs">
@@ -146,9 +150,7 @@ export function WebDropInspector({
         <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 shadow-2xs">
           <UploadCloud className="w-5 h-5" />
         </div>
-        <div className="font-bold text-slate-800 text-xs">
-          اسحب وأفلت صفحة ويب أو ملف HTML هنا
-        </div>
+        <div className="font-bold text-slate-800 text-xs">اسحب وأفلت صفحة ويب أو ملف HTML هنا</div>
         <p className="text-[11px] text-slate-500 max-w-xs leading-relaxed">
           استخراج فوري للطبقات التداخلية وعناصر DOM والألوان وأنماط CSS و Tailwind.
         </p>
@@ -276,9 +278,7 @@ export function WebDropInspector({
                   <span>إدراج</span>
                 </button>
               </div>
-              <p className="text-[10px] text-slate-500 leading-relaxed">
-                {template.descriptionAr}
-              </p>
+              <p className="text-[10px] text-slate-500 leading-relaxed">{template.descriptionAr}</p>
             </div>
           ))}
         </div>

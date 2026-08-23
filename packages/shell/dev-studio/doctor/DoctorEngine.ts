@@ -37,12 +37,7 @@ import type {
   DoctorReport,
 } from '../core/DevStudioTypes';
 import { deriveReportVerdict } from '../core/DevStudioTypes';
-export type {
-  DevStudioPatch,
-  DoctorCheck,
-  DoctorReportWire,
-  DoctorReport,
-};
+export type { DevStudioPatch, DoctorCheck, DoctorReportWire, DoctorReport };
 import type { ProjectSurface } from '../core/DevStudioEngine';
 import type { DoctorGate } from '../pipeline/TaskPipeline';
 import { checkTheme } from './ThemeValidator';
@@ -56,10 +51,7 @@ import { checkStructure } from './StructureValidator';
  * It reads, it reports, it NEVER writes. The same contract every
  * patch factory in rowcol.ts holds itself to.
  */
-export type DoctorCheckFn = (
-  patches: DevStudioPatch[],
-  project?: ProjectSurface,
-) => DoctorCheck[];
+export type DoctorCheckFn = (patches: DevStudioPatch[], project?: ProjectSurface) => DoctorCheck[];
 
 /**
  * The ordered battery. Order matters only for the report's readability —
@@ -89,10 +81,7 @@ const BATTERY: ReadonlyArray<{ name: string; run: DoctorCheckFn }> = [
  * propagated — one broken instrument should not hide the other four's
  * evidence.
  */
-export function runDoctor(
-  patches: DevStudioPatch[],
-  project?: ProjectSurface,
-): DoctorReportWire {
+export function runDoctor(patches: DevStudioPatch[], project?: ProjectSurface): DoctorReportWire {
   const checks: DoctorCheck[] = [];
 
   for (const { name, run } of BATTERY) {
@@ -132,12 +121,18 @@ export function isApproved(report: DoctorReportWire): boolean {
 /** Map a battery member's name onto the report's category taxonomy. */
 function categoryOf(name: string): DoctorCheck['category'] {
   switch (name) {
-    case 'theme': return 'theme';
-    case 'deps': return 'deps';
-    case 'geometry': return 'geometry';
-    case 'identity': return 'identity';
-    case 'structure': return 'structure';
-    default: return 'structure';
+    case 'theme':
+      return 'theme';
+    case 'deps':
+      return 'deps';
+    case 'geometry':
+      return 'geometry';
+    case 'identity':
+      return 'identity';
+    case 'structure':
+      return 'structure';
+    default:
+      return 'structure';
   }
 }
 

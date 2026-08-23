@@ -134,7 +134,7 @@ async function walkDir(dir: string): Promise<string[]> {
     if (SKIP_DIRS.has(entry.name)) continue;
     const fullPath = join(dir, entry.name);
     if (entry.isDirectory()) {
-      files.push(...await walkDir(fullPath));
+      files.push(...(await walkDir(fullPath)));
     } else if (CODE_EXTENSIONS.has(extname(entry.name))) {
       files.push(fullPath);
     }
@@ -145,7 +145,7 @@ async function walkDir(dir: string): Promise<string[]> {
 export function scanFile(
   content: string,
   filePath: string,
-  rules: DebtRule[] = DEBT_RULES
+  rules: DebtRule[] = DEBT_RULES,
 ): DebtViolation[] {
   const violations: DebtViolation[] = [];
   const ext = extname(filePath);
@@ -178,7 +178,7 @@ export function scanFile(
 
 export async function scanProject(
   root: string,
-  rules: DebtRule[] = DEBT_RULES
+  rules: DebtRule[] = DEBT_RULES,
 ): Promise<DebtReport> {
   const files = await walkDir(root);
   const allViolations: DebtViolation[] = [];
@@ -232,7 +232,7 @@ export function formatReport(report: DebtReport): string {
 
   lines.push('  حسب القاعدة:');
   for (const [ruleId, count] of Object.entries(report.byRule)) {
-    const rule = DEBT_RULES.find(r => r.id === ruleId);
+    const rule = DEBT_RULES.find((r) => r.id === ruleId);
     lines.push(`    ${ruleId} (${rule?.nameAr ?? ruleId}): ${count}`);
   }
   lines.push('');

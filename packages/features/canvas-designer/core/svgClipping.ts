@@ -30,7 +30,8 @@ import {
   createRectanglePath,
 } from './svgPathUtils';
 
-export type ClipShapeType = 'none' | 'circle' | 'ellipse' | 'rounded' | 'hexagon' | 'star' | 'diamond' | 'shield';
+export type ClipShapeType =
+  'none' | 'circle' | 'ellipse' | 'rounded' | 'hexagon' | 'star' | 'diamond' | 'shield';
 
 export interface ClipPreset {
   id: ClipShapeType;
@@ -82,7 +83,8 @@ export const CLIP_PRESETS: ClipPreset[] = [
     id: 'star',
     name: 'Star',
     nameAr: 'نجمة خماسية',
-    generatePathD: (w, h) => createStarPath(w / 2, h / 2, 5, Math.min(w, h) / 2, Math.min(w, h) / 4),
+    generatePathD: (w, h) =>
+      createStarPath(w / 2, h / 2, 5, Math.min(w, h) / 2, Math.min(w, h) / 4),
   },
   {
     id: 'diamond',
@@ -115,7 +117,7 @@ export function generateSvgClipPathElement(
   clipId: string,
   shapeType: ClipShapeType,
   width: number,
-  height: number
+  height: number,
 ): string {
   const preset = CLIP_PRESETS.find((p) => p.id === shapeType);
   if (!preset || shapeType === 'none') return '';

@@ -48,9 +48,7 @@ export function useUIDesignerShortcuts({
       // Don't intercept if user is typing inside an editable field
       const target = e.target as HTMLElement;
       const isInput =
-        target.tagName === 'INPUT' ||
-        target.tagName === 'TEXTAREA' ||
-        target.isContentEditable;
+        target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable;
 
       if (isInput) return;
 

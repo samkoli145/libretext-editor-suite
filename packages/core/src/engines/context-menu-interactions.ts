@@ -48,7 +48,7 @@
 export interface ScrollCloseOptions {
   readonly onClose: () => void;
   readonly debounceMs?: number;
-  readonly target?: { addEventListener: Function; removeEventListener: Function };
+  readonly target?: { addEventListener: (...args: unknown[]) => void; removeEventListener: (...args: unknown[]) => void };
 }
 
 export function createScrollCloseHandler(opts: ScrollCloseOptions): () => void {
@@ -137,13 +137,13 @@ export interface KeyboardNavHandler {
 export function createKeyboardNavHandler(
   itemIds: readonly string[],
   disabledFlags: readonly boolean[],
-  opts?: { onSelect?: (id: string) => void; onClose?: () => void }
+  opts?: { onSelect?: (id: string) => void; onClose?: () => void },
 ): KeyboardNavHandler {
   let state: KeyboardNavState = { focusedIndex: -1, focusedId: null };
 
   const selectable = itemIds
     .map((id, i) => ({ id, i, disabled: disabledFlags[i] ?? false }))
-    .filter(e => !e.disabled);
+    .filter((e) => !e.disabled);
 
   const clamp = (i: number) => (i + selectable.length) % (selectable.length || 1);
   const getSelectableId = (idx: number) => selectable[idx]?.id ?? null;
@@ -188,44 +188,106 @@ export function createKeyboardNavHandler(
 // ─── Semantic Icon Map ───
 
 export type ContextMenuIconKey =
-  | 'cut' | 'copy' | 'paste' | 'delete' | 'duplicate'
-  | 'select-all' | 'undo' | 'redo'
-  | 'bold' | 'italic' | 'underline' | 'strikethrough'
-  | 'align-left' | 'align-center' | 'align-right' | 'align-justify'
-  | 'insert-table' | 'insert-image' | 'insert-link' | 'insert-code'
-  | 'insert-math' | 'insert-callout' | 'insert-shape'
-  | 'bring-forward' | 'send-backward' | 'group' | 'ungroup'
-  | 'lock' | 'unlock' | 'rotate'
-  | 'export-pdf' | 'export-html' | 'export-markdown' | 'export-latex'
-  | 'zoom-in' | 'zoom-out' | 'fit-to-screen'
-  | 'properties' | 'format-cells' | 'sort-asc' | 'sort-desc'
-  | 'add-row' | 'add-col' | 'del-row' | 'del-col' | 'merge-cells'
-  | 'find-replace' | 'print' | 'page-setup';
+  | 'cut'
+  | 'copy'
+  | 'paste'
+  | 'delete'
+  | 'duplicate'
+  | 'select-all'
+  | 'undo'
+  | 'redo'
+  | 'bold'
+  | 'italic'
+  | 'underline'
+  | 'strikethrough'
+  | 'align-left'
+  | 'align-center'
+  | 'align-right'
+  | 'align-justify'
+  | 'insert-table'
+  | 'insert-image'
+  | 'insert-link'
+  | 'insert-code'
+  | 'insert-math'
+  | 'insert-callout'
+  | 'insert-shape'
+  | 'bring-forward'
+  | 'send-backward'
+  | 'group'
+  | 'ungroup'
+  | 'lock'
+  | 'unlock'
+  | 'rotate'
+  | 'export-pdf'
+  | 'export-html'
+  | 'export-markdown'
+  | 'export-latex'
+  | 'zoom-in'
+  | 'zoom-out'
+  | 'fit-to-screen'
+  | 'properties'
+  | 'format-cells'
+  | 'sort-asc'
+  | 'sort-desc'
+  | 'add-row'
+  | 'add-col'
+  | 'del-row'
+  | 'del-col'
+  | 'merge-cells'
+  | 'find-replace'
+  | 'print'
+  | 'page-setup';
 
 export const CONTEXT_MENU_ICON_MAP: ReadonlyMap<ContextMenuIconKey, string> = new Map([
-  ['cut', 'scissors'], ['copy', 'clipboard'], ['paste', 'clipboard-paste'],
-  ['delete', 'trash-2'], ['duplicate', 'copy-plus'], ['select-all', 'list-checks'],
-  ['undo', 'undo-2'], ['redo', 'redo-2'],
-  ['bold', 'bold'], ['italic', 'italic'], ['underline', 'underline'],
+  ['cut', 'scissors'],
+  ['copy', 'clipboard'],
+  ['paste', 'clipboard-paste'],
+  ['delete', 'trash-2'],
+  ['duplicate', 'copy-plus'],
+  ['select-all', 'list-checks'],
+  ['undo', 'undo-2'],
+  ['redo', 'redo-2'],
+  ['bold', 'bold'],
+  ['italic', 'italic'],
+  ['underline', 'underline'],
   ['strikethrough', 'strikethrough'],
-  ['align-left', 'align-left'], ['align-center', 'align-center'],
-  ['align-right', 'align-right'], ['align-justify', 'align-justify'],
-  ['insert-table', 'table'], ['insert-image', 'image'],
-  ['insert-link', 'link'], ['insert-code', 'code-2'],
-  ['insert-math', 'sigma'], ['insert-callout', 'message-square'],
+  ['align-left', 'align-left'],
+  ['align-center', 'align-center'],
+  ['align-right', 'align-right'],
+  ['align-justify', 'align-justify'],
+  ['insert-table', 'table'],
+  ['insert-image', 'image'],
+  ['insert-link', 'link'],
+  ['insert-code', 'code-2'],
+  ['insert-math', 'sigma'],
+  ['insert-callout', 'message-square'],
   ['insert-shape', 'pentagon'],
-  ['bring-forward', 'arrow-up-to-line'], ['send-backward', 'arrow-down-to-line'],
-  ['group', 'group'], ['ungroup', 'ungroup'],
-  ['lock', 'lock'], ['unlock', 'unlock'], ['rotate', 'rotate-cw'],
-  ['export-pdf', 'file-text'], ['export-html', 'globe'],
-  ['export-markdown', 'file-code-2'], ['export-latex', 'sigma-square'],
-  ['zoom-in', 'zoom-in'], ['zoom-out', 'zoom-out'], ['fit-to-screen', 'maximize-2'],
-  ['properties', 'settings'], ['format-cells', 'paintbrush'],
-  ['sort-asc', 'arrow-up-narrow-wide'], ['sort-desc', 'arrow-down-wide-narrow'],
-  ['add-row', 'plus-square'], ['add-col', 'columns-3-add'],
-  ['del-row', 'minus-square'], ['del-col', 'columns-3-minus'],
-  ['merge-cells', 'merge'], ['find-replace', 'search-replace'],
-  ['print', 'printer'], ['page-setup', 'page-setup'],
+  ['bring-forward', 'arrow-up-to-line'],
+  ['send-backward', 'arrow-down-to-line'],
+  ['group', 'group'],
+  ['ungroup', 'ungroup'],
+  ['lock', 'lock'],
+  ['unlock', 'unlock'],
+  ['rotate', 'rotate-cw'],
+  ['export-pdf', 'file-text'],
+  ['export-html', 'globe'],
+  ['export-markdown', 'file-code-2'],
+  ['export-latex', 'sigma-square'],
+  ['zoom-in', 'zoom-in'],
+  ['zoom-out', 'zoom-out'],
+  ['fit-to-screen', 'maximize-2'],
+  ['properties', 'settings'],
+  ['format-cells', 'paintbrush'],
+  ['sort-asc', 'arrow-up-narrow-wide'],
+  ['sort-desc', 'arrow-down-wide-narrow'],
+  ['add-row', 'plus-square'],
+  ['add-col', 'columns-3-add'],
+  ['del-row', 'minus-square'],
+  ['del-col', 'columns-3-minus'],
+  ['merge-cells', 'merge'],
+  ['find-replace', 'search-replace'],
+  ['print', 'printer'],
+  ['page-setup', 'page-setup'],
 ]);
 
 export function resolveSemanticIcon(iconKey: ContextMenuIconKey): string {

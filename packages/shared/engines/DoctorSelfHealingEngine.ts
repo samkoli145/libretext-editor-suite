@@ -29,15 +29,33 @@
  */
 
 import { ComponentRegistry, type RegisteredComponent } from './ComponentRegistry';
-import { WEB_COMPONENT_LIBRARY, componentPresets, type WebTemplateItem, type ComponentCategory } from '../../features/canvas-designer/componentLibrary';
+import {
+  WEB_COMPONENT_LIBRARY,
+  componentPresets,
+  type WebTemplateItem,
+  type ComponentCategory,
+} from '../../features/canvas-designer/componentLibrary';
 import { UNIFIED_TOOL_ITEMS, type UnifiedToolItem } from '../tools/unifiedTools';
-import { evaluateCalc, formatCalcVal, freshCalcContext, type CalcVal, unitOf } from '../lib-core/computational-notebook/unit-calc-engine';
+import {
+  evaluateCalc,
+  formatCalcVal,
+  freshCalcContext,
+  type CalcVal,
+  unitOf,
+} from '../lib-core/computational-notebook/unit-calc-engine';
 
 export type DiagnosticSeverity = 'info' | 'warning' | 'error' | 'healed';
 
 export interface DiagnosticIssue {
   id: string;
-  category: 'theme' | 'identity' | 'geometry' | 'unregistered_component' | 'unregistered_tool' | 'math_error' | 'syntax';
+  category:
+    | 'theme'
+    | 'identity'
+    | 'geometry'
+    | 'unregistered_component'
+    | 'unregistered_tool'
+    | 'math_error'
+    | 'syntax';
   titleAr: string;
   descriptionAr: string;
   severity: DiagnosticSeverity;
@@ -79,7 +97,8 @@ export class DoctorSelfHealingEngine {
       nameEn: "Kahn's Topological Sort",
       category: 'math',
       categoryAr: 'الرياضيات والتسلسل',
-      descriptionAr: 'اشتقاق العلاقات التبعية للمتغيرات وحل المعادلات الرياضية بدون حلقات تكرار مفرغة (#CYCLE!).',
+      descriptionAr:
+        'اشتقاق العلاقات التبعية للمتغيرات وحل المعادلات الرياضية بدون حلقات تكرار مفرغة (#CYCLE!).',
       fileSource: 'src/shared/lib-core/computational-notebook/ScratchpadGraph.ts',
       complexity: 'O(V + E)',
       status: 'active',
@@ -90,7 +109,8 @@ export class DoctorSelfHealingEngine {
       nameEn: 'Recursive Descent Unit Calculus',
       category: 'math',
       categoryAr: 'الحسابات الهندسية',
-      descriptionAr: 'تحليل وحساب التعبيرات الرياضية والوحدات الفيزيائية والحسابية اللحظية بصفر اعتماديات.',
+      descriptionAr:
+        'تحليل وحساب التعبيرات الرياضية والوحدات الفيزيائية والحسابية اللحظية بصفر اعتماديات.',
       fileSource: 'src/shared/lib-core/computational-notebook/unit-calc-engine.ts',
       complexity: 'O(N)',
       status: 'active',
@@ -101,7 +121,8 @@ export class DoctorSelfHealingEngine {
       nameEn: 'Magnetic Snap & Guide Alignment',
       category: 'geometry',
       categoryAr: 'الهندسة والكانفا',
-      descriptionAr: 'حساب المسافات والإسقاطات النقطية لمحاذاة العناصر مع المراكز والحواف وأبعاد الكانفا بدقة 1px.',
+      descriptionAr:
+        'حساب المسافات والإسقاطات النقطية لمحاذاة العناصر مع المراكز والحواف وأبعاد الكانفا بدقة 1px.',
       fileSource: 'src/shared/lib-core/geometry/snap-align-engine.ts',
       complexity: 'O(N)',
       status: 'active',
@@ -112,7 +133,8 @@ export class DoctorSelfHealingEngine {
       nameEn: 'Cubic & Quadratic Bezier Subdivider',
       category: 'geometry',
       categoryAr: 'الهندسة والرسوم المتجهة',
-      descriptionAr: 'حساب مسارات المنحنيات ومقابض التحكم التفاعلية ونقاط الارتكاز بالأبعاد الدقيقة.',
+      descriptionAr:
+        'حساب مسارات المنحنيات ومقابض التحكم التفاعلية ونقاط الارتكاز بالأبعاد الدقيقة.',
       fileSource: 'src/shared/lib-core/geometry/bezier-curves.ts',
       complexity: 'O(Steps)',
       status: 'active',
@@ -123,7 +145,8 @@ export class DoctorSelfHealingEngine {
       nameEn: 'Nested Border Radius Math & Bounding Box',
       category: 'geometry',
       categoryAr: 'الهندسة والتخطيط',
-      descriptionAr: 'حساب نصف القطر الداخلي هندسياً: (Inner Radius = Outer Radius - Padding) لمنع تشوه الحواف.',
+      descriptionAr:
+        'حساب نصف القطر الداخلي هندسياً: (Inner Radius = Outer Radius - Padding) لمنع تشوه الحواف.',
       fileSource: 'src/shared/lib-core/geometry/bounding-box.ts',
       complexity: 'O(1)',
       status: 'active',
@@ -145,7 +168,8 @@ export class DoctorSelfHealingEngine {
       nameEn: 'Pure JPEG EXIF Orientation Decoder',
       category: 'graphics',
       categoryAr: 'معالجة الصور والرسوم',
-      descriptionAr: 'قراءة علامات التدوير 1-8 من وسوم APP1 الثنائية وتصحيح اتجاه الصور بدون أي حزم خارجية.',
+      descriptionAr:
+        'قراءة علامات التدوير 1-8 من وسوم APP1 الثنائية وتصحيح اتجاه الصور بدون أي حزم خارجية.',
       fileSource: 'src/core/engines/ImagePipelineEngine.ts',
       complexity: 'O(1)',
       status: 'active',
@@ -156,7 +180,8 @@ export class DoctorSelfHealingEngine {
       nameEn: 'Pure Light Palette Extractor',
       category: 'graphics',
       categoryAr: 'معالجة الصور والرسوم',
-      descriptionAr: 'تكميم الألوان في مصفوفة البكسل واشتقاق 6 درجات لونية متوافقة مع الثيم الفاتح النقي.',
+      descriptionAr:
+        'تكميم الألوان في مصفوفة البكسل واشتقاق 6 درجات لونية متوافقة مع الثيم الفاتح النقي.',
       fileSource: 'src/core/engines/ImagePipelineEngine.ts',
       complexity: 'O(Pixels)',
       status: 'active',
@@ -180,7 +205,7 @@ export class DoctorSelfHealingEngine {
     const issues: DiagnosticIssue[] = [];
     const registry = ComponentRegistry.getInstance();
     const registeredComponents = registry.getAll();
-    let healedCount = 0;
+    const healedCount = 0;
 
     // 1. فحص المكونات المسجلة في القوالب مقابل سجل المكونات المركزي
     WEB_COMPONENT_LIBRARY.forEach((template) => {
@@ -255,7 +280,8 @@ export class DoctorSelfHealingEngine {
             id: `theme-violation-${el.id || idx}`,
             category: 'theme',
             titleAr: `انتهاك الثيم الفاتح في العنصر: ${el.id || `#${idx}`}`,
-            descriptionAr: 'العنصر يحتوي على ألوان داكنة/سوداء محظورة تخالف معيار الثيم الفاتح النقي 100%.',
+            descriptionAr:
+              'العنصر يحتوي على ألوان داكنة/سوداء محظورة تخالف معيار الثيم الفاتح النقي 100%.',
             severity: 'error',
             targetId: el.id,
             autoFixAvailable: true,
@@ -272,7 +298,8 @@ export class DoctorSelfHealingEngine {
             id: `missing-id-${idx}`,
             category: 'identity',
             titleAr: `عنصر يفتقر لمعرف فريد (ID): عنصر #${idx}`,
-            descriptionAr: 'العنصر لا يحمل معرف ID صالح مما يؤثر على دقة التحديد وسجل التاريخ والتراجع.',
+            descriptionAr:
+              'العنصر لا يحمل معرف ID صالح مما يؤثر على دقة التحديد وسجل التاريخ والتراجع.',
             severity: 'warning',
             autoFixAvailable: true,
             fixAction: () => {
@@ -337,7 +364,11 @@ export class DoctorSelfHealingEngine {
   // 🩹 2. المعالج والإصلاح الذاتي الشامل (Auto-Heal All)
   // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-  public autoHealAll(contextElements?: any[]): { success: boolean; healedCount: number; report: SystemHealthReport } {
+  public autoHealAll(contextElements?: any[]): {
+    success: boolean;
+    healedCount: number;
+    report: SystemHealthReport;
+  } {
     const report = this.runDiagnostics(contextElements);
     let healed = 0;
 
@@ -391,7 +422,11 @@ export class DoctorSelfHealingEngine {
 
     // استثناء النصوص السوداء المقبولة ذات التباين الواضح
     return darkPatterns.some((pattern) => {
-      if (json.includes(`background-color:${pattern}`) || json.includes(`background:${pattern}`) || json.includes(`"backgroundcolor":"${pattern}"`)) {
+      if (
+        json.includes(`background-color:${pattern}`) ||
+        json.includes(`background:${pattern}`) ||
+        json.includes(`"backgroundcolor":"${pattern}"`)
+      ) {
         return true;
       }
       return false;
@@ -421,8 +456,14 @@ export class DoctorSelfHealingEngine {
   public sanitizeHtmlStringColors(html: string): string {
     if (!html) return '';
     return html
-      .replace(/background-color:\s*(#000000|#111827|#1e293b|#0f172a|#000|#111|black)/gi, 'background-color: #ffffff')
-      .replace(/background:\s*(#000000|#111827|#1e293b|#0f172a|#000|#111|black)/gi, 'background: #f8fafc')
+      .replace(
+        /background-color:\s*(#000000|#111827|#1e293b|#0f172a|#000|#111|black)/gi,
+        'background-color: #ffffff',
+      )
+      .replace(
+        /background:\s*(#000000|#111827|#1e293b|#0f172a|#000|#111|black)/gi,
+        'background: #f8fafc',
+      )
       .replace(/color:\s*(#ffffff|#fff|white);/gi, 'color: #0f172a;');
   }
 
@@ -536,7 +577,7 @@ export class DoctorSelfHealingEngine {
         alg.nameAr.toLowerCase().includes(q) ||
         alg.nameEn.toLowerCase().includes(q) ||
         alg.descriptionAr.toLowerCase().includes(q) ||
-        alg.categoryAr.toLowerCase().includes(q)
+        alg.categoryAr.toLowerCase().includes(q),
     );
   }
 

@@ -33,21 +33,12 @@ export interface AlignableElement {
   zIndex?: number;
 }
 
-export type AlignmentType =
-  | 'left'
-  | 'center'
-  | 'right'
-  | 'top'
-  | 'middle'
-  | 'bottom';
+export type AlignmentType = 'left' | 'center' | 'right' | 'top' | 'middle' | 'bottom';
 
 export type DistributionType = 'horizontal' | 'vertical';
 
 export type LayerOrderAction =
-  | 'bring-to-front'
-  | 'send-to-back'
-  | 'bring-forward'
-  | 'send-backward';
+  'bring-to-front' | 'send-to-back' | 'bring-forward' | 'send-backward';
 
 /**
  * محاذاة العناصر المحددة بالنسبة لمستطيل الإحاطة المشترك أو لأول عنصر
@@ -55,7 +46,7 @@ export type LayerOrderAction =
 export function alignElements<T extends AlignableElement>(
   elements: T[],
   selectedIds: string[],
-  type: AlignmentType
+  type: AlignmentType,
 ): T[] {
   if (!elements || elements.length === 0 || selectedIds.length < 2) {
     return elements;
@@ -123,7 +114,7 @@ export function alignElements<T extends AlignableElement>(
 export function distributeElements<T extends AlignableElement>(
   elements: T[],
   selectedIds: string[],
-  type: DistributionType
+  type: DistributionType,
 ): T[] {
   if (!elements || elements.length === 0 || selectedIds.length < 3) {
     return elements;
@@ -193,7 +184,7 @@ export function distributeElements<T extends AlignableElement>(
 export function reorderLayers<T extends { id: string }>(
   elements: T[],
   targetId: string,
-  action: LayerOrderAction
+  action: LayerOrderAction,
 ): T[] {
   const index = elements.findIndex((el) => el.id === targetId);
   if (index === -1) return elements;

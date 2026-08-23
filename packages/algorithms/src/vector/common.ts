@@ -106,9 +106,23 @@ export function rotatePoint(p: Point2D, center: Point2D, angleRad: number): Poin
 
 export function getBounds(points: Point2D[]): BoundingBox {
   if (!points || points.length === 0) {
-    return { x: 0, y: 0, width: 0, height: 0, minX: 0, minY: 0, maxX: 0, maxY: 0, centerX: 0, centerY: 0 };
+    return {
+      x: 0,
+      y: 0,
+      width: 0,
+      height: 0,
+      minX: 0,
+      minY: 0,
+      maxX: 0,
+      maxY: 0,
+      centerX: 0,
+      centerY: 0,
+    };
   }
-  let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+  let minX = Infinity,
+    minY = Infinity,
+    maxX = -Infinity,
+    maxY = -Infinity;
   for (const p of points) {
     if (p.x < minX) minX = p.x;
     if (p.y < minY) minY = p.y;
@@ -117,11 +131,27 @@ export function getBounds(points: Point2D[]): BoundingBox {
   }
   const width = Math.max(0, maxX - minX);
   const height = Math.max(0, maxY - minY);
-  return { x: minX, y: minY, width, height, minX, minY, maxX, maxY, centerX: minX + width / 2, centerY: minY + height / 2 };
+  return {
+    x: minX,
+    y: minY,
+    width,
+    height,
+    minX,
+    minY,
+    maxX,
+    maxY,
+    centerX: minX + width / 2,
+    centerY: minY + height / 2,
+  };
 }
 
 export function isPointInBox(p: Point2D, box: BoundingBox, tolerance = 0): boolean {
-  return p.x >= box.minX - tolerance && p.x <= box.maxX + tolerance && p.y >= box.minY - tolerance && p.y <= box.maxY + tolerance;
+  return (
+    p.x >= box.minX - tolerance &&
+    p.x <= box.maxX + tolerance &&
+    p.y >= box.minY - tolerance &&
+    p.y <= box.maxY + tolerance
+  );
 }
 
 export function rectsIntersect(r1: BoundingBox, r2: BoundingBox): boolean {
@@ -131,26 +161,40 @@ export function rectsIntersect(r1: BoundingBox, r2: BoundingBox): boolean {
 export function deepClone<T>(obj: T): T {
   if (obj === null || typeof obj !== 'object') return obj;
   if (typeof structuredClone === 'function') {
-    try { return structuredClone(obj); } catch { /* fallback */ }
+    try {
+      return structuredClone(obj);
+    } catch {
+      /* fallback */
+    }
   }
   return JSON.parse(JSON.stringify(obj));
 }
 
-export function debounce<F extends (...args: unknown[]) => void>(func: F, wait: number): (...args: Parameters<F>) => void {
+export function debounce<F extends (...args: unknown[]) => void>(
+  func: F,
+  wait: number,
+): (...args: Parameters<F>) => void {
   let timeout: ReturnType<typeof setTimeout> | null = null;
   return function (...args: Parameters<F>) {
     if (timeout) clearTimeout(timeout);
-    timeout = setTimeout(() => { func(...args); }, wait);
+    timeout = setTimeout(() => {
+      func(...args);
+    }, wait);
   };
 }
 
-export function throttle<F extends (...args: unknown[]) => void>(func: F, limit: number): (...args: Parameters<F>) => void {
+export function throttle<F extends (...args: unknown[]) => void>(
+  func: F,
+  limit: number,
+): (...args: Parameters<F>) => void {
   let inThrottle = false;
   return function (...args: Parameters<F>) {
     if (!inThrottle) {
       func(...args);
       inThrottle = true;
-      setTimeout(() => { inThrottle = false; }, limit);
+      setTimeout(() => {
+        inThrottle = false;
+      }, limit);
     }
   };
 }

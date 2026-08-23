@@ -95,7 +95,7 @@ export function getFilteredTools(
   const blocked = new Set(profile.blockedIds);
   const allowed = new Set(profile.allowedCategories);
 
-  const tools = allTools.filter(tool => {
+  const tools = allTools.filter((tool) => {
     if (blocked.has(tool.id)) return false;
     return allowed.has(tool.category);
   });
@@ -115,10 +115,7 @@ export function getFilteredTools(
  *   - allowedDomains = الاتحاد (Union)
  *   - priority = الأعلى
  */
-export function mergeProfiles(
-  a: CanvasProfile,
-  b: CanvasProfile,
-): CanvasProfile {
+export function mergeProfiles(a: CanvasProfile, b: CanvasProfile): CanvasProfile {
   const mergedCategories = [...new Set([...a.allowedCategories, ...b.allowedCategories])];
   const mergedBlocked = [...new Set([...a.blockedIds, ...b.blockedIds])];
   const mergedDomains = [...new Set([...a.allowedDomains, ...b.allowedDomains])];

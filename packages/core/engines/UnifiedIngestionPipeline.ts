@@ -23,10 +23,7 @@
  * ═══════════════════════════════════════════════════════════════════════════
  */
 
-import {
-  htmlToRichTextDocument,
-  htmlToCanvasBlocks,
-} from './HtmlPipelineEngine';
+import { htmlToRichTextDocument, htmlToCanvasBlocks } from './HtmlPipelineEngine';
 import type { DocumentModel } from '../types';
 
 export type IngestionSourceType =
@@ -38,11 +35,7 @@ export type IngestionSourceType =
   | 'json-schema'
   | 'ms-word-bloat';
 
-export type IngestionTargetEditor =
-  | 'canvas'
-  | 'rich-text'
-  | 'ui-page'
-  | 'pdf';
+export type IngestionTargetEditor = 'canvas' | 'rich-text' | 'ui-page' | 'pdf';
 
 export interface IngestionResult {
   readonly sourceType: IngestionSourceType;
@@ -68,7 +61,7 @@ export class UnifiedIngestionPipeline {
    */
   public static async processInput(
     rawInput: string | File | DataTransfer,
-    options?: IngestionOptions
+    options?: IngestionOptions,
   ): Promise<IngestionResult> {
     // 1. مرحلة الاستقبال (Reception)
     const { content, fileName, mimeType } = await this.extractPayload(rawInput);
@@ -88,7 +81,7 @@ export class UnifiedIngestionPipeline {
       sanitizedContent,
       detected.type,
       targetEditor,
-      fileName
+      fileName,
     );
 
     return {
@@ -108,7 +101,7 @@ export class UnifiedIngestionPipeline {
   // ─── المرحلة 1: الاستقبال ───────────────────────────────────
 
   private static async extractPayload(
-    rawInput: string | File | DataTransfer
+    rawInput: string | File | DataTransfer,
   ): Promise<{ content: string | ArrayBuffer; fileName: string; mimeType: string }> {
     if (typeof rawInput === 'string') {
       return { content: rawInput, fileName: '', mimeType: 'text/plain' };
@@ -140,7 +133,7 @@ export class UnifiedIngestionPipeline {
 
   private static async smartDecode(
     content: string | ArrayBuffer,
-    _mimeType: string
+    _mimeType: string,
   ): Promise<{ decodedContent: string; encoding: string }> {
     if (typeof content === 'string') {
       return { decodedContent: content, encoding: 'utf-8 (string)' };
@@ -203,7 +196,7 @@ export class UnifiedIngestionPipeline {
   private static sniffContentType(
     content: string,
     fileName: string,
-    mimeType: string
+    mimeType: string,
   ): {
     type: IngestionSourceType;
     suggestedEditor: IngestionTargetEditor;
@@ -212,7 +205,10 @@ export class UnifiedIngestionPipeline {
     const trimmed = content.trim();
 
     // 1. فحص الصور
-    if (mimeType.startsWith('image/') || (fileName && /\.(png|jpg|jpeg|webp|gif|bmp)$/i.test(fileName))) {
+    if (
+      mimeType.startsWith('image/') ||
+      (fileName && /\.(png|jpg|jpeg|webp|gif|bmp)$/i.test(fileName))
+    ) {
       return { type: 'image', suggestedEditor: 'canvas', confidence: 0.95 };
     }
 
@@ -254,7 +250,7 @@ export class UnifiedIngestionPipeline {
     content: string,
     type: IngestionSourceType,
     target: IngestionTargetEditor,
-    fileName: string
+    fileName: string,
   ): Promise<{ cleanData: unknown; document: DocumentModel | null }> {
     switch (type) {
       case 'image': {

@@ -13,7 +13,12 @@
  * ═══════════════════════════════════════════════════════════════════════════
  */
 
-export interface Rect { readonly x: number; readonly y: number; readonly width: number; readonly height: number; }
+export interface Rect {
+  readonly x: number;
+  readonly y: number;
+  readonly width: number;
+  readonly height: number;
+}
 
 export type HandlePosition = 'nw' | 'n' | 'ne' | 'e' | 'se' | 's' | 'sw' | 'w';
 
@@ -42,8 +47,14 @@ const TOOLBAR_HEIGHT = 36;
 const TOOLBAR_OFFSET = 12;
 
 const CURSOR_MAP: Record<HandlePosition, string> = {
-  nw: 'nw-resize', n: 'n-resize', ne: 'ne-resize', e: 'e-resize',
-  se: 'se-resize', s: 's-resize', sw: 'sw-resize', w: 'w-resize',
+  nw: 'nw-resize',
+  n: 'n-resize',
+  ne: 'ne-resize',
+  e: 'e-resize',
+  se: 'se-resize',
+  s: 's-resize',
+  sw: 'sw-resize',
+  w: 'w-resize',
 };
 
 function calcHandlePositions(bbox: Rect): Handle[] {
@@ -51,19 +62,24 @@ function calcHandlePositions(bbox: Rect): Handle[] {
   const hs = HANDLE_SIZE / 2;
   return [
     { pos: 'nw', cx: x - hs, cy: y - hs, cursor: CURSOR_MAP.nw },
-    { pos: 'n',  cx: x + w / 2 - hs, cy: y - hs, cursor: CURSOR_MAP.n },
+    { pos: 'n', cx: x + w / 2 - hs, cy: y - hs, cursor: CURSOR_MAP.n },
     { pos: 'ne', cx: x + w - hs, cy: y - hs, cursor: CURSOR_MAP.ne },
-    { pos: 'e',  cx: x + w - hs, cy: y + h / 2 - hs, cursor: CURSOR_MAP.e },
+    { pos: 'e', cx: x + w - hs, cy: y + h / 2 - hs, cursor: CURSOR_MAP.e },
     { pos: 'se', cx: x + w - hs, cy: y + h - hs, cursor: CURSOR_MAP.se },
-    { pos: 's',  cx: x + w / 2 - hs, cy: y + h - hs, cursor: CURSOR_MAP.s },
+    { pos: 's', cx: x + w / 2 - hs, cy: y + h - hs, cursor: CURSOR_MAP.s },
     { pos: 'sw', cx: x - hs, cy: y + h - hs, cursor: CURSOR_MAP.sw },
-    { pos: 'w',  cx: x - hs, cy: y + h / 2 - hs, cursor: CURSOR_MAP.w },
+    { pos: 'w', cx: x - hs, cy: y + h / 2 - hs, cursor: CURSOR_MAP.w },
   ];
 }
 
-function computeBoundingBox(elements: ReadonlyArray<{ x: number; y: number; width: number; height: number }>): Rect | null {
+function computeBoundingBox(
+  elements: ReadonlyArray<{ x: number; y: number; width: number; height: number }>,
+): Rect | null {
   if (elements.length === 0) return null;
-  let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+  let minX = Infinity,
+    minY = Infinity,
+    maxX = -Infinity,
+    maxY = -Infinity;
   for (const el of elements) {
     if (el.x < minX) minX = el.x;
     if (el.y < minY) minY = el.y;

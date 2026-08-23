@@ -46,7 +46,7 @@ export function parseHtmlToCanvasElements(
   htmlText: string,
   startX = 80,
   startY = 80,
-  layerId = 'layer-main'
+  layerId = 'layer-main',
 ): ParsedWebResult {
   const parser = new DOMParser();
   const doc = parser.parseFromString(htmlText, 'text/html');

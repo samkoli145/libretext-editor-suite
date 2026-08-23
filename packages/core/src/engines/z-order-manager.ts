@@ -16,11 +16,7 @@ export interface ZElement {
   readonly zIndex: number;
 }
 
-export type ZOrderAction =
-  | 'bring-to-front'
-  | 'send-to-back'
-  | 'bring-forward'
-  | 'send-backward';
+export type ZOrderAction = 'bring-to-front' | 'send-to-back' | 'bring-forward' | 'send-backward';
 
 function getZLimits(elements: readonly ZElement[]): { max: number; min: number } {
   if (elements.length === 0) return { max: 0, min: 0 };
@@ -42,13 +38,17 @@ export function reorderZIndex(
   const { max, min } = getZLimits(elements);
 
   return elements
-    .filter(e => selectedIds.includes(e.id))
-    .map(e => {
+    .filter((e) => selectedIds.includes(e.id))
+    .map((e) => {
       switch (action) {
-        case 'bring-to-front': return { id: e.id, zIndex: max + 1 };
-        case 'send-to-back': return { id: e.id, zIndex: Math.max(0, min - 1) };
-        case 'bring-forward': return { id: e.id, zIndex: e.zIndex + 1 };
-        case 'send-backward': return { id: e.id, zIndex: Math.max(0, e.zIndex - 1) };
+        case 'bring-to-front':
+          return { id: e.id, zIndex: max + 1 };
+        case 'send-to-back':
+          return { id: e.id, zIndex: Math.max(0, min - 1) };
+        case 'bring-forward':
+          return { id: e.id, zIndex: e.zIndex + 1 };
+        case 'send-backward':
+          return { id: e.id, zIndex: Math.max(0, e.zIndex - 1) };
       }
     });
 }
@@ -57,8 +57,8 @@ export function applyZOrderChanges<T extends { readonly id: string; readonly zIn
   elements: readonly T[],
   changes: readonly { id: string; zIndex: number }[],
 ): readonly T[] {
-  const changeMap = new Map(changes.map(c => [c.id, c.zIndex]));
-  return elements.map(el => {
+  const changeMap = new Map(changes.map((c) => [c.id, c.zIndex]));
+  return elements.map((el) => {
     const newZ = changeMap.get(el.id);
     return newZ !== undefined ? { ...el, zIndex: newZ } : el;
   });

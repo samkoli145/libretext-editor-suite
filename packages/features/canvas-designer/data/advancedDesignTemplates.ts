@@ -406,7 +406,8 @@ export const ADVANCED_DESIGN_TEMPLATES: WebTemplateItem[] = [
     category: 'dashboards',
     categoryAr: 'لوحات العمل والمقارنات',
     icon: '📊',
-    descriptionAr: 'قالب تقسيم متقدم (شريط أدوات جانبي 20% + مساحة رسم مركزية 60% + مفتش خصائص 20%)',
+    descriptionAr:
+      'قالب تقسيم متقدم (شريط أدوات جانبي 20% + مساحة رسم مركزية 60% + مفتش خصائص 20%)',
     templateHtml: `
 <div style="width: 760px; background-color: #ffffff; border: 1.5px solid #cbd5e1; border-radius: 12px; overflow: hidden; box-shadow: 0 8px 24px rgba(0,0,0,0.05); font-family: inherit; direction: rtl; text-align: right;">
   <!-- Header Bar -->
@@ -463,7 +464,8 @@ export const ADVANCED_DESIGN_TEMPLATES: WebTemplateItem[] = [
     category: 'split-layouts',
     categoryAr: 'التقسيم الذكي والتفاعل اللحظي',
     icon: '💻',
-    descriptionAr: 'قالب تفاعلي مقسم يدمج كود HTML/JSX على اليمين مع العرض التفاعلي الحي على اليسار',
+    descriptionAr:
+      'قالب تفاعلي مقسم يدمج كود HTML/JSX على اليمين مع العرض التفاعلي الحي على اليسار',
     templateHtml: `
 <div style="width: 720px; background-color: #ffffff; border: 1.5px solid #cbd5e1; border-radius: 12px; overflow: hidden; box-shadow: 0 8px 24px rgba(0,0,0,0.06); font-family: inherit; direction: rtl; text-align: right;">
   <div style="background-color: #f1f5f9; border-bottom: 1px solid #e2e8f0; padding: 8px 16px; display: flex; align-items: center; justify-content: space-between;">
@@ -506,7 +508,8 @@ export const ADVANCED_DESIGN_TEMPLATES: WebTemplateItem[] = [
     category: 'split-layouts',
     categoryAr: 'التقسيم الذكي والتفاعل اللحظي',
     icon: '🏛️',
-    descriptionAr: 'قالب تقسيم شامل متجاوب يضم الترويسة، الشريط الجانبي، مساحة العمل، الملاحظات، والتذييل',
+    descriptionAr:
+      'قالب تقسيم شامل متجاوب يضم الترويسة، الشريط الجانبي، مساحة العمل، الملاحظات، والتذييل',
     templateHtml: `
 <div style="width: 700px; background-color: #ffffff; border: 1.5px solid #cbd5e1; border-radius: 12px; overflow: hidden; box-shadow: 0 6px 20px rgba(0,0,0,0.05); font-family: inherit; direction: rtl; text-align: right;">
   <!-- Header -->
@@ -606,7 +609,8 @@ export const ADVANCED_DESIGN_TEMPLATES: WebTemplateItem[] = [
     category: 'split-layouts',
     categoryAr: 'التقسيم الذكي والتفاعل اللحظي',
     icon: '📑',
-    descriptionAr: 'قالب تقسيم القائمة الرئيسية على اليمين مع لوحة تفاصيل تفاعلية تتحدث فوراً على اليسار',
+    descriptionAr:
+      'قالب تقسيم القائمة الرئيسية على اليمين مع لوحة تفاصيل تفاعلية تتحدث فوراً على اليسار',
     templateHtml: `
 <div style="width: 680px; background-color: #ffffff; border: 1.5px solid #cbd5e1; border-radius: 12px; overflow: hidden; box-shadow: 0 6px 20px rgba(0,0,0,0.05); font-family: inherit; direction: rtl; text-align: right;">
   <div style="display: flex; min-height: 220px;">
@@ -780,7 +784,8 @@ export const ADVANCED_DESIGN_TEMPLATES: WebTemplateItem[] = [
     category: 'dashboards',
     categoryAr: 'لوحات العمل والمقارنات',
     icon: '📊',
-    descriptionAr: 'قالب تقسيم بطاقات الأداء الرئيسية مع مؤشرات النمو اللحظية والرسوم البيانية المصغرة',
+    descriptionAr:
+      'قالب تقسيم بطاقات الأداء الرئيسية مع مؤشرات النمو اللحظية والرسوم البيانية المصغرة',
     templateHtml: `
 <div style="width: 680px; background-color: #ffffff; border: 1.5px solid #cbd5e1; border-radius: 12px; padding: 16px; box-shadow: 0 6px 20px rgba(0,0,0,0.05); font-family: inherit; direction: rtl; text-align: right;">
   <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
@@ -816,7 +821,8 @@ export const ADVANCED_DESIGN_TEMPLATES: WebTemplateItem[] = [
     category: 'split-layouts',
     categoryAr: 'التقسيم الذكي والتفاعل اللحظي',
     icon: '📝',
-    descriptionAr: 'قالب تقسيم متزامن لمحرر الماركدون على اليمين مع العرض التنسيقي المباشر على اليسار',
+    descriptionAr:
+      'قالب تقسيم متزامن لمحرر الماركدون على اليمين مع العرض التنسيقي المباشر على اليسار',
     templateHtml: `
 <div style="width: 680px; background-color: #ffffff; border: 1.5px solid #cbd5e1; border-radius: 12px; overflow: hidden; box-shadow: 0 6px 20px rgba(0,0,0,0.05); font-family: inherit; direction: rtl; text-align: right;">
   <div style="background-color: #f8fafc; border-bottom: 1px solid #e2e8f0; padding: 8px 14px; display: flex; justify-content: space-between; align-items: center;">
@@ -847,4 +853,3 @@ export const ADVANCED_DESIGN_TEMPLATES: WebTemplateItem[] = [
     `,
   },
 ];
-

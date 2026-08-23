@@ -38,7 +38,7 @@ export interface DoctorReport {
 const sanitizeUndefinedFields = (state: any): any => {
   if (!state || typeof state !== 'object') return state;
   const newState = Array.isArray(state) ? [...state] : { ...state };
-  
+
   for (const key in newState) {
     if (newState[key] === undefined) {
       delete newState[key];
@@ -52,42 +52,42 @@ const sanitizeUndefinedFields = (state: any): any => {
 // 2. إصلاح العناصر المفقودة الإحداثيات (في وضع الكانفا)
 const healMissingCoordinates = (state: any): any => {
   if (!state || !state.elements || !Array.isArray(state.elements)) return state;
-  
+
   const healedElements = state.elements.map((el: any) => {
     if (typeof el.x !== 'number' || typeof el.y !== 'number') {
       return { ...el, x: el.x || 0, y: el.y || 0 };
     }
     return el;
   });
-  
+
   return { ...state, elements: healedElements };
 };
 
 // 3. ترتيب طبقات Z-Index لضمان عدم وجود طبقات سالبة مفقودة
 const normalizeZIndex = (state: any): any => {
   if (!state || !state.elements || !Array.isArray(state.elements)) return state;
-  
+
   const healedElements = state.elements.map((el: any, index: number) => {
     if (typeof el.zIndex !== 'number') {
       return { ...el, zIndex: index };
     }
     return el;
   });
-  
+
   return { ...state, elements: healedElements };
 };
 
 // 4. إعادة المعرفات المفقودة
 const healMissingIds = (state: any): any => {
   if (!state || !state.elements || !Array.isArray(state.elements)) return state;
-  
+
   const healedElements = state.elements.map((el: any) => {
     if (!el.id) {
       return { ...el, id: `recovered-${Math.random().toString(36).substr(2, 9)}` };
     }
     return el;
   });
-  
+
   return { ...state, elements: healedElements };
 };
 
@@ -102,19 +102,19 @@ export const runSelfHealingPipeline = (initialState: any): DoctorReport => {
       sanitizeUndefinedFields,
       healMissingCoordinates,
       normalizeZIndex,
-      healMissingIds
+      healMissingIds,
     );
 
     return {
       fixedErrors: ['Completed self-healing pipeline'],
       warnings: [],
-      state: healedState
+      state: healedState,
     };
   } catch (error) {
     return {
       fixedErrors: [],
       warnings: [`Healing pipeline failed: ${error}`],
-      state: initialState
+      state: initialState,
     };
   }
 };

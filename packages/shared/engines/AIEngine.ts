@@ -74,7 +74,10 @@ export interface AIExecutionParams {
   memories?: AIMemoryItem[];
 }
 
-export const PERSONA_CONFIGS: Record<AIPersona, { name: string; avatar: string; systemRole: string; title: string }> = {
+export const PERSONA_CONFIGS: Record<
+  AIPersona,
+  { name: string; avatar: string; systemRole: string; title: string }
+> = {
   hermes: {
     name: 'هيرمس (Hermes Agent)',
     avatar: '🦊',
@@ -254,7 +257,9 @@ export class AIEngine {
   }): Promise<AIResponse> {
     const { prompt, endpointUrl, apiKey, mode, currentCode } = params;
     const cleanUrl = endpointUrl.replace(/\/$/, '');
-    const targetUrl = cleanUrl.endsWith('/chat/completions') ? cleanUrl : `${cleanUrl}/chat/completions`;
+    const targetUrl = cleanUrl.endsWith('/chat/completions')
+      ? cleanUrl
+      : `${cleanUrl}/chat/completions`;
 
     const response = await fetch(targetUrl, {
       method: 'POST',
@@ -309,9 +314,12 @@ export class AIEngine {
         break;
     }
 
-    const contextsText = selectedContexts.length > 0 ? `السياقات: ${selectedContexts.join(', ')}` : '';
+    const contextsText =
+      selectedContexts.length > 0 ? `السياقات: ${selectedContexts.join(', ')}` : '';
     const memoriesText =
-      memories.length > 0 ? `الذاكرة:\n${memories.map((m) => `- [${m.key}]: ${m.value}`).join('\n')}` : '';
+      memories.length > 0
+        ? `الذاكرة:\n${memories.map((m) => `- [${m.key}]: ${m.value}`).join('\n')}`
+        : '';
 
     return `${personaConfig.systemRole}
 ${modeInstruction}
@@ -341,7 +349,8 @@ ${currentCode.slice(0, 3000)}
         diffResult: {
           original: currentCode,
           proposed: codeSnippet,
-          explanation: text.replace(/```[\s\S]*?```/g, '').trim() || 'تم إنشاء الشفرة المقترحة بنجاح.',
+          explanation:
+            text.replace(/```[\s\S]*?```/g, '').trim() || 'تم إنشاء الشفرة المقترحة بنجاح.',
         },
       };
     }

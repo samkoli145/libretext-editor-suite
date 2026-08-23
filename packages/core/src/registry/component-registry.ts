@@ -13,7 +13,8 @@
 
 export type ComponentCategory = 'shell' | 'canvas' | 'text' | 'table' | 'plugin' | 'shared';
 
-export type ComponentPosition = 'top-bar' | 'sidebar' | 'canvas-center' | 'modal' | 'context-menu' | 'floating';
+export type ComponentPosition =
+  'top-bar' | 'sidebar' | 'canvas-center' | 'modal' | 'context-menu' | 'floating';
 
 export interface ComponentRegistration {
   readonly id: string;
@@ -42,16 +43,22 @@ export function createComponentRegistry() {
     return true;
   }
 
-  function unregister(id: string): boolean { return registry.delete(id); }
-  function get(id: string): ComponentRegistration | undefined { return registry.get(id); }
-  function list(): readonly ComponentRegistration[] { return Array.from(registry.values()); }
+  function unregister(id: string): boolean {
+    return registry.delete(id);
+  }
+  function get(id: string): ComponentRegistration | undefined {
+    return registry.get(id);
+  }
+  function list(): readonly ComponentRegistration[] {
+    return Array.from(registry.values());
+  }
 
   function listByCategory(category: ComponentCategory): readonly ComponentRegistration[] {
-    return Array.from(registry.values()).filter(c => c.category === category);
+    return Array.from(registry.values()).filter((c) => c.category === category);
   }
 
   function listByPosition(position: ComponentPosition): readonly ComponentRegistration[] {
-    return Array.from(registry.values()).filter(c => c.currentPosition === position);
+    return Array.from(registry.values()).filter((c) => c.currentPosition === position);
   }
 
   function setVisible(id: string, visible: boolean): boolean {
@@ -74,8 +81,24 @@ export function createComponentRegistry() {
     return obj;
   }
 
-  function size(): number { return registry.size; }
-  function clear(): void { registry.clear(); }
+  function size(): number {
+    return registry.size;
+  }
+  function clear(): void {
+    registry.clear();
+  }
 
-  return { register, unregister, get, list, listByCategory, listByPosition, setVisible, setPosition, toMatrix, size, clear };
+  return {
+    register,
+    unregister,
+    get,
+    list,
+    listByCategory,
+    listByPosition,
+    setVisible,
+    setPosition,
+    toMatrix,
+    size,
+    clear,
+  };
 }

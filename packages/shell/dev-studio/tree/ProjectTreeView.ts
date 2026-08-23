@@ -160,7 +160,10 @@ export class ProjectTreeView {
       span.textContent = crumb.name;
       span.addEventListener('click', () => {
         // نقرة على breadcrumb تحدد المجلد
-        this.nav.select(crumb.path, crumbs.slice(0, i).map((c) => c.path));
+        this.nav.select(
+          crumb.path,
+          crumbs.slice(0, i).map((c) => c.path),
+        );
         this.render();
       });
       wrap.appendChild(span);
@@ -209,9 +212,12 @@ export class ProjectTreeView {
     if (node.kind === 'file' && enriched.health) {
       const badge = document.createElement('span');
       badge.className = `ptv-badge ptv-${enriched.health}`;
-      badge.textContent = enriched.health === 'large'
-        ? `${enriched.lines}⚠`
-        : enriched.health === 'missing' ? '✗' : '';
+      badge.textContent =
+        enriched.health === 'large'
+          ? `${enriched.lines}⚠`
+          : enriched.health === 'missing'
+            ? '✗'
+            : '';
       if (enriched.health === 'large') {
         badge.title = `تجاوز ${LARGE_FILE_LINES} سطر — مرشح للتفكيك`;
       } else if (enriched.health === 'missing') {

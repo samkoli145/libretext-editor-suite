@@ -90,13 +90,16 @@ const EXPORT_RE = /^export\s+(?:const|let|var|interface|type|enum)\s+(\w+)/;
  * ⚠️ الجدوى تتطلب نقطتين على الأقل — نقطة واحدة تعني
  * قطعتين إحداهما قد تكون تافهة. ونرفض ملفاً لا حدود فيه.
  */
-export function analyzeForDecomposition(
-  project: ProjectSurface,
-  path: string,
-): DecompositionPlan {
+export function analyzeForDecomposition(project: ProjectSurface, path: string): DecompositionPlan {
   const content = project.readFile(path);
   if (content === null) {
-    return { sourcePath: path, lines: 0, splitPoints: [], feasible: false, reason: 'file not found' };
+    return {
+      sourcePath: path,
+      lines: 0,
+      splitPoints: [],
+      feasible: false,
+      reason: 'file not found',
+    };
   }
 
   const lines = content.split('\n');
@@ -138,7 +141,14 @@ export function analyzeForDecomposition(
     lines: lines.length,
     splitPoints,
     feasible,
-    ...(feasible ? {} : { reason: lines.length <= LARGE_FILE_LINES ? 'file not large enough' : 'not enough natural split points' }),
+    ...(feasible
+      ? {}
+      : {
+          reason:
+            lines.length <= LARGE_FILE_LINES
+              ? 'file not large enough'
+              : 'not enough natural split points',
+        }),
   };
 }
 

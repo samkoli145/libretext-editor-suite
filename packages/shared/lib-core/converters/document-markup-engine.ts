@@ -31,7 +31,11 @@ export class DocumentMarkupEngine {
   /**
    * توليد مستند LaTeX (.tex) أكاديمي من نصوص HTML
    */
-  public static generateLatex(htmlContent: string, title = 'Document Title', author = 'Universal Studio'): string {
+  public static generateLatex(
+    htmlContent: string,
+    title = 'Document Title',
+    author = 'Universal Studio',
+  ): string {
     let body = htmlContent
       .replace(/<h1[^>]*>(.*?)<\/h1>/gi, '\n\\section{$1}\n')
       .replace(/<h2[^>]*>(.*?)<\/h2>/gi, '\n\\subsection{$1}\n')
@@ -87,7 +91,11 @@ ${body}
   /**
    * توليد كتاب إلكتروني قياسي بصيغة EPUB 3 (ZIP Container)
    */
-  public static async generateEpub(htmlContent: string, title = 'Book Title', author = 'Author'): Promise<Uint8Array> {
+  public static async generateEpub(
+    htmlContent: string,
+    title = 'Book Title',
+    author = 'Author',
+  ): Promise<Uint8Array> {
     const writer = new ZipArchiveWriter();
 
     // 1. mimetype (must be uncompressed)

@@ -103,7 +103,7 @@ export class CodeEditorModule {
    */
   public renderChart(
     config: ChartConfig,
-    state = { zoom: 1, panX: 0, panY: 0, hoveredIndex: null, selectedIndex: null }
+    state = { zoom: 1, panX: 0, panY: 0, hoveredIndex: null, selectedIndex: null },
   ) {
     return zeroDependencyChartEngine.renderInteractiveSvg(config, state);
   }

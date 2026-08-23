@@ -86,7 +86,7 @@ export class UniversalExportHub {
   public static async exportFormat(
     format: UniversalExportFormat,
     payload: UniversalExportPayload,
-    filename?: string
+    filename?: string,
   ): Promise<{ blob: Blob; filename: string }> {
     const baseName = filename || payload.title || 'document';
     let outputBlob: Blob;
@@ -95,13 +95,18 @@ export class UniversalExportHub {
     switch (format) {
       // 1. ODF Formats
       case 'odt': {
-        const bytes = await OdfEngine.generateOdt(payload.htmlContent || '', { title: payload.title });
+        const bytes = await OdfEngine.generateOdt(payload.htmlContent || '', {
+          title: payload.title,
+        });
         outputBlob = new Blob([bytes], { type: 'application/vnd.oasis.opendocument.text' });
         extension = 'odt';
         break;
       }
       case 'ods': {
-        const bytes = await OdfEngine.generateOds(payload.gridData as (string | number)[][] || [[]], { title: payload.title });
+        const bytes = await OdfEngine.generateOds(
+          (payload.gridData as (string | number)[][]) || [[]],
+          { title: payload.title },
+        );
         outputBlob = new Blob([bytes], { type: 'application/vnd.oasis.opendocument.spreadsheet' });
         extension = 'ods';
         break;
@@ -121,13 +126,22 @@ export class UniversalExportHub {
         break;
       }
       case 'eps': {
-        const eps = CadVectorEngine.generateEps(payload.cadEntities || [], payload.width || 800, payload.height || 600, payload.title);
+        const eps = CadVectorEngine.generateEps(
+          payload.cadEntities || [],
+          payload.width || 800,
+          payload.height || 600,
+          payload.title,
+        );
         outputBlob = new Blob([eps], { type: 'application/postscript;charset=utf-8' });
         extension = 'eps';
         break;
       }
       case 'drawio': {
-        const drawio = CadVectorEngine.generateDrawioXml(payload.cadEntities || [], payload.width || 1000, payload.height || 800);
+        const drawio = CadVectorEngine.generateDrawioXml(
+          payload.cadEntities || [],
+          payload.width || 1000,
+          payload.height || 800,
+        );
         outputBlob = new Blob([drawio], { type: 'application/xml;charset=utf-8' });
         extension = 'drawio';
         break;
@@ -135,7 +149,10 @@ export class UniversalExportHub {
 
       // 3. Web & UI Component Formats
       case 'react-tsx': {
-        const tsx = WebComponentsEngine.generateReactTsx(payload.uiComponents || [], 'GeneratedApp');
+        const tsx = WebComponentsEngine.generateReactTsx(
+          payload.uiComponents || [],
+          'GeneratedApp',
+        );
         outputBlob = new Blob([tsx], { type: 'text/typescript;charset=utf-8' });
         extension = 'tsx';
         break;
@@ -156,12 +173,17 @@ export class UniversalExportHub {
       // 4. Data & Schema Formats
       case 'json-schema': {
         const schema = SchemaDataEngine.generateJsonSchema(payload.jsonData || {});
-        outputBlob = new Blob([JSON.stringify(schema, null, 2)], { type: 'application/schema+json' });
+        outputBlob = new Blob([JSON.stringify(schema, null, 2)], {
+          type: 'application/schema+json',
+        });
         extension = 'schema.json';
         break;
       }
       case 'sql-ddl': {
-        const sql = SchemaDataEngine.generateSqlDdl(baseName, Array.isArray(payload.jsonData) ? payload.jsonData : []);
+        const sql = SchemaDataEngine.generateSqlDdl(
+          baseName,
+          Array.isArray(payload.jsonData) ? payload.jsonData : [],
+        );
         outputBlob = new Blob([sql], { type: 'application/sql;charset=utf-8' });
         extension = 'sql';
         break;
@@ -181,7 +203,11 @@ export class UniversalExportHub {
 
       // 5. Document & Markup Formats
       case 'latex': {
-        const tex = DocumentMarkupEngine.generateLatex(payload.htmlContent || '', payload.title, payload.author);
+        const tex = DocumentMarkupEngine.generateLatex(
+          payload.htmlContent || '',
+          payload.title,
+          payload.author,
+        );
         outputBlob = new Blob([tex], { type: 'application/x-latex;charset=utf-8' });
         extension = 'tex';
         break;
@@ -193,14 +219,20 @@ export class UniversalExportHub {
         break;
       }
       case 'epub': {
-        const epubBytes = await DocumentMarkupEngine.generateEpub(payload.htmlContent || '', payload.title, payload.author);
+        const epubBytes = await DocumentMarkupEngine.generateEpub(
+          payload.htmlContent || '',
+          payload.title,
+          payload.author,
+        );
         outputBlob = new Blob([epubBytes], { type: 'application/epub+zip' });
         extension = 'epub';
         break;
       }
 
       default: {
-        outputBlob = new Blob([payload.plainText || payload.htmlContent || ''], { type: 'text/plain;charset=utf-8' });
+        outputBlob = new Blob([payload.plainText || payload.htmlContent || ''], {
+          type: 'text/plain;charset=utf-8',
+        });
         extension = 'txt';
       }
     }

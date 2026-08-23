@@ -202,7 +202,7 @@ export class DitheringQuantizationEngine {
     b1: number,
     r2: number,
     g2: number,
-    b2: number
+    b2: number,
   ): number {
     const dr = r1 - r2;
     const dg = g1 - g2;
@@ -210,9 +210,7 @@ export class DitheringQuantizationEngine {
     // Redmean color difference metric
     const rmean = (r1 + r2) / 2;
     return Math.sqrt(
-      (2 + rmean / 256) * dr * dr +
-        4 * dg * dg +
-        (2 + (255 - rmean) / 256) * db * db
+      (2 + rmean / 256) * dr * dr + 4 * dg * dg + (2 + (255 - rmean) / 256) * db * db,
     );
   }
 
@@ -223,7 +221,7 @@ export class DitheringQuantizationEngine {
     r: number,
     g: number,
     b: number,
-    palette: Array<[number, number, number]>
+    palette: Array<[number, number, number]>,
   ): [number, number, number] {
     let minDistance = Infinity;
     let closest = palette[0] || [0, 0, 0];
@@ -246,7 +244,7 @@ export class DitheringQuantizationEngine {
   public static applyDither(
     srcImageData: ImageData,
     algorithm: DitherAlgorithm,
-    palette: Array<[number, number, number]>
+    palette: Array<[number, number, number]>,
   ): ImageData {
     const width = srcImageData.width;
     const height = srcImageData.height;
@@ -282,7 +280,7 @@ export class DitheringQuantizationEngine {
       errG: number,
       errB: number,
       weight: number,
-      divisor: number
+      divisor: number,
     ) => {
       if (x < 0 || x >= width || y < 0 || y >= height) return;
       const targetIdx = y * width + x;
@@ -387,7 +385,7 @@ export class DitheringQuantizationEngine {
    */
   public static extractDominantPalette(
     srcImageData: ImageData,
-    maxColors: number = 8
+    maxColors: number = 8,
   ): PaletteEntry[] {
     const data = srcImageData.data;
     const pixels: Array<[number, number, number]> = [];
@@ -401,20 +399,23 @@ export class DitheringQuantizationEngine {
     }
 
     if (pixels.length === 0) {
-      return [
-        { hex: '#ffffff', rgb: [255, 255, 255], percentage: 100, luminance: 1 },
-      ];
+      return [{ hex: '#ffffff', rgb: [255, 255, 255], percentage: 100, luminance: 1 }];
     }
 
     // تقسيم بالـ Median Cut
     const medianCut = (
       bucket: Array<[number, number, number]>,
-      depth: number
+      depth: number,
     ): Array<Array<[number, number, number]>> => {
       if (depth === 0 || bucket.length <= 1) return [bucket];
 
       // حساب المدى لكل قناة
-      let minR = 255, maxR = 0, minG = 255, maxG = 0, minB = 255, maxB = 0;
+      let minR = 255,
+        maxR = 0,
+        minG = 255,
+        maxG = 0,
+        minB = 255,
+        maxB = 0;
       for (const [r, g, b] of bucket) {
         if (r < minR) minR = r;
         if (r > maxR) maxR = r;
@@ -448,7 +449,9 @@ export class DitheringQuantizationEngine {
 
     for (const b of buckets) {
       if (b.length === 0) continue;
-      let sumR = 0, sumG = 0, sumB = 0;
+      let sumR = 0,
+        sumG = 0,
+        sumB = 0;
       for (const [r, g, bVal] of b) {
         sumR += r;
         sumG += g;
@@ -458,9 +461,7 @@ export class DitheringQuantizationEngine {
       const avgG = Math.round(sumG / b.length);
       const avgB = Math.round(sumB / b.length);
 
-      const hex = `#${((1 << 24) + (avgR << 16) + (avgG << 8) + avgB)
-        .toString(16)
-        .slice(1)}`;
+      const hex = `#${((1 << 24) + (avgR << 16) + (avgG << 8) + avgB).toString(16).slice(1)}`;
       const percentage = Math.round((b.length / totalSamples) * 100);
       const luminance = (0.299 * avgR + 0.587 * avgG + 0.114 * avgB) / 255;
 

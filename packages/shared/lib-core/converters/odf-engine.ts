@@ -39,7 +39,10 @@ export class OdfEngine {
   /**
    * توليد مستند ODT قياسي كامل متوافق مع LibreOffice و OpenOffice و MS Word
    */
-  public static async generateOdt(htmlContent: string, options: OdfExportOptions = {}): Promise<Uint8Array> {
+  public static async generateOdt(
+    htmlContent: string,
+    options: OdfExportOptions = {},
+  ): Promise<Uint8Array> {
     const writer = new ZipArchiveWriter();
     const title = options.title || 'مستند بدون عنوان';
     const author = options.author || 'Universal Studio';
@@ -107,7 +110,10 @@ export class OdfEngine {
   /**
    * توليد جدول ODS قياسي للبيانات وجداول الحسابات
    */
-  public static async generateOds(data: (string | number)[][], options: OdfExportOptions = {}): Promise<Uint8Array> {
+  public static async generateOds(
+    data: (string | number)[][],
+    options: OdfExportOptions = {},
+  ): Promise<Uint8Array> {
     const writer = new ZipArchiveWriter();
     writer.addFile('mimetype', 'application/vnd.oasis.opendocument.spreadsheet');
 
@@ -173,14 +179,14 @@ export class OdfEngine {
   public static async parseOdt(buffer: ArrayBuffer | Uint8Array): Promise<string> {
     const reader = new ZipArchiveReader(buffer);
     const files = await reader.extractFiles();
-    const contentXmlFile = files.find(f => f.name === 'content.xml');
+    const contentXmlFile = files.find((f) => f.name === 'content.xml');
     if (!contentXmlFile) {
       throw new Error('الملف ليس مستند ODT صالح (حاوية content.xml مفقودة)');
     }
     const xml = contentXmlFile.text();
     // استخراج فقرات النصوص <text:p>
     const matches = xml.match(/<text:p[^>]*>(.*?)<\/text:p>/gi) || [];
-    return matches.map(p => p.replace(/<[^>]+>/g, '')).join('\n\n');
+    return matches.map((p) => p.replace(/<[^>]+>/g, '')).join('\n\n');
   }
 
   private static htmlToOdfText(html: string): string {

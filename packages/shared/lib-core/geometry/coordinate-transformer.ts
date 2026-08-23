@@ -69,7 +69,7 @@ export function screenToDocument(
   screenPt: Point2D,
   stageRect: DOMRect,
   transform: ViewportTransform,
-  docDimensions: { width: number; height: number }
+  docDimensions: { width: number; height: number },
 ): NormalizedPoint {
   const safeZoom = Math.max(0.1, transform.zoom || 1);
   const rad = degreesToRadians(-(transform.rotation || 0));
@@ -113,7 +113,7 @@ export function screenToDocument(
 export function documentToScreen(
   docPt: Point2D,
   stageRect: DOMRect,
-  transform: ViewportTransform
+  transform: ViewportTransform,
 ): Point2D {
   const safeZoom = Math.max(0.1, transform.zoom || 1);
   return {

@@ -41,7 +41,18 @@ import { contentsOf } from './DoctorEngine';
  * Relative paths and the project's own shared roots are the codebase;
  * anything that names a package is a dependency.
  */
-const ALLOWED_ROOTS = ['.', '/', 'kernel/', 'shared/', 'core/', 'features/', 'shell/', 'react', 'lucide-react', 'motion/react'];
+const ALLOWED_ROOTS = [
+  '.',
+  '/',
+  'kernel/',
+  'shared/',
+  'core/',
+  'features/',
+  'shell/',
+  'react',
+  'lucide-react',
+  'motion/react',
+];
 
 /**
  * Dynamic-code doors. These are not dependencies in the import sense but
@@ -98,8 +109,9 @@ export function checkDependencies(
       }
 
       // Import statements: extract the module specifier
-      const importMatch = line.match(/(?:import|from)\s+["']([^"']+)["']/)
-        ?? line.match(/import\s*\(\s*["']([^"']+)["']\s*\)/);
+      const importMatch =
+        line.match(/(?:import|from)\s+["']([^"']+)["']/) ??
+        line.match(/import\s*\(\s*["']([^"']+)["']\s*\)/);
       if (importMatch) {
         const spec = importMatch[1];
         const isTypeOnly = /\bimport\s+type\b/.test(line) || /\btype\s+\{/.test(line);
@@ -134,7 +146,8 @@ export function checkDependencies(
       categoryAr: 'التبعيات والأمان',
       status: 'pass',
       message: 'no external imports, no dynamic code, no CDN',
-      messageAr: 'نظام نظيف 100%: لا استيرادات خارجية غير مصرح بها، لا أكواد ديناميكية، ولا روابط CDN',
+      messageAr:
+        'نظام نظيف 100%: لا استيرادات خارجية غير مصرح بها، لا أكواد ديناميكية، ولا روابط CDN',
     });
   }
 
@@ -151,19 +164,22 @@ export class DependencyAuditor {
         op: 'modifyFile',
         path: filePath,
         content,
-        inverse: { op: 'modifyFile', path: filePath, content }
-      }
+        inverse: { op: 'modifyFile', path: filePath, content },
+      },
     ];
     const checks = checkDependencies(patches);
-    return checks.find((c) => c.status === 'fail') || checks[0] || {
-      id: `deps-check-${filePath}`,
-      name: 'Zero-Dependencies & Security Audit',
-      nameAr: 'فحص التبعيات النظيفة والأمان',
-      category: 'deps',
-      categoryAr: 'التبعيات والأمان',
-      status: 'pass',
-      message: `File [${filePath}] is clean with zero forbidden dependencies.`,
-      messageAr: `الملف [${filePath}] آمن وخالٍ من أي دوال خطرة أو تبعيات محظورة.`,
-    };
+    return (
+      checks.find((c) => c.status === 'fail') ||
+      checks[0] || {
+        id: `deps-check-${filePath}`,
+        name: 'Zero-Dependencies & Security Audit',
+        nameAr: 'فحص التبعيات النظيفة والأمان',
+        category: 'deps',
+        categoryAr: 'التبعيات والأمان',
+        status: 'pass',
+        message: `File [${filePath}] is clean with zero forbidden dependencies.`,
+        messageAr: `الملف [${filePath}] آمن وخالٍ من أي دوال خطرة أو تبعيات محظورة.`,
+      }
+    );
   }
 }

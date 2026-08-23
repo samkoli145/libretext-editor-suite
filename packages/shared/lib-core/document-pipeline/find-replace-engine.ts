@@ -28,32 +28,32 @@
  */
 
 export interface SearchOptions {
-  caseSensitive?: boolean
-  wholeWord?: boolean
-  useRegex?: boolean
+  caseSensitive?: boolean;
+  wholeWord?: boolean;
+  useRegex?: boolean;
 }
 
 export interface SearchMatch {
-  id: string
-  targetId: string // معرف العنصر أو الكتلة
-  targetType: 'canvas-element' | 'rich-text-block' | 'ui-node'
-  textSnippet: string
-  startIndex: number
-  endIndex: number
-  matchedText: string
+  id: string;
+  targetId: string; // معرف العنصر أو الكتلة
+  targetType: 'canvas-element' | 'rich-text-block' | 'ui-node';
+  textSnippet: string;
+  startIndex: number;
+  endIndex: number;
+  matchedText: string;
 }
 
 export interface SearchTargetItem {
-  id: string
-  type: 'canvas-element' | 'rich-text-block' | 'ui-node'
-  text: string
+  id: string;
+  type: 'canvas-element' | 'rich-text-block' | 'ui-node';
+  text: string;
 }
 
 /**
  * الهروب من الرموز الخاصة في التعبيرات النمطية
  */
 function escapeRegExp(string: string): string {
-  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
 /**
@@ -62,38 +62,38 @@ function escapeRegExp(string: string): string {
 export function findMatches(
   query: string,
   items: SearchTargetItem[],
-  options: SearchOptions = {}
+  options: SearchOptions = {},
 ): SearchMatch[] {
-  if (!query || query.trim() === '') return []
+  if (!query || query.trim() === '') return [];
 
-  const matches: SearchMatch[] = []
-  const { caseSensitive = false, wholeWord = false, useRegex = false } = options
+  const matches: SearchMatch[] = [];
+  const { caseSensitive = false, wholeWord = false, useRegex = false } = options;
 
-  let patternStr = useRegex ? query : escapeRegExp(query)
+  let patternStr = useRegex ? query : escapeRegExp(query);
   if (wholeWord) {
-    patternStr = `\\b${patternStr}\\b`
+    patternStr = `\\b${patternStr}\\b`;
   }
 
-  let regex: RegExp
+  let regex: RegExp;
   try {
-    regex = new RegExp(patternStr, caseSensitive ? 'g' : 'gi')
+    regex = new RegExp(patternStr, caseSensitive ? 'g' : 'gi');
   } catch (err) {
-    return [] // RegEx غير صالح
+    return []; // RegEx غير صالح
   }
 
   for (const item of items) {
-    if (!item.text) continue
+    if (!item.text) continue;
 
-    let match: RegExpExecArray | null
+    let match: RegExpExecArray | null;
     while ((match = regex.exec(item.text)) !== null) {
-      const startIndex = match.index
-      const matchedText = match[0]
-      const endIndex = startIndex + matchedText.length
+      const startIndex = match.index;
+      const matchedText = match[0];
+      const endIndex = startIndex + matchedText.length;
 
       // استخراج مقتطف توضيحي حول النتيجة
-      const snippetStart = Math.max(0, startIndex - 15)
-      const snippetEnd = Math.min(item.text.length, endIndex + 15)
-      const textSnippet = item.text.substring(snippetStart, snippetEnd)
+      const snippetStart = Math.max(0, startIndex - 15);
+      const snippetEnd = Math.min(item.text.length, endIndex + 15);
+      const textSnippet = item.text.substring(snippetStart, snippetEnd);
 
       matches.push({
         id: `match-${item.id}-${startIndex}`,
@@ -103,16 +103,16 @@ export function findMatches(
         startIndex,
         endIndex,
         matchedText,
-      })
+      });
 
       // منع الحلقات اللانهائية في حال كانت المطابقة بطول صفر
       if (regex.lastIndex === startIndex) {
-        regex.lastIndex++
+        regex.lastIndex++;
       }
     }
   }
 
-  return matches
+  return matches;
 }
 
 /**
@@ -121,12 +121,12 @@ export function findMatches(
 export function replaceMatchInText(
   originalText: string,
   match: SearchMatch,
-  replacement: string
+  replacement: string,
 ): string {
-  if (!originalText) return ''
-  const before = originalText.substring(0, match.startIndex)
-  const after = originalText.substring(match.endIndex)
-  return before + replacement + after
+  if (!originalText) return '';
+  const before = originalText.substring(0, match.startIndex);
+  const after = originalText.substring(match.endIndex);
+  return before + replacement + after;
 }
 
 /**
@@ -136,29 +136,29 @@ export function replaceAllInText(
   originalText: string,
   query: string,
   replacement: string,
-  options: SearchOptions = {}
+  options: SearchOptions = {},
 ): { updatedText: string; count: number } {
-  if (!originalText || !query) return { updatedText: originalText, count: 0 }
+  if (!originalText || !query) return { updatedText: originalText, count: 0 };
 
-  const { caseSensitive = false, wholeWord = false, useRegex = false } = options
+  const { caseSensitive = false, wholeWord = false, useRegex = false } = options;
 
-  let patternStr = useRegex ? query : escapeRegExp(query)
+  let patternStr = useRegex ? query : escapeRegExp(query);
   if (wholeWord) {
-    patternStr = `\\b${patternStr}\\b`
+    patternStr = `\\b${patternStr}\\b`;
   }
 
-  let regex: RegExp
+  let regex: RegExp;
   try {
-    regex = new RegExp(patternStr, caseSensitive ? 'g' : 'gi')
+    regex = new RegExp(patternStr, caseSensitive ? 'g' : 'gi');
   } catch (err) {
-    return { updatedText: originalText, count: 0 }
+    return { updatedText: originalText, count: 0 };
   }
 
-  let count = 0
+  let count = 0;
   const updatedText = originalText.replace(regex, (match) => {
-    count++
-    return replacement
-  })
+    count++;
+    return replacement;
+  });
 
-  return { updatedText, count }
+  return { updatedText, count };
 }

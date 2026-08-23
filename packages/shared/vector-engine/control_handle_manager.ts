@@ -83,13 +83,19 @@ export function getCursorForHandle(type: HandleType, rotationDeg: number = 0): s
   };
 
   const baseAngle = baseAngles[type] ?? 0;
-  const totalAngle = ((baseAngle + rotationDeg) % 360 + 360) % 360;
+  const totalAngle = (((baseAngle + rotationDeg) % 360) + 360) % 360;
 
-  if ((totalAngle >= 337.5 || totalAngle < 22.5) || (totalAngle >= 157.5 && totalAngle < 202.5)) {
+  if (totalAngle >= 337.5 || totalAngle < 22.5 || (totalAngle >= 157.5 && totalAngle < 202.5)) {
     return 'ns-resize';
-  } else if ((totalAngle >= 22.5 && totalAngle < 67.5) || (totalAngle >= 202.5 && totalAngle < 247.5)) {
+  } else if (
+    (totalAngle >= 22.5 && totalAngle < 67.5) ||
+    (totalAngle >= 202.5 && totalAngle < 247.5)
+  ) {
     return 'nesw-resize';
-  } else if ((totalAngle >= 67.5 && totalAngle < 112.5) || (totalAngle >= 247.5 && totalAngle < 292.5)) {
+  } else if (
+    (totalAngle >= 67.5 && totalAngle < 112.5) ||
+    (totalAngle >= 247.5 && totalAngle < 292.5)
+  ) {
     return 'ew-resize';
   } else {
     return 'nwse-resize';
@@ -102,7 +108,7 @@ export function getCursorForHandle(type: HandleType, rotationDeg: number = 0): s
 export function getTransformHandles(
   box: BoundingBox,
   rotationDeg: number = 0,
-  targetId: string = 'element'
+  targetId: string = 'element',
 ): ControlHandle[] {
   const center: Point2D = { x: box.centerX, y: box.centerY };
   const rad = degToRad(rotationDeg);
@@ -188,7 +194,7 @@ export function getVertexHandles(path: VectorPathData): ControlHandle[] {
 export function hitTestHandles(
   handles: ControlHandle[],
   point: Point2D,
-  tolerance: number = 8
+  tolerance: number = 8,
 ): ControlHandle | null {
   for (const handle of handles) {
     if (distance(point, { x: handle.x, y: handle.y }) <= tolerance) {
@@ -207,7 +213,7 @@ export function calculateResizeDelta(
   currentPoint: Point2D,
   startPoint: Point2D,
   lockAspectRatio: boolean = false,
-  fromCenter: boolean = false
+  fromCenter: boolean = false,
 ): BoundingBox {
   const dx = currentPoint.x - startPoint.x;
   const dy = currentPoint.y - startPoint.y;
@@ -270,7 +276,7 @@ export function calculateResizeDelta(
 export function calculateRotationAngle(
   center: Point2D,
   currentPoint: Point2D,
-  snapAngleDeg: number = 15
+  snapAngleDeg: number = 15,
 ): number {
   const rad = angle(center, currentPoint);
   let deg = radToDeg(rad) + 90; // محاذاة الصفر للأعلى

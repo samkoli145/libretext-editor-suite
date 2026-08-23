@@ -40,7 +40,11 @@ const HEADER_WINDOW = 40;
  * to add.
  */
 const HEADER_MARKS: ReadonlyArray<{ re: RegExp; name: string; nameAr: string }> = [
-  { re: /ملخص توجيهي/, name: 'Arabic guiding summary (ملخص توجيهي)', nameAr: 'كتلة الملخص التوجيهي بالعربية' },
+  {
+    re: /ملخص توجيهي/,
+    name: 'Arabic guiding summary (ملخص توجيهي)',
+    nameAr: 'كتلة الملخص التوجيهي بالعربية',
+  },
   { re: /الحقوق محفوظة|©/, name: 'copyright line (الحقوق محفوظة)', nameAr: 'سطر حفظ الحقوق ©️' },
 ];
 
@@ -151,15 +155,18 @@ export class StructureValidator {
       },
     ];
     const checks = checkStructure(patches);
-    return checks.find((c) => c.status === 'fail') || checks[0] || {
-      id: `struct-check-${filePath}`,
-      name: 'Structure & Documentation Audit',
-      nameAr: 'تدقيق البنية والتوثيق',
-      category: 'structure',
-      categoryAr: 'الهيكلية والتوثيق',
-      status: 'pass',
-      message: `File [${filePath}] complies with structural and documentation standards.`,
-      messageAr: `الملف [${filePath}] مطابق لمعايير البنية والترويسة التوجيهية الإلزامية.`,
-    };
+    return (
+      checks.find((c) => c.status === 'fail') ||
+      checks[0] || {
+        id: `struct-check-${filePath}`,
+        name: 'Structure & Documentation Audit',
+        nameAr: 'تدقيق البنية والتوثيق',
+        category: 'structure',
+        categoryAr: 'الهيكلية والتوثيق',
+        status: 'pass',
+        message: `File [${filePath}] complies with structural and documentation standards.`,
+        messageAr: `الملف [${filePath}] مطابق لمعايير البنية والترويسة التوجيهية الإلزامية.`,
+      }
+    );
   }
 }

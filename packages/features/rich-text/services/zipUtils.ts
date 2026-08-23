@@ -28,7 +28,11 @@
  * Delegates to the unified shared pure zip-engine core.
  */
 
-import { calculateCRC32 as sharedCRC32, ZipArchiveWriter, ZipArchiveReader } from '../../../shared/lib-core/archive/zip-engine';
+import {
+  calculateCRC32 as sharedCRC32,
+  ZipArchiveWriter,
+  ZipArchiveReader,
+} from '../../../shared/lib-core/archive/zip-engine';
 
 export const calculateCRC32 = sharedCRC32;
 
@@ -52,7 +56,9 @@ export function createZipArchive(entries: ZipEntryInput[]): Blob {
 /**
  * Reads all entries from a ZIP archive as a Map of string names to Uint8Array contents
  */
-export async function readZipEntries(buffer: ArrayBuffer | Uint8Array): Promise<Map<string, Uint8Array>> {
+export async function readZipEntries(
+  buffer: ArrayBuffer | Uint8Array,
+): Promise<Map<string, Uint8Array>> {
   const reader = new ZipArchiveReader(buffer);
   const files = await reader.extractFiles();
   const resultMap = new Map<string, Uint8Array>();

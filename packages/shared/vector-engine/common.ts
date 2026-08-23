@@ -141,7 +141,18 @@ export function rotatePoint(p: Point2D, center: Point2D, angleRad: number): Poin
  */
 export function getBounds(points: Point2D[]): BoundingBox {
   if (!points || points.length === 0) {
-    return { x: 0, y: 0, width: 0, height: 0, minX: 0, minY: 0, maxX: 0, maxY: 0, centerX: 0, centerY: 0 };
+    return {
+      x: 0,
+      y: 0,
+      width: 0,
+      height: 0,
+      minX: 0,
+      minY: 0,
+      maxX: 0,
+      maxY: 0,
+      centerX: 0,
+      centerY: 0,
+    };
   }
 
   let minX = Infinity;
@@ -211,7 +222,10 @@ export function deepClone<T>(obj: T): T {
 /**
  * كابح التردد (Debounce) لمنع تكرار الأحداث المتسارعة
  */
-export function debounce<F extends (...args: any[]) => void>(func: F, wait: number): (...args: Parameters<F>) => void {
+export function debounce<F extends (...args: any[]) => void>(
+  func: F,
+  wait: number,
+): (...args: Parameters<F>) => void {
   let timeout: ReturnType<typeof setTimeout> | null = null;
   return function (...args: Parameters<F>) {
     if (timeout) clearTimeout(timeout);
@@ -224,7 +238,10 @@ export function debounce<F extends (...args: any[]) => void>(func: F, wait: numb
 /**
  * مقنن التردد (Throttle) لتقنين معالجة حركات الفأرة
  */
-export function throttle<F extends (...args: any[]) => void>(func: F, limit: number): (...args: Parameters<F>) => void {
+export function throttle<F extends (...args: any[]) => void>(
+  func: F,
+  limit: number,
+): (...args: Parameters<F>) => void {
   let inThrottle = false;
   return function (...args: Parameters<F>) {
     if (!inThrottle) {

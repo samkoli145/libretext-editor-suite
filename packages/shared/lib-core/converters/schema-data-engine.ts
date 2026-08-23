@@ -95,13 +95,17 @@ export class SchemaDataEngine {
 
     // Generate INSERT statements
     for (const row of data) {
-      const cols = Object.keys(row).map(k => `"${k}"`).join(', ');
-      const vals = Object.values(row).map(v => {
-        if (v === null || v === undefined) return 'NULL';
-        if (typeof v === 'number') return v;
-        if (typeof v === 'boolean') return v ? 'TRUE' : 'FALSE';
-        return `'${String(v).replace(/'/g, "''")}'`;
-      }).join(', ');
+      const cols = Object.keys(row)
+        .map((k) => `"${k}"`)
+        .join(', ');
+      const vals = Object.values(row)
+        .map((v) => {
+          if (v === null || v === undefined) return 'NULL';
+          if (typeof v === 'number') return v;
+          if (typeof v === 'boolean') return v ? 'TRUE' : 'FALSE';
+          return `'${String(v).replace(/'/g, "''")}'`;
+        })
+        .join(', ');
 
       sql += `INSERT INTO "${tableName}" (${cols}) VALUES (${vals});\n`;
     }
@@ -114,16 +118,16 @@ export class SchemaDataEngine {
    */
   public static generateCsv(rows: (string | number | boolean)[][]): string {
     return rows
-      .map(row =>
+      .map((row) =>
         row
-          .map(val => {
+          .map((val) => {
             const str = String(val ?? '');
             if (str.includes(',') || str.includes('"') || str.includes('\n')) {
               return `"${str.replace(/"/g, '""')}"`;
             }
             return str;
           })
-          .join(',')
+          .join(','),
       )
       .join('\r\n');
   }
@@ -181,7 +185,7 @@ export class SchemaDataEngine {
       if (typeof val !== 'object') return `<${name}>${this.escapeXml(String(val))}</${name}>`;
 
       if (Array.isArray(val)) {
-        return val.map(item => toXml(item, name)).join('\n');
+        return val.map((item) => toXml(item, name)).join('\n');
       }
 
       let inner = '';

@@ -20,8 +20,8 @@
  * ═══════════════════════════════════════════════════════════════════════════
  */
 
-import { AppProviders } from "./providers";
-import { Workbench } from "../shell/Workbench";
+import { AppProviders } from './providers';
+import { Workbench } from '../shell/Workbench';
 
 export default function App() {
   return (

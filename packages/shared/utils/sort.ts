@@ -51,7 +51,7 @@ export interface DashboardProject {
  */
 export function sortProjects<T extends DashboardProject = DashboardProject>(
   projects: readonly T[],
-  sortState?: SortState
+  sortState?: SortState,
 ): T[] {
   // إذا كانت المصفوفة فارغة أو تحتوي على عنصر واحد
   if (!projects || projects.length <= 1) {
@@ -69,7 +69,11 @@ export function sortProjects<T extends DashboardProject = DashboardProject>(
   if (sortBy === 'publishedAt') {
     const isProjectPublished = (p: T): boolean => {
       if (!p.isPublished) return false;
-      if (p.latestBuildVirtual && p.latestBuildVirtual.publishStatus && p.latestBuildVirtual.publishStatus !== 'PUBLISHED') {
+      if (
+        p.latestBuildVirtual &&
+        p.latestBuildVirtual.publishStatus &&
+        p.latestBuildVirtual.publishStatus !== 'PUBLISHED'
+      ) {
         return false;
       }
       return true;

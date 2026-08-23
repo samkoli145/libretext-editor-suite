@@ -114,13 +114,29 @@ export class DiagramParser {
 
       // Edge pattern: A[Label] -->|text| B(Label)
       const edgeMatch = trimmed.match(
-        /^(\w+)(?:\[([^\]]+)\]|\(([^)]+)\)|\{([^}]+)\})?\s*(-+>|-+|==+>|\.-+>)\s*\|?([^|]*)\|?\s*(\w+)(?:\[([^\]]+)\]|\(([^)]+)\)|\{([^}]+)\})?$/
+        /^(\w+)(?:\[([^\]]+)\]|\(([^)]+)\)|\{([^}]+)\})?\s*(-+>|-+|==+>|\.-+>)\s*\|?([^|]*)\|?\s*(\w+)(?:\[([^\]]+)\]|\(([^)]+)\)|\{([^}]+)\})?$/,
       );
 
       if (edgeMatch) {
-        const [, fromId, fromRect, fromRound, fromDiamond, arrow, edgeLabel, toId, toRect, toRound, toDiamond] = edgeMatch;
+        const [
+          ,
+          fromId,
+          fromRect,
+          fromRound,
+          fromDiamond,
+          arrow,
+          edgeLabel,
+          toId,
+          toRect,
+          toRound,
+          toDiamond,
+        ] = edgeMatch;
 
-        const parseShape = (rect?: string, round?: string, diamond?: string): { label: string; shape: DiagramNode['shape'] } => {
+        const parseShape = (
+          rect?: string,
+          round?: string,
+          diamond?: string,
+        ): { label: string; shape: DiagramNode['shape'] } => {
           if (diamond) return { label: diamond, shape: 'diamond' };
           if (round) return { label: round, shape: 'rounded' };
           if (rect) return { label: rect, shape: 'rect' };
@@ -131,7 +147,11 @@ export class DiagramParser {
         const toInfo = parseShape(toRect, toRound, toDiamond);
 
         if (!ast.nodes.has(fromId)) {
-          ast.nodes.set(fromId, { id: fromId, label: fromInfo.label || fromId, shape: fromInfo.shape });
+          ast.nodes.set(fromId, {
+            id: fromId,
+            label: fromInfo.label || fromId,
+            shape: fromInfo.shape,
+          });
         }
         if (!ast.nodes.has(toId)) {
           ast.nodes.set(toId, { id: toId, label: toInfo.label || toId, shape: toInfo.shape });
@@ -154,9 +174,16 @@ export class DiagramParser {
         const [, nodeId, rect, round, diamond] = singleNodeMatch;
         let shape: DiagramNode['shape'] = 'rect';
         let label = nodeId;
-        if (diamond) { shape = 'diamond'; label = diamond; }
-        else if (round) { shape = 'rounded'; label = round; }
-        else if (rect) { shape = 'rect'; label = rect; }
+        if (diamond) {
+          shape = 'diamond';
+          label = diamond;
+        } else if (round) {
+          shape = 'rounded';
+          label = round;
+        } else if (rect) {
+          shape = 'rect';
+          label = rect;
+        }
 
         if (!ast.nodes.has(nodeId)) {
           ast.nodes.set(nodeId, { id: nodeId, label, shape });
@@ -187,7 +214,13 @@ export class DiagramParser {
     const lines = code.split('\n');
     for (const line of lines) {
       const trimmed = line.trim();
-      if (!trimmed || trimmed.startsWith('%%') || trimmed.startsWith('//') || /^sequenceDiagram/i.test(trimmed)) continue;
+      if (
+        !trimmed ||
+        trimmed.startsWith('%%') ||
+        trimmed.startsWith('//') ||
+        /^sequenceDiagram/i.test(trimmed)
+      )
+        continue;
 
       const partMatch = trimmed.match(/^(participant|actor)\s+(\w+)(?:\s+as\s+(.+))?$/i);
       if (partMatch) {
@@ -377,7 +410,8 @@ export class DiagramLayout {
       };
     });
 
-    const totalWidth = startX * 2 + Math.max(ast.participants.length - 1, 1) * participantGap + participantWidth;
+    const totalWidth =
+      startX * 2 + Math.max(ast.participants.length - 1, 1) * participantGap + participantWidth;
     const totalHeight = startY + 110 + ast.messages.length * messageGap;
 
     return {
@@ -399,7 +433,11 @@ export class DiagramRenderer {
     return this.renderFlowchart(layoutData);
   }
 
-  private renderFlowchart(layout: { nodes: LayoutNode[]; edges: DiagramEdge[]; isHorizontal?: boolean }): string {
+  private renderFlowchart(layout: {
+    nodes: LayoutNode[];
+    edges: DiagramEdge[];
+    isHorizontal?: boolean;
+  }): string {
     if (!layout.nodes || layout.nodes.length === 0) {
       return `<svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg"><text x="100" y="50" text-anchor="middle" fill="#64748b" font-size="12">لا توجد عناصر لعرض المخطط</text></svg>`;
     }
@@ -467,7 +505,12 @@ export class DiagramRenderer {
       <text x="${x + width / 2}" y="${y + height / 2 + 4}" text-anchor="middle" fill="${textFill}" font-family="sans-serif" font-weight="600" font-size="12">${this.escapeXml(label)}</text>`;
   }
 
-  private renderEdge(from: LayoutNode, to: LayoutNode, edge: DiagramEdge, isHorizontal?: boolean): string {
+  private renderEdge(
+    from: LayoutNode,
+    to: LayoutNode,
+    edge: DiagramEdge,
+    isHorizontal?: boolean,
+  ): string {
     let x1 = from.x + from.width / 2;
     let y1 = from.y + from.height / 2;
     let x2 = to.x + to.width / 2;
@@ -491,7 +534,12 @@ export class DiagramRenderer {
       path = `M ${x1} ${y1} C ${x1} ${y1 + dy * 0.5}, ${x2} ${y2 - dy * 0.5}, ${x2} ${y2}`;
     }
 
-    const dash = edge.type === 'dashed' ? 'stroke-dasharray="5,4"' : edge.type === 'dotted' ? 'stroke-dasharray="2,3"' : '';
+    const dash =
+      edge.type === 'dashed'
+        ? 'stroke-dasharray="5,4"'
+        : edge.type === 'dotted'
+          ? 'stroke-dasharray="2,3"'
+          : '';
 
     let svg = `<path d="${path}" fill="none" stroke="#2563eb" stroke-width="1.5" marker-end="url(#light-arrow)" ${dash}/>`;
 
@@ -505,7 +553,12 @@ export class DiagramRenderer {
     return svg;
   }
 
-  private renderSequence(layout: { participants: any[]; messages: any[]; width: number; height: number }): string {
+  private renderSequence(layout: {
+    participants: any[];
+    messages: any[];
+    width: number;
+    height: number;
+  }): string {
     const { participants, messages, width, height } = layout;
 
     let svg = `<svg viewBox="0 0 ${width} ${height}" class="w-full h-auto max-w-full" xmlns="http://www.w3.org/2000/svg" style="background: #ffffff; border-radius: 8px; border: 1px solid #e2e8f0;">`;

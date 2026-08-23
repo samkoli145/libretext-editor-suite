@@ -26,16 +26,17 @@ import {
 // ─── Mock Event Target ───
 
 function createMockTarget() {
-  const listeners: Record<string, Array<{ fn: Function; opts: any }>> = {};
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const listeners: Record<string, Array<{ fn: (...args: any[]) => void; opts: any }>> = {};
   return {
     listeners,
-    addEventListener(type: string, fn: Function, opts?: any) {
+    addEventListener(type: string, fn: (...args: unknown[]) => void, opts?: unknown) {
       if (!listeners[type]) listeners[type] = [];
       listeners[type].push({ fn, opts });
     },
-    removeEventListener(type: string, fn: Function, _opts?: any) {
+    removeEventListener(type: string, fn: (...args: unknown[]) => void, _opts?: unknown) {
       if (listeners[type]) {
-        listeners[type] = listeners[type].filter(l => l.fn !== fn);
+        listeners[type] = listeners[type].filter((l) => l.fn !== fn);
       }
     },
     emit(type: string) {

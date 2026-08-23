@@ -118,7 +118,7 @@ const MIME_TO_DOCUMENT: Readonly<Record<string, DocumentType>> = {
 export function detectDocumentType(
   fileName: string,
   mimeType?: string,
-  contentSample?: string
+  contentSample?: string,
 ): FileDetectionResult {
   if (!fileName || fileName.trim().length === 0) {
     return createDefaultResult('', mimeType);
@@ -154,7 +154,12 @@ function detectSpecialExtension(fileName: string): FileDetectionResult | null {
   const lowerName = fileName.toLowerCase();
   for (const [specialExt, docType] of Object.entries(SPECIAL_EXTENSIONS)) {
     if (lowerName.endsWith(specialExt)) {
-      return { type: docType, extension: specialExt, mimeType: 'application/json', confidence: 0.95 };
+      return {
+        type: docType,
+        extension: specialExt,
+        mimeType: 'application/json',
+        confidence: 0.95,
+      };
     }
   }
   return null;
@@ -164,21 +169,35 @@ function detectByMimeType(mime: string, fileName: string): FileDetectionResult |
   const normalizedMime = mime.toLowerCase().trim();
   const docType = MIME_TO_DOCUMENT[normalizedMime];
   if (!docType) return null;
-  return { type: docType, extension: extractExtension(fileName), mimeType: normalizedMime, confidence: 0.9 };
+  return {
+    type: docType,
+    extension: extractExtension(fileName),
+    mimeType: normalizedMime,
+    confidence: 0.9,
+  };
 }
 
 function detectByExtension(extension: string, mimeType?: string): FileDetectionResult | null {
   if (!extension) return null;
   const docType = EXTENSION_TO_DOCUMENT[extension];
   if (!docType) return null;
-  return { type: docType, extension, mimeType: mimeType ?? getMimeTypeForExtension(extension), confidence: 0.8 };
+  return {
+    type: docType,
+    extension,
+    mimeType: mimeType ?? getMimeTypeForExtension(extension),
+    confidence: 0.8,
+  };
 }
 
 function detectByContent(content: string, extension: string): FileDetectionResult | null {
   const trimmed = content.trim();
   if (trimmed.length === 0) return null;
 
-  if (trimmed.startsWith('<!DOCTYPE html') || trimmed.startsWith('<!doctype html') || trimmed.startsWith('<html')) {
+  if (
+    trimmed.startsWith('<!DOCTYPE html') ||
+    trimmed.startsWith('<!doctype html') ||
+    trimmed.startsWith('<html')
+  ) {
     return { type: 'rich-text', extension: 'html', mimeType: 'text/html', confidence: 0.85 };
   }
 
@@ -197,19 +216,37 @@ function detectByContent(content: string, extension: string): FileDetectionResul
   return null;
 }
 
-function detectJsonDocumentType(jsonContent: string, extension: string): FileDetectionResult | null {
+function detectJsonDocumentType(
+  jsonContent: string,
+  extension: string,
+): FileDetectionResult | null {
   try {
     const parsed: unknown = JSON.parse(jsonContent);
     if (typeof parsed !== 'object' || parsed === null) return null;
 
     const record = parsed as Record<string, unknown>;
     if (record.type === 'canvas' || record.type === 'canvas-design') {
-      return { type: 'canvas', extension: 'canvas.json', mimeType: 'application/json', confidence: 0.9 };
+      return {
+        type: 'canvas',
+        extension: 'canvas.json',
+        mimeType: 'application/json',
+        confidence: 0.9,
+      };
     }
     if (record.type === 'ui-page' || record.type === 'ui-design') {
-      return { type: 'ui-page', extension: 'ui.json', mimeType: 'application/json', confidence: 0.9 };
+      return {
+        type: 'ui-page',
+        extension: 'ui.json',
+        mimeType: 'application/json',
+        confidence: 0.9,
+      };
     }
-    return { type: 'rich-text', extension: extension || 'json', mimeType: 'application/json', confidence: 0.6 };
+    return {
+      type: 'rich-text',
+      extension: extension || 'json',
+      mimeType: 'application/json',
+      confidence: 0.6,
+    };
   } catch {
     return null;
   }
@@ -217,9 +254,14 @@ function detectJsonDocumentType(jsonContent: string, extension: string): FileDet
 
 function isMarkdownContent(content: string): boolean {
   const markdownPatterns: RegExp[] = [
-    /^#{1,6}\s+.+$/m, /^\*\*[^*]+\*\*$/m, /^\*[^*]+\*$/m,
-    /^\[.+\]\(.+\)$/m, /^```/m, /^[-*+]\s+.+$/m,
-    /^\d+\.\s+.+$/m, /^>\s+.+$/m,
+    /^#{1,6}\s+.+$/m,
+    /^\*\*[^*]+\*\*$/m,
+    /^\*[^*]+\*$/m,
+    /^\[.+\]\(.+\)$/m,
+    /^```/m,
+    /^[-*+]\s+.+$/m,
+    /^\d+\.\s+.+$/m,
+    /^>\s+.+$/m,
   ];
   let matchCount = 0;
   for (const pattern of markdownPatterns) {
@@ -241,11 +283,25 @@ function extractExtension(fileName: string): string {
 
 function getMimeTypeForExtension(extension: string): string {
   const mimeMap: Readonly<Record<string, string>> = {
-    html: 'text/html', htm: 'text/html', md: 'text/markdown', markdown: 'text/markdown',
-    txt: 'text/plain', csv: 'text/csv', tsv: 'text/tab-separated-values',
-    pdf: 'application/pdf', png: 'image/png', jpg: 'image/jpeg', jpeg: 'image/jpeg',
-    webp: 'image/webp', avif: 'image/avif', gif: 'image/gif', bmp: 'image/bmp',
-    ico: 'image/x-icon', tiff: 'image/tiff', tif: 'image/tiff', svg: 'image/svg+xml',
+    html: 'text/html',
+    htm: 'text/html',
+    md: 'text/markdown',
+    markdown: 'text/markdown',
+    txt: 'text/plain',
+    csv: 'text/csv',
+    tsv: 'text/tab-separated-values',
+    pdf: 'application/pdf',
+    png: 'image/png',
+    jpg: 'image/jpeg',
+    jpeg: 'image/jpeg',
+    webp: 'image/webp',
+    avif: 'image/avif',
+    gif: 'image/gif',
+    bmp: 'image/bmp',
+    ico: 'image/x-icon',
+    tiff: 'image/tiff',
+    tif: 'image/tiff',
+    svg: 'image/svg+xml',
     json: 'application/json',
     docx: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
     odt: 'application/vnd.oasis.opendocument.text',

@@ -55,7 +55,7 @@ export const CodeEditorToolingProfile: ElementToolingProfile = {
  */
 export function createCodeEditorBlock(
   id: string,
-  data: Partial<CodeEditorData> = {}
+  data: Partial<CodeEditorData> = {},
 ): CodeEditorBlock {
   return {
     id,

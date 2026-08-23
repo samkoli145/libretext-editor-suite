@@ -41,10 +41,7 @@ export interface ShortcutHandlers {
   onCustomShortcut?: (key: string, e: KeyboardEvent) => void;
 }
 
-export function useKeyboardShortcuts(
-  handlers: ShortcutHandlers,
-  enabled = true
-) {
+export function useKeyboardShortcuts(handlers: ShortcutHandlers, enabled = true) {
   const handleKeyDown = useCallback(
     (e: KeyboardEvent) => {
       if (!enabled) return;
@@ -118,7 +115,7 @@ export function useKeyboardShortcuts(
 
       handlers.onCustomShortcut?.(e.key, e);
     },
-    [handlers, enabled]
+    [handlers, enabled],
   );
 
   useEffect(() => {

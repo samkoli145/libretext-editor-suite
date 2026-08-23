@@ -87,20 +87,25 @@ interface RegisteredEntry {
 
 const registry: RegisteredEntry[] = [];
 
-function register(targetType: string, items: ContextMenuItem[], predicate?: MenuItemPredicate): void {
+function register(
+  targetType: string,
+  items: ContextMenuItem[],
+  predicate?: MenuItemPredicate,
+): void {
   registry.push({ targetType, items, predicate });
 }
 
 function findMatchingEntries(target: ContextMenuTarget): RegisteredEntry[] {
-  return registry.filter(e =>
-    e.targetType === '*' || e.targetType === target.targetType
-  );
+  return registry.filter((e) => e.targetType === '*' || e.targetType === target.targetType);
 }
 
-function resolveVisibility(items: readonly ContextMenuItem[], target: ContextMenuTarget): ContextMenuItem[] {
+function resolveVisibility(
+  items: readonly ContextMenuItem[],
+  target: ContextMenuTarget,
+): ContextMenuItem[] {
   return items
-    .filter(item => item.visible === undefined || item.visible)
-    .map(item => ({
+    .filter((item) => item.visible === undefined || item.visible)
+    .map((item) => ({
       ...item,
       disabled: item.disabled,
       children: item.children ? resolveVisibility(item.children, target) : undefined,
@@ -128,7 +133,12 @@ function sanitizeSeparators(items: ContextMenuItem[]): ContextMenuItem[] {
   return result;
 }
 
-function detectScreenEdge(x: number, y: number, width: number, height: number): { adjustX: boolean; adjustY: boolean } {
+function detectScreenEdge(
+  x: number,
+  y: number,
+  width: number,
+  height: number,
+): { adjustX: boolean; adjustY: boolean } {
   const MENU_ESTIMATED_WIDTH = 220;
   const MENU_ESTIMATED_HEIGHT = 280;
   return {
@@ -169,15 +179,15 @@ export function clearRegistry(): void {
 }
 
 function getSelectableItems(items: readonly ContextMenuItem[]): ContextMenuItem[] {
-  return items.filter(item =>
-    !item.separator && !item.disabled && typeof item.action === 'function'
+  return items.filter(
+    (item) => !item.separator && !item.disabled && typeof item.action === 'function',
   );
 }
 
 function navigateFocus(
   items: readonly ContextMenuItem[],
   current: number,
-  direction: 'up' | 'down'
+  direction: 'up' | 'down',
 ): number {
   const selectable = getSelectableItems(items);
   if (selectable.length === 0) return -1;
@@ -197,20 +207,53 @@ function buildEditableFieldItems(actions: {
 }): ContextMenuItem[] {
   const items: ContextMenuItem[] = [];
   if (actions.onCut) {
-    items.push({ id: 'cut', label: 'Cut', labelAr: 'قص', shortcut: 'Ctrl+X', disabled: !actions.hasSelection, action: actions.onCut });
+    items.push({
+      id: 'cut',
+      label: 'Cut',
+      labelAr: 'قص',
+      shortcut: 'Ctrl+X',
+      disabled: !actions.hasSelection,
+      action: actions.onCut,
+    });
   }
   if (actions.onCopy) {
-    items.push({ id: 'copy', label: 'Copy', labelAr: 'نسخ', shortcut: 'Ctrl+C', disabled: !actions.hasSelection, action: actions.onCopy });
+    items.push({
+      id: 'copy',
+      label: 'Copy',
+      labelAr: 'نسخ',
+      shortcut: 'Ctrl+C',
+      disabled: !actions.hasSelection,
+      action: actions.onCopy,
+    });
   }
   if (actions.onPaste) {
-    items.push({ id: 'paste', label: 'Paste', labelAr: 'لصق', shortcut: 'Ctrl+V', action: actions.onPaste });
+    items.push({
+      id: 'paste',
+      label: 'Paste',
+      labelAr: 'لصق',
+      shortcut: 'Ctrl+V',
+      action: actions.onPaste,
+    });
   }
   items.push({ id: 'sep1', label: '', separator: true });
   if (actions.onSelectAll) {
-    items.push({ id: 'select-all', label: 'Select All', labelAr: 'تحديد الكل', shortcut: 'Ctrl+A', action: actions.onSelectAll });
+    items.push({
+      id: 'select-all',
+      label: 'Select All',
+      labelAr: 'تحديد الكل',
+      shortcut: 'Ctrl+A',
+      action: actions.onSelectAll,
+    });
   }
   if (actions.onDelete) {
-    items.push({ id: 'delete', label: 'Delete', labelAr: 'حذف', danger: true, shortcut: 'Del', action: actions.onDelete });
+    items.push({
+      id: 'delete',
+      label: 'Delete',
+      labelAr: 'حذف',
+      danger: true,
+      shortcut: 'Del',
+      action: actions.onDelete,
+    });
   }
   return items;
 }

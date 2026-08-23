@@ -35,7 +35,7 @@ export type DevStudioEventMap = {
 };
 
 export type DevStudioEventListener<K extends keyof DevStudioEventMap> = (
-  payload: DevStudioEventMap[K]
+  payload: DevStudioEventMap[K],
 ) => void;
 
 export class DevStudioEventBus {

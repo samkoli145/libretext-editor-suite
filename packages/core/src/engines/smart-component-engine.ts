@@ -24,7 +24,10 @@ export interface ResolveResult {
   readonly missing: readonly string[];
 }
 
-function findAllRequired(startIds: readonly string[], deps: ReadonlyMap<string, ComponentDependency>): string[] {
+function findAllRequired(
+  startIds: readonly string[],
+  deps: ReadonlyMap<string, ComponentDependency>,
+): string[] {
   const visited = new Set<string>();
   const queue = [...startIds];
   while (queue.length > 0) {
@@ -41,7 +44,10 @@ function findAllRequired(startIds: readonly string[], deps: ReadonlyMap<string, 
   return Array.from(visited);
 }
 
-function findConflicts(ids: readonly string[], deps: ReadonlyMap<string, ComponentDependency>): string[] {
+function findConflicts(
+  ids: readonly string[],
+  deps: ReadonlyMap<string, ComponentDependency>,
+): string[] {
   const conflicts: string[] = [];
   for (const id of ids) {
     const dep = deps.get(id);
@@ -54,15 +60,15 @@ function findConflicts(ids: readonly string[], deps: ReadonlyMap<string, Compone
 }
 
 function findMissing(ids: readonly string[], allIds: readonly string[]): string[] {
-  return ids.filter(id => !allIds.includes(id));
+  return ids.filter((id) => !allIds.includes(id));
 }
 
 export function resolveComponents(
   requestedIds: readonly string[],
   allDeps: readonly ComponentDependency[],
 ): ResolveResult {
-  const depMap = new Map(allDeps.map(d => [d.id, d]));
-  const allIds = allDeps.map(d => d.id);
+  const depMap = new Map(allDeps.map((d) => [d.id, d]));
+  const allIds = allDeps.map((d) => d.id);
   const required = findAllRequired(requestedIds, depMap);
   return {
     resolved: required,
@@ -71,6 +77,8 @@ export function resolveComponents(
   };
 }
 
-export function sortByIdWeight(deps: readonly ComponentDependency[]): readonly ComponentDependency[] {
+export function sortByIdWeight(
+  deps: readonly ComponentDependency[],
+): readonly ComponentDependency[] {
   return [...deps].sort((a, b) => b.weight - a.weight);
 }

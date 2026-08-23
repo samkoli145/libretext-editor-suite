@@ -133,7 +133,9 @@ export class LocalSnapshotStorage implements SnapshotStorage {
   remove(id: string): void {
     try {
       localStorage.removeItem(this.keyPrefix + id);
-    } catch { /* لا شيء */ }
+    } catch {
+      /* لا شيء */
+    }
   }
 
   listIds(): string[] {
@@ -143,7 +145,9 @@ export class LocalSnapshotStorage implements SnapshotStorage {
         const k = localStorage.key(i);
         if (k && k.startsWith(this.keyPrefix)) out.push(k.slice(this.keyPrefix.length));
       }
-    } catch { /* وضع خاص */ }
+    } catch {
+      /* وضع خاص */
+    }
     return out;
   }
 }
@@ -201,18 +205,14 @@ export class SnapshotEngine {
     }
     for (const p of opts.patches) {
       if (!p.inverse || typeof p.inverse !== 'object') {
-        throw new Error(
-          `[SnapshotEngine] تصحيح "${p.op}" بلا inverse — التراجع مستحيل`,
-        );
+        throw new Error(`[SnapshotEngine] تصحيح "${p.op}" بلا inverse — التراجع مستحيل`);
       }
     }
 
     // ── اشتقاق الـ inverses بالعكس ──
     // الترتيب المعكوس ليس تفصيلاً: deleteRowsAt يضع setOverrides قبل
     // deleteRows، والتراجع يجب أن يعيد الصفوف أولاً ثم تجاوزاتها.
-    const inverses = opts.patches
-      .map((p) => p.inverse as DevStudioPatch)
-      .reverse();
+    const inverses = opts.patches.map((p) => p.inverse as DevStudioPatch).reverse();
 
     // ── علم clean: غير متناظر ──
     // فقط الدكتور-الموافق عليه يحمل clean:true.
@@ -231,7 +231,7 @@ export class SnapshotEngine {
       inverses,
       doctorReport: opts.doctorReport,
       ...(opts.metadata ? { metadata: opts.metadata } : {}),
-      ...(clean ? { clean: true } : {}),  // الغياب = غير مُتحقق
+      ...(clean ? { clean: true } : {}), // الغياب = غير مُتحقق
     };
 
     // ── التسجيل ──
@@ -257,13 +257,13 @@ export class SnapshotEngine {
     label: string,
     patches: DevStudioPatch[],
     doctorReport?: DoctorReportWire,
-    metadata?: Record<string, unknown>
+    metadata?: Record<string, unknown>,
   ): Checkpoint {
     return this.capture({
       label,
       patches,
       doctorReport,
-      metadata
+      metadata,
     });
   }
 

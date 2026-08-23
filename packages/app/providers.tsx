@@ -29,7 +29,7 @@
  * ═══════════════════════════════════════════════════════════════════════════
  * موفر الخدمات والسياق العام وموفر التبويبات (TabsProvider & AppProviders)
  * لإدارة حالة المستندات المفتوحة المتعددة (Rich Text, Canvas, UI Designer, PDF).
- * 
+ *
  * التوجهات والغرض:
  * 1. موفر التبويبات `TabsProvider`:
  *    - إدارة حالة المستندات المفتوحة المتعددة وقائمتها (`openDocuments`).
@@ -39,7 +39,7 @@
  * 2. موفر الخدمات `EditorServicesContext` و `AppProviders`:
  *    - تسجيل كافة الإضافات والمحررات.
  *    - الحفظ التلقائي المحلي مع debounce وإدارة أحداث النظام.
- * 
+ *
  * الاختبارات والتحقق:
  * - فحص الوحدة والتكامل في `src/core/__tests__/ui_customization_and_shell.test.ts`.
  */
@@ -52,20 +52,20 @@ import {
   useCallback,
   useMemo,
   type ReactNode,
-} from "react";
+} from 'react';
 
-import { createEditorServices } from "../core/createEditorServices";
-import type { EditorServices } from "../core/createEditorServices";
-import { LocalForageDocumentStorage } from "../core/storage/LocalForageDocumentStorage";
-import { registerPlugins } from "./registerPlugins";
-import type { DocumentModel, DocumentType } from "../core/types";
+import { createEditorServices } from '../core/createEditorServices';
+import type { EditorServices } from '../core/createEditorServices';
+import { LocalForageDocumentStorage } from '../core/storage/LocalForageDocumentStorage';
+import { registerPlugins } from './registerPlugins';
+import type { DocumentModel, DocumentType } from '../core/types';
 import {
   DockableLayoutProvider,
   useDockableLayout,
   type DockableLayoutContextValue,
   type PanelState,
   type TopBarState,
-} from "./providers/DockableLayoutProvider";
+} from './providers/DockableLayoutProvider';
 
 export {
   DockableLayoutProvider,
@@ -83,7 +83,7 @@ export interface TabsContextValue {
   openDocuments: DocumentModel[];
   activeDocument: DocumentModel | null;
   activeDocumentId: string | null;
-  saveStatus: "idle" | "saving" | "saved";
+  saveStatus: 'idle' | 'saving' | 'saved';
   openDocument: (id: string) => void;
   closeDocument: (id: string) => void;
   createDocument: (type: DocumentType, title?: string) => DocumentModel;
@@ -103,14 +103,14 @@ export function TabsProvider({ children }: { children: ReactNode }) {
   const services = useEditorServices();
 
   const [openDocuments, setOpenDocuments] = useState<DocumentModel[]>(
-    () => services.documents.openDocumentsList
+    () => services.documents.openDocumentsList,
   );
 
   const [activeDocument, setActiveDocument] = useState<DocumentModel | null>(
-    () => services.documents.activeDocument
+    () => services.documents.activeDocument,
   );
 
-  const [saveStatus, setSaveStatus] = useState<"idle" | "saving" | "saved">("idle");
+  const [saveStatus, setSaveStatus] = useState<'idle' | 'saving' | 'saved'>('idle');
 
   // مزامنة حالة المستندات مع أحداث خدمة المستندات
   useEffect(() => {
@@ -132,15 +132,15 @@ export function TabsProvider({ children }: { children: ReactNode }) {
     };
 
     const handleSaved = () => {
-      setSaveStatus("saved");
-      const t = setTimeout(() => setSaveStatus("idle"), 2500);
+      setSaveStatus('saved');
+      const t = setTimeout(() => setSaveStatus('idle'), 2500);
       return () => clearTimeout(t);
     };
 
-    const unsubList = services.events.on("document:list-changed", handleListChanged);
-    const unsubActive = services.events.on("document:activated", handleActivated);
-    const unsubChange = services.events.on("document:changed", handleChanged);
-    const unsubSaved = services.events.on("document:saved", handleSaved);
+    const unsubList = services.events.on('document:list-changed', handleListChanged);
+    const unsubActive = services.events.on('document:activated', handleActivated);
+    const unsubChange = services.events.on('document:changed', handleChanged);
+    const unsubSaved = services.events.on('document:saved', handleSaved);
 
     return () => {
       unsubList();
@@ -154,14 +154,14 @@ export function TabsProvider({ children }: { children: ReactNode }) {
     (id: string) => {
       services.documents.setActiveDocument(id);
     },
-    [services]
+    [services],
   );
 
   const closeDocument = useCallback(
     (id: string) => {
       services.documents.closeDocument(id);
     },
-    [services]
+    [services],
   );
 
   const createDocument = useCallback(
@@ -169,7 +169,7 @@ export function TabsProvider({ children }: { children: ReactNode }) {
       const newDoc = services.documents.createDocument(type, title);
       return newDoc;
     },
-    [services]
+    [services],
   );
 
   const updateDocument = useCallback(
@@ -183,7 +183,7 @@ export function TabsProvider({ children }: { children: ReactNode }) {
         });
       }
     },
-    [services]
+    [services],
   );
 
   const reorderDocuments = useCallback(
@@ -201,9 +201,9 @@ export function TabsProvider({ children }: { children: ReactNode }) {
       list.splice(destinationIndex, 0, moved);
       // تحديث القائمة المفتوحة محلياً في الخدمة
       (services.documents as unknown as { openDocuments: DocumentModel[] }).openDocuments = list;
-      services.events.emit("document:list-changed", list);
+      services.events.emit('document:list-changed', list);
     },
-    [services]
+    [services],
   );
 
   const nextTab = useCallback(() => {
@@ -226,13 +226,13 @@ export function TabsProvider({ children }: { children: ReactNode }) {
     const active = services.documents.activeDocument;
     if (!active) return;
     try {
-      setSaveStatus("saving");
+      setSaveStatus('saving');
       await services.documents.saveDocument(active.id);
-      setSaveStatus("saved");
-      setTimeout(() => setSaveStatus("idle"), 2500);
+      setSaveStatus('saved');
+      setTimeout(() => setSaveStatus('idle'), 2500);
     } catch (err) {
-      console.error("[TabsProvider] Save failed:", err);
-      setSaveStatus("idle");
+      console.error('[TabsProvider] Save failed:', err);
+      setSaveStatus('idle');
     }
   }, [services]);
 
@@ -263,7 +263,7 @@ export function TabsProvider({ children }: { children: ReactNode }) {
       nextTab,
       previousTab,
       saveActiveDocument,
-    ]
+    ],
   );
 
   return <TabsContext.Provider value={contextValue}>{children}</TabsContext.Provider>;
@@ -275,7 +275,7 @@ export function TabsProvider({ children }: { children: ReactNode }) {
 export function useTabs(): TabsContextValue {
   const context = useContext(TabsContext);
   if (!context) {
-    throw new Error("useTabs must be used inside a TabsProvider");
+    throw new Error('useTabs must be used inside a TabsProvider');
   }
   return context;
 }
@@ -285,7 +285,7 @@ export function AppProviders({ children }: { children: ReactNode }) {
   const [services] = useState(() =>
     createEditorServices({
       storage: new LocalForageDocumentStorage(),
-    })
+    }),
   );
 
   /**
@@ -300,11 +300,11 @@ export function AppProviders({ children }: { children: ReactNode }) {
           services.documents.openStoredDocument(stored[0].id);
         } else {
           // فتح مححر مكونات HTML والواجهات كأول محرر رئيسي، متبوعاً بباقي المحررات
-          services.documents.createDocument("html-component" as any, "محرر مكونات HTML والواجهات");
-          services.documents.createDocument("rich-text", "محرر المستندات والنصوص (DOCX)");
-          services.documents.createDocument("canvas", "لوحة الكانفا والكتل التدفقية");
-          services.documents.createDocument("ui-page", "مصمم واجهات الاستخدام (UI)");
-          services.documents.createDocument("pdf", "عارض ومعدل مستندات PDF");
+          services.documents.createDocument('html-component' as any, 'محرر مكونات HTML والواجهات');
+          services.documents.createDocument('rich-text', 'محرر المستندات والنصوص (DOCX)');
+          services.documents.createDocument('canvas', 'لوحة الكانفا والكتل التدفقية');
+          services.documents.createDocument('ui-page', 'مصمم واجهات الاستخدام (UI)');
+          services.documents.createDocument('pdf', 'عارض ومعدل مستندات PDF');
 
           // تفعيل أول مستند
           const list = services.documents.openDocumentsList;
@@ -322,33 +322,30 @@ export function AppProviders({ children }: { children: ReactNode }) {
   useEffect(() => {
     const timers = new Map<string, ReturnType<typeof setTimeout>>();
 
-    const unsubscribe = services.events.on<DocumentModel>(
-      "document:changed",
-      (document) => {
-        if (!document?.id) {
-          return;
-        }
-
-        const existingTimer = timers.get(document.id);
-
-        if (existingTimer) {
-          clearTimeout(existingTimer);
-        }
-
-        const timer = setTimeout(() => {
-          services.documents
-            .saveDocument(document.id)
-            .catch((error) => {
-              console.error("[AppProviders] Autosave failed", error);
-            })
-            .finally(() => {
-              timers.delete(document.id);
-            });
-        }, 800);
-
-        timers.set(document.id, timer);
+    const unsubscribe = services.events.on<DocumentModel>('document:changed', (document) => {
+      if (!document?.id) {
+        return;
       }
-    );
+
+      const existingTimer = timers.get(document.id);
+
+      if (existingTimer) {
+        clearTimeout(existingTimer);
+      }
+
+      const timer = setTimeout(() => {
+        services.documents
+          .saveDocument(document.id)
+          .catch((error) => {
+            console.error('[AppProviders] Autosave failed', error);
+          })
+          .finally(() => {
+            timers.delete(document.id);
+          });
+      }, 800);
+
+      timers.set(document.id, timer);
+    });
 
     return () => {
       unsubscribe();
@@ -382,7 +379,7 @@ export function useEditorServices(): EditorServices {
   const context = useContext(EditorServicesContext);
 
   if (!context) {
-    throw new Error("useEditorServices must be used inside AppProviders");
+    throw new Error('useEditorServices must be used inside AppProviders');
   }
 
   return context;

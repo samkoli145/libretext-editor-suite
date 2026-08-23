@@ -46,9 +46,7 @@ export function TransformHandles({
     'absolute w-2.5 h-2.5 bg-white border-2 border-blue-600 rounded-2xs shadow-2xs hover:scale-125 transition-transform z-30 pointer-events-auto';
 
   return (
-    <div
-      className="absolute inset-0 w-full h-full border-2 border-blue-500 pointer-events-none z-20"
-    >
+    <div className="absolute inset-0 w-full h-full border-2 border-blue-500 pointer-events-none z-20">
       {/* 8-Point Resize Handles */}
       {/* Top Left */}
       <div

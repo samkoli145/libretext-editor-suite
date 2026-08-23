@@ -119,7 +119,8 @@ export const findVariableUsagesByInstance = (params: {
     // التحقق مما إذا كان المحتوى أو الأنماط أو الخصائص تشير للمتغير
     for (const ds of params.dataSources) {
       const mentionsVariable =
-        (element.content && (element.content.includes(ds.name) || element.content.includes(ds.id))) ||
+        (element.content &&
+          (element.content.includes(ds.name) || element.content.includes(ds.id))) ||
         (element.name && element.name.includes(ds.name)) ||
         (element.styles?.customClasses && element.styles.customClasses.includes(ds.name)) ||
         (element.props && JSON.stringify(element.props).includes(ds.name));
@@ -200,7 +201,7 @@ export const computeDataVariableOptions = (params: {
  */
 export const deleteDataVariable = (
   variableId: string,
-  dataSources: DataSourceVariable[] = defaultDataSources
+  dataSources: DataSourceVariable[] = defaultDataSources,
 ): DataSourceVariable[] => {
   return dataSources.filter((ds) => ds.id !== variableId);
 };
@@ -211,7 +212,7 @@ export const deleteDataVariable = (
 export const renameDataVariable = (
   variableId: string,
   newName: string,
-  dataSources: DataSourceVariable[] = defaultDataSources
+  dataSources: DataSourceVariable[] = defaultDataSources,
 ): DataSourceVariable[] => {
   return dataSources.map((ds) => {
     if (ds.id === variableId) {

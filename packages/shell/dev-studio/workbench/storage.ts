@@ -21,9 +21,7 @@ const memoryStore: Record<string, string> = {};
 /** قراءة JSON آمنة من localStorage أو الذاكرة البديلة */
 export function lsJson<T>(key: string, fallback: T): T {
   try {
-    const raw = typeof localStorage !== 'undefined'
-      ? localStorage.getItem(key)
-      : memoryStore[key];
+    const raw = typeof localStorage !== 'undefined' ? localStorage.getItem(key) : memoryStore[key];
     if (raw === null || raw === undefined) return fallback;
     return JSON.parse(raw) as T;
   } catch {

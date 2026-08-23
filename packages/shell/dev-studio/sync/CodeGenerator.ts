@@ -52,17 +52,17 @@ import { addFilePatch } from '../tree/FileOperations';
  */
 export interface FileSpec {
   /** المسار الكامل */
-  path: string
+  path: string;
   /** اسم الملف بدون امتداد */
-  name: string
+  name: string;
   /** الملخص التوجيهي بالعربية */
-  summaryAr: string
+  summaryAr: string;
   /** جسم الكود */
-  body: string
+  body: string;
   /** التنبيهات المعمارية (additive) */
-  warnings?: string[]
+  warnings?: string[];
   /** توجيهات الخوارزميات (additive) */
-  algorithmNotes?: string
+  algorithmNotes?: string;
 }
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -84,7 +84,7 @@ export function renderHeader(spec: FileSpec): string {
   if (!spec.summaryAr || !spec.summaryAr.trim()) {
     throw new Error(
       `[CodeGenerator] file "${spec.path}" has no Arabic summary — ` +
-      `a file without a guiding summary violates the covenant`,
+        `a file without a guiding summary violates the covenant`,
     );
   }
   if (!spec.name || !spec.name.trim()) {
@@ -170,10 +170,7 @@ export function generateFileContent(spec: FileSpec): string {
  * ⚠️ مصنع تصحيحات، لا محرر. يعيد patch يمر عبر خط الأنابيب.
  * الرفض بصوت عالٍ إذا كان الملف موجوداً مسبقاً.
  */
-export function generateFilePatch(
-  project: ProjectSurface,
-  spec: FileSpec,
-): DevStudioPatch {
+export function generateFilePatch(project: ProjectSurface, spec: FileSpec): DevStudioPatch {
   const content = generateFileContent(spec);
   const header: FileHeader = {
     summaryAr: spec.summaryAr,
@@ -200,7 +197,7 @@ export function componentTemplate(name: string, summaryAr: string): FileSpec {
   if (!isValidComponentName(name)) {
     throw new Error(
       `[CodeGenerator] invalid component name "${name}" — ` +
-      `must start with uppercase letter and contain only letters/digits`,
+        `must start with uppercase letter and contain only letters/digits`,
     );
   }
 
@@ -332,4 +329,3 @@ export const _codeGenInternals = {
   isValidComponentName,
   kebabCase,
 };
-

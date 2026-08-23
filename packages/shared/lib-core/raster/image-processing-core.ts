@@ -63,7 +63,7 @@ export function loadImageSafely(src: string): Promise<HTMLImageElement> {
  */
 export async function applyImageFilters(
   imageSrc: string,
-  filters: ImageFilterOptions
+  filters: ImageFilterOptions,
 ): Promise<string> {
   try {
     const img = await loadImageSafely(imageSrc);
@@ -162,17 +162,7 @@ export async function cropImage(imageSrc: string, cropRect: CropRect): Promise<s
     canvas.width = safeW;
     canvas.height = safeH;
 
-    ctx.drawImage(
-      img,
-      cropRect.x,
-      cropRect.y,
-      safeW,
-      safeH,
-      0,
-      0,
-      safeW,
-      safeH
-    );
+    ctx.drawImage(img, cropRect.x, cropRect.y, safeW, safeH, 0, 0, safeW, safeH);
 
     return canvas.toDataURL('image/png');
   } catch (err) {

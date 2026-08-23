@@ -11,7 +11,9 @@ describe('CORE-ENG-013: MouseCommandRegistry', () => {
   it('register and execute', () => {
     const registry = createMouseCommandRegistry();
     let called = false;
-    registry.register('scale', 'Scale', 'transform', () => { called = true; });
+    registry.register('scale', 'Scale', 'transform', () => {
+      called = true;
+    });
     expect(registry.execute('scale', {})).toBe(true);
     expect(called).toBe(true);
   });
@@ -40,9 +42,11 @@ describe('CORE-ENG-013: MouseCommandRegistry', () => {
 
   it('handles async handler errors gracefully', async () => {
     const registry = createMouseCommandRegistry();
-    registry.register('fail', 'Fail', 'test', async () => { throw new Error('boom'); });
+    registry.register('fail', 'Fail', 'test', async () => {
+      throw new Error('boom');
+    });
     expect(registry.execute('fail', {})).toBe(true);
-    await new Promise(r => setTimeout(r, 10));
+    await new Promise((r) => setTimeout(r, 10));
   });
 
   it('clear empties registry', () => {

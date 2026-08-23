@@ -23,19 +23,12 @@
  * ═══════════════════════════════════════════════════════════════════════════
  */
 
-import type { ComponentType } from "react";
-import type { EventBus } from "../events/EventBus";
-import type { DocumentModel, DocumentType } from "../types";
+import type { ComponentType } from 'react';
+import type { EventBus } from '../events/EventBus';
+import type { DocumentModel, DocumentType } from '../types';
 
 export type ContributionPoint =
-  | "command"
-  | "menu"
-  | "toolbar"
-  | "panel"
-  | "shortcut"
-  | "context-menu"
-  | "exporter"
-  | "importer";
+  'command' | 'menu' | 'toolbar' | 'panel' | 'shortcut' | 'context-menu' | 'exporter' | 'importer';
 
 export interface BaseContribution {
   id: string;
@@ -47,42 +40,42 @@ export interface BaseContribution {
 }
 
 export interface CommandContribution extends BaseContribution {
-  point: "command";
+  point: 'command';
   commandId: string;
 }
 
 export interface MenuContribution extends BaseContribution {
-  point: "menu";
+  point: 'menu';
   label: string;
   commandId?: string;
-  location?: "file" | "edit" | "insert" | "format" | "view" | "help" | string;
+  location?: 'file' | 'edit' | 'insert' | 'format' | 'view' | 'help' | string;
   group?: string;
   icon?: string;
 }
 
 export interface ToolbarContribution extends BaseContribution {
-  point: "toolbar";
+  point: 'toolbar';
   commandId?: string;
   label?: string;
   icon?: string;
-  location?: "top" | "left" | "right" | "bottom" | string;
+  location?: 'top' | 'left' | 'right' | 'bottom' | string;
 }
 
 export interface PanelContribution extends BaseContribution {
-  point: "panel";
+  point: 'panel';
   title: string;
-  location?: "left" | "right" | "bottom" | string;
+  location?: 'left' | 'right' | 'bottom' | string;
   render: ComponentType<any>;
 }
 
 export interface ShortcutContribution extends BaseContribution {
-  point: "shortcut";
+  point: 'shortcut';
   commandId: string;
   key: string;
 }
 
 export interface ContextMenuContribution extends BaseContribution {
-  point: "context-menu";
+  point: 'context-menu';
   label: string;
   commandId?: string;
   group?: string;
@@ -90,7 +83,7 @@ export interface ContextMenuContribution extends BaseContribution {
 }
 
 export interface ExporterContribution extends BaseContribution {
-  point: "exporter";
+  point: 'exporter';
   label: string;
   documentTypes: DocumentType[];
 
@@ -98,7 +91,7 @@ export interface ExporterContribution extends BaseContribution {
 }
 
 export interface ImporterContribution extends BaseContribution {
-  point: "importer";
+  point: 'importer';
   label: string;
   accept: readonly string[];
 
@@ -116,8 +109,8 @@ export type Contribution =
   | ImporterContribution;
 
 export const ContributionEvents = {
-  registered: "contribution:registered",
-  unregistered: "contribution:unregistered",
+  registered: 'contribution:registered',
+  unregistered: 'contribution:unregistered',
 } as const;
 
 export class ContributionRegistry {
@@ -128,7 +121,7 @@ export class ContributionRegistry {
   public register(contribution: Contribution): () => void {
     if (this.contributions.has(contribution.id)) {
       console.warn(
-        `[ContributionRegistry] Contribution already registered: "${contribution.id}". It will be replaced.`
+        `[ContributionRegistry] Contribution already registered: "${contribution.id}". It will be replaced.`,
       );
     }
 
@@ -153,9 +146,7 @@ export class ContributionRegistry {
     return existed;
   }
 
-  public get<T extends Contribution = Contribution>(
-    contributionId: string
-  ): T | undefined {
+  public get<T extends Contribution = Contribution>(contributionId: string): T | undefined {
     return this.contributions.get(contributionId) as T | undefined;
   }
 
@@ -163,9 +154,7 @@ export class ContributionRegistry {
     return Array.from(this.contributions.values());
   }
 
-  public getByPoint<T extends Contribution = Contribution>(
-    point: ContributionPoint
-  ): T[] {
+  public getByPoint<T extends Contribution = Contribution>(point: ContributionPoint): T[] {
     return Array.from(this.contributions.values())
       .filter((contribution) => contribution.point === point)
       .sort((a, b) => (b.priority ?? 0) - (a.priority ?? 0)) as T[];
@@ -173,7 +162,7 @@ export class ContributionRegistry {
 
   public getByPlugin(pluginId: string): Contribution[] {
     return Array.from(this.contributions.values()).filter(
-      (contribution) => contribution.pluginId === pluginId
+      (contribution) => contribution.pluginId === pluginId,
     );
   }
 

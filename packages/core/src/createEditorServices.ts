@@ -23,15 +23,15 @@
  * ═══════════════════════════════════════════════════════════════════════════
  */
 
-import { EventBus } from "./events/EventBus";
-import { CommandRegistry } from "./commands/CommandRegistry";
-import { ContributionRegistry } from "./contributions/ContributionRegistry";
-import { DocumentManager } from "./documents/DocumentManager";
-import type { DocumentStorage } from "./documents/DocumentManager";
-import { IndexedDBDocumentStorage } from "../storage/IndexedDBDocumentStorage";
-import { PluginRegistry } from "./plugins/PluginRegistry";
-import { createPluginContext } from "./plugins/PluginContext";
-import type { PluginContext } from "./plugins/PluginContext";
+import { EventBus } from './events/EventBus';
+import { CommandRegistry } from './commands/CommandRegistry';
+import { ContributionRegistry } from './contributions/ContributionRegistry';
+import { DocumentManager } from './documents/DocumentManager';
+import type { DocumentStorage } from './documents/DocumentManager';
+import { IndexedDBDocumentStorage } from '../storage/IndexedDBDocumentStorage';
+import { PluginRegistry } from './plugins/PluginRegistry';
+import { createPluginContext } from './plugins/PluginContext';
+import type { PluginContext } from './plugins/PluginContext';
 
 export interface EditorServices {
   events: EventBus;
@@ -47,9 +47,7 @@ export interface CreateEditorServicesOptions {
   storage?: DocumentStorage;
 }
 
-export function createEditorServices(
-  options?: CreateEditorServicesOptions
-): EditorServices {
+export function createEditorServices(options?: CreateEditorServicesOptions): EditorServices {
   const events = new EventBus();
   const commands = CommandRegistry.getInstance(events);
   const contributions = new ContributionRegistry(events);
@@ -77,7 +75,7 @@ export function createEditorServices(
           contributions,
           documents,
         },
-        pluginId
+        pluginId,
       );
     },
   };

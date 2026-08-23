@@ -24,7 +24,10 @@
  */
 
 import { useState, useRef, useCallback } from 'react';
-import { SnapAlignEngine, type SnapLine } from '../../../shared/lib-core/geometry/snap-align-engine';
+import {
+  SnapAlignEngine,
+  type SnapLine,
+} from '../../../shared/lib-core/geometry/snap-align-engine';
 import type { RectBounds } from '../../../shared/lib-core/geometry/bounding-box';
 
 export interface DragItem {
@@ -49,16 +52,15 @@ export function useCanvasDragResize(canvasWidth: number, canvasHeight: number) {
     (
       currentPos: { x: number; y: number; width: number; height: number },
       allItems: DragItem[],
-      selectedIds: string[]
+      selectedIds: string[],
     ) => {
       // Exclude selected items from snap candidates
-      const otherItems = allItems.filter(item => !selectedIds.includes(item.id));
-      
-      const snapResult = snapEngineRef.current.calculateSnap(
-        currentPos,
-        otherItems,
-        { width: canvasWidth, height: canvasHeight }
-      );
+      const otherItems = allItems.filter((item) => !selectedIds.includes(item.id));
+
+      const snapResult = snapEngineRef.current.calculateSnap(currentPos, otherItems, {
+        width: canvasWidth,
+        height: canvasHeight,
+      });
 
       setActiveGuides(snapResult.activeGuides);
 
@@ -68,7 +70,7 @@ export function useCanvasDragResize(canvasWidth: number, canvasHeight: number) {
         snapped: snapResult.snappedX || snapResult.snappedY,
       };
     },
-    [canvasWidth, canvasHeight]
+    [canvasWidth, canvasHeight],
   );
 
   const endDrag = useCallback(() => {

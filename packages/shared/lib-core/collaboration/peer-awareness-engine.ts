@@ -28,22 +28,22 @@
  */
 
 export interface RemotePeer {
-  id: string
-  name: string
-  color: string
-  cursor?: { x: number; y: number }
-  activeSlideId?: string
-  selectedElementIds?: string[]
-  editingElementId?: string
-  lastActiveMs: number
+  id: string;
+  name: string;
+  color: string;
+  cursor?: { x: number; y: number };
+  activeSlideId?: string;
+  selectedElementIds?: string[];
+  editingElementId?: string;
+  lastActiveMs: number;
 }
 
-export type PeerListener = (peers: RemotePeer[]) => void
+export type PeerListener = (peers: RemotePeer[]) => void;
 
 export class PeerAwarenessEngine {
-  private peers: Map<string, RemotePeer> = new Map()
-  private listeners: Set<PeerListener> = new Set()
-  private localPeerId: string = `peer_${Math.random().toString(36).substring(2, 9)}`
+  private peers: Map<string, RemotePeer> = new Map();
+  private listeners: Set<PeerListener> = new Set();
+  private localPeerId: string = `peer_${Math.random().toString(36).substring(2, 9)}`;
 
   // باقة ألوان معتمدة للثيم الفاتح النقي
   public static readonly PEER_PALETTE = [
@@ -54,55 +54,56 @@ export class PeerAwarenessEngine {
     { bg: '#d97706', text: '#ffffff', name: 'Amber' },
     { bg: '#0891b2', text: '#ffffff', name: 'Cyan' },
     { bg: '#4f46e5', text: '#ffffff', name: 'Indigo' },
-  ]
+  ];
 
   constructor(options?: { localPeerId?: string; localName?: string; localColor?: string }) {
     if (options?.localPeerId) {
-      this.localPeerId = options.localPeerId
+      this.localPeerId = options.localPeerId;
     }
     // تشغيل مؤقت تنظيف الخاملين كل 10 ثوانٍ
     if (typeof window !== 'undefined') {
-      window.setInterval(() => this.pruneStalePeers(), 10000)
+      window.setInterval(() => this.pruneStalePeers(), 10000);
     }
   }
 
   getLocalPeerId(): string {
-    return this.localPeerId
+    return this.localPeerId;
   }
 
   setLocalCursor(cursor: { x: number; y: number } | null): void {
-    this.localCursor = cursor
+    this.localCursor = cursor;
   }
 
   getLocalCursor(): { x: number; y: number } | null {
-    return this.localCursor
+    return this.localCursor;
   }
 
   setLocalSelection(selectedElementIds: string[]): void {
-    this.localSelection = selectedElementIds
+    this.localSelection = selectedElementIds;
   }
 
   getLocalSelection(): string[] {
-    return this.localSelection
+    return this.localSelection;
   }
 
-  private localCursor: { x: number; y: number } | null = null
-  private localSelection: string[] = []
+  private localCursor: { x: number; y: number } | null = null;
+  private localSelection: string[] = [];
 
   getPeers(): RemotePeer[] {
-    return Array.from(this.peers.values())
+    return Array.from(this.peers.values());
   }
 
   getPeer(id: string): RemotePeer | undefined {
-    return this.peers.get(id)
+    return this.peers.get(id);
   }
 
   updatePeer(peerData: Partial<RemotePeer> & { id: string }): void {
-    if (peerData.id === this.localPeerId) return
+    if (peerData.id === this.localPeerId) return;
 
-    const existing = this.peers.get(peerData.id)
-    const colorIndex = Math.abs(this.hashString(peerData.id)) % PeerAwarenessEngine.PEER_PALETTE.length
-    const fallbackColor = PeerAwarenessEngine.PEER_PALETTE[colorIndex].bg
+    const existing = this.peers.get(peerData.id);
+    const colorIndex =
+      Math.abs(this.hashString(peerData.id)) % PeerAwarenessEngine.PEER_PALETTE.length;
+    const fallbackColor = PeerAwarenessEngine.PEER_PALETTE[colorIndex].bg;
 
     const updated: RemotePeer = {
       id: peerData.id,
@@ -113,56 +114,56 @@ export class PeerAwarenessEngine {
       selectedElementIds: peerData.selectedElementIds ?? existing?.selectedElementIds,
       editingElementId: peerData.editingElementId ?? existing?.editingElementId,
       lastActiveMs: Date.now(),
-    }
+    };
 
-    this.peers.set(peerData.id, updated)
-    this.notify()
+    this.peers.set(peerData.id, updated);
+    this.notify();
   }
 
   removePeer(peerId: string): void {
     if (this.peers.delete(peerId)) {
-      this.notify()
+      this.notify();
     }
   }
 
   subscribe(listener: PeerListener): () => void {
-    this.listeners.add(listener)
-    listener(this.getPeers())
-    return () => this.listeners.delete(listener)
+    this.listeners.add(listener);
+    listener(this.getPeers());
+    return () => this.listeners.delete(listener);
   }
 
   private pruneStalePeers(): void {
-    const now = Date.now()
-    let changed = false
+    const now = Date.now();
+    let changed = false;
     this.peers.forEach((peer, id) => {
       // إزالة المتعاونين بعد 30 ثانية من انقطاع النشاط
       if (now - peer.lastActiveMs > 30000) {
-        this.peers.delete(id)
-        changed = true
+        this.peers.delete(id);
+        changed = true;
       }
-    })
+    });
     if (changed) {
-      this.notify()
+      this.notify();
     }
   }
 
   private notify(): void {
-    const peersList = this.getPeers()
-    this.listeners.forEach(l => {
+    const peersList = this.getPeers();
+    this.listeners.forEach((l) => {
       try {
-        l(peersList)
+        l(peersList);
       } catch (err) {
-        console.error('Error in peer listener:', err)
+        console.error('Error in peer listener:', err);
       }
-    })
+    });
   }
 
   private hashString(str: string): number {
-    let hash = 0
+    let hash = 0;
     for (let i = 0; i < str.length; i++) {
-      hash = (hash << 5) - hash + str.charCodeAt(i)
-      hash |= 0
+      hash = (hash << 5) - hash + str.charCodeAt(i);
+      hash |= 0;
     }
-    return hash
+    return hash;
   }
 }

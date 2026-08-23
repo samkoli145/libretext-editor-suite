@@ -33,7 +33,7 @@ function makeId(prefix: string): string {
 
 function dedupGuides(guides: DynamicGuide[]): DynamicGuide[] {
   const seen = new Set<string>();
-  return guides.filter(g => {
+  return guides.filter((g) => {
     const key = `${g.orientation}_${Math.round(g.position)}`;
     if (seen.has(key)) return false;
     seen.add(key);
@@ -47,8 +47,16 @@ export function generateDynamicGuides(
   threshold = 5,
 ): DynamicGuide[] {
   const lines: DynamicGuide[] = [];
-  const mx = [movingBounds.x, movingBounds.x + movingBounds.width / 2, movingBounds.x + movingBounds.width];
-  const my = [movingBounds.y, movingBounds.y + movingBounds.height / 2, movingBounds.y + movingBounds.height];
+  const mx = [
+    movingBounds.x,
+    movingBounds.x + movingBounds.width / 2,
+    movingBounds.x + movingBounds.width,
+  ];
+  const my = [
+    movingBounds.y,
+    movingBounds.y + movingBounds.height / 2,
+    movingBounds.y + movingBounds.height,
+  ];
 
   for (const sb of staticBounds) {
     const sx = [sb.x, sb.x + sb.width / 2, sb.x + sb.width];
@@ -58,8 +66,11 @@ export function generateDynamicGuides(
       for (const tx of sx) {
         if (Math.abs(px - tx) <= threshold) {
           lines.push({
-            id: makeId('v'), orientation: 'vertical', position: tx,
-            start: Math.min(movingBounds.y, sb.y), end: Math.max(movingBounds.y + movingBounds.height, sb.y + sb.height),
+            id: makeId('v'),
+            orientation: 'vertical',
+            position: tx,
+            start: Math.min(movingBounds.y, sb.y),
+            end: Math.max(movingBounds.y + movingBounds.height, sb.y + sb.height),
             label: `${Math.round(tx)}px`,
           });
         }
@@ -70,8 +81,11 @@ export function generateDynamicGuides(
       for (const ty of sy) {
         if (Math.abs(py - ty) <= threshold) {
           lines.push({
-            id: makeId('h'), orientation: 'horizontal', position: ty,
-            start: Math.min(movingBounds.x, sb.x), end: Math.max(movingBounds.x + movingBounds.width, sb.x + sb.width),
+            id: makeId('h'),
+            orientation: 'horizontal',
+            position: ty,
+            start: Math.min(movingBounds.x, sb.x),
+            end: Math.max(movingBounds.x + movingBounds.width, sb.x + sb.width),
             label: `${Math.round(ty)}px`,
           });
         }

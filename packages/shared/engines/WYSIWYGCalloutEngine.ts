@@ -261,26 +261,40 @@ export class WYSIWYGCalloutEngine {
    */
   public generateConnectorSvg(connector: ConnectorDefinition): string {
     const pathD = this.calculateConnectorPath(connector);
-    const markerStart = connector.arrowStart ? `marker-start="url(#arrow-${connector.id}-start)"` : '';
+    const markerStart = connector.arrowStart
+      ? `marker-start="url(#arrow-${connector.id}-start)"`
+      : '';
     const markerEnd = connector.arrowEnd ? `marker-end="url(#arrow-${connector.id}-end)"` : '';
 
     return `
 <g class="connector-group" id="connector-${connector.id}">
   <defs>
-    ${connector.arrowEnd ? `
+    ${
+      connector.arrowEnd
+        ? `
     <marker id="arrow-${connector.id}-end" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
       <polygon points="0 1, 8 4, 0 7" fill="${connector.color}" />
-    </marker>` : ''}
-    ${connector.arrowStart ? `
+    </marker>`
+        : ''
+    }
+    ${
+      connector.arrowStart
+        ? `
     <marker id="arrow-${connector.id}-start" markerWidth="8" markerHeight="8" refX="2" refY="4" orient="auto">
       <polygon points="8 1, 0 4, 8 7" fill="${connector.color}" />
-    </marker>` : ''}
+    </marker>`
+        : ''
+    }
   </defs>
   <path d="${pathD}" fill="none" stroke="${connector.color}" stroke-width="${connector.strokeWidth}" stroke-dasharray="${connector.strokeStyle === 'dashed' ? '5,5' : connector.strokeStyle === 'dotted' ? '2,2' : 'none'}" ${markerStart} ${markerEnd} />
-  ${connector.label ? `
+  ${
+    connector.label
+      ? `
   <text x="${(connector.from.x + connector.to.x) / 2}" y="${(connector.from.y + connector.to.y) / 2 - 8}" fill="${connector.color}" font-size="11" font-weight="bold" text-anchor="middle">
     ${connector.label}
-  </text>` : ''}
+  </text>`
+      : ''
+  }
 </g>`.trim();
   }
 }

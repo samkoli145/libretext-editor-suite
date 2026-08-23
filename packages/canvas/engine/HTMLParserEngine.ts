@@ -98,7 +98,7 @@ export class HTMLParserEngine {
     html: string,
     initialX = 100,
     initialY = 100,
-    layerId = 'layer-main'
+    layerId = 'layer-main',
   ): ParseResult {
     const parser = new DOMParser();
     const cleanHtml = this.sanitizeHtml(html);
@@ -110,9 +110,10 @@ export class HTMLParserEngine {
     let maxDepth = 0;
 
     const bodyChildren = Array.from(doc.body.children);
-    const rootElements = bodyChildren.length > 0
-      ? bodyChildren
-      : Array.from(doc.body.childNodes).filter((n) => n.nodeType === Node.ELEMENT_NODE);
+    const rootElements =
+      bodyChildren.length > 0
+        ? bodyChildren
+        : Array.from(doc.body.childNodes).filter((n) => n.nodeType === Node.ELEMENT_NODE);
 
     let currentCursorY = initialY;
     const rootNodes: ASTNode[] = [];
@@ -127,7 +128,7 @@ export class HTMLParserEngine {
           currentCursorY,
           palette,
           fonts,
-          allNodesFlat
+          allNodesFlat,
         );
 
         if (ast) {
@@ -159,7 +160,7 @@ export class HTMLParserEngine {
     y: number,
     palette: Set<string>,
     fonts: Set<string>,
-    allNodesFlat: ASTNode[]
+    allNodesFlat: ASTNode[],
   ): ASTNode | null {
     const tagName = el.tagName.toLowerCase();
 
@@ -195,7 +196,11 @@ export class HTMLParserEngine {
       id: nodeId,
       tagName,
       nodeType,
-      textContent: directText || (['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'button', 'span', 'badge'].includes(tagName) ? el.innerText?.trim() : undefined),
+      textContent:
+        directText ||
+        (['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'button', 'span', 'badge'].includes(tagName)
+          ? el.innerText?.trim()
+          : undefined),
       attributes,
       computedStyles,
       dimensions: {
@@ -233,7 +238,7 @@ export class HTMLParserEngine {
         childY,
         palette,
         fonts,
-        allNodesFlat
+        allNodesFlat,
       );
 
       if (childAst) {
@@ -342,7 +347,7 @@ export class HTMLParserEngine {
   private static estimateDimensions(
     tagName: string,
     styles: ASTStyleProperties,
-    innerText: string
+    innerText: string,
   ): { width: number; height: number } {
     let width = styles.width || 0;
     let height = styles.height || 0;
@@ -406,7 +411,11 @@ export class HTMLParserEngine {
   }
 
   private static checkIsContainer(tagName: string, styles: ASTStyleProperties): boolean {
-    if (['div', 'section', 'header', 'nav', 'footer', 'main', 'article', 'form', 'aside'].includes(tagName)) {
+    if (
+      ['div', 'section', 'header', 'nav', 'footer', 'main', 'article', 'form', 'aside'].includes(
+        tagName,
+      )
+    ) {
       return true;
     }
     if (styles.display === 'flex' || styles.display === 'grid') {

@@ -51,11 +51,11 @@ import type {
   InteractionTrigger,
   InteractionAction,
 } from '../model';
+import { executeInteractionTrigger, playSyntheticAudioFeedback } from '../core/interactionEngine';
 import {
-  executeInteractionTrigger,
-  playSyntheticAudioFeedback,
-} from '../core/interactionEngine';
-import { SharedContextMenu, type ContextMenuItem } from '../../../shared/components/SharedContextMenu';
+  SharedContextMenu,
+  type ContextMenuItem,
+} from '../../../shared/components/SharedContextMenu';
 import { notificationEngine } from '../../../shared/engines/NotificationEngine';
 
 interface InteractionPanelProps {
@@ -91,7 +91,9 @@ export const InteractionPanel: React.FC<InteractionPanelProps> = ({
     return (
       <div className="flex flex-col items-center justify-center p-8 text-center text-slate-400 min-h-[300px]">
         <Zap className="w-10 h-10 mb-3 text-slate-300 stroke-1" />
-        <p className="text-sm font-medium text-slate-600">حدد عنصراً لبرمجة تفاعلاته وأحداثه الميكانيكية</p>
+        <p className="text-sm font-medium text-slate-600">
+          حدد عنصراً لبرمجة تفاعلاته وأحداثه الميكانيكية
+        </p>
         <p className="text-xs text-slate-400 mt-1 max-w-[220px]">
           يمكنك ربط العناصر بالتمرير، فتح الروابط، تشغيل الأنيميشن، أو التنبيهات الصوتية.
         </p>
@@ -212,7 +214,10 @@ export const InteractionPanel: React.FC<InteractionPanelProps> = ({
   const otherElements = allElements.filter((el) => el.id !== selectedElement.id);
 
   return (
-    <div className="flex flex-col h-full bg-white text-slate-800 text-xs" style={{ direction: 'rtl' }}>
+    <div
+      className="flex flex-col h-full bg-white text-slate-800 text-xs"
+      style={{ direction: 'rtl' }}
+    >
       {/* ترويسة اللوحة */}
       <div className="p-3 border-b border-slate-200 bg-slate-50/70 flex items-center justify-between">
         <div className="flex items-center gap-2">
@@ -220,7 +225,9 @@ export const InteractionPanel: React.FC<InteractionPanelProps> = ({
             <Zap className="w-4 h-4" />
           </div>
           <div>
-            <h3 className="font-semibold text-slate-800 text-xs">محرك التفاعل الميكانيكي والأحداث</h3>
+            <h3 className="font-semibold text-slate-800 text-xs">
+              محرك التفاعل الميكانيكي والأحداث
+            </h3>
             <p className="text-[10px] text-slate-500">
               العنصر المحدد: {selectedElement.text || selectedElement.type} ({selectedElement.id})
             </p>
@@ -236,7 +243,9 @@ export const InteractionPanel: React.FC<InteractionPanelProps> = ({
         {interactions.length === 0 ? (
           <div className="p-6 text-center border-2 border-dashed border-slate-200 rounded-xl bg-slate-50/50">
             <Sparkles className="w-8 h-8 mx-auto mb-2 text-slate-400" />
-            <p className="font-medium text-slate-700 text-xs">لا توجد تفاعلات ميكانيكية مبرمجة بعد</p>
+            <p className="font-medium text-slate-700 text-xs">
+              لا توجد تفاعلات ميكانيكية مبرمجة بعد
+            </p>
             <p className="text-[11px] text-slate-500 mt-1 mb-3">
               اختر نوع الحدث والإجراء في الأسفل لإضافة تفاعل فوري.
             </p>
@@ -303,7 +312,9 @@ export const InteractionPanel: React.FC<InteractionPanelProps> = ({
               <div className="space-y-2 pt-1 border-t border-slate-100">
                 <div className="grid grid-cols-2 gap-2">
                   <div>
-                    <label className="block text-[10px] text-slate-500 mb-0.5">حدث الإطلاق (Trigger)</label>
+                    <label className="block text-[10px] text-slate-500 mb-0.5">
+                      حدث الإطلاق (Trigger)
+                    </label>
                     <select
                       value={it.trigger}
                       onChange={(e) =>
@@ -322,7 +333,9 @@ export const InteractionPanel: React.FC<InteractionPanelProps> = ({
                   </div>
 
                   <div>
-                    <label className="block text-[10px] text-slate-500 mb-0.5">الإجراء الميكانيكي (Action)</label>
+                    <label className="block text-[10px] text-slate-500 mb-0.5">
+                      الإجراء الميكانيكي (Action)
+                    </label>
                     <select
                       value={it.action}
                       onChange={(e) =>
@@ -346,10 +359,14 @@ export const InteractionPanel: React.FC<InteractionPanelProps> = ({
                 {/* حقول مخصصة حسب الإجراء */}
                 {it.action === 'scrollToElement' && (
                   <div>
-                    <label className="block text-[10px] text-slate-500 mb-0.5">العنصر المستهدف للتمرير</label>
+                    <label className="block text-[10px] text-slate-500 mb-0.5">
+                      العنصر المستهدف للتمرير
+                    </label>
                     <select
                       value={it.targetElementId || ''}
-                      onChange={(e) => handleUpdateInteraction(it.id, { targetElementId: e.target.value })}
+                      onChange={(e) =>
+                        handleUpdateInteraction(it.id, { targetElementId: e.target.value })
+                      }
                       className="w-full bg-slate-50 border border-slate-200 rounded px-2 py-1 text-xs"
                     >
                       <option value="">-- اختر العنصر المستهدف --</option>
@@ -364,7 +381,9 @@ export const InteractionPanel: React.FC<InteractionPanelProps> = ({
 
                 {it.action === 'openUrl' && (
                   <div className="space-y-1">
-                    <label className="block text-[10px] text-slate-500 mb-0.5">عنوان الرابط (URL)</label>
+                    <label className="block text-[10px] text-slate-500 mb-0.5">
+                      عنوان الرابط (URL)
+                    </label>
                     <div className="flex gap-1.5">
                       <input
                         type="url"
@@ -376,7 +395,9 @@ export const InteractionPanel: React.FC<InteractionPanelProps> = ({
                       <select
                         value={it.targetTab || '_blank'}
                         onChange={(e) =>
-                          handleUpdateInteraction(it.id, { targetTab: e.target.value as '_blank' | '_self' })
+                          handleUpdateInteraction(it.id, {
+                            targetTab: e.target.value as '_blank' | '_self',
+                          })
                         }
                         className="bg-slate-50 border border-slate-200 rounded px-2 py-1 text-xs"
                       >
@@ -389,16 +410,21 @@ export const InteractionPanel: React.FC<InteractionPanelProps> = ({
 
                 {it.action === 'toggleVisibility' && (
                   <div>
-                    <label className="block text-[10px] text-slate-500 mb-0.5">العنصر المراد إظهاره/إخفاؤه</label>
+                    <label className="block text-[10px] text-slate-500 mb-0.5">
+                      العنصر المراد إظهاره/إخفاؤه
+                    </label>
                     <select
                       value={it.targetElementId || ''}
-                      onChange={(e) => handleUpdateInteraction(it.id, { targetElementId: e.target.value })}
+                      onChange={(e) =>
+                        handleUpdateInteraction(it.id, { targetElementId: e.target.value })
+                      }
                       className="w-full bg-slate-50 border border-slate-200 rounded px-2 py-1 text-xs"
                     >
                       <option value="">-- اختر العنصر --</option>
                       {otherElements.map((el) => (
                         <option key={el.id} value={el.id}>
-                          {el.text ? `"${el.text.slice(0, 20)}"` : el.type} (حالي: {el.visible === false ? 'مخفي' : 'مرئي'})
+                          {el.text ? `"${el.text.slice(0, 20)}"` : el.type} (حالي:{' '}
+                          {el.visible === false ? 'مخفي' : 'مرئي'})
                         </option>
                       ))}
                     </select>
@@ -408,10 +434,14 @@ export const InteractionPanel: React.FC<InteractionPanelProps> = ({
                 {it.action === 'triggerAnimation' && (
                   <div className="grid grid-cols-2 gap-2">
                     <div>
-                      <label className="block text-[10px] text-slate-500 mb-0.5">العنصر المستهدف</label>
+                      <label className="block text-[10px] text-slate-500 mb-0.5">
+                        العنصر المستهدف
+                      </label>
                       <select
                         value={it.targetElementId || selectedElement.id}
-                        onChange={(e) => handleUpdateInteraction(it.id, { targetElementId: e.target.value })}
+                        onChange={(e) =>
+                          handleUpdateInteraction(it.id, { targetElementId: e.target.value })
+                        }
                         className="w-full bg-slate-50 border border-slate-200 rounded px-2 py-1 text-xs"
                       >
                         <option value={selectedElement.id}>العنصر الحالي نفسه</option>
@@ -423,10 +453,14 @@ export const InteractionPanel: React.FC<InteractionPanelProps> = ({
                       </select>
                     </div>
                     <div>
-                      <label className="block text-[10px] text-slate-500 mb-0.5">نوع التحريك (Animation)</label>
+                      <label className="block text-[10px] text-slate-500 mb-0.5">
+                        نوع التحريك (Animation)
+                      </label>
                       <select
                         value={it.animationType || 'bounce'}
-                        onChange={(e) => handleUpdateInteraction(it.id, { animationType: e.target.value as any })}
+                        onChange={(e) =>
+                          handleUpdateInteraction(it.id, { animationType: e.target.value as any })
+                        }
                         className="w-full bg-slate-50 border border-slate-200 rounded px-2 py-1 text-xs"
                       >
                         <option value="bounce">قفز ارتدادي (Bounce)</option>
@@ -441,11 +475,15 @@ export const InteractionPanel: React.FC<InteractionPanelProps> = ({
 
                 {it.action === 'playSound' && (
                   <div>
-                    <label className="block text-[10px] text-slate-500 mb-0.5">نوع النغمة التفاعلية (Web Audio)</label>
+                    <label className="block text-[10px] text-slate-500 mb-0.5">
+                      نوع النغمة التفاعلية (Web Audio)
+                    </label>
                     <div className="flex items-center gap-2">
                       <select
                         value={it.soundType || 'click'}
-                        onChange={(e) => handleUpdateInteraction(it.id, { soundType: e.target.value as any })}
+                        onChange={(e) =>
+                          handleUpdateInteraction(it.id, { soundType: e.target.value as any })
+                        }
                         className="flex-1 bg-slate-50 border border-slate-200 rounded px-2 py-1 text-xs"
                       >
                         <option value="click">نقرة ميكانيكية (Click)</option>
@@ -468,11 +506,15 @@ export const InteractionPanel: React.FC<InteractionPanelProps> = ({
 
                 {it.action === 'showPopup' && (
                   <div>
-                    <label className="block text-[10px] text-slate-500 mb-0.5">نص الرسالة المنبثقة</label>
+                    <label className="block text-[10px] text-slate-500 mb-0.5">
+                      نص الرسالة المنبثقة
+                    </label>
                     <input
                       type="text"
                       value={it.popupMessage || ''}
-                      onChange={(e) => handleUpdateInteraction(it.id, { popupMessage: e.target.value })}
+                      onChange={(e) =>
+                        handleUpdateInteraction(it.id, { popupMessage: e.target.value })
+                      }
                       placeholder="رسالة التنبيه..."
                       className="w-full bg-slate-50 border border-slate-200 rounded px-2 py-1 text-xs"
                     />

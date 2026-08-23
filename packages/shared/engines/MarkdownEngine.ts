@@ -82,27 +82,60 @@ export class MarkdownEngine {
     });
 
     // 5. Inline code `code`
-    text = text.replace(/`([^`]+)`/g, '<code class="bg-slate-100 px-1.5 py-0.5 rounded border border-slate-200 text-blue-700 font-mono text-xs">$1</code>');
+    text = text.replace(
+      /`([^`]+)`/g,
+      '<code class="bg-slate-100 px-1.5 py-0.5 rounded border border-slate-200 text-blue-700 font-mono text-xs">$1</code>',
+    );
 
     // Headings
-    text = text.replace(/^######\s+(.+)$/gm, '<h6 class="text-sm font-bold text-slate-800 my-2">$1</h6>');
-    text = text.replace(/^#####\s+(.+)$/gm, '<h5 class="text-base font-bold text-slate-800 my-2">$1</h5>');
-    text = text.replace(/^####\s+(.+)$/gm, '<h4 class="text-lg font-bold text-slate-800 my-2">$1</h4>');
-    text = text.replace(/^###\s+(.+)$/gm, '<h3 class="text-xl font-bold text-slate-800 my-3">$1</h3>');
-    text = text.replace(/^##\s+(.+)$/gm, '<h2 class="text-2xl font-bold text-slate-800 my-4 pb-1 border-b border-slate-200">$1</h2>');
-    text = text.replace(/^#\s+(.+)$/gm, '<h1 class="text-3xl font-extrabold text-slate-900 my-5 pb-2 border-b border-slate-300">$1</h1>');
+    text = text.replace(
+      /^######\s+(.+)$/gm,
+      '<h6 class="text-sm font-bold text-slate-800 my-2">$1</h6>',
+    );
+    text = text.replace(
+      /^#####\s+(.+)$/gm,
+      '<h5 class="text-base font-bold text-slate-800 my-2">$1</h5>',
+    );
+    text = text.replace(
+      /^####\s+(.+)$/gm,
+      '<h4 class="text-lg font-bold text-slate-800 my-2">$1</h4>',
+    );
+    text = text.replace(
+      /^###\s+(.+)$/gm,
+      '<h3 class="text-xl font-bold text-slate-800 my-3">$1</h3>',
+    );
+    text = text.replace(
+      /^##\s+(.+)$/gm,
+      '<h2 class="text-2xl font-bold text-slate-800 my-4 pb-1 border-b border-slate-200">$1</h2>',
+    );
+    text = text.replace(
+      /^#\s+(.+)$/gm,
+      '<h1 class="text-3xl font-extrabold text-slate-900 my-5 pb-2 border-b border-slate-300">$1</h1>',
+    );
 
     // Horizontal Rule
-    text = text.replace(/^(?:---|\*\*\*|___)\s*$/gm, '<hr class="my-4 border-t border-slate-200" />');
+    text = text.replace(
+      /^(?:---|\*\*\*|___)\s*$/gm,
+      '<hr class="my-4 border-t border-slate-200" />',
+    );
 
     // Blockquotes
-    text = text.replace(/^\>\s+(.+)$/gm, '<blockquote class="border-r-4 border-blue-500 bg-blue-50/50 pr-4 py-2 my-2 text-slate-700 italic rounded-l">$1</blockquote>');
+    text = text.replace(
+      /^\>\s+(.+)$/gm,
+      '<blockquote class="border-r-4 border-blue-500 bg-blue-50/50 pr-4 py-2 my-2 text-slate-700 italic rounded-l">$1</blockquote>',
+    );
 
     // Images ![alt](url)
-    text = text.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1" class="max-w-full h-auto rounded-lg border border-slate-200 shadow-sm my-3 mx-auto" />');
+    text = text.replace(
+      /!\[([^\]]*)\]\(([^)]+)\)/g,
+      '<img src="$2" alt="$1" class="max-w-full h-auto rounded-lg border border-slate-200 shadow-sm my-3 mx-auto" />',
+    );
 
     // Links [text](url)
-    text = text.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" class="text-blue-600 hover:text-blue-800 underline font-medium" target="_blank" rel="noopener noreferrer">$1</a>');
+    text = text.replace(
+      /\[([^\]]+)\]\(([^)]+)\)/g,
+      '<a href="$2" class="text-blue-600 hover:text-blue-800 underline font-medium" target="_blank" rel="noopener noreferrer">$1</a>',
+    );
 
     // Bold & Italic
     text = text.replace(/\*\*\*([^*]+)\*\*\*/g, '<strong><em>$1</em></strong>');
@@ -114,13 +147,23 @@ export class MarkdownEngine {
 
     // Unordered lists
     text = text.replace(/(^[*\-+]\s+.+$\n?)+/gm, (match) => {
-      const items = match.trim().split('\n').map(l => l.replace(/^[*\-+]\s+/, '')).map(l => `<li class="my-0.5">${l}</li>`).join('');
+      const items = match
+        .trim()
+        .split('\n')
+        .map((l) => l.replace(/^[*\-+]\s+/, ''))
+        .map((l) => `<li class="my-0.5">${l}</li>`)
+        .join('');
       return `<ul class="list-disc list-inside my-2 space-y-1 text-slate-700 pr-4">${items}</ul>`;
     });
 
     // Ordered lists
     text = text.replace(/(^\d+\.\s+.+$\n?)+/gm, (match) => {
-      const items = match.trim().split('\n').map(l => l.replace(/^\d+\.\s+/, '')).map(l => `<li class="my-0.5">${l}</li>`).join('');
+      const items = match
+        .trim()
+        .split('\n')
+        .map((l) => l.replace(/^\d+\.\s+/, ''))
+        .map((l) => `<li class="my-0.5">${l}</li>`)
+        .join('');
       return `<ol class="list-decimal list-inside my-2 space-y-1 text-slate-700 pr-4">${items}</ol>`;
     });
 
@@ -223,7 +266,8 @@ export class MarkdownEngine {
             result += `~~${content}~~`;
             break;
           case 'code':
-            result += el.parentElement?.tagName.toLowerCase() === 'pre' ? content : `\`${content}\``;
+            result +=
+              el.parentElement?.tagName.toLowerCase() === 'pre' ? content : `\`${content}\``;
             break;
           case 'pre':
             result += `\n\n\`\`\`\n${el.textContent || ''}\n\`\`\`\n\n`;
@@ -279,7 +323,10 @@ export class MarkdownEngine {
 
     for (const row of rows) {
       const cells = Array.from(row.querySelectorAll('th, td'));
-      const rowText = '| ' + cells.map((c) => (c.textContent || '').trim().replace(/\|/g, '\\|')).join(' | ') + ' |';
+      const rowText =
+        '| ' +
+        cells.map((c) => (c.textContent || '').trim().replace(/\|/g, '\\|')).join(' | ') +
+        ' |';
       lines.push(rowText);
 
       if (isFirstRow) {
@@ -297,7 +344,8 @@ export class MarkdownEngine {
       const lines = match.trim().split('\n').filter(Boolean);
       if (lines.length < 2) return match;
 
-      let html = '<div class="overflow-x-auto my-3"><table class="min-w-full border-collapse border border-slate-300 bg-white rounded-lg shadow-xs text-xs text-slate-800">';
+      let html =
+        '<div class="overflow-x-auto my-3"><table class="min-w-full border-collapse border border-slate-300 bg-white rounded-lg shadow-xs text-xs text-slate-800">';
       let inHeader = true;
 
       for (let i = 0; i < lines.length; i++) {
@@ -310,7 +358,8 @@ export class MarkdownEngine {
         const cells = line.split('|').filter((_, idx, arr) => idx > 0 && idx < arr.length - 1);
 
         if (inHeader && i === 0) {
-          html += '<thead class="bg-slate-100 text-slate-700 font-semibold border-b border-slate-300"><tr>';
+          html +=
+            '<thead class="bg-slate-100 text-slate-700 font-semibold border-b border-slate-300"><tr>';
           for (const cell of cells) {
             html += `<th class="border border-slate-300 px-3 py-2 text-right">${cell.trim()}</th>`;
           }
@@ -343,10 +392,19 @@ export class MarkdownEngine {
    */
   public detectFormat(content: string): 'markdown' | 'html' | 'unknown' {
     const trimmed = content.trim();
-    if (trimmed.startsWith('<!DOCTYPE') || trimmed.startsWith('<html') || (trimmed.startsWith('<div') && trimmed.endsWith('</div>'))) {
+    if (
+      trimmed.startsWith('<!DOCTYPE') ||
+      trimmed.startsWith('<html') ||
+      (trimmed.startsWith('<div') && trimmed.endsWith('</div>'))
+    ) {
       return 'html';
     }
-    if (/^#{1,6}\s/m.test(trimmed) || /^\s*[-*+]\s/m.test(trimmed) || /```/.test(trimmed) || /\[.+\]\(.+\)/.test(trimmed)) {
+    if (
+      /^#{1,6}\s/m.test(trimmed) ||
+      /^\s*[-*+]\s/m.test(trimmed) ||
+      /```/.test(trimmed) ||
+      /\[.+\]\(.+\)/.test(trimmed)
+    ) {
       return 'markdown';
     }
     return 'unknown';

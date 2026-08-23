@@ -53,7 +53,16 @@ import {
   Eye,
 } from 'lucide-react';
 
-export type LeftPanelTab = 'tools' | 'presets' | 'components' | 'colors' | 'interactions' | 'layers' | 'code' | 'assets' | 'properties';
+export type LeftPanelTab =
+  | 'tools'
+  | 'presets'
+  | 'components'
+  | 'colors'
+  | 'interactions'
+  | 'layers'
+  | 'code'
+  | 'assets'
+  | 'properties';
 
 export interface CanvasSidebarProps {
   workspaceTabs: WorkspaceTabConfig[];
@@ -163,7 +172,9 @@ export function CanvasSidebar({
         <div className="bg-slate-50 border-b border-slate-200 p-2.5 space-y-2 shrink-0">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-1.5 text-xs font-bold text-slate-800">
-              <span className="bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full text-[10px]">محرر الكانفا</span>
+              <span className="bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full text-[10px]">
+                محرر الكانفا
+              </span>
               <span className="truncate max-w-[150px]">{documentTitle || 'تصميم متجه'}</span>
             </div>
             <span className="text-[10px] bg-slate-200 text-slate-700 font-bold px-2 py-0.5 rounded-full">
@@ -297,12 +308,12 @@ export function CanvasSidebar({
           }}
           onRenameTab={(tabId, newNameAr) => {
             setWorkspaceTabs((prev) =>
-              prev.map((t) => (t.id === tabId ? { ...t, nameAr: newNameAr } : t))
+              prev.map((t) => (t.id === tabId ? { ...t, nameAr: newNameAr } : t)),
             );
           }}
           onToggleTabVisibility={(tabId) => {
             setWorkspaceTabs((prev) =>
-              prev.map((t) => (t.id === tabId ? { ...t, visible: !t.visible } : t))
+              prev.map((t) => (t.id === tabId ? { ...t, visible: !t.visible } : t)),
             );
           }}
           onResetTabs={() => setWorkspaceTabs(DEFAULT_WORKSPACE_TABS)}
@@ -320,7 +331,7 @@ export function CanvasSidebar({
                   position?.y ?? 80,
                   undefined,
                   undefined,
-                  stageWidth
+                  stageWidth,
                 );
                 if (tplElements.length > 0) {
                   if (position?.x !== undefined) {
@@ -336,7 +347,9 @@ export function CanvasSidebar({
             <div className="space-y-3">
               <div className="text-xs font-bold text-slate-800 mb-1 flex items-center justify-between">
                 <span>مكونات الويب وقوالب HTML الجاهزة:</span>
-                <span className="text-[10px] text-blue-600 bg-blue-50 px-1.5 py-0.5 rounded border border-blue-100">سحب وإفلات بالفأرة</span>
+                <span className="text-[10px] text-blue-600 bg-blue-50 px-1.5 py-0.5 rounded border border-blue-100">
+                  سحب وإفلات بالفأرة
+                </span>
               </div>
               <WebDropInspector
                 activeLayerId={data.activeLayerId || data.layers[0]?.id || 'layer-main'}
@@ -403,7 +416,10 @@ export function CanvasSidebar({
             <AssetManager
               selectedElementId={selectedElementId}
               onInsertAsset={(asset: ProjectAsset) => {
-                if (selectedElement && (selectedElement.type === 'image' || selectedElement.imageUrl)) {
+                if (
+                  selectedElement &&
+                  (selectedElement.type === 'image' || selectedElement.imageUrl)
+                ) {
                   onUpdateElement(selectedElement.id, { imageUrl: asset.url });
                 } else {
                   onAddElementsBulk([
@@ -446,4 +462,3 @@ export function CanvasSidebar({
     </DockablePanelContainer>
   );
 }
-

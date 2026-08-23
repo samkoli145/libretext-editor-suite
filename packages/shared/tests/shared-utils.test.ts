@@ -39,21 +39,21 @@ describe('Result<T, E>', () => {
 
     it('يجب أن يُحوّل عبر map', () => {
       const r = ok(5);
-      const mapped = r.map(x => x * 2);
+      const mapped = r.map((x) => x * 2);
       expect(mapped.unwrap()).toBe(10);
     });
 
     it('يجب أن يُحوّل عبر flatMap', () => {
       const r = ok(5);
-      const flat = r.flatMap(x => ok(x * 3));
+      const flat = r.flatMap((x) => ok(x * 3));
       expect(flat.unwrap()).toBe(15);
     });
 
     it('يجب أن يُنفّذ match branch الصحيح', () => {
       const r = ok(10);
       const result = r.match(
-        v => `value: ${v}`,
-        _e => 'error'
+        (v) => `value: ${v}`,
+        (_e) => 'error',
       );
       expect(result).toBe('value: 10');
     });
@@ -85,8 +85,8 @@ describe('Result<T, E>', () => {
     it('يجب أن يُنفّذ match branch الخطأ', () => {
       const r = err('oops');
       const result = r.match(
-        _v => 'ok',
-        e => `error: ${e}`
+        (_v) => 'ok',
+        (e) => `error: ${e}`,
       );
       expect(result).toBe('error: oops');
     });
@@ -100,13 +100,17 @@ describe('Result<T, E>', () => {
     });
 
     it('يجب أن يُchatch خطأ', () => {
-      const r = tryCatch(() => { throw new Error('boom'); });
+      const r = tryCatch(() => {
+        throw new Error('boom');
+      });
       expect(r.isErr).toBe(true);
       if (r.isErr) expect(r.error.message).toBe('boom');
     });
 
     it('يجب أن يُchatch خطأ غير Error', () => {
-      const r = tryCatch(() => { throw 'string error'; });
+      const r = tryCatch(() => {
+        throw 'string error';
+      });
       expect(r.isErr).toBe(true);
     });
   });
@@ -119,7 +123,9 @@ describe('Result<T, E>', () => {
     });
 
     it('يجب أن يُchatch خطأ async', async () => {
-      const r = await tryCatchAsync(async () => { throw new Error('async boom'); });
+      const r = await tryCatchAsync(async () => {
+        throw new Error('async boom');
+      });
       expect(r.isErr).toBe(true);
     });
   });
@@ -175,7 +181,9 @@ describe('EventBus', () => {
 
   it('يجب أن يمنع تسرب الأخطاء من المستمعين', () => {
     const bus = new EventBus();
-    bus.on('test', () => { throw new Error('handler error'); });
+    bus.on('test', () => {
+      throw new Error('handler error');
+    });
     expect(() => bus.emit('test', 'data')).not.toThrow();
   });
 
@@ -232,7 +240,11 @@ describe('DisposableStore', () => {
 
   it('يجب أن يمنع تسرب الأخطاء عند التنظيف', () => {
     const store = new DisposableStore();
-    store.add(toDisposable(() => { throw new Error('cleanup error'); }));
+    store.add(
+      toDisposable(() => {
+        throw new Error('cleanup error');
+      }),
+    );
     expect(() => store.dispose()).not.toThrow();
   });
 
@@ -256,7 +268,7 @@ describe('Scheduler', () => {
     const fn = vi.fn();
     scheduler.debounce({ id: 't1', run: fn }, 50);
     expect(fn).not.toHaveBeenCalled();
-    await new Promise(r => setTimeout(r, 80));
+    await new Promise((r) => setTimeout(r, 80));
     expect(fn).toHaveBeenCalledTimes(1);
   });
 
@@ -265,7 +277,7 @@ describe('Scheduler', () => {
     const fn = vi.fn();
     scheduler.debounce({ id: 't1', run: fn }, 100);
     scheduler.cancel('t1');
-    await new Promise(r => setTimeout(r, 150));
+    await new Promise((r) => setTimeout(r, 150));
     expect(fn).not.toHaveBeenCalled();
   });
 
@@ -276,7 +288,7 @@ describe('Scheduler', () => {
     scheduler.debounce({ id: 't1', run: fn1 }, 50);
     scheduler.debounce({ id: 't2', run: fn2 }, 50);
     scheduler.cancelAll();
-    await new Promise(r => setTimeout(r, 80));
+    await new Promise((r) => setTimeout(r, 80));
     expect(fn1).not.toHaveBeenCalled();
     expect(fn2).not.toHaveBeenCalled();
   });
@@ -285,16 +297,24 @@ describe('Scheduler', () => {
     const scheduler = new Scheduler();
     const fn = vi.fn();
     scheduler.debounce({ id: 't1', run: fn }, 50);
-    await new Promise(r => setTimeout(r, 30));
+    await new Promise((r) => setTimeout(r, 30));
     scheduler.debounce({ id: 't1', run: fn }, 50);
-    await new Promise(r => setTimeout(r, 80));
+    await new Promise((r) => setTimeout(r, 80));
     expect(fn).toHaveBeenCalledTimes(1);
   });
 
   it('يجب أن يمنع تسرب الأخطاء من المهام', async () => {
     const scheduler = new Scheduler();
-    scheduler.debounce({ id: 't1', run: () => { throw new Error('task error'); } }, 10);
-    await new Promise(r => setTimeout(r, 30));
+    scheduler.debounce(
+      {
+        id: 't1',
+        run: () => {
+          throw new Error('task error');
+        },
+      },
+      10,
+    );
+    await new Promise((r) => setTimeout(r, 30));
     expect(scheduler.pendingCount).toBe(0);
   });
 

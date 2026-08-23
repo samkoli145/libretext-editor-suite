@@ -50,17 +50,12 @@ export class InfiniteLayerManager {
   /**
    * حساب الإحداثيات المطلقة للعنصر عبر صعود شجرة الآباء
    */
-  static getAbsoluteBounds(
-    element: CanvasElement,
-    allElements: CanvasElement[]
-  ): AbsoluteBounds {
+  static getAbsoluteBounds(element: CanvasElement, allElements: CanvasElement[]): AbsoluteBounds {
     let currentX = element.x;
     let currentY = element.y;
     let parentId = element.parentId;
 
-    const elementMap = new Map<string, CanvasElement>(
-      allElements.map((el) => [el.id, el])
-    );
+    const elementMap = new Map<string, CanvasElement>(allElements.map((el) => [el.id, el]));
 
     // الصعود للأعلى لحساب الإزاحة التراكمية
     while (parentId) {
@@ -84,13 +79,11 @@ export class InfiniteLayerManager {
    */
   static getBreadcrumbPath(
     elementId: string | null,
-    allElements: CanvasElement[]
+    allElements: CanvasElement[],
   ): BreadcrumbItem[] {
     if (!elementId) return [];
 
-    const elementMap = new Map<string, CanvasElement>(
-      allElements.map((el) => [el.id, el])
-    );
+    const elementMap = new Map<string, CanvasElement>(allElements.map((el) => [el.id, el]));
 
     const path: BreadcrumbItem[] = [];
     let current: CanvasElement | undefined = elementMap.get(elementId);
@@ -112,10 +105,7 @@ export class InfiniteLayerManager {
   /**
    * جلب جميع الأبناء والأحفاد (Subtree Descendants)
    */
-  static getDescendantIds(
-    rootId: string,
-    allElements: CanvasElement[]
-  ): string[] {
+  static getDescendantIds(rootId: string, allElements: CanvasElement[]): string[] {
     const descendants: string[] = [];
     const queue = [rootId];
 
@@ -138,7 +128,7 @@ export class InfiniteLayerManager {
     rootId: string,
     deltaX: number,
     deltaY: number,
-    allElements: CanvasElement[]
+    allElements: CanvasElement[],
   ): CanvasElement[] {
     const descendantIds = new Set([rootId, ...this.getDescendantIds(rootId, allElements)]);
 
@@ -160,7 +150,7 @@ export class InfiniteLayerManager {
   static groupElements(
     selectedIds: string[],
     allElements: CanvasElement[],
-    activeLayerId: string
+    activeLayerId: string,
   ): { elements: CanvasElement[]; newContainerId: string } | null {
     if (selectedIds.length === 0) return null;
 
@@ -218,10 +208,7 @@ export class InfiniteLayerManager {
   /**
    * فك تجميع الحاوية (Ungroup)
    */
-  static ungroup(
-    containerId: string,
-    allElements: CanvasElement[]
-  ): CanvasElement[] {
+  static ungroup(containerId: string, allElements: CanvasElement[]): CanvasElement[] {
     const container = allElements.find((el) => el.id === containerId);
     if (!container) return allElements;
 
@@ -243,7 +230,7 @@ export class InfiniteLayerManager {
    */
   static duplicateSubtree(
     rootId: string,
-    allElements: CanvasElement[]
+    allElements: CanvasElement[],
   ): { elements: CanvasElement[]; newRootId: string } {
     const descendantIds = [rootId, ...this.getDescendantIds(rootId, allElements)];
     const targetElements = allElements.filter((el) => descendantIds.includes(el.id));
@@ -280,7 +267,7 @@ export class InfiniteLayerManager {
   static reorderZIndex(
     elementId: string,
     action: 'front' | 'back' | 'forward' | 'backward',
-    allElements: CanvasElement[]
+    allElements: CanvasElement[],
   ): CanvasElement[] {
     const target = allElements.find((el) => el.id === elementId);
     if (!target) return allElements;
@@ -292,7 +279,7 @@ export class InfiniteLayerManager {
     const index = siblings.findIndex((el) => el.id === elementId);
     if (index === -1) return allElements;
 
-    let updatedSiblings = [...siblings];
+    const updatedSiblings = [...siblings];
 
     if (action === 'front') {
       const [item] = updatedSiblings.splice(index, 1);
@@ -330,7 +317,7 @@ export class InfiniteLayerManager {
   static reparentElement(
     elementId: string,
     newParentId: string | undefined,
-    allElements: CanvasElement[]
+    allElements: CanvasElement[],
   ): CanvasElement[] {
     // منع العقدة من أن تكون أباً لنفسها أو لأحد أحفادها
     if (newParentId) {

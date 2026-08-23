@@ -44,10 +44,15 @@ export interface MarqueeSelectionState {
  */
 export function getElementsInMarquee(
   marquee: { startX: number; startY: number; currentX: number; currentY: number },
-  elements: SelectableElement[]
+  elements: SelectableElement[],
 ): string[] {
-  const selectionBox = normalizeBounds(marquee.startX, marquee.startY, marquee.currentX, marquee.currentY);
-  
+  const selectionBox = normalizeBounds(
+    marquee.startX,
+    marquee.startY,
+    marquee.currentX,
+    marquee.currentY,
+  );
+
   // إذا كان المستطيل صغيراً جداً (مجرد نقرة)، لا نحدد بالماركيه
   if (selectionBox.width < 3 && selectionBox.height < 3) {
     return [];

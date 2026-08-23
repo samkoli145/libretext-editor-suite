@@ -33,8 +33,13 @@ import type { ToolDefinition, ComponentCategory } from '../core/DevStudioTypes';
  * PDF ليس محرر رسم — أدوات الرسم لا معنى لها هنا.
  */
 const PDF_CATEGORIES = new Set<ComponentCategory>([
-  'selection', 'text', 'navigation', 'view',
-  'export', 'import', 'utility',
+  'selection',
+  'text',
+  'navigation',
+  'view',
+  'export',
+  'import',
+  'utility',
 ]);
 
 /**

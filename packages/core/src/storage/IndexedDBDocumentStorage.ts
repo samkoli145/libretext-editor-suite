@@ -105,7 +105,7 @@ export class IndexedDBDocumentStorage implements DocumentStorage {
       const req = tx.objectStore(this.storeName).getAll();
       req.onsuccess = () => {
         const all = (req.result as DocumentModel[]) || [];
-        const summaries: DocumentMetadataSummary[] = all.map(doc => ({
+        const summaries: DocumentMetadataSummary[] = all.map((doc) => ({
           id: doc.id,
           type: doc.type,
           title: doc.title,

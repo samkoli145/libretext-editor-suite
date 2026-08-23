@@ -40,7 +40,7 @@ export class BlockMapperEngine {
    */
   static mapElementsToCodeBlocks(
     elements: CanvasElement[],
-    generatedCode: string
+    generatedCode: string,
   ): CodeBlockMapping[] {
     const lines = generatedCode.split('\n');
     const mappings: CodeBlockMapping[] = [];

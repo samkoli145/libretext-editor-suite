@@ -93,12 +93,14 @@ export class ToolScaffolder {
     return scaffolder.generate({
       id: validId,
       name: params.name || params.titleEn || validId,
-      icon: params.icon || '<svg viewBox="0 0 24 24"><path d="M12 2v20M2 12h20" stroke="currentColor"/></svg>',
+      icon:
+        params.icon ||
+        '<svg viewBox="0 0 24 24"><path d="M12 2v20M2 12h20" stroke="currentColor"/></svg>',
       category: params.category || 'custom',
       editors: params.editors || ['all'],
       actionId: params.actionId || `action:${validId}`,
       shortcut: params.shortcut,
-      description: params.description || params.descriptionAr
+      description: params.description || params.descriptionAr,
     });
   }
 
@@ -112,7 +114,7 @@ export class ToolScaffolder {
     if (!input.id || !/^[a-z][a-z0-9-]*$/.test(input.id)) {
       throw new Error(
         `[ToolScaffolder] معرف غير صالح: "${input.id}" — ` +
-        `يجب أن يبدأ بحرف صغير ويحتوي فقط على أحرف صغيرة وأرقام وشرطات`,
+          `يجب أن يبدأ بحرف صغير ويحتوي فقط على أحرف صغيرة وأرقام وشرطات`,
       );
     }
     if (!input.name.trim()) {
@@ -121,7 +123,7 @@ export class ToolScaffolder {
     if (!input.icon.includes('<svg')) {
       throw new Error(
         '[ToolScaffolder] الأيقونة يجب أن تكون SVG مضمنة — ' +
-        'لا مراجع خارجية، لا روابط، لا صور نقطية',
+          'لا مراجع خارجية، لا روابط، لا صور نقطية',
       );
     }
     if (input.editors.length === 0) {

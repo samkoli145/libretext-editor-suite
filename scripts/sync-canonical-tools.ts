@@ -26,24 +26,108 @@ export interface ToolActionTemplate {
 
 export const SHARED_TOOL_SETS: Record<string, ToolActionTemplate[]> = {
   textFormatting: [
-    { id: 'bold', name: 'Bold', category: 'Text Formatting', domains: ['Writer', 'Calc', 'Impress', 'Base'], canonicalTrigger: 'floating_gizmo' },
-    { id: 'italic', name: 'Italic', category: 'Text Formatting', domains: ['Writer', 'Calc', 'Impress', 'Base'], canonicalTrigger: 'floating_gizmo' },
-    { id: 'underline', name: 'Underline', category: 'Text Formatting', domains: ['Writer', 'Calc', 'Impress', 'Base'], canonicalTrigger: 'floating_gizmo' },
-    { id: 'color', name: 'Text Color', category: 'Text Formatting', domains: ['Writer', 'Calc', 'Impress', 'Base'], canonicalTrigger: 'floating_gizmo' },
-    { id: 'align', name: 'Align', category: 'Text Formatting', domains: ['Writer', 'Calc', 'Impress', 'Base'], canonicalTrigger: 'floating_gizmo' },
+    {
+      id: 'bold',
+      name: 'Bold',
+      category: 'Text Formatting',
+      domains: ['Writer', 'Calc', 'Impress', 'Base'],
+      canonicalTrigger: 'floating_gizmo',
+    },
+    {
+      id: 'italic',
+      name: 'Italic',
+      category: 'Text Formatting',
+      domains: ['Writer', 'Calc', 'Impress', 'Base'],
+      canonicalTrigger: 'floating_gizmo',
+    },
+    {
+      id: 'underline',
+      name: 'Underline',
+      category: 'Text Formatting',
+      domains: ['Writer', 'Calc', 'Impress', 'Base'],
+      canonicalTrigger: 'floating_gizmo',
+    },
+    {
+      id: 'color',
+      name: 'Text Color',
+      category: 'Text Formatting',
+      domains: ['Writer', 'Calc', 'Impress', 'Base'],
+      canonicalTrigger: 'floating_gizmo',
+    },
+    {
+      id: 'align',
+      name: 'Align',
+      category: 'Text Formatting',
+      domains: ['Writer', 'Calc', 'Impress', 'Base'],
+      canonicalTrigger: 'floating_gizmo',
+    },
   ],
   spatialTransform: [
-    { id: 'scale_8_handles', name: 'Resize (8 Handles)', category: 'Spatial Transform', domains: ['Impress', 'Writer'], canonicalTrigger: 'drag' },
-    { id: 'rotate_handle', name: 'Rotate Knob', category: 'Spatial Transform', domains: ['Impress'], canonicalTrigger: 'drag' },
-    { id: 'bring_forward', name: 'Bring Forward', category: 'Z-Order', domains: ['Impress', 'Writer'], canonicalTrigger: 'right_click' },
-    { id: 'send_backward', name: 'Send Backward', category: 'Z-Order', domains: ['Impress', 'Writer'], canonicalTrigger: 'right_click' },
+    {
+      id: 'scale_8_handles',
+      name: 'Resize (8 Handles)',
+      category: 'Spatial Transform',
+      domains: ['Impress', 'Writer'],
+      canonicalTrigger: 'drag',
+    },
+    {
+      id: 'rotate_handle',
+      name: 'Rotate Knob',
+      category: 'Spatial Transform',
+      domains: ['Impress'],
+      canonicalTrigger: 'drag',
+    },
+    {
+      id: 'bring_forward',
+      name: 'Bring Forward',
+      category: 'Z-Order',
+      domains: ['Impress', 'Writer'],
+      canonicalTrigger: 'right_click',
+    },
+    {
+      id: 'send_backward',
+      name: 'Send Backward',
+      category: 'Z-Order',
+      domains: ['Impress', 'Writer'],
+      canonicalTrigger: 'right_click',
+    },
   ],
   clipboardAndLifecycle: [
-    { id: 'cut', name: 'Cut', category: 'Clipboard', domains: ['Writer', 'Calc', 'Impress', 'Base'], canonicalTrigger: 'right_click' },
-    { id: 'copy', name: 'Copy', category: 'Clipboard', domains: ['Writer', 'Calc', 'Impress', 'Base'], canonicalTrigger: 'right_click' },
-    { id: 'paste', name: 'Paste', category: 'Clipboard', domains: ['Writer', 'Calc', 'Impress', 'Base'], canonicalTrigger: 'right_click' },
-    { id: 'duplicate', name: 'Duplicate', category: 'Clipboard', domains: ['Writer', 'Calc', 'Impress', 'Base'], canonicalTrigger: 'right_click' },
-    { id: 'delete', name: 'Delete', category: 'Clipboard', domains: ['Writer', 'Calc', 'Impress', 'Base'], canonicalTrigger: 'right_click' },
+    {
+      id: 'cut',
+      name: 'Cut',
+      category: 'Clipboard',
+      domains: ['Writer', 'Calc', 'Impress', 'Base'],
+      canonicalTrigger: 'right_click',
+    },
+    {
+      id: 'copy',
+      name: 'Copy',
+      category: 'Clipboard',
+      domains: ['Writer', 'Calc', 'Impress', 'Base'],
+      canonicalTrigger: 'right_click',
+    },
+    {
+      id: 'paste',
+      name: 'Paste',
+      category: 'Clipboard',
+      domains: ['Writer', 'Calc', 'Impress', 'Base'],
+      canonicalTrigger: 'right_click',
+    },
+    {
+      id: 'duplicate',
+      name: 'Duplicate',
+      category: 'Clipboard',
+      domains: ['Writer', 'Calc', 'Impress', 'Base'],
+      canonicalTrigger: 'right_click',
+    },
+    {
+      id: 'delete',
+      name: 'Delete',
+      category: 'Clipboard',
+      domains: ['Writer', 'Calc', 'Impress', 'Base'],
+      canonicalTrigger: 'right_click',
+    },
   ],
 };
 
@@ -55,10 +139,12 @@ export function syncToolsAcrossEditors(): { totalSynced: number; categoriesCount
   return { totalSynced: count, categoriesCount: Object.keys(SHARED_TOOL_SETS).length };
 }
 
-import.meta.url === `file://${process.argv[1]}` && (() => {
+if (import.meta.url === `file://${process.argv[1]}`) {
   const r = syncToolsAcrossEditors();
-  console.log(`[sync:canonical-tools] Harmonized ${r.totalSynced} tools across ${r.categoriesCount} categories`);
+  console.log(
+    `[sync:canonical-tools] Harmonized ${r.totalSynced} tools across ${r.categoriesCount} categories`,
+  );
   for (const [cat, tools] of Object.entries(SHARED_TOOL_SETS)) {
-    console.log(`  ${cat}: ${tools.map(t => t.id).join(', ')}`);
+    console.log(`  ${cat}: ${tools.map((t) => t.id).join(', ')}`);
   }
-})();
+}

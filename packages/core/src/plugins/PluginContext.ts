@@ -23,20 +23,10 @@
  * ═══════════════════════════════════════════════════════════════════════════
  */
 
-import type {
-  Command,
-  CommandRegistry,
-} from "../commands/CommandRegistry";
-import type {
-  EventBus,
-  EventHandler,
-  Unsubscribe,
-} from "../events/EventBus";
-import type {
-  Contribution,
-  ContributionRegistry,
-} from "../contributions/ContributionRegistry";
-import type { DocumentManager } from "../documents/DocumentManager";
+import type { Command, CommandRegistry } from '../commands/CommandRegistry';
+import type { EventBus, EventHandler, Unsubscribe } from '../events/EventBus';
+import type { Contribution, ContributionRegistry } from '../contributions/ContributionRegistry';
+import type { DocumentManager } from '../documents/DocumentManager';
 
 export interface PluginServices {
   commands: CommandRegistry;
@@ -52,35 +42,20 @@ export interface PluginContext extends PluginServices {
 
   registerContribution: (contribution: Contribution) => Unsubscribe;
 
-  on: <TPayload = unknown>(
-    event: string,
-    handler: EventHandler<TPayload>
-  ) => Unsubscribe;
+  on: <TPayload = unknown>(event: string, handler: EventHandler<TPayload>) => Unsubscribe;
 
-  once: <TPayload = unknown>(
-    event: string,
-    handler: EventHandler<TPayload>
-  ) => Unsubscribe;
+  once: <TPayload = unknown>(event: string, handler: EventHandler<TPayload>) => Unsubscribe;
 
-  off: <TPayload = unknown>(
-    event: string,
-    handler: EventHandler<TPayload>
-  ) => void;
+  off: <TPayload = unknown>(event: string, handler: EventHandler<TPayload>) => void;
 
   emit: <TPayload = unknown>(event: string, payload?: TPayload) => void;
 
-  executeCommand: <TPayload = unknown>(
-    commandId: string,
-    payload?: TPayload
-  ) => Promise<unknown>;
+  executeCommand: <TPayload = unknown>(commandId: string, payload?: TPayload) => Promise<unknown>;
 
   log: (...args: unknown[]) => void;
 }
 
-export function createPluginContext(
-  services: PluginServices,
-  pluginId?: string
-): PluginContext {
+export function createPluginContext(services: PluginServices, pluginId?: string): PluginContext {
   return {
     ...services,
 
@@ -100,24 +75,15 @@ export function createPluginContext(
       } as Contribution);
     },
 
-    on<TPayload = unknown>(
-      event: string,
-      handler: EventHandler<TPayload>
-    ): Unsubscribe {
+    on<TPayload = unknown>(event: string, handler: EventHandler<TPayload>): Unsubscribe {
       return services.events.on(event, handler);
     },
 
-    once<TPayload = unknown>(
-      event: string,
-      handler: EventHandler<TPayload>
-    ): Unsubscribe {
+    once<TPayload = unknown>(event: string, handler: EventHandler<TPayload>): Unsubscribe {
       return services.events.once(event, handler);
     },
 
-    off<TPayload = unknown>(
-      event: string,
-      handler: EventHandler<TPayload>
-    ): void {
+    off<TPayload = unknown>(event: string, handler: EventHandler<TPayload>): void {
       services.events.off(event, handler);
     },
 
@@ -125,17 +91,14 @@ export function createPluginContext(
       services.events.emit(event, payload);
     },
 
-    executeCommand<TPayload = unknown>(
-      commandId: string,
-      payload?: TPayload
-    ): Promise<unknown> {
+    executeCommand<TPayload = unknown>(commandId: string, payload?: TPayload): Promise<unknown> {
       return services.commands.execute(commandId, payload, {
         source: pluginId,
       });
     },
 
     log(...args: unknown[]): void {
-      console.log(`[Plugin:${pluginId ?? "unknown"}]`, ...args);
+      console.log(`[Plugin:${pluginId ?? 'unknown'}]`, ...args);
     },
   };
 }
@@ -145,18 +108,13 @@ export interface Activatable {
   deactivate?: () => void | Promise<void>;
 }
 
-export async function activateObject(
-  target: Activatable,
-  context: PluginContext
-): Promise<void> {
+export async function activateObject(target: Activatable, context: PluginContext): Promise<void> {
   if (target.activate) {
     await target.activate(context);
   }
 }
 
-export async function deactivateObject(
-  target: Activatable
-): Promise<void> {
+export async function deactivateObject(target: Activatable): Promise<void> {
   if (target.deactivate) {
     await target.deactivate();
   }

@@ -117,7 +117,13 @@ export class ZeroDependencyChartEngine {
    */
   public renderInteractiveSvg(
     config: ChartConfig,
-    state: ChartInteractionState = { zoom: 1, panX: 0, panY: 0, hoveredIndex: null, selectedIndex: null }
+    state: ChartInteractionState = {
+      zoom: 1,
+      panX: 0,
+      panY: 0,
+      hoveredIndex: null,
+      selectedIndex: null,
+    },
   ): { svgString: string; computedTooltip: ChartInteractionState['tooltipPos'] } {
     const activeType = state.activeType || config.type;
     const width = config.width || 600;
@@ -147,7 +153,15 @@ export class ZeroDependencyChartEngine {
       }
       case 'line':
       case 'stepline': {
-        const res = this.renderLineChart(data, chartW, chartH, padding, palette, state, activeType === 'stepline');
+        const res = this.renderLineChart(
+          data,
+          chartW,
+          chartH,
+          padding,
+          palette,
+          state,
+          activeType === 'stepline',
+        );
         innerContent = res.content;
         computedTooltip = res.tooltip;
         break;
@@ -160,8 +174,9 @@ export class ZeroDependencyChartEngine {
       }
       case 'pie':
       case 'donut': {
-        const isDonut = activeType === 'donut' || (config.donutHoleRatio && config.donutHoleRatio > 0);
-        const ratio = isDonut ? (config.donutHoleRatio || 0.55) : 0;
+        const isDonut =
+          activeType === 'donut' || (config.donutHoleRatio && config.donutHoleRatio > 0);
+        const ratio = isDonut ? config.donutHoleRatio || 0.55 : 0;
         const res = this.renderPieDonutChart(data, width, height, padding, palette, ratio, state);
         innerContent = res.content;
         computedTooltip = res.tooltip;
@@ -170,7 +185,15 @@ export class ZeroDependencyChartEngine {
       case 'scatter':
       case 'bubble': {
         const isBubble = activeType === 'bubble';
-        const res = this.renderScatterBubbleChart(data, chartW, chartH, padding, palette, isBubble, state);
+        const res = this.renderScatterBubbleChart(
+          data,
+          chartW,
+          chartH,
+          padding,
+          palette,
+          isBubble,
+          state,
+        );
         innerContent = res.content;
         computedTooltip = res.tooltip;
         break;
@@ -299,7 +322,8 @@ export class ZeroDependencyChartEngine {
     return {
       ...config,
       type: targetType,
-      donutHoleRatio: targetType === 'donut' ? 0.6 : targetType === 'pie' ? 0 : config.donutHoleRatio,
+      donutHoleRatio:
+        targetType === 'donut' ? 0.6 : targetType === 'pie' ? 0 : config.donutHoleRatio,
     };
   }
 
@@ -313,9 +337,9 @@ export class ZeroDependencyChartEngine {
     h: number,
     p: { top: number; right: number; bottom: number; left: number },
     palette: string[],
-    state: ChartInteractionState
+    state: ChartInteractionState,
   ) {
-    const maxVal = Math.max(1, ...data.map(d => Math.max(0, d.value)));
+    const maxVal = Math.max(1, ...data.map((d) => Math.max(0, d.value)));
     const barCount = data.length;
     const gapRatio = 0.3;
     const totalSlot = w / barCount;
@@ -378,9 +402,9 @@ export class ZeroDependencyChartEngine {
     h: number,
     p: { top: number; right: number; bottom: number; left: number },
     palette: string[],
-    state: ChartInteractionState
+    state: ChartInteractionState,
   ) {
-    const maxVal = Math.max(1, ...data.map(d => Math.max(0, d.value)));
+    const maxVal = Math.max(1, ...data.map((d) => Math.max(0, d.value)));
     const barCount = data.length;
     const slotH = h / barCount;
     const barH = Math.max(10, slotH * 0.65);
@@ -429,10 +453,10 @@ export class ZeroDependencyChartEngine {
     p: { top: number; right: number; bottom: number; left: number },
     palette: string[],
     state: ChartInteractionState,
-    isStep = false
+    isStep = false,
   ) {
-    const maxVal = Math.max(1, ...data.map(d => Math.max(0, d.value)));
-    const minVal = Math.min(0, ...data.map(d => d.value));
+    const maxVal = Math.max(1, ...data.map((d) => Math.max(0, d.value)));
+    const minVal = Math.min(0, ...data.map((d) => d.value));
     const range = maxVal - minVal || 1;
     const stepX = data.length > 1 ? w / (data.length - 1) : w;
 
@@ -500,10 +524,10 @@ export class ZeroDependencyChartEngine {
     h: number,
     p: { top: number; right: number; bottom: number; left: number },
     palette: string[],
-    state: ChartInteractionState
+    state: ChartInteractionState,
   ) {
     const lineRes = this.renderLineChart(data, w, h, p, palette, state);
-    const maxVal = Math.max(1, ...data.map(d => Math.max(0, d.value)));
+    const maxVal = Math.max(1, ...data.map((d) => Math.max(0, d.value)));
     const stepX = data.length > 1 ? w / (data.length - 1) : w;
 
     let areaD = `M ${p.left} ${p.top + h}`;
@@ -534,7 +558,7 @@ export class ZeroDependencyChartEngine {
     p: { top: number; right: number; bottom: number; left: number },
     palette: string[],
     donutRatio: number,
-    state: ChartInteractionState
+    state: ChartInteractionState,
   ) {
     const total = data.reduce((acc, d) => acc + Math.max(0, d.value), 0) || 1;
     const cx = w / 2;
@@ -576,8 +600,8 @@ export class ZeroDependencyChartEngine {
       if (isHovered) {
         const midAngle = currentAngle + sliceAngle / 2;
         tooltip = {
-          x: cx + (r * 0.7) * Math.cos(midAngle),
-          y: cy + (r * 0.7) * Math.sin(midAngle),
+          x: cx + r * 0.7 * Math.cos(midAngle),
+          y: cy + r * 0.7 * Math.sin(midAngle),
           title: d.label,
           value: d.value.toLocaleString(),
           percent: `${Math.round((d.value / total) * 100)}%`,
@@ -618,10 +642,10 @@ export class ZeroDependencyChartEngine {
     p: { top: number; right: number; bottom: number; left: number },
     palette: string[],
     isBubble: boolean,
-    state: ChartInteractionState
+    state: ChartInteractionState,
   ) {
-    const maxX = Math.max(1, ...data.map(d => d.secondaryValue ?? d.value));
-    const maxY = Math.max(1, ...data.map(d => d.value));
+    const maxX = Math.max(1, ...data.map((d) => d.secondaryValue ?? d.value));
+    const maxY = Math.max(1, ...data.map((d) => d.value));
     const grid = this.generateYGridLines(p.left, p.top, w, h, maxY);
 
     let nodes = '';
@@ -668,9 +692,9 @@ export class ZeroDependencyChartEngine {
     h: number,
     p: { top: number; right: number; bottom: number; left: number },
     palette: string[],
-    state: ChartInteractionState
+    state: ChartInteractionState,
   ) {
-    const maxVal = Math.max(1, ...data.map(d => d.value));
+    const maxVal = Math.max(1, ...data.map((d) => d.value));
     const cx = w / 2;
     const cy = p.top + (h - p.top - p.bottom) / 2;
     const r = Math.min(cx - p.left, cy - p.top) * 0.8;
@@ -678,7 +702,7 @@ export class ZeroDependencyChartEngine {
     const angleStep = (2 * Math.PI) / count;
 
     let webLines = '';
-    [0.25, 0.5, 0.75, 1].forEach(level => {
+    [0.25, 0.5, 0.75, 1].forEach((level) => {
       let ringPoints = '';
       for (let i = 0; i < count; i++) {
         const angle = -Math.PI / 2 + i * angleStep;
@@ -725,7 +749,7 @@ export class ZeroDependencyChartEngine {
     h: number,
     p: { top: number; right: number; bottom: number; left: number },
     palette: string[],
-    state: ChartInteractionState
+    state: ChartInteractionState,
   ) {
     const val = data[0]?.value || 75;
     const maxVal = data[0]?.target || 100;
@@ -782,7 +806,7 @@ export class ZeroDependencyChartEngine {
     h: number,
     p: { top: number; right: number; bottom: number; left: number },
     palette: string[],
-    state: ChartInteractionState
+    state: ChartInteractionState,
   ) {
     const count = data.length;
     const slotH = h / count;
@@ -837,10 +861,10 @@ export class ZeroDependencyChartEngine {
     w: number,
     h: number,
     p: { top: number; right: number; bottom: number; left: number },
-    state: ChartInteractionState
+    state: ChartInteractionState,
   ) {
-    const allHighs = data.map(d => d.high ?? d.value * 1.1);
-    const allLows = data.map(d => d.low ?? d.value * 0.9);
+    const allHighs = data.map((d) => d.high ?? d.value * 1.1);
+    const allLows = data.map((d) => d.low ?? d.value * 0.9);
     const maxVal = Math.max(1, ...allHighs);
     const minVal = Math.min(...allLows);
     const range = maxVal - minVal || 1;
@@ -903,16 +927,16 @@ export class ZeroDependencyChartEngine {
     h: number,
     p: { top: number; right: number; bottom: number; left: number },
     palette: string[],
-    state: ChartInteractionState
+    state: ChartInteractionState,
   ) {
     let running = 0;
-    const values = data.map(d => {
+    const values = data.map((d) => {
       const start = running;
       running += d.value;
       return { ...d, start, end: running };
     });
 
-    const maxVal = Math.max(1, ...values.map(v => Math.max(v.start, v.end)));
+    const maxVal = Math.max(1, ...values.map((v) => Math.max(v.start, v.end)));
     const count = data.length;
     const slotW = w / count;
     const barW = Math.max(10, slotW * 0.7);
@@ -930,7 +954,12 @@ export class ZeroDependencyChartEngine {
       const color = isPositive ? '#10b981' : '#ef4444';
 
       if (state.hoveredIndex === i) {
-        tooltip = { x: x + barW / 2, y, title: d.label, value: `${d.value > 0 ? '+' : ''}${d.value}` };
+        tooltip = {
+          x: x + barW / 2,
+          y,
+          title: d.label,
+          value: `${d.value > 0 ? '+' : ''}${d.value}`,
+        };
       }
 
       bars += `
@@ -957,7 +986,7 @@ export class ZeroDependencyChartEngine {
     h: number,
     p: { top: number; right: number; bottom: number; left: number },
     palette: string[],
-    state: ChartInteractionState
+    state: ChartInteractionState,
   ) {
     return this.renderBarChart(data, w, h, p, palette, state);
   }
@@ -968,9 +997,9 @@ export class ZeroDependencyChartEngine {
     h: number,
     p: { top: number; right: number; bottom: number; left: number },
     palette: string[],
-    state: ChartInteractionState
+    state: ChartInteractionState,
   ) {
-    const maxVal = Math.max(1, ...data.map(d => d.value));
+    const maxVal = Math.max(1, ...data.map((d) => d.value));
     const cx = w / 2;
     const cy = p.top + (h - p.top - p.bottom) / 2;
     const maxR = Math.min(cx - p.left, cy - p.top) * 0.8;
@@ -1016,7 +1045,7 @@ export class ZeroDependencyChartEngine {
     h: number,
     p: { top: number; right: number; bottom: number; left: number },
     palette: string[],
-    state: ChartInteractionState
+    state: ChartInteractionState,
   ) {
     const cx = w / 2;
     const cy = p.top + (h - p.top - p.bottom) / 2;
@@ -1064,7 +1093,7 @@ export class ZeroDependencyChartEngine {
     h: number,
     p: { top: number; right: number; bottom: number; left: number },
     palette: string[],
-    state: ChartInteractionState
+    state: ChartInteractionState,
   ) {
     const d = data[0] || { label: 'الأداء', value: 82, target: 95 };
     const maxVal = Math.max(100, (d.target || 100) * 1.2);
@@ -1090,7 +1119,7 @@ export class ZeroDependencyChartEngine {
     h: number,
     p: { top: number; right: number; bottom: number; left: number },
     palette: string[],
-    state: ChartInteractionState
+    state: ChartInteractionState,
   ) {
     return this.renderFunnelChart(data, w, h, p, palette, state);
   }
@@ -1100,13 +1129,13 @@ export class ZeroDependencyChartEngine {
     w: number,
     h: number,
     p: { top: number; right: number; bottom: number; left: number },
-    state: ChartInteractionState
+    state: ChartInteractionState,
   ) {
     const cols = 7;
     const rows = Math.ceil(data.length / cols) || 1;
     const cellW = w / cols;
     const cellH = h / rows;
-    const maxVal = Math.max(1, ...data.map(d => d.value));
+    const maxVal = Math.max(1, ...data.map((d) => d.value));
 
     let cells = '';
     let tooltip: ChartInteractionState['tooltipPos'] = null;
@@ -1152,10 +1181,10 @@ export class ZeroDependencyChartEngine {
     w: number,
     h: number,
     palette: string[],
-    state: ChartInteractionState
+    state: ChartInteractionState,
   ) {
-    const maxVal = Math.max(1, ...data.map(d => d.value));
-    const minVal = Math.min(0, ...data.map(d => d.value));
+    const maxVal = Math.max(1, ...data.map((d) => d.value));
+    const minVal = Math.min(0, ...data.map((d) => d.value));
     const range = maxVal - minVal || 1;
     const stepX = data.length > 1 ? (w - 20) / (data.length - 1) : w;
 
@@ -1170,7 +1199,13 @@ export class ZeroDependencyChartEngine {
     return { content, tooltip: null };
   }
 
-  private generateYGridLines(left: number, top: number, w: number, h: number, maxVal: number): string {
+  private generateYGridLines(
+    left: number,
+    top: number,
+    w: number,
+    h: number,
+    maxVal: number,
+  ): string {
     const steps = 4;
     let grid = '';
     for (let i = 0; i <= steps; i++) {
@@ -1206,7 +1241,13 @@ export class ZeroDependencyChartEngine {
   /**
    * قائمة الـ 20 نموذجاً للمخططات الحية الجاهزة للاستعراض والتوليد المباشر
    */
-  public get20ChartPresets(): { id: string; title: string; type: ChartType; description: string; data: ChartDataPoint[] }[] {
+  public get20ChartPresets(): {
+    id: string;
+    title: string;
+    type: ChartType;
+    description: string;
+    data: ChartDataPoint[];
+  }[] {
     return [
       {
         id: 'p1-sales-bar',
@@ -1362,8 +1403,20 @@ export class ZeroDependencyChartEngine {
         type: 'heatmap',
         description: 'مصفوفة حرارية لضغط الخوادم على مدار أيام الأسبوع.',
         data: [
-          { label: 'س1', value: 12 }, { label: 'س2', value: 35 }, { label: 'س3', value: 80 }, { label: 'س4', value: 95 }, { label: 'س5', value: 70 }, { label: 'س6', value: 40 }, { label: 'س7', value: 15 },
-          { label: 'ح1', value: 20 }, { label: 'ح2', value: 45 }, { label: 'ح3', value: 90 }, { label: 'ح4', value: 100 }, { label: 'ح5', value: 85 }, { label: 'ح6', value: 50 }, { label: 'ح7', value: 25 },
+          { label: 'س1', value: 12 },
+          { label: 'س2', value: 35 },
+          { label: 'س3', value: 80 },
+          { label: 'س4', value: 95 },
+          { label: 'س5', value: 70 },
+          { label: 'س6', value: 40 },
+          { label: 'س7', value: 15 },
+          { label: 'ح1', value: 20 },
+          { label: 'ح2', value: 45 },
+          { label: 'ح3', value: 90 },
+          { label: 'ح4', value: 100 },
+          { label: 'ح5', value: 85 },
+          { label: 'ح6', value: 50 },
+          { label: 'ح7', value: 25 },
         ],
       },
       {

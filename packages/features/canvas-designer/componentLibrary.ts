@@ -1396,7 +1396,7 @@ export function instantiateTemplate(
   x = 100,
   y = 100,
   layerId = 'layer-main',
-  stageWidth = 1200
+  stageWidth = 1200,
 ): CanvasElement[] {
   let item: WebTemplateItem | undefined;
   if (typeof templateOrId === 'string') {
@@ -1414,8 +1414,8 @@ export function instantiateTemplate(
   }
 
   const maxW = Math.max(280, stageWidth - 32);
-  let cardW = Math.min(760, maxW);
-  let cardH = Math.round(300 * (cardW / 760));
+  const cardW = Math.min(760, maxW);
+  const cardH = Math.round(300 * (cardW / 760));
   const finalX = Math.max(16, Math.round((stageWidth - cardW) / 2));
 
   return [

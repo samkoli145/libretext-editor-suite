@@ -64,7 +64,14 @@ export class ValueCompletionEngine {
   private cssValuePresets: Record<string, string[]> = {
     display: ['flex', 'block', 'inline-block', 'grid', 'none', 'inline-flex'],
     flexDirection: ['row', 'column', 'row-reverse', 'column-reverse'],
-    justifyContent: ['center', 'flex-start', 'flex-end', 'space-between', 'space-around', 'space-evenly'],
+    justifyContent: [
+      'center',
+      'flex-start',
+      'flex-end',
+      'space-between',
+      'space-around',
+      'space-evenly',
+    ],
     alignItems: ['center', 'flex-start', 'flex-end', 'stretch', 'baseline'],
     textAlign: ['right', 'center', 'left', 'justify'],
     fontWeight: ['400', '500', '600', '700', '800', '900', 'bold', 'normal'],

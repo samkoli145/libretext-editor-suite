@@ -69,7 +69,7 @@ export function snapPointToGrid(point: Point2D, gridSize: number = 10): Point2D 
 export function calculateSmartSnap(
   movingBox: BoundingBox,
   referenceBoxes: BoundingBox[],
-  config: SnapConfig = {}
+  config: SnapConfig = {},
 ): SnapResult {
   const threshold = config.snapThreshold ?? 6;
   const gridSize = config.gridSize ?? 10;

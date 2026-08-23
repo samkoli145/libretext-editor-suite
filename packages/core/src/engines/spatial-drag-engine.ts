@@ -42,8 +42,12 @@ function snapToGrid(value: number, gridSize: number): number {
 }
 
 function clampInBounds(
-  x: number, y: number, w: number, h: number,
-  canvasW: number, canvasH: number
+  x: number,
+  y: number,
+  w: number,
+  h: number,
+  canvasW: number,
+  canvasH: number,
 ): { x: number; y: number } {
   return {
     x: Math.max(0, Math.min(x, Math.max(0, canvasW - w))),
@@ -53,7 +57,7 @@ function clampInBounds(
 
 function buildInitialMap(
   elements: readonly DragElement[],
-  selectedIds: readonly string[]
+  selectedIds: readonly string[],
 ): ReadonlyMap<string, { readonly x: number; readonly y: number }> {
   const map = new Map<string, { readonly x: number; readonly y: number }>();
   for (const el of elements) {
@@ -96,7 +100,14 @@ export function createSpatialDragEngine() {
       if (!init) continue;
       const snappedX = snapToGrid(init.x + deltaX, state.snapGrid);
       const snappedY = snapToGrid(init.y + deltaY, state.snapGrid);
-      const clamped = clampInBounds(snappedX, snappedY, el.width, el.height, state.canvasWidth, state.canvasHeight);
+      const clamped = clampInBounds(
+        snappedX,
+        snappedY,
+        el.width,
+        el.height,
+        state.canvasWidth,
+        state.canvasHeight,
+      );
       results.push({ id: el.id, x: clamped.x, y: clamped.y });
     }
     return results;

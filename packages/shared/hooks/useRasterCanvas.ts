@@ -74,76 +74,91 @@ export function useRasterCanvas({
     setActiveLayerId(baseLayer.id);
   }, [width, height]);
 
-  const activeLayer = layers.find(l => l.id === activeLayerId) || layers[0] || null;
+  const activeLayer = layers.find((l) => l.id === activeLayerId) || layers[0] || null;
 
-  const startDrawing = useCallback((x: number, y: number, pressure = 0.5) => {
-    if (!activeLayer || activeLayer.locked || !activeLayer.visible) return;
-    isDrawingRef.current = true;
-    currentPointsRef.current = [{ x, y, pressure, time: Date.now() }];
+  const startDrawing = useCallback(
+    (x: number, y: number, pressure = 0.5) => {
+      if (!activeLayer || activeLayer.locked || !activeLayer.visible) return;
+      isDrawingRef.current = true;
+      currentPointsRef.current = [{ x, y, pressure, time: Date.now() }];
 
-    const ctx = activeLayer.canvas.getContext('2d');
-    if (!ctx) return;
+      const ctx = activeLayer.canvas.getContext('2d');
+      if (!ctx) return;
 
-    if (brushSettings.type === 'airbrush') {
-      BrushEngine.drawSpray(ctx, { x, y }, brushSettings);
-    } else {
-      BrushEngine.drawStroke(ctx, currentPointsRef.current, brushSettings);
-    }
-  }, [activeLayer, brushSettings]);
+      if (brushSettings.type === 'airbrush') {
+        BrushEngine.drawSpray(ctx, { x, y }, brushSettings);
+      } else {
+        BrushEngine.drawStroke(ctx, currentPointsRef.current, brushSettings);
+      }
+    },
+    [activeLayer, brushSettings],
+  );
 
-  const updateDrawing = useCallback((x: number, y: number, pressure = 0.5) => {
-    if (!isDrawingRef.current || !activeLayer) return;
-    const pt: BrushPoint = { x, y, pressure, time: Date.now() };
-    currentPointsRef.current.push(pt);
+  const updateDrawing = useCallback(
+    (x: number, y: number, pressure = 0.5) => {
+      if (!isDrawingRef.current || !activeLayer) return;
+      const pt: BrushPoint = { x, y, pressure, time: Date.now() };
+      currentPointsRef.current.push(pt);
 
-    const ctx = activeLayer.canvas.getContext('2d');
-    if (!ctx) return;
+      const ctx = activeLayer.canvas.getContext('2d');
+      if (!ctx) return;
 
-    if (brushSettings.type === 'airbrush') {
-      BrushEngine.drawSpray(ctx, pt, brushSettings);
-    } else {
-      BrushEngine.drawStroke(ctx, currentPointsRef.current, brushSettings);
-    }
-  }, [activeLayer, brushSettings]);
+      if (brushSettings.type === 'airbrush') {
+        BrushEngine.drawSpray(ctx, pt, brushSettings);
+      } else {
+        BrushEngine.drawStroke(ctx, currentPointsRef.current, brushSettings);
+      }
+    },
+    [activeLayer, brushSettings],
+  );
 
   const stopDrawing = useCallback(() => {
     isDrawingRef.current = false;
     currentPointsRef.current = [];
   }, []);
 
-  const addLayer = useCallback((name?: string) => {
-    const newCanvas = document.createElement('canvas');
-    newCanvas.width = width;
-    newCanvas.height = height;
+  const addLayer = useCallback(
+    (name?: string) => {
+      const newCanvas = document.createElement('canvas');
+      newCanvas.width = width;
+      newCanvas.height = height;
 
-    const newLayer: RasterLayer = {
-      id: `layer-${Date.now()}-${Math.random().toString(36).substr(2, 4)}`,
-      name: name || `طبقة ${layers.length + 1}`,
-      visible: true,
-      opacity: 1,
-      blendMode: 'normal',
-      canvas: newCanvas,
-    };
+      const newLayer: RasterLayer = {
+        id: `layer-${Date.now()}-${Math.random().toString(36).substr(2, 4)}`,
+        name: name || `طبقة ${layers.length + 1}`,
+        visible: true,
+        opacity: 1,
+        blendMode: 'normal',
+        canvas: newCanvas,
+      };
 
-    setLayers(prev => [...prev, newLayer]);
-    setActiveLayerId(newLayer.id);
-    return newLayer;
-  }, [width, height, layers.length]);
+      setLayers((prev) => [...prev, newLayer]);
+      setActiveLayerId(newLayer.id);
+      return newLayer;
+    },
+    [width, height, layers.length],
+  );
 
-  const deleteLayer = useCallback((id: string) => {
-    if (layers.length <= 1) return; // Keep at least one
-    setLayers(prev => prev.filter(l => l.id !== id));
-    setActiveLayerId(prev => (prev === id ? layers[0]?.id || null : prev));
-  }, [layers]);
+  const deleteLayer = useCallback(
+    (id: string) => {
+      if (layers.length <= 1) return; // Keep at least one
+      setLayers((prev) => prev.filter((l) => l.id !== id));
+      setActiveLayerId((prev) => (prev === id ? layers[0]?.id || null : prev));
+    },
+    [layers],
+  );
 
-  const applyBrightnessContrast = useCallback((brightness: number, contrast: number) => {
-    if (!activeLayer) return;
-    const ctx = activeLayer.canvas.getContext('2d');
-    if (!ctx) return;
-    const imgData = ctx.getImageData(0, 0, width, height);
-    ImageFiltersEngine.applyAdjustments(imgData, brightness, contrast, 0);
-    ctx.putImageData(imgData, 0, 0);
-  }, [activeLayer, width, height]);
+  const applyBrightnessContrast = useCallback(
+    (brightness: number, contrast: number) => {
+      if (!activeLayer) return;
+      const ctx = activeLayer.canvas.getContext('2d');
+      if (!ctx) return;
+      const imgData = ctx.getImageData(0, 0, width, height);
+      ImageFiltersEngine.applyAdjustments(imgData, brightness, contrast, 0);
+      ctx.putImageData(imgData, 0, 0);
+    },
+    [activeLayer, width, height],
+  );
 
   return {
     layers,

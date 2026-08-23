@@ -53,7 +53,7 @@ export function usePdfPagination({ doc, updateDoc }: UsePdfPaginationProps) {
         currentPage: Math.min(Math.max(1, pageNum), prev.totalPages),
       }));
     },
-    [updateDoc]
+    [updateDoc],
   );
 
   const rotatePage = useCallback(
@@ -71,7 +71,7 @@ export function usePdfPagination({ doc, updateDoc }: UsePdfPaginationProps) {
         };
       });
     },
-    [updateDoc]
+    [updateDoc],
   );
 
   const zoomIn = useCallback(() => {

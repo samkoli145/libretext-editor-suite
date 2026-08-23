@@ -76,7 +76,8 @@ export interface LatexSymbolItem {
   nameAr: string;
   latex: string;
   symbol: string;
-  category: 'greek' | 'operators' | 'relations' | 'structures' | 'calculus' | 'matrices' | 'physics-math';
+  category:
+    'greek' | 'operators' | 'relations' | 'structures' | 'calculus' | 'matrices' | 'physics-math';
   categoryAr: string;
   example?: string;
 }
@@ -118,60 +119,416 @@ export class ToolRegistry {
   // 2. LaTeX Symbols Library
   private latexSymbols: LatexSymbolItem[] = [
     // Greek Letters
-    { id: 'sym-alpha', name: 'alpha', nameAr: 'ألفا', latex: '\\alpha', symbol: 'α', category: 'greek', categoryAr: 'الحروف الإغريقية' },
-    { id: 'sym-beta', name: 'beta', nameAr: 'بيتا', latex: '\\beta', symbol: 'β', category: 'greek', categoryAr: 'الحروف الإغريقية' },
-    { id: 'sym-gamma', name: 'gamma', nameAr: 'غاما', latex: '\\gamma', symbol: 'γ', category: 'greek', categoryAr: 'الحروف الإغريقية' },
-    { id: 'sym-delta', name: 'delta', nameAr: 'دلتا', latex: '\\delta', symbol: 'δ', category: 'greek', categoryAr: 'الحروف الإغريقية' },
-    { id: 'sym-epsilon', name: 'epsilon', nameAr: 'إبسيلون', latex: '\\epsilon', symbol: 'ε', category: 'greek', categoryAr: 'الحروف الإغريقية' },
-    { id: 'sym-theta', name: 'theta', nameAr: 'ثيتا', latex: '\\theta', symbol: 'θ', category: 'greek', categoryAr: 'الحروف الإغريقية' },
-    { id: 'sym-lambda', name: 'lambda', nameAr: 'لامدا', latex: '\\lambda', symbol: 'λ', category: 'greek', categoryAr: 'الحروف الإغريقية' },
-    { id: 'sym-mu', name: 'mu', nameAr: 'ميو', latex: '\\mu', symbol: 'μ', category: 'greek', categoryAr: 'الحروف الإغريقية' },
-    { id: 'sym-pi', name: 'pi', nameAr: 'باي (ط)', latex: '\\pi', symbol: 'π', category: 'greek', categoryAr: 'الحروف الإغريقية' },
-    { id: 'sym-sigma', name: 'sigma', nameAr: 'سيغما', latex: '\\sigma', symbol: 'σ', category: 'greek', categoryAr: 'الحروف الإغريقية' },
-    { id: 'sym-phi', name: 'phi', nameAr: 'فاي', latex: '\\phi', symbol: 'φ', category: 'greek', categoryAr: 'الحروف الإغريقية' },
-    { id: 'sym-omega', name: 'omega', nameAr: 'أوميغا', latex: '\\omega', symbol: 'ω', category: 'greek', categoryAr: 'الحروف الإغريقية' },
-    { id: 'sym-cap-delta', name: 'Delta', nameAr: 'دلتا الكبيرة', latex: '\\Delta', symbol: 'Δ', category: 'greek', categoryAr: 'الحروف الإغريقية' },
-    { id: 'sym-cap-sigma', name: 'Sigma', nameAr: 'سيغما الكبيرة', latex: '\\Sigma', symbol: 'Σ', category: 'greek', categoryAr: 'الحروف الإغريقية' },
-    { id: 'sym-cap-omega', name: 'Omega', nameAr: 'أوميغا الكبيرة', latex: '\\Omega', symbol: 'Ω', category: 'greek', categoryAr: 'الحروف الإغريقية' },
+    {
+      id: 'sym-alpha',
+      name: 'alpha',
+      nameAr: 'ألفا',
+      latex: '\\alpha',
+      symbol: 'α',
+      category: 'greek',
+      categoryAr: 'الحروف الإغريقية',
+    },
+    {
+      id: 'sym-beta',
+      name: 'beta',
+      nameAr: 'بيتا',
+      latex: '\\beta',
+      symbol: 'β',
+      category: 'greek',
+      categoryAr: 'الحروف الإغريقية',
+    },
+    {
+      id: 'sym-gamma',
+      name: 'gamma',
+      nameAr: 'غاما',
+      latex: '\\gamma',
+      symbol: 'γ',
+      category: 'greek',
+      categoryAr: 'الحروف الإغريقية',
+    },
+    {
+      id: 'sym-delta',
+      name: 'delta',
+      nameAr: 'دلتا',
+      latex: '\\delta',
+      symbol: 'δ',
+      category: 'greek',
+      categoryAr: 'الحروف الإغريقية',
+    },
+    {
+      id: 'sym-epsilon',
+      name: 'epsilon',
+      nameAr: 'إبسيلون',
+      latex: '\\epsilon',
+      symbol: 'ε',
+      category: 'greek',
+      categoryAr: 'الحروف الإغريقية',
+    },
+    {
+      id: 'sym-theta',
+      name: 'theta',
+      nameAr: 'ثيتا',
+      latex: '\\theta',
+      symbol: 'θ',
+      category: 'greek',
+      categoryAr: 'الحروف الإغريقية',
+    },
+    {
+      id: 'sym-lambda',
+      name: 'lambda',
+      nameAr: 'لامدا',
+      latex: '\\lambda',
+      symbol: 'λ',
+      category: 'greek',
+      categoryAr: 'الحروف الإغريقية',
+    },
+    {
+      id: 'sym-mu',
+      name: 'mu',
+      nameAr: 'ميو',
+      latex: '\\mu',
+      symbol: 'μ',
+      category: 'greek',
+      categoryAr: 'الحروف الإغريقية',
+    },
+    {
+      id: 'sym-pi',
+      name: 'pi',
+      nameAr: 'باي (ط)',
+      latex: '\\pi',
+      symbol: 'π',
+      category: 'greek',
+      categoryAr: 'الحروف الإغريقية',
+    },
+    {
+      id: 'sym-sigma',
+      name: 'sigma',
+      nameAr: 'سيغما',
+      latex: '\\sigma',
+      symbol: 'σ',
+      category: 'greek',
+      categoryAr: 'الحروف الإغريقية',
+    },
+    {
+      id: 'sym-phi',
+      name: 'phi',
+      nameAr: 'فاي',
+      latex: '\\phi',
+      symbol: 'φ',
+      category: 'greek',
+      categoryAr: 'الحروف الإغريقية',
+    },
+    {
+      id: 'sym-omega',
+      name: 'omega',
+      nameAr: 'أوميغا',
+      latex: '\\omega',
+      symbol: 'ω',
+      category: 'greek',
+      categoryAr: 'الحروف الإغريقية',
+    },
+    {
+      id: 'sym-cap-delta',
+      name: 'Delta',
+      nameAr: 'دلتا الكبيرة',
+      latex: '\\Delta',
+      symbol: 'Δ',
+      category: 'greek',
+      categoryAr: 'الحروف الإغريقية',
+    },
+    {
+      id: 'sym-cap-sigma',
+      name: 'Sigma',
+      nameAr: 'سيغما الكبيرة',
+      latex: '\\Sigma',
+      symbol: 'Σ',
+      category: 'greek',
+      categoryAr: 'الحروف الإغريقية',
+    },
+    {
+      id: 'sym-cap-omega',
+      name: 'Omega',
+      nameAr: 'أوميغا الكبيرة',
+      latex: '\\Omega',
+      symbol: 'Ω',
+      category: 'greek',
+      categoryAr: 'الحروف الإغريقية',
+    },
 
     // Operators & Calculations
-    { id: 'sym-pm', name: 'plus-minus', nameAr: 'زائد أو ناقص', latex: '\\pm', symbol: '±', category: 'operators', categoryAr: 'العمليات الحسابية' },
-    { id: 'sym-times', name: 'times', nameAr: 'ضرب', latex: '\\times', symbol: '×', category: 'operators', categoryAr: 'العمليات الحسابية' },
-    { id: 'sym-div', name: 'divide', nameAr: 'قسمة', latex: '\\div', symbol: '÷', category: 'operators', categoryAr: 'العمليات الحسابية' },
-    { id: 'sym-cdot', name: 'dot', nameAr: 'نقطة ضرب', latex: '\\cdot', symbol: '·', category: 'operators', categoryAr: 'العمليات الحسابية' },
-    { id: 'sym-sqrt', name: 'sqrt', nameAr: 'جذر تربيعي', latex: '\\sqrt{x}', symbol: '√x', category: 'operators', categoryAr: 'العمليات الحسابية' },
-    { id: 'sym-infinity', name: 'infinity', nameAr: 'ما لا نهاية', latex: '\\infty', symbol: '∞', category: 'operators', categoryAr: 'العمليات الحسابية' },
-    { id: 'sym-partial', name: 'partial', nameAr: 'تفاضل جزئي', latex: '\\partial', symbol: '∂', category: 'operators', categoryAr: 'العمليات الحسابية' },
-    { id: 'sym-nabla', name: 'nabla', nameAr: 'المؤثر التدرجي', latex: '\\nabla', symbol: '∇', category: 'operators', categoryAr: 'العمليات الحسابية' },
+    {
+      id: 'sym-pm',
+      name: 'plus-minus',
+      nameAr: 'زائد أو ناقص',
+      latex: '\\pm',
+      symbol: '±',
+      category: 'operators',
+      categoryAr: 'العمليات الحسابية',
+    },
+    {
+      id: 'sym-times',
+      name: 'times',
+      nameAr: 'ضرب',
+      latex: '\\times',
+      symbol: '×',
+      category: 'operators',
+      categoryAr: 'العمليات الحسابية',
+    },
+    {
+      id: 'sym-div',
+      name: 'divide',
+      nameAr: 'قسمة',
+      latex: '\\div',
+      symbol: '÷',
+      category: 'operators',
+      categoryAr: 'العمليات الحسابية',
+    },
+    {
+      id: 'sym-cdot',
+      name: 'dot',
+      nameAr: 'نقطة ضرب',
+      latex: '\\cdot',
+      symbol: '·',
+      category: 'operators',
+      categoryAr: 'العمليات الحسابية',
+    },
+    {
+      id: 'sym-sqrt',
+      name: 'sqrt',
+      nameAr: 'جذر تربيعي',
+      latex: '\\sqrt{x}',
+      symbol: '√x',
+      category: 'operators',
+      categoryAr: 'العمليات الحسابية',
+    },
+    {
+      id: 'sym-infinity',
+      name: 'infinity',
+      nameAr: 'ما لا نهاية',
+      latex: '\\infty',
+      symbol: '∞',
+      category: 'operators',
+      categoryAr: 'العمليات الحسابية',
+    },
+    {
+      id: 'sym-partial',
+      name: 'partial',
+      nameAr: 'تفاضل جزئي',
+      latex: '\\partial',
+      symbol: '∂',
+      category: 'operators',
+      categoryAr: 'العمليات الحسابية',
+    },
+    {
+      id: 'sym-nabla',
+      name: 'nabla',
+      nameAr: 'المؤثر التدرجي',
+      latex: '\\nabla',
+      symbol: '∇',
+      category: 'operators',
+      categoryAr: 'العمليات الحسابية',
+    },
 
     // Relations & Logic
-    { id: 'sym-leq', name: 'less-equal', nameAr: 'أصغر من أو يساوي', latex: '\\leq', symbol: '≤', category: 'relations', categoryAr: 'العلاقات والمقارنات' },
-    { id: 'sym-geq', name: 'greater-equal', nameAr: 'أكبر من أو يساوي', latex: '\\geq', symbol: '≥', category: 'relations', categoryAr: 'العلاقات والمقارنات' },
-    { id: 'sym-neq', name: 'not-equal', nameAr: 'لا يساوي', latex: '\\neq', symbol: '≠', category: 'relations', categoryAr: 'العلاقات والمقارنات' },
-    { id: 'sym-approx', name: 'approx', nameAr: 'يساوي تقريباً', latex: '\\approx', symbol: '≈', category: 'relations', categoryAr: 'العلاقات والمقارنات' },
-    { id: 'sym-equiv', name: 'equiv', nameAr: 'تطابق', latex: '\\equiv', symbol: '≡', category: 'relations', categoryAr: 'العلاقات والمقارنات' },
-    { id: 'sym-in', name: 'in', nameAr: 'ينتمي إلى', latex: '\\in', symbol: '∈', category: 'relations', categoryAr: 'العلاقات والمقارنات' },
-    { id: 'sym-subset', name: 'subset', nameAr: 'مجموعة جزئية', latex: '\\subset', symbol: '⊂', category: 'relations', categoryAr: 'العلاقات والمقارنات' },
-    { id: 'sym-cup', name: 'union', nameAr: 'اتحاد', latex: '\\cup', symbol: '∪', category: 'relations', categoryAr: 'العلاقات والمقارنات' },
-    { id: 'sym-cap', name: 'intersection', nameAr: 'تقاطع', latex: '\\cap', symbol: '∩', category: 'relations', categoryAr: 'العلاقات والمقارنات' },
+    {
+      id: 'sym-leq',
+      name: 'less-equal',
+      nameAr: 'أصغر من أو يساوي',
+      latex: '\\leq',
+      symbol: '≤',
+      category: 'relations',
+      categoryAr: 'العلاقات والمقارنات',
+    },
+    {
+      id: 'sym-geq',
+      name: 'greater-equal',
+      nameAr: 'أكبر من أو يساوي',
+      latex: '\\geq',
+      symbol: '≥',
+      category: 'relations',
+      categoryAr: 'العلاقات والمقارنات',
+    },
+    {
+      id: 'sym-neq',
+      name: 'not-equal',
+      nameAr: 'لا يساوي',
+      latex: '\\neq',
+      symbol: '≠',
+      category: 'relations',
+      categoryAr: 'العلاقات والمقارنات',
+    },
+    {
+      id: 'sym-approx',
+      name: 'approx',
+      nameAr: 'يساوي تقريباً',
+      latex: '\\approx',
+      symbol: '≈',
+      category: 'relations',
+      categoryAr: 'العلاقات والمقارنات',
+    },
+    {
+      id: 'sym-equiv',
+      name: 'equiv',
+      nameAr: 'تطابق',
+      latex: '\\equiv',
+      symbol: '≡',
+      category: 'relations',
+      categoryAr: 'العلاقات والمقارنات',
+    },
+    {
+      id: 'sym-in',
+      name: 'in',
+      nameAr: 'ينتمي إلى',
+      latex: '\\in',
+      symbol: '∈',
+      category: 'relations',
+      categoryAr: 'العلاقات والمقارنات',
+    },
+    {
+      id: 'sym-subset',
+      name: 'subset',
+      nameAr: 'مجموعة جزئية',
+      latex: '\\subset',
+      symbol: '⊂',
+      category: 'relations',
+      categoryAr: 'العلاقات والمقارنات',
+    },
+    {
+      id: 'sym-cup',
+      name: 'union',
+      nameAr: 'اتحاد',
+      latex: '\\cup',
+      symbol: '∪',
+      category: 'relations',
+      categoryAr: 'العلاقات والمقارنات',
+    },
+    {
+      id: 'sym-cap',
+      name: 'intersection',
+      nameAr: 'تقاطع',
+      latex: '\\cap',
+      symbol: '∩',
+      category: 'relations',
+      categoryAr: 'العلاقات والمقارنات',
+    },
 
     // Math Structures
-    { id: 'str-frac', name: 'fraction', nameAr: 'كسر اعتيادي', latex: '\\frac{a}{b}', symbol: 'a/b', category: 'structures', categoryAr: 'البنى الرياضية والكسور', example: '\\frac{x+1}{x-1}' },
-    { id: 'str-sqrt-n', name: 'sqrt-n', nameAr: 'جذر نوني', latex: '\\sqrt[n]{x}', symbol: 'ⁿ√x', category: 'structures', categoryAr: 'البنى الرياضية والكسور', example: '\\sqrt[3]{8}' },
-    { id: 'str-pow', name: 'power', nameAr: 'أس وقوة', latex: 'x^{n}', symbol: 'xⁿ', category: 'structures', categoryAr: 'البنى الرياضية والكسور', example: 'e^{x}' },
-    { id: 'str-sub', name: 'subscript', nameAr: 'دليل سفلي', latex: 'x_{i}', symbol: 'xᵢ', category: 'structures', categoryAr: 'البنى الرياضية والكسور', example: 'a_{n}' },
-    { id: 'str-pow-sub', name: 'pow-sub', nameAr: 'أس مع دليل سفلي', latex: 'x_{i}^{2}', symbol: 'xᵢ²', category: 'structures', categoryAr: 'البنى الرياضية والكسور' },
+    {
+      id: 'str-frac',
+      name: 'fraction',
+      nameAr: 'كسر اعتيادي',
+      latex: '\\frac{a}{b}',
+      symbol: 'a/b',
+      category: 'structures',
+      categoryAr: 'البنى الرياضية والكسور',
+      example: '\\frac{x+1}{x-1}',
+    },
+    {
+      id: 'str-sqrt-n',
+      name: 'sqrt-n',
+      nameAr: 'جذر نوني',
+      latex: '\\sqrt[n]{x}',
+      symbol: 'ⁿ√x',
+      category: 'structures',
+      categoryAr: 'البنى الرياضية والكسور',
+      example: '\\sqrt[3]{8}',
+    },
+    {
+      id: 'str-pow',
+      name: 'power',
+      nameAr: 'أس وقوة',
+      latex: 'x^{n}',
+      symbol: 'xⁿ',
+      category: 'structures',
+      categoryAr: 'البنى الرياضية والكسور',
+      example: 'e^{x}',
+    },
+    {
+      id: 'str-sub',
+      name: 'subscript',
+      nameAr: 'دليل سفلي',
+      latex: 'x_{i}',
+      symbol: 'xᵢ',
+      category: 'structures',
+      categoryAr: 'البنى الرياضية والكسور',
+      example: 'a_{n}',
+    },
+    {
+      id: 'str-pow-sub',
+      name: 'pow-sub',
+      nameAr: 'أس مع دليل سفلي',
+      latex: 'x_{i}^{2}',
+      symbol: 'xᵢ²',
+      category: 'structures',
+      categoryAr: 'البنى الرياضية والكسور',
+    },
 
     // Calculus
-    { id: 'str-int', name: 'integral', nameAr: 'تكامل غير محدد', latex: '\\int f(x)\\,dx', symbol: '∫', category: 'calculus', categoryAr: 'التفاضل والتكامل' },
-    { id: 'str-int-def', name: 'def-integral', nameAr: 'تكامل محدد بحدود', latex: '\\int_{a}^{b} f(x)\\,dx', symbol: '∫ₐᵇ', category: 'calculus', categoryAr: 'التفاضل والتكامل' },
-    { id: 'str-sum', name: 'summation', nameAr: 'مجموع متسلسل', latex: '\\sum_{i=1}^{n} x_i', symbol: '∑', category: 'calculus', categoryAr: 'التفاضل والتكامل' },
-    { id: 'str-prod', name: 'product', nameAr: 'جداء متسلسل', latex: '\\prod_{i=1}^{n} x_i', symbol: '∏', category: 'calculus', categoryAr: 'التفاضل والتكامل' },
-    { id: 'str-lim', name: 'limit', nameAr: 'نهاية دالة', latex: '\\lim_{x \\to a} f(x)', symbol: 'lim', category: 'calculus', categoryAr: 'التفاضل والتكامل' },
+    {
+      id: 'str-int',
+      name: 'integral',
+      nameAr: 'تكامل غير محدد',
+      latex: '\\int f(x)\\,dx',
+      symbol: '∫',
+      category: 'calculus',
+      categoryAr: 'التفاضل والتكامل',
+    },
+    {
+      id: 'str-int-def',
+      name: 'def-integral',
+      nameAr: 'تكامل محدد بحدود',
+      latex: '\\int_{a}^{b} f(x)\\,dx',
+      symbol: '∫ₐᵇ',
+      category: 'calculus',
+      categoryAr: 'التفاضل والتكامل',
+    },
+    {
+      id: 'str-sum',
+      name: 'summation',
+      nameAr: 'مجموع متسلسل',
+      latex: '\\sum_{i=1}^{n} x_i',
+      symbol: '∑',
+      category: 'calculus',
+      categoryAr: 'التفاضل والتكامل',
+    },
+    {
+      id: 'str-prod',
+      name: 'product',
+      nameAr: 'جداء متسلسل',
+      latex: '\\prod_{i=1}^{n} x_i',
+      symbol: '∏',
+      category: 'calculus',
+      categoryAr: 'التفاضل والتكامل',
+    },
+    {
+      id: 'str-lim',
+      name: 'limit',
+      nameAr: 'نهاية دالة',
+      latex: '\\lim_{x \\to a} f(x)',
+      symbol: 'lim',
+      category: 'calculus',
+      categoryAr: 'التفاضل والتكامل',
+    },
 
     // Matrices
-    { id: 'str-mat-2x2', name: 'matrix-2x2', nameAr: 'مصفوفة 2×2', latex: '\\begin{bmatrix} a & b \\\\ c & d \\end{bmatrix}', symbol: '[2×2]', category: 'matrices', categoryAr: 'المصفوفات والمتجهات' },
-    { id: 'str-mat-3x3', name: 'matrix-3x3', nameAr: 'مصفوفة 3×3', latex: '\\begin{bmatrix} a & b & c \\\\ d & e & f \\\\ g & h & i \\end{bmatrix}', symbol: '[3×3]', category: 'matrices', categoryAr: 'المصفوفات والمتجهات' },
+    {
+      id: 'str-mat-2x2',
+      name: 'matrix-2x2',
+      nameAr: 'مصفوفة 2×2',
+      latex: '\\begin{bmatrix} a & b \\\\ c & d \\end{bmatrix}',
+      symbol: '[2×2]',
+      category: 'matrices',
+      categoryAr: 'المصفوفات والمتجهات',
+    },
+    {
+      id: 'str-mat-3x3',
+      name: 'matrix-3x3',
+      nameAr: 'مصفوفة 3×3',
+      latex: '\\begin{bmatrix} a & b & c \\\\ d & e & f \\\\ g & h & i \\end{bmatrix}',
+      symbol: '[3×3]',
+      category: 'matrices',
+      categoryAr: 'المصفوفات والمتجهات',
+    },
   ];
 
   // 3. Ready Math & Physics Formulas Presets
@@ -514,7 +871,8 @@ export class ToolRegistry {
 
       case 'latex:run-calc': {
         const calcId = tool.payload?.calcId || 'calc-sum';
-        const calcTool = this.arithmeticTools.find((c) => c.id === calcId) || this.arithmeticTools[0];
+        const calcTool =
+          this.arithmeticTools.find((c) => c.id === calcId) || this.arithmeticTools[0];
         const defaultInputs = [10, 20, 30];
         const calcRes = calcTool.calculate(defaultInputs);
         const rendered = this.renderLatexHtml(calcRes.stepLatex, true);
@@ -624,10 +982,15 @@ export class ToolRegistry {
       case 'tool:clip-payload': {
         // حمولة القصاصات الذكية: تسلسل العناصر/الشرائح (Serialize) مع إعادة
         // بناء غير الموثوق (Sanitize/Parse) — كلها بلا DOM في النواة المعزولة.
-        const elements = Array.isArray(context?.canvasStore?.elements) ? context.canvasStore.elements : [];
+        const elements = Array.isArray(context?.canvasStore?.elements)
+          ? context.canvasStore.elements
+          : [];
         const clipHelpers = {
-          serializeElements: (els?: unknown[], assets?: Record<string, string>, fonts?: unknown[]) =>
-            serializeElements((els as any) ?? elements, assets, fonts as any),
+          serializeElements: (
+            els?: unknown[],
+            assets?: Record<string, string>,
+            fonts?: unknown[],
+          ) => serializeElements((els as any) ?? elements, assets, fonts as any),
           serializeSlides,
           parseClip,
           sanitizeElementLike,
@@ -679,7 +1042,9 @@ export class ToolRegistry {
     if (!type) return '';
 
     // البحث أولاً في مكتبة القوالب الجاهزة
-    const templateMatch = WEB_COMPONENT_LIBRARY.find((t) => t.category === type || t.id.includes(type));
+    const templateMatch = WEB_COMPONENT_LIBRARY.find(
+      (t) => t.category === type || t.id.includes(type),
+    );
     if (templateMatch) {
       return templateMatch.templateHtml;
     }

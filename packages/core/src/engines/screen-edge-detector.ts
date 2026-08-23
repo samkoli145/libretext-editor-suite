@@ -28,7 +28,11 @@ export interface FlipResult {
   readonly flippedY: boolean;
 }
 
-function clampToViewport(x: number, max: number, menuSize: number): { val: number; flipped: boolean } {
+function clampToViewport(
+  x: number,
+  max: number,
+  menuSize: number,
+): { val: number; flipped: boolean } {
   if (x + menuSize > max) return { val: Math.max(0, x - menuSize), flipped: true };
   if (x < 0) return { val: 0, flipped: true };
   return { val: x, flipped: false };
@@ -46,7 +50,8 @@ export function detectAndFlip(
 }
 
 export function isNearEdge(
-  x: number, y: number,
+  x: number,
+  y: number,
   viewport: ViewportBounds,
   edgeThreshold = 50,
 ): { nearRight: boolean; nearBottom: boolean; nearLeft: boolean; nearTop: boolean } {

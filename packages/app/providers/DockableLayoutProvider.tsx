@@ -29,7 +29,7 @@
  * ═══════════════════════════════════════════════════════════════
  * موفر إدارة ومزامنة أبعاد وتخطيطات الألواح والشرائط المثبتة عبر المحررات
  * (Synchronized Dockable Layout & Panels State Provider).
- * 
+ *
  * التوجهات والغرض:
  * 1. مزامنة حالة الألواح الجانبية (Left / Right Sidebars):
  *    - العرض (Width)، التثبيت (Pinned)، الرؤية (Visibility)، الطفو (Floating Position).
@@ -414,7 +414,7 @@ export function DockableLayoutProvider({ children }: { children: ReactNode }) {
       toggleTopBarPinned,
       setActiveRibbonTab,
       resetLayoutDefaults,
-    ]
+    ],
   );
 
   return <DockableLayoutContext.Provider value={value}>{children}</DockableLayoutContext.Provider>;

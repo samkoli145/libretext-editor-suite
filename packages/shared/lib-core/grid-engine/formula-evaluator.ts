@@ -77,7 +77,10 @@ const BUILTIN_FUNCTIONS: Record<string, (args: Array<Cell | Cell[]>, ctx: EvalCo
   },
 
   AVERAGE: (args) => {
-    const flat = flattenCells(args).filter((c) => typeof c === 'number' || (typeof c === 'string' && !isNaN(Number(c)) && c.trim() !== ''));
+    const flat = flattenCells(args).filter(
+      (c) =>
+        typeof c === 'number' || (typeof c === 'string' && !isNaN(Number(c)) && c.trim() !== ''),
+    );
     if (flat.length === 0) return new FormulaError('#DIV/0!', 'Average of empty set');
     const sum = flat.reduce<number>((acc, c) => acc + toNumber(c), 0);
     return sum / flat.length;
@@ -85,7 +88,10 @@ const BUILTIN_FUNCTIONS: Record<string, (args: Array<Cell | Cell[]>, ctx: EvalCo
 
   COUNT: (args) => {
     const flat = flattenCells(args);
-    return flat.filter((c) => typeof c === 'number' || (typeof c === 'string' && !isNaN(Number(c)) && c.trim() !== '')).length;
+    return flat.filter(
+      (c) =>
+        typeof c === 'number' || (typeof c === 'string' && !isNaN(Number(c)) && c.trim() !== ''),
+    ).length;
   },
 
   COUNTA: (args) => {
@@ -94,17 +100,29 @@ const BUILTIN_FUNCTIONS: Record<string, (args: Array<Cell | Cell[]>, ctx: EvalCo
   },
 
   MIN: (args) => {
-    const flat = flattenCells(args).map((c) => {
-      try { return toNumber(c); } catch { return null; }
-    }).filter((n): n is number => n !== null);
+    const flat = flattenCells(args)
+      .map((c) => {
+        try {
+          return toNumber(c);
+        } catch {
+          return null;
+        }
+      })
+      .filter((n): n is number => n !== null);
     if (flat.length === 0) return 0;
     return Math.min(...flat);
   },
 
   MAX: (args) => {
-    const flat = flattenCells(args).map((c) => {
-      try { return toNumber(c); } catch { return null; }
-    }).filter((n): n is number => n !== null);
+    const flat = flattenCells(args)
+      .map((c) => {
+        try {
+          return toNumber(c);
+        } catch {
+          return null;
+        }
+      })
+      .filter((n): n is number => n !== null);
     if (flat.length === 0) return 0;
     return Math.max(...flat);
   },
@@ -376,7 +394,12 @@ export function evaluateExpression(expr: string, ctx: EvalContext): Cell {
     }
 
     // دوال أو متغيرات / مراجع
-    if ((char >= 'a' && char <= 'z') || (char >= 'A' && char <= 'Z') || char === '_' || char === '$') {
+    if (
+      (char >= 'a' && char <= 'z') ||
+      (char >= 'A' && char <= 'Z') ||
+      char === '_' ||
+      char === '$'
+    ) {
       let identifier = '';
       while (
         pos < str.length &&

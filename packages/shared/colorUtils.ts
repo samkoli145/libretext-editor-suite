@@ -53,7 +53,15 @@ export function hexToRgba(hex: string, alpha = 1): string {
  */
 export function getAccessibleTextColor(hexColor: string): '#ffffff' | '#1e293b' {
   const cleanHex = hexColor.replace('#', '');
-  const num = parseInt(cleanHex.length === 3 ? cleanHex.split('').map(c => c+c).join('') : cleanHex, 16);
+  const num = parseInt(
+    cleanHex.length === 3
+      ? cleanHex
+          .split('')
+          .map((c) => c + c)
+          .join('')
+      : cleanHex,
+    16,
+  );
   const r = (num >> 16) & 255;
   const g = (num >> 8) & 255;
   const b = num & 255;

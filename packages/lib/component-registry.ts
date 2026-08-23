@@ -24,13 +24,7 @@
  */
 
 export type UIComponentCategory =
-  | 'shell'
-  | 'canvas-designer'
-  | 'ui-designer'
-  | 'rich-text'
-  | 'pdf'
-  | 'shared-modal'
-  | 'tooling';
+  'shell' | 'canvas-designer' | 'ui-designer' | 'rich-text' | 'pdf' | 'shared-modal' | 'tooling';
 
 export type UIPosition =
   | 'top-bar'
@@ -90,7 +84,8 @@ const INITIAL_COMPONENTS: Record<string, UIComponentRegistration> = {
     isDraggable: false,
     configKey: 'showTabsBar',
     iconName: 'Layout',
-    descriptionAr: 'شريط إدارة التبويبات والمستندات المفتوحة بأسلوب المتصفح مع إجراءات الإغلاق والتنقل.',
+    descriptionAr:
+      'شريط إدارة التبويبات والمستندات المفتوحة بأسلوب المتصفح مع إجراءات الإغلاق والتنقل.',
     supportedInteractions: {
       mouseRightClick: true,
       keyboardShortcut: 'Ctrl+T / Ctrl+W / Ctrl+Tab',

@@ -71,10 +71,20 @@ import {
   ChevronDown,
   Edit3,
 } from 'lucide-react';
-import { imageStyleEngine, type ImageStyleOptions, type ImageShapeType, type ShadowPreset, type GlossPreset } from '../../shared/engines/ImageStyleEngine';
+import {
+  imageStyleEngine,
+  type ImageStyleOptions,
+  type ImageShapeType,
+  type ShadowPreset,
+  type GlossPreset,
+} from '../../shared/engines/ImageStyleEngine';
 import { latexEngine } from '../../shared/engines/LaTeXEngine';
 import { mindMapEngine, type MindMapNode } from '../../shared/engines/MindMapEngine';
-import { presentationNotebookEngine, type NotebookSlide, type HeaderFooterTemplate } from '../../shared/engines/PresentationNotebookEngine';
+import {
+  presentationNotebookEngine,
+  type NotebookSlide,
+  type HeaderFooterTemplate,
+} from '../../shared/engines/PresentationNotebookEngine';
 import { dialogEngine } from '../../shared/engines/DialogEngine';
 import { ImageEditor } from '../../shared/components/ImageEditor';
 
@@ -165,7 +175,9 @@ export const Canvas: React.FC<CanvasProps> = ({
   >('select');
 
   // Canvas Mode
-  const [canvasMode, setCanvasMode] = useState<'design' | 'mindmap' | 'notebook' | 'drawing'>(initialMode);
+  const [canvasMode, setCanvasMode] = useState<'design' | 'mindmap' | 'notebook' | 'drawing'>(
+    initialMode,
+  );
 
   // Elements State
   const [elements, setElements] = useState<CanvasShapeElement[]>(() => {
@@ -223,10 +235,14 @@ export const Canvas: React.FC<CanvasProps> = ({
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
 
   // Mindmap Data
-  const [mindMapRoot, setMindMapRoot] = useState<MindMapNode>(() => mindMapEngine.createSampleMindMap('الخريطة الذهنية المركزية'));
+  const [mindMapRoot, setMindMapRoot] = useState<MindMapNode>(() =>
+    mindMapEngine.createSampleMindMap('الخريطة الذهنية المركزية'),
+  );
 
   // Presentation Notebook Data
-  const [notebookData, setNotebookData] = useState(() => presentationNotebookEngine.createSampleNotebook());
+  const [notebookData, setNotebookData] = useState(() =>
+    presentationNotebookEngine.createSampleNotebook(),
+  );
   const [activeSlideIndex, setActiveSlideIndex] = useState(0);
 
   // Image Shape Transformer Modal State
@@ -245,7 +261,11 @@ export const Canvas: React.FC<CanvasProps> = ({
       if (selectedElement.type === 'latex') {
         code = `$$ ${selectedElement.latex || ''} $$`;
       } else if (selectedElement.type === 'image') {
-        code = imageStyleEngine.renderToHtml(selectedElement.imageUrl || '', 'صورة منسقة', selectedElement.imageOptions);
+        code = imageStyleEngine.renderToHtml(
+          selectedElement.imageUrl || '',
+          'صورة منسقة',
+          selectedElement.imageOptions,
+        );
       } else if (selectedElement.type === 'callout') {
         code = `<div class="p-4 bg-white border-2 border-blue-500 rounded-xl shadow-xs">\n  <strong>${selectedElement.calloutTitle}</strong>\n  <p>${selectedElement.calloutDescription}</p>\n</div>`;
       } else {
@@ -281,7 +301,7 @@ export const Canvas: React.FC<CanvasProps> = ({
         prev.filter((p) => {
           const isNear = p.points.some((pt) => Math.hypot(pt.x - clickX, pt.y - clickY) < 20);
           return !isNear;
-        })
+        }),
       );
       return;
     }
@@ -325,7 +345,8 @@ export const Canvas: React.FC<CanvasProps> = ({
           y: clickY - 80,
           width: 200,
           height: 160,
-          imageUrl: 'https://images.unsplash.com/photo-1579783902614-a3fb3927b675?auto=format&fit=crop&w=600&q=80',
+          imageUrl:
+            'https://images.unsplash.com/photo-1579783902614-a3fb3927b675?auto=format&fit=crop&w=600&q=80',
           imageOptions: {
             shape: 'rounded',
             borderRadius: 16,
@@ -370,10 +391,16 @@ export const Canvas: React.FC<CanvasProps> = ({
     const moveY = (e.clientY - rect.top) / scale;
 
     if (currentPath) {
-      setCurrentPath((prev) => (prev ? { ...prev, points: [...prev.points, { x: moveX, y: moveY }] } : null));
+      setCurrentPath((prev) =>
+        prev ? { ...prev, points: [...prev.points, { x: moveX, y: moveY }] } : null,
+      );
     } else if (isDragging && selectedId) {
       setElements((prev) =>
-        prev.map((el) => (el.id === selectedId ? { ...el, x: Math.round(moveX - dragOffset.x), y: Math.round(moveY - dragOffset.y) } : el))
+        prev.map((el) =>
+          el.id === selectedId
+            ? { ...el, x: Math.round(moveX - dragOffset.x), y: Math.round(moveY - dragOffset.y) }
+            : el,
+        ),
       );
     }
   };
@@ -437,7 +464,10 @@ export const Canvas: React.FC<CanvasProps> = ({
   };
 
   return (
-    <div className="w-full h-full flex flex-col bg-slate-100 overflow-hidden select-none font-sans text-slate-800" dir="rtl">
+    <div
+      className="w-full h-full flex flex-col bg-slate-100 overflow-hidden select-none font-sans text-slate-800"
+      dir="rtl"
+    >
       {/* 1. TOP TOOLBAR */}
       <div className="h-12 bg-white border-b border-slate-200 px-4 flex items-center justify-between gap-3 shadow-xs shrink-0 z-20">
         {/* Left: Modes & Viewport */}
@@ -447,7 +477,9 @@ export const Canvas: React.FC<CanvasProps> = ({
             <button
               onClick={() => setCanvasMode('design')}
               className={`px-3 py-1 rounded-md text-xs font-bold transition-all ${
-                canvasMode === 'design' ? 'bg-white text-blue-600 shadow-xs' : 'text-slate-600 hover:text-slate-900'
+                canvasMode === 'design'
+                  ? 'bg-white text-blue-600 shadow-xs'
+                  : 'text-slate-600 hover:text-slate-900'
               }`}
             >
               🎨 مصمم الأشكال
@@ -455,7 +487,9 @@ export const Canvas: React.FC<CanvasProps> = ({
             <button
               onClick={() => setCanvasMode('mindmap')}
               className={`px-3 py-1 rounded-md text-xs font-bold transition-all ${
-                canvasMode === 'mindmap' ? 'bg-white text-emerald-600 shadow-xs' : 'text-slate-600 hover:text-slate-900'
+                canvasMode === 'mindmap'
+                  ? 'bg-white text-emerald-600 shadow-xs'
+                  : 'text-slate-600 hover:text-slate-900'
               }`}
             >
               🧠 خرائط ذهنية
@@ -463,7 +497,9 @@ export const Canvas: React.FC<CanvasProps> = ({
             <button
               onClick={() => setCanvasMode('notebook')}
               className={`px-3 py-1 rounded-md text-xs font-bold transition-all ${
-                canvasMode === 'notebook' ? 'bg-white text-purple-600 shadow-xs' : 'text-slate-600 hover:text-slate-900'
+                canvasMode === 'notebook'
+                  ? 'bg-white text-purple-600 shadow-xs'
+                  : 'text-slate-600 hover:text-slate-900'
               }`}
             >
               📓 نوتبوك وشرائح
@@ -588,9 +624,19 @@ export const Canvas: React.FC<CanvasProps> = ({
               onClick={() => setViewOptionsOpen(!viewOptionsOpen)}
               className="flex items-center gap-1.5 px-2.5 py-1.5 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-lg text-xs font-semibold text-slate-700"
             >
-              <div className="w-3 h-3 rounded-full border border-slate-300" style={{
-                backgroundColor: canvasTheme === 'light' ? '#fff' : canvasTheme === 'warm-light' ? '#faf8f5' : canvasTheme === 'azure-light' ? '#f0f7ff' : '#f1f5f9'
-              }} />
+              <div
+                className="w-3 h-3 rounded-full border border-slate-300"
+                style={{
+                  backgroundColor:
+                    canvasTheme === 'light'
+                      ? '#fff'
+                      : canvasTheme === 'warm-light'
+                        ? '#faf8f5'
+                        : canvasTheme === 'azure-light'
+                          ? '#f0f7ff'
+                          : '#f1f5f9',
+                }}
+              />
               <span>الثيم الفاتح</span>
               <ChevronDown className="w-3.5 h-3.5 text-slate-400" />
             </button>
@@ -598,31 +644,55 @@ export const Canvas: React.FC<CanvasProps> = ({
             {viewOptionsOpen && (
               <div className="absolute left-0 top-full mt-1.5 w-44 bg-white border border-slate-200 rounded-xl shadow-lg p-1.5 z-50 text-xs space-y-0.5">
                 <button
-                  onClick={() => { setCanvasTheme('light'); setViewOptionsOpen(false); }}
+                  onClick={() => {
+                    setCanvasTheme('light');
+                    setViewOptionsOpen(false);
+                  }}
                   className="w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg hover:bg-slate-50 text-slate-700 font-medium text-right"
                 >
-                  <span className="flex items-center gap-2"><span className="w-3 h-3 rounded-full bg-white border border-slate-300" /> فاتح ناصع</span>
+                  <span className="flex items-center gap-2">
+                    <span className="w-3 h-3 rounded-full bg-white border border-slate-300" /> فاتح
+                    ناصع
+                  </span>
                   {canvasTheme === 'light' && <Check className="w-3.5 h-3.5 text-blue-600" />}
                 </button>
                 <button
-                  onClick={() => { setCanvasTheme('warm-light'); setViewOptionsOpen(false); }}
+                  onClick={() => {
+                    setCanvasTheme('warm-light');
+                    setViewOptionsOpen(false);
+                  }}
                   className="w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg hover:bg-slate-50 text-slate-700 font-medium text-right"
                 >
-                  <span className="flex items-center gap-2"><span className="w-3 h-3 rounded-full bg-[#faf8f5] border border-amber-200" /> دافئ مريح</span>
+                  <span className="flex items-center gap-2">
+                    <span className="w-3 h-3 rounded-full bg-[#faf8f5] border border-amber-200" />{' '}
+                    دافئ مريح
+                  </span>
                   {canvasTheme === 'warm-light' && <Check className="w-3.5 h-3.5 text-blue-600" />}
                 </button>
                 <button
-                  onClick={() => { setCanvasTheme('azure-light'); setViewOptionsOpen(false); }}
+                  onClick={() => {
+                    setCanvasTheme('azure-light');
+                    setViewOptionsOpen(false);
+                  }}
                   className="w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg hover:bg-slate-50 text-slate-700 font-medium text-right"
                 >
-                  <span className="flex items-center gap-2"><span className="w-3 h-3 rounded-full bg-[#f0f7ff] border border-blue-200" /> أزرق سماوي</span>
+                  <span className="flex items-center gap-2">
+                    <span className="w-3 h-3 rounded-full bg-[#f0f7ff] border border-blue-200" />{' '}
+                    أزرق سماوي
+                  </span>
                   {canvasTheme === 'azure-light' && <Check className="w-3.5 h-3.5 text-blue-600" />}
                 </button>
                 <button
-                  onClick={() => { setCanvasTheme('slate-light'); setViewOptionsOpen(false); }}
+                  onClick={() => {
+                    setCanvasTheme('slate-light');
+                    setViewOptionsOpen(false);
+                  }}
                   className="w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg hover:bg-slate-50 text-slate-700 font-medium text-right"
                 >
-                  <span className="flex items-center gap-2"><span className="w-3 h-3 rounded-full bg-[#f1f5f9] border border-slate-300" /> رمادي حديث</span>
+                  <span className="flex items-center gap-2">
+                    <span className="w-3 h-3 rounded-full bg-[#f1f5f9] border border-slate-300" />{' '}
+                    رمادي حديث
+                  </span>
                   {canvasTheme === 'slate-light' && <Check className="w-3.5 h-3.5 text-blue-600" />}
                 </button>
               </div>
@@ -640,11 +710,17 @@ export const Canvas: React.FC<CanvasProps> = ({
 
           {/* Zoom */}
           <div className="flex items-center gap-1 bg-slate-50 border border-slate-200 rounded-lg p-0.5 text-xs text-slate-700 font-semibold">
-            <button onClick={() => setZoomLevel((z) => Math.max(40, z - 10))} className="p-1 hover:bg-slate-200 rounded">
+            <button
+              onClick={() => setZoomLevel((z) => Math.max(40, z - 10))}
+              className="p-1 hover:bg-slate-200 rounded"
+            >
               <ZoomOut className="w-3.5 h-3.5" />
             </button>
             <span className="px-1">{zoomLevel}%</span>
-            <button onClick={() => setZoomLevel((z) => Math.min(250, z + 10))} className="p-1 hover:bg-slate-200 rounded">
+            <button
+              onClick={() => setZoomLevel((z) => Math.min(250, z + 10))}
+              className="p-1 hover:bg-slate-200 rounded"
+            >
               <ZoomIn className="w-3.5 h-3.5" />
             </button>
           </div>
@@ -683,7 +759,12 @@ export const Canvas: React.FC<CanvasProps> = ({
               {/* Dot Grid Pattern */}
               {showGrid && (
                 <defs>
-                  <pattern id="canvas-dot-grid" width="20" height="20" patternUnits="userSpaceOnUse">
+                  <pattern
+                    id="canvas-dot-grid"
+                    width="20"
+                    height="20"
+                    patternUnits="userSpaceOnUse"
+                  >
                     <circle cx="10" cy="10" r="1.2" fill="#cbd5e1" />
                   </pattern>
                 </defs>
@@ -692,7 +773,10 @@ export const Canvas: React.FC<CanvasProps> = ({
 
               {/* Freehand Drawing Paths */}
               {drawingPaths.map((p) => {
-                const d = p.points.reduce((acc, pt, i) => `${acc} ${i === 0 ? 'M' : 'L'} ${pt.x} ${pt.y}`, '');
+                const d = p.points.reduce(
+                  (acc, pt, i) => `${acc} ${i === 0 ? 'M' : 'L'} ${pt.x} ${pt.y}`,
+                  '',
+                );
                 return (
                   <path
                     key={p.id}
@@ -710,7 +794,10 @@ export const Canvas: React.FC<CanvasProps> = ({
               {/* Current Active Path */}
               {currentPath && (
                 <path
-                  d={currentPath.points.reduce((acc, pt, i) => `${acc} ${i === 0 ? 'M' : 'L'} ${pt.x} ${pt.y}`, '')}
+                  d={currentPath.points.reduce(
+                    (acc, pt, i) => `${acc} ${i === 0 ? 'M' : 'L'} ${pt.x} ${pt.y}`,
+                    '',
+                  )}
                   fill="none"
                   stroke={currentPath.color}
                   strokeWidth={currentPath.width}
@@ -743,7 +830,9 @@ export const Canvas: React.FC<CanvasProps> = ({
                   {el.type === 'latex' && (
                     <div
                       className="w-full h-full bg-white border border-slate-200 rounded-xl p-3 shadow-xs flex items-center justify-center overflow-x-auto select-all"
-                      dangerouslySetInnerHTML={{ __html: latexEngine.renderToHtml(el.latex || '', true) }}
+                      dangerouslySetInnerHTML={{
+                        __html: latexEngine.renderToHtml(el.latex || '', true),
+                      }}
                     />
                   )}
 
@@ -758,9 +847,13 @@ export const Canvas: React.FC<CanvasProps> = ({
                             {el.stepNumber}
                           </span>
                         )}
-                        <strong className="text-xs font-bold text-slate-800">{el.calloutTitle || 'شرح توضيحي'}</strong>
+                        <strong className="text-xs font-bold text-slate-800">
+                          {el.calloutTitle || 'شرح توضيحي'}
+                        </strong>
                       </div>
-                      <p className="text-[11px] text-slate-600 m-0 leading-relaxed">{el.calloutDescription}</p>
+                      <p className="text-[11px] text-slate-600 m-0 leading-relaxed">
+                        {el.calloutDescription}
+                      </p>
                     </div>
                   )}
 
@@ -768,7 +861,11 @@ export const Canvas: React.FC<CanvasProps> = ({
                     <div
                       className="w-full h-full relative"
                       dangerouslySetInnerHTML={{
-                        __html: imageStyleEngine.renderToHtml(el.imageUrl || '', 'صورة منسقة', el.imageOptions),
+                        __html: imageStyleEngine.renderToHtml(
+                          el.imageUrl || '',
+                          'صورة منسقة',
+                          el.imageOptions,
+                        ),
                       }}
                       onDoubleClick={() => setEditingImageId(el.id)}
                     />
@@ -832,8 +929,12 @@ export const Canvas: React.FC<CanvasProps> = ({
               <div className="flex items-center gap-2">
                 <span className="text-xl">🧠</span>
                 <div>
-                  <h3 className="font-extrabold text-slate-900 text-sm">محرر الخرائط الذهنية والعقد التفاعلية</h3>
-                  <p className="text-xs text-slate-500">توزيع تلقائي للمسارات المنحنية والعقد المركزية</p>
+                  <h3 className="font-extrabold text-slate-900 text-sm">
+                    محرر الخرائط الذهنية والعقد التفاعلية
+                  </h3>
+                  <p className="text-xs text-slate-500">
+                    توزيع تلقائي للمسارات المنحنية والعقد المركزية
+                  </p>
                 </div>
               </div>
               <button
@@ -867,7 +968,8 @@ export const Canvas: React.FC<CanvasProps> = ({
               <div className="flex items-center gap-2">
                 <BookOpen className="w-4 h-4 text-purple-600" />
                 <span className="font-bold text-xs text-slate-800">
-                  شريحة {activeSlideIndex + 1} من {notebookData.slides.length}: {notebookData.slides[activeSlideIndex]?.title}
+                  شريحة {activeSlideIndex + 1} من {notebookData.slides.length}:{' '}
+                  {notebookData.slides[activeSlideIndex]?.title}
                 </span>
               </div>
               <div className="flex items-center gap-1.5">
@@ -879,7 +981,9 @@ export const Canvas: React.FC<CanvasProps> = ({
                   السابق
                 </button>
                 <button
-                  onClick={() => setActiveSlideIndex((i) => Math.min(notebookData.slides.length - 1, i + 1))}
+                  onClick={() =>
+                    setActiveSlideIndex((i) => Math.min(notebookData.slides.length - 1, i + 1))
+                  }
                   disabled={activeSlideIndex === notebookData.slides.length - 1}
                   className="px-3 py-1 bg-purple-600 hover:bg-purple-700 disabled:opacity-40 text-white rounded-lg text-xs font-bold"
                 >
@@ -895,7 +999,7 @@ export const Canvas: React.FC<CanvasProps> = ({
                   __html: presentationNotebookEngine.renderSlideToHtml(
                     notebookData.slides[activeSlideIndex],
                     notebookData.headerFooter,
-                    notebookData.slides.length
+                    notebookData.slides.length,
                   ),
                 }}
               />
@@ -911,16 +1015,25 @@ export const Canvas: React.FC<CanvasProps> = ({
             <div className="px-6 py-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/60">
               <div className="flex items-center gap-2">
                 <ImageIcon className="w-4 h-4 text-sky-600" />
-                <h3 className="font-bold text-slate-800 text-sm">تنسيق الصورة وتشكيل الحواف واللمعان</h3>
+                <h3 className="font-bold text-slate-800 text-sm">
+                  تنسيق الصورة وتشكيل الحواف واللمعان
+                </h3>
               </div>
-              <button onClick={() => setEditingImageId(null)} className="text-slate-400 hover:text-slate-600">✕</button>
+              <button
+                onClick={() => setEditingImageId(null)}
+                className="text-slate-400 hover:text-slate-600"
+              >
+                ✕
+              </button>
             </div>
             <div className="p-6 space-y-4 max-h-[70vh] overflow-y-auto text-xs">
               {/* Button to Launch Full Image Editor */}
               <div className="p-3 bg-blue-50/80 border border-blue-200 rounded-xl flex items-center justify-between">
                 <div>
                   <div className="font-bold text-blue-900 text-xs">معالج ومحرر الصور المتقدم</div>
-                  <div className="text-[11px] text-blue-700">قص بـ 8 مقابض، تحكم بالسطوع والتباين، فلاتر، وتدوير</div>
+                  <div className="text-[11px] text-blue-700">
+                    قص بـ 8 مقابض، تحكم بالسطوع والتباين، فلاتر، وتدوير
+                  </div>
                 </div>
                 <button
                   type="button"
@@ -939,14 +1052,31 @@ export const Canvas: React.FC<CanvasProps> = ({
               </div>
 
               <div>
-                <label className="block font-bold text-slate-700 mb-2">الشكل الهندسي (Shape Mask)</label>
+                <label className="block font-bold text-slate-700 mb-2">
+                  الشكل الهندسي (Shape Mask)
+                </label>
                 <div className="grid grid-cols-4 gap-2">
-                  {(['rounded', 'circle', 'pill', 'hexagon', 'diamond', 'star', 'shield', 'squircle'] as ImageShapeType[]).map((shp) => (
+                  {(
+                    [
+                      'rounded',
+                      'circle',
+                      'pill',
+                      'hexagon',
+                      'diamond',
+                      'star',
+                      'shield',
+                      'squircle',
+                    ] as ImageShapeType[]
+                  ).map((shp) => (
                     <button
                       key={shp}
                       onClick={() => {
                         setElements((prev) =>
-                          prev.map((el) => (el.id === editingImageId ? { ...el, imageOptions: { ...el.imageOptions, shape: shp } } : el))
+                          prev.map((el) =>
+                            el.id === editingImageId
+                              ? { ...el, imageOptions: { ...el.imageOptions, shape: shp } }
+                              : el,
+                          ),
                         );
                       }}
                       className="p-2 border border-slate-200 rounded-lg hover:border-blue-500 capitalize text-center"
@@ -958,33 +1088,55 @@ export const Canvas: React.FC<CanvasProps> = ({
               </div>
 
               <div>
-                <label className="block font-bold text-slate-700 mb-2">تأثيرات اللمعان والانعكاس (Gloss / Shine)</label>
+                <label className="block font-bold text-slate-700 mb-2">
+                  تأثيرات اللمعان والانعكاس (Gloss / Shine)
+                </label>
                 <div className="grid grid-cols-3 gap-2">
-                  {(['none', 'top-shine', 'diagonal-gloss', 'glass-card'] as GlossPreset[]).map((gls) => (
-                    <button
-                      key={gls}
-                      onClick={() => {
-                        setElements((prev) =>
-                          prev.map((el) => (el.id === editingImageId ? { ...el, imageOptions: { ...el.imageOptions, gloss: gls } } : el))
-                        );
-                      }}
-                      className="p-2 border border-slate-200 rounded-lg hover:border-blue-500 capitalize text-center"
-                    >
-                      {gls}
-                    </button>
-                  ))}
+                  {(['none', 'top-shine', 'diagonal-gloss', 'glass-card'] as GlossPreset[]).map(
+                    (gls) => (
+                      <button
+                        key={gls}
+                        onClick={() => {
+                          setElements((prev) =>
+                            prev.map((el) =>
+                              el.id === editingImageId
+                                ? { ...el, imageOptions: { ...el.imageOptions, gloss: gls } }
+                                : el,
+                            ),
+                          );
+                        }}
+                        className="p-2 border border-slate-200 rounded-lg hover:border-blue-500 capitalize text-center"
+                      >
+                        {gls}
+                      </button>
+                    ),
+                  )}
                 </div>
               </div>
 
               <div>
-                <label className="block font-bold text-slate-700 mb-2">قوالب الظلال الناعمة (Elevation Shadows)</label>
+                <label className="block font-bold text-slate-700 mb-2">
+                  قوالب الظلال الناعمة (Elevation Shadows)
+                </label>
                 <div className="grid grid-cols-3 gap-2">
-                  {(['soft-subtle', 'elevation-md', 'elevation-lg', 'blue-glow', 'floating-3d'] as ShadowPreset[]).map((shd) => (
+                  {(
+                    [
+                      'soft-subtle',
+                      'elevation-md',
+                      'elevation-lg',
+                      'blue-glow',
+                      'floating-3d',
+                    ] as ShadowPreset[]
+                  ).map((shd) => (
                     <button
                       key={shd}
                       onClick={() => {
                         setElements((prev) =>
-                          prev.map((el) => (el.id === editingImageId ? { ...el, imageOptions: { ...el.imageOptions, shadow: shd } } : el))
+                          prev.map((el) =>
+                            el.id === editingImageId
+                              ? { ...el, imageOptions: { ...el.imageOptions, shadow: shd } }
+                              : el,
+                          ),
                         );
                       }}
                       className="p-2 border border-slate-200 rounded-lg hover:border-blue-500 capitalize text-center"
@@ -1022,8 +1174,8 @@ export const Canvas: React.FC<CanvasProps> = ({
                       width: Math.min(1000, result.width),
                       height: Math.min(800, result.height),
                     }
-                  : el
-              )
+                  : el,
+              ),
             );
             setAdvancedEditingImage(null);
           }}

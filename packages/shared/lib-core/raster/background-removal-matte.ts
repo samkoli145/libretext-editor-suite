@@ -52,12 +52,12 @@ export class BackgroundRemovalMatteEngine {
     imageData: ImageData,
     targetColor: RGBColor,
     tolerance = 25, // 0 to 100
-    feather = 10    // 0 to 50
+    feather = 10, // 0 to 50
   ): ImageData {
     const output = new ImageData(
       new Uint8ClampedArray(imageData.data),
       imageData.width,
-      imageData.height
+      imageData.height,
     );
     const data = output.data;
 
@@ -96,7 +96,7 @@ export class BackgroundRemovalMatteEngine {
     imageData: ImageData,
     startX: number,
     startY: number,
-    tolerance = 20
+    tolerance = 20,
   ): ImageData {
     const width = imageData.width;
     const height = imageData.height;
@@ -175,12 +175,12 @@ export class BackgroundRemovalMatteEngine {
   public static applyVignette(
     imageData: ImageData,
     radiusRatio = 0.75,
-    intensity = 0.5
+    intensity = 0.5,
   ): ImageData {
     const output = new ImageData(
       new Uint8ClampedArray(imageData.data),
       imageData.width,
-      imageData.height
+      imageData.height,
     );
     const data = output.data;
     const w = imageData.width;
@@ -216,12 +216,12 @@ export class BackgroundRemovalMatteEngine {
   public static applyDuotone(
     imageData: ImageData,
     darkHex = '#1e3a8a',
-    lightHex = '#60a5fa'
+    lightHex = '#60a5fa',
   ): ImageData {
     const output = new ImageData(
       new Uint8ClampedArray(imageData.data),
       imageData.width,
-      imageData.height
+      imageData.height,
     );
     const data = output.data;
 

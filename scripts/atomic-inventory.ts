@@ -51,7 +51,10 @@ function getAllSourceFiles(): string[] {
   const walk = (dir: string) => {
     for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
       const full = path.join(dir, entry.name);
-      if (entry.isDirectory()) { walk(full); continue; }
+      if (entry.isDirectory()) {
+        walk(full);
+        continue;
+      }
       if (!entry.name.endsWith('.ts') && !entry.name.endsWith('.tsx')) continue;
       if (entry.name.includes('.test.') || entry.name.includes('.spec.')) continue;
       if (entry.name === 'vite.config.ts' || entry.name === 'vitest.config.ts') continue;
@@ -64,7 +67,9 @@ function getAllSourceFiles(): string[] {
 
 function isImported(filePath: string, allFiles: string[]): boolean {
   const basename = path.basename(filePath, path.extname(filePath));
-  const relFromSrc = path.relative(path.join(path.dirname(filePath), '..'), filePath).replace(/\.(ts|tsx)$/, '');
+  const relFromSrc = path
+    .relative(path.join(path.dirname(filePath), '..'), filePath)
+    .replace(/\.(ts|tsx)$/, '');
 
   if (basename === 'index') return true;
 
@@ -74,7 +79,8 @@ function isImported(filePath: string, allFiles: string[]): boolean {
     // Check direct import by basename
     if (content.includes(`'./${basename}'`) || content.includes(`"./${basename}"`)) return true;
     // Check relative path import
-    if (relFromSrc && content.includes(`'${relFromSrc}'`) || content.includes(`"${relFromSrc}"`)) return true;
+    if ((relFromSrc && content.includes(`'${relFromSrc}'`)) || content.includes(`"${relFromSrc}"`))
+      return true;
     // Check if re-exported in index.ts
     if (f.endsWith('index.ts') && content.includes(basename)) return true;
   }
@@ -115,7 +121,7 @@ function buildTags(): AtomicTag[] {
     if (sameHash.length > 1) {
       status = 'duplicate';
       priority = 'high';
-      duplicateOf = sameHash.find(f => f !== filePath);
+      duplicateOf = sameHash.find((f) => f !== filePath);
       note = `Exact duplicate of ${path.relative(ROOT, duplicateOf || '')}`;
     }
     // Check unused
@@ -133,7 +139,15 @@ function buildTags(): AtomicTag[] {
 
     tags.push({
       id: `${(pkg || 'UNK').toUpperCase()}-${(sub || '').replace(/\//g, '-').toUpperCase() || 'ROOT'}-${(file || 'unknown').replace(/\.(ts|tsx)$/, '').toUpperCase()}`,
-      pkg: pkg || '', sub: sub || '', file: file || '', lines, hash, status, priority, duplicateOf, note,
+      pkg: pkg || '',
+      sub: sub || '',
+      file: file || '',
+      lines,
+      hash,
+      status,
+      priority,
+      duplicateOf,
+      note,
     });
   }
 
@@ -142,10 +156,10 @@ function buildTags(): AtomicTag[] {
 
 function generateReport(tags: AtomicTag[]): string {
   const now = new Date().toISOString().split('T')[0];
-  const active = tags.filter(t => t.status === 'active');
-  const duplicates = tags.filter(t => t.status === 'duplicate');
-  const unused = tags.filter(t => t.status === 'unused');
-  const oversized = tags.filter(t => t.status === 'oversized');
+  const active = tags.filter((t) => t.status === 'active');
+  const duplicates = tags.filter((t) => t.status === 'duplicate');
+  const unused = tags.filter((t) => t.status === 'unused');
+  const oversized = tags.filter((t) => t.status === 'oversized');
 
   let md = `# 🏷️ Atomic Inventory — جرد ذري شامل\n\n`;
   md += `> **تاريخ آخر تحديث:** ${now}\n`;
@@ -190,17 +204,21 @@ function generateReport(tags: AtomicTag[]): string {
 }
 
 function generateJson(tags: AtomicTag[]): string {
-  return JSON.stringify({
-    generated: new Date().toISOString(),
-    total: tags.length,
-    summary: {
-      active: tags.filter(t => t.status === 'active').length,
-      duplicate: tags.filter(t => t.status === 'duplicate').length,
-      unused: tags.filter(t => t.status === 'unused').length,
-      oversized: tags.filter(t => t.status === 'oversized').length,
+  return JSON.stringify(
+    {
+      generated: new Date().toISOString(),
+      total: tags.length,
+      summary: {
+        active: tags.filter((t) => t.status === 'active').length,
+        duplicate: tags.filter((t) => t.status === 'duplicate').length,
+        unused: tags.filter((t) => t.status === 'unused').length,
+        oversized: tags.filter((t) => t.status === 'oversized').length,
+      },
+      tags,
     },
-    tags,
-  }, null, 2);
+    null,
+    2,
+  );
 }
 
 function main() {
@@ -215,11 +233,13 @@ function main() {
   fs.writeFileSync(path.join(ROOT, 'ATOMIC_INVENTORY.json'), json, 'utf-8');
   console.log(`✅ ATOMIC_INVENTORY.json written`);
 
-  const active = tags.filter(t => t.status === 'active').length;
-  const dup = tags.filter(t => t.status === 'duplicate').length;
-  const unused = tags.filter(t => t.status === 'unused').length;
-  const big = tags.filter(t => t.status === 'oversized').length;
-  console.log(`\n📊 Summary: ${tags.length} total | ${active} active | ${dup} duplicates | ${unused} unused | ${big} oversized`);
+  const active = tags.filter((t) => t.status === 'active').length;
+  const dup = tags.filter((t) => t.status === 'duplicate').length;
+  const unused = tags.filter((t) => t.status === 'unused').length;
+  const big = tags.filter((t) => t.status === 'oversized').length;
+  console.log(
+    `\n📊 Summary: ${tags.length} total | ${active} active | ${dup} duplicates | ${unused} unused | ${big} oversized`,
+  );
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {

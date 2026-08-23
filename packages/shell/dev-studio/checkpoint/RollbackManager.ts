@@ -119,9 +119,7 @@ export class RollbackManager {
   rollback(ckpt: Checkpoint, project: ProjectSurface): RollbackResult {
     const eligibility = this.canRollback(ckpt);
     if (!eligibility.ok) {
-      throw new Error(
-        `[RollbackManager] لا يمكن التراجع عن "${ckpt.id}": ${eligibility.reason}`,
-      );
+      throw new Error(`[RollbackManager] لا يمكن التراجع عن "${ckpt.id}": ${eligibility.reason}`);
     }
 
     // ── التطبيق الذري ──

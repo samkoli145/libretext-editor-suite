@@ -36,7 +36,7 @@ describe('buildCanvasMenuItems', () => {
       onDelete: vi.fn(),
     });
 
-    const dup = items.find(i => i.type === 'action' && i.id === 'duplicate');
+    const dup = items.find((i) => i.type === 'action' && i.id === 'duplicate');
     expect(dup).toBeDefined();
     if (dup && 'iconKey' in dup) {
       expect(dup.iconKey).toBe('duplicate');
@@ -45,7 +45,7 @@ describe('buildCanvasMenuItems', () => {
 
   it('includes danger flag on delete', () => {
     const items = buildCanvasMenuItems({ onDelete: vi.fn() });
-    const del = items.find(i => i.type === 'action' && i.id === 'delete');
+    const del = items.find((i) => i.type === 'action' && i.id === 'delete');
     expect(del).toBeDefined();
     if (del && 'danger' in del) {
       expect(del.danger).toBe(true);
@@ -54,8 +54,8 @@ describe('buildCanvasMenuItems', () => {
 
   it('includes separator before delete', () => {
     const items = buildCanvasMenuItems({ onDelete: vi.fn(), onDuplicate: vi.fn() });
-    const sepIdx = items.findIndex(i => i.type === 'separator');
-    const delIdx = items.findIndex(i => i.type === 'action' && 'danger' in i && i.danger);
+    const sepIdx = items.findIndex((i) => i.type === 'separator');
+    const delIdx = items.findIndex((i) => i.type === 'action' && 'danger' in i && i.danger);
     expect(sepIdx).toBeGreaterThan(-1);
     expect(delIdx).toBeGreaterThan(sepIdx);
   });
@@ -67,7 +67,7 @@ describe('buildCanvasMenuItems', () => {
 
   it('includes labelAr', () => {
     const items = buildCanvasMenuItems({ onDuplicate: vi.fn() });
-    const dup = items.find(i => i.type === 'action' && i.id === 'duplicate');
+    const dup = items.find((i) => i.type === 'action' && i.id === 'duplicate');
     expect(dup).toBeDefined();
     if (dup && 'labelAr' in dup) {
       expect(dup.labelAr).toBe('تكرار');
@@ -85,7 +85,7 @@ describe('buildRichTextMenuItems', () => {
       onPaste: vi.fn(),
     });
 
-    const copy = items.find(i => i.type === 'action' && i.id === 'copy');
+    const copy = items.find((i) => i.type === 'action' && i.id === 'copy');
     expect(copy).toBeDefined();
     if (copy && 'iconKey' in copy) {
       expect(copy.iconKey).toBe('copy');
@@ -94,7 +94,7 @@ describe('buildRichTextMenuItems', () => {
 
   it('includes shortcuts', () => {
     const items = buildRichTextMenuItems({ onCut: vi.fn(), onCopy: vi.fn() });
-    const cut = items.find(i => i.type === 'action' && i.id === 'cut');
+    const cut = items.find((i) => i.type === 'action' && i.id === 'cut');
     expect(cut).toBeDefined();
     if (cut && 'shortcut' in cut) {
       expect(cut.shortcut).toBe('Ctrl+X');
@@ -103,7 +103,7 @@ describe('buildRichTextMenuItems', () => {
 
   it('delete is danger', () => {
     const items = buildRichTextMenuItems({ onDelete: vi.fn() });
-    const del = items.find(i => i.type === 'action' && i.id === 'delete');
+    const del = items.find((i) => i.type === 'action' && i.id === 'delete');
     expect(del).toBeDefined();
     if (del && 'danger' in del) {
       expect(del.danger).toBe(true);
@@ -125,9 +125,7 @@ describe('createContextMenuEngine with iconKey', () => {
     engine.register({
       id: 'test-menu',
       target: 'text',
-      items: [
-        { id: 'copy', type: 'action', label: 'Copy', iconKey: 'copy', handler: vi.fn() },
-      ],
+      items: [{ id: 'copy', type: 'action', label: 'Copy', iconKey: 'copy', handler: vi.fn() }],
     });
 
     const items = engine.getMenuItems(ctx);
@@ -154,9 +152,7 @@ describe('createContextMenuEngine with iconKey', () => {
           type: 'submenu',
           label: 'Export',
           iconKey: 'export-pdf',
-          items: [
-            { id: 'pdf', type: 'action', label: 'PDF', handler: vi.fn() },
-          ],
+          items: [{ id: 'pdf', type: 'action', label: 'PDF', handler: vi.fn() }],
         },
       ],
     });

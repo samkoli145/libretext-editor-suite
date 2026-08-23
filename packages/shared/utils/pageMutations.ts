@@ -37,7 +37,7 @@ export type PageTemplate = PageDocument & {
  * فحص ما إذا كانت الصفحة المحددة قالبًا محمياً.
  */
 export const isPageTemplate = (
-  page: Page | PageTemplate | undefined | null
+  page: Page | PageTemplate | undefined | null,
 ): page is PageTemplate => {
   if (!page) return false;
   return Boolean((page as any).isTemplate === true);
@@ -47,9 +47,7 @@ export const isPageTemplate = (
  * التحقق مما إذا كان المستند يقبل إدراج وتعديل وتحويل عناصر HTML.
  * تقبل مستندات HTML العمليات التفاعلية، بينما تُعامل القوالب أو المستندات النصية بقواعد مقيدة.
  */
-export const allowsHtmlMutations = (
-  page: Page | PageTemplate | undefined | null
-): boolean => {
+export const allowsHtmlMutations = (page: Page | PageTemplate | undefined | null): boolean => {
   if (!page || isPageTemplate(page)) {
     return false;
   }

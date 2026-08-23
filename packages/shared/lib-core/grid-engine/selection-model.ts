@@ -52,7 +52,7 @@ export function contains(box: NormalizedBox, row: number, col: number): boolean 
  */
 export function tsvFromRange(
   range: GridRange,
-  getValue: (row: number, col: number) => unknown
+  getValue: (row: number, col: number) => unknown,
 ): string {
   const box = normalizeBox(range);
   const rows: string[] = [];
@@ -85,10 +85,7 @@ export function parseTsv(tsv: string): string[][] {
 /**
  * الكشف التلقائي عن المتسلسلات وتعبئتها (Series Detection & Extrapolation)
  */
-export function fillSeries(
-  seedValues: unknown[],
-  targetCount: number
-): string[] {
+export function fillSeries(seedValues: unknown[], targetCount: number): string[] {
   if (seedValues.length === 0 || targetCount <= 0) return [];
   if (seedValues.length === 1) {
     const val = seedValues[0];
@@ -110,7 +107,9 @@ export function fillSeries(
   }
 
   // تكرار النمط الأبجدي / النصي
-  return Array.from({ length: targetCount }, (_, i) => String(seedValues[i % seedValues.length] ?? ''));
+  return Array.from({ length: targetCount }, (_, i) =>
+    String(seedValues[i % seedValues.length] ?? ''),
+  );
 }
 
 /**
@@ -186,12 +185,18 @@ export class SelectionModel {
     return this.ranges[0] ?? { anchor: { ...this.cursor }, head: { ...this.cursor } };
   }
 
-  public getSummary(getValue: (r: number, c: number) => unknown): { ref: string; sum?: number; count: number; avg?: number } {
+  public getSummary(getValue: (r: number, c: number) => unknown): {
+    ref: string;
+    sum?: number;
+    count: number;
+    avg?: number;
+  } {
     const p = this.primaryRange();
     const box = normalizeBox(p);
-    const ref = box.top === box.bottom && box.left === box.right
-      ? formatRef(box.top, box.left)
-      : `${formatRef(box.top, box.left)}:${formatRef(box.bottom, box.right)}`;
+    const ref =
+      box.top === box.bottom && box.left === box.right
+        ? formatRef(box.top, box.left)
+        : `${formatRef(box.top, box.left)}:${formatRef(box.bottom, box.right)}`;
 
     let count = 0;
     let numCount = 0;
@@ -222,12 +227,7 @@ export class SelectionModel {
     };
   }
 
-  public moveCursor(
-    dRow: number,
-    dCol: number,
-    shiftKey = false,
-    cmdKey = false
-  ): void {
+  public moveCursor(dRow: number, dCol: number, shiftKey = false, cmdKey = false): void {
     if (cmdKey) {
       // Edge Jump
       if (dRow > 0) dRow = this.maxRows - 1 - this.cursor.row;

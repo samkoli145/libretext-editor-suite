@@ -238,26 +238,20 @@ export const SharedContextMenu: React.FC<SharedContextMenuProps> = ({
                 isDisabled
                   ? 'text-slate-300 cursor-not-allowed'
                   : isDanger
-                  ? 'text-rose-600 hover:bg-rose-50 active:bg-rose-100 cursor-pointer'
-                  : 'text-slate-700 hover:bg-slate-50 hover:text-slate-900 active:bg-slate-100 cursor-pointer'
+                    ? 'text-rose-600 hover:bg-rose-50 active:bg-rose-100 cursor-pointer'
+                    : 'text-slate-700 hover:bg-slate-50 hover:text-slate-900 active:bg-slate-100 cursor-pointer'
               }`}
             >
               <div className="flex items-center gap-2 min-w-0">
                 {renderIcon(item.icon)}
-                <span className="truncate font-medium text-xs">
-                  {item.labelAr || item.label}
-                </span>
+                <span className="truncate font-medium text-xs">{item.labelAr || item.label}</span>
               </div>
 
               {/* حالة الاختيار أو الاختصار إن وجد */}
               <div className="flex items-center gap-1.5 shrink-0 ml-2">
-                {item.checked && (
-                  <Check className="w-3.5 h-3.5 text-blue-600" />
-                )}
+                {item.checked && <Check className="w-3.5 h-3.5 text-blue-600" />}
                 {item.shortcut && (
-                  <span className="text-[10px] text-slate-400 font-mono">
-                    {item.shortcut}
-                  </span>
+                  <span className="text-[10px] text-slate-400 font-mono">{item.shortcut}</span>
                 )}
                 {item.children && item.children.length > 0 && (
                   <ChevronRight className="w-3 h-3 text-slate-400" />

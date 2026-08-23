@@ -190,7 +190,10 @@ export function generateTsxNode(node: HtmlBlockNode, indent = 0): string {
  * توليد مستند HTML متكامل مع Tailwind CDN
  * // @function-index: #4/5 — generateFullHtmlDocument
  */
-export function generateFullHtmlDocument(rootNodes: HtmlBlockNode[], title = 'مكون واجهة HTML'): string {
+export function generateFullHtmlDocument(
+  rootNodes: HtmlBlockNode[],
+  title = 'مكون واجهة HTML',
+): string {
   const bodyContent = rootNodes.map((n) => generateHtmlNode(n, 2)).join('\n');
   return `<!DOCTYPE html>
 <html lang="ar" dir="rtl">
@@ -212,7 +215,10 @@ ${bodyContent}
  * توليد مكون React TSX كامل قابل للاستيراد والاستخدام المباشر
  * // @function-index: #5/5 — generateFullTsxComponent
  */
-export function generateFullTsxComponent(rootNodes: HtmlBlockNode[], componentName = 'UIComponent'): string {
+export function generateFullTsxComponent(
+  rootNodes: HtmlBlockNode[],
+  componentName = 'UIComponent',
+): string {
   const jsxContent = rootNodes.map((n) => generateTsxNode(n, 2)).join('\n');
   return `import React from 'react';
 

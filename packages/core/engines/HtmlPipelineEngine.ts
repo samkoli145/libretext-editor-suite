@@ -55,7 +55,10 @@ export function sanitizeHtml(html: string, options?: { stripStyles?: boolean }):
   allElements.forEach((el) => {
     const attributes = Array.from(el.attributes);
     for (const attr of attributes) {
-      if (attr.name.toLowerCase().startsWith('on') || attr.value.toLowerCase().startsWith('javascript:')) {
+      if (
+        attr.name.toLowerCase().startsWith('on') ||
+        attr.value.toLowerCase().startsWith('javascript:')
+      ) {
         el.removeAttribute(attr.name);
       }
       if (options?.stripStyles && attr.name.toLowerCase() === 'style') {
@@ -72,7 +75,7 @@ export function sanitizeHtml(html: string, options?: { stripStyles?: boolean }):
  */
 export function htmlToRichTextDocument(
   htmlContent: string,
-  options?: HtmlToRichTextOptions
+  options?: HtmlToRichTextOptions,
 ): DocumentModel<RichTextData> {
   const cleanHtml = sanitizeHtml(htmlContent, { stripStyles: options?.stripStyles });
   const title = options?.title || extractHtmlTitle(htmlContent) || 'مستند HTML مستورد';
@@ -308,7 +311,9 @@ export function exportDocumentToCleanHtml(document: DocumentModel): string {
             }
             if (el.type === 'image') {
               const rawSrc = (el.src || el.props?.src || '') as string;
-              const src = rawSrc.trim().toLowerCase().startsWith('javascript:') ? '' : escapeHtml(rawSrc);
+              const src = rawSrc.trim().toLowerCase().startsWith('javascript:')
+                ? ''
+                : escapeHtml(rawSrc);
               const alt = escapeHtml((el.alt || el.props?.alt || '') as string);
               return `<img src="${src}" alt="${alt}" style="position: absolute; left: ${el.x}px; top: ${el.y}px; width: ${el.width}px; height: ${el.height}px; object-fit: contain;" />`;
             }
@@ -536,7 +541,9 @@ function stripHtmlTags(text: string): string {
  */
 function readAttr(attrs: string, name: string): string {
   const escaped = name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-  const match = attrs.match(new RegExp(`\\b${escaped}\\s*=\\s*(?:"([^"]*)"|'([^']*)'|([^\\s>]+))`, 'i'));
+  const match = attrs.match(
+    new RegExp(`\\b${escaped}\\s*=\\s*(?:"([^"]*)"|'([^']*)'|([^\\s>]+))`, 'i'),
+  );
   if (!match) return '';
   return match[1] ?? match[2] ?? match[3] ?? '';
 }

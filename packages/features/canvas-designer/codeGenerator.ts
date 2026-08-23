@@ -94,7 +94,7 @@ export function elementToTailwindClasses(el: CanvasElement): string {
  */
 export function generateReactTsxCode(
   elements: CanvasElement[],
-  componentName = 'DesignCanvasComponent'
+  componentName = 'DesignCanvasComponent',
 ): string {
   if (elements.length === 0) {
     return `import React from 'react';
@@ -153,7 +153,9 @@ export function generateHtml5Code(elements: CanvasElement[]): string {
         `width: ${Math.round(el.width)}px`,
         `height: ${Math.round(el.height)}px`,
         el.fillColor ? `background-color: ${el.fillColor}` : '',
-        el.strokeWidth ? `border: ${el.strokeWidth}px ${el.strokeStyle || 'solid'} ${el.strokeColor || '#cbd5e1'}` : '',
+        el.strokeWidth
+          ? `border: ${el.strokeWidth}px ${el.strokeStyle || 'solid'} ${el.strokeColor || '#cbd5e1'}`
+          : '',
         el.borderRadius ? `border-radius: ${el.borderRadius}px` : '',
         el.textColor ? `color: ${el.textColor}` : '',
         el.fontSize ? `font-size: ${el.fontSize}px` : '',
@@ -206,11 +208,7 @@ ${elementsHtml}
 /**
  * توليد كود SVG فيكتور نقي
  */
-export function generateSvgCode(
-  elements: CanvasElement[],
-  width = 1280,
-  height = 720
-): string {
+export function generateSvgCode(elements: CanvasElement[], width = 1280, height = 720): string {
   const svgItems = elements
     .map((el) => {
       const transform = el.rotation

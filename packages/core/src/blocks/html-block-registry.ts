@@ -110,7 +110,7 @@ export class HtmlBlockRegistry {
   static instantiateNode(
     type: BlockType,
     customProps: Record<string, unknown> = {},
-    customChildren?: HtmlBlockNode[]
+    customChildren?: HtmlBlockNode[],
   ): HtmlBlockNode {
     const def = this.get(type);
     const id = mintBlockId();

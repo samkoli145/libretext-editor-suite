@@ -49,9 +49,25 @@ export const rubyPack: LanguagePack = {
   completion: {
     languageId: 'ruby',
     provideCompletions: () => [
-      { label: 'def', kind: 'keyword', detail: 'تعريف دالة برمجية', insertText: 'def process_data(items)\n  items.map { |i| i * 2 }\nend' },
-      { label: 'class', kind: 'keyword', detail: 'تعريف كلاس في روبي', insertText: 'class UserEngine\n  attr_accessor :name\n  def initialize(name)\n    @name = name\n  end\nend' },
-      { label: 'puts', kind: 'function', detail: 'طباعة نص في روبي', insertText: 'puts "Hello from Ruby"' },
+      {
+        label: 'def',
+        kind: 'keyword',
+        detail: 'تعريف دالة برمجية',
+        insertText: 'def process_data(items)\n  items.map { |i| i * 2 }\nend',
+      },
+      {
+        label: 'class',
+        kind: 'keyword',
+        detail: 'تعريف كلاس في روبي',
+        insertText:
+          'class UserEngine\n  attr_accessor :name\n  def initialize(name)\n    @name = name\n  end\nend',
+      },
+      {
+        label: 'puts',
+        kind: 'function',
+        detail: 'طباعة نص في روبي',
+        insertText: 'puts "Hello from Ruby"',
+      },
     ],
   },
 };
@@ -77,7 +93,13 @@ export const phpPack: LanguagePack = {
   completion: {
     languageId: 'php',
     provideCompletions: () => [
-      { label: '<?php', kind: 'snippet', detail: 'وسم بداية PHP', insertText: '<?php\n\nclass KernelService {\n    public function boot(): void {\n        echo "PHP Kernel Booted\\n";\n    }\n}\n' },
+      {
+        label: '<?php',
+        kind: 'snippet',
+        detail: 'وسم بداية PHP',
+        insertText:
+          '<?php\n\nclass KernelService {\n    public function boot(): void {\n        echo "PHP Kernel Booted\\n";\n    }\n}\n',
+      },
       { label: 'echo', kind: 'keyword', detail: 'طباعة نص', insertText: 'echo "Output";' },
     ],
   },
@@ -104,8 +126,19 @@ export const perlPack: LanguagePack = {
   completion: {
     languageId: 'perl',
     provideCompletions: () => [
-      { label: 'use strict', kind: 'snippet', detail: 'تفعيل وضع Strict', insertText: '#!/usr/bin/env perl\nuse strict;\nuse warnings;\n\nprint "S1 Perl Interpreter Running\\n";\n' },
-      { label: 'print', kind: 'function', detail: 'دالة الطباعة', insertText: 'print "Hello Perl\\n";' },
+      {
+        label: 'use strict',
+        kind: 'snippet',
+        detail: 'تفعيل وضع Strict',
+        insertText:
+          '#!/usr/bin/env perl\nuse strict;\nuse warnings;\n\nprint "S1 Perl Interpreter Running\\n";\n',
+      },
+      {
+        label: 'print',
+        kind: 'function',
+        detail: 'دالة الطباعة',
+        insertText: 'print "Hello Perl\\n";',
+      },
     ],
   },
 };
@@ -131,8 +164,19 @@ export const goPack: LanguagePack = {
   completion: {
     languageId: 'go',
     provideCompletions: () => [
-      { label: 'main', kind: 'snippet', detail: 'برنامج Go رئيسي', insertText: 'package main\n\nimport "fmt"\n\nfunc main() {\n\tfmt.Println("S1 Micro-Kernel Go Service")\n}\n' },
-      { label: 'func', kind: 'keyword', detail: 'تعريف دالة', insertText: 'func process() error {\n\treturn nil\n}' },
+      {
+        label: 'main',
+        kind: 'snippet',
+        detail: 'برنامج Go رئيسي',
+        insertText:
+          'package main\n\nimport "fmt"\n\nfunc main() {\n\tfmt.Println("S1 Micro-Kernel Go Service")\n}\n',
+      },
+      {
+        label: 'func',
+        kind: 'keyword',
+        detail: 'تعريف دالة',
+        insertText: 'func process() error {\n\treturn nil\n}',
+      },
     ],
   },
 };
@@ -158,7 +202,13 @@ export const gimpPack: LanguagePack = {
   completion: {
     languageId: 'gimp',
     provideCompletions: () => [
-      { label: 'gimpfu', kind: 'snippet', detail: 'إضافة لبرنامج GIMP بواسطة Python-Fu', insertText: 'from gimpfu import *\n\ndef plugin_func(image, drawable):\n    gimp.displays_flush()\n\nregister(\n    "python_fu_s1_filter",\n    "S1 Filter", "S1 Graphic Filter", "Author", "GPL", "2026",\n    "<Image>/Filters/S1", "*", [], [], plugin_func\n)\nmain()\n' },
+      {
+        label: 'gimpfu',
+        kind: 'snippet',
+        detail: 'إضافة لبرنامج GIMP بواسطة Python-Fu',
+        insertText:
+          'from gimpfu import *\n\ndef plugin_func(image, drawable):\n    gimp.displays_flush()\n\nregister(\n    "python_fu_s1_filter",\n    "S1 Filter", "S1 Graphic Filter", "Author", "GPL", "2026",\n    "<Image>/Filters/S1", "*", [], [], plugin_func\n)\nmain()\n',
+      },
     ],
   },
 };

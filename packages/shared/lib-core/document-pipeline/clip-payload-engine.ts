@@ -108,7 +108,7 @@ function isString(v: unknown): v is string {
 
 /** أول عائلة خط من سلسلة font-family (يفصل عند أول فاصلة). */
 export function firstFamily(fontFamily: string | undefined): string {
-  return fontFamily ? fontFamily.split(',')[0]?.trim() ?? '' : '';
+  return fontFamily ? (fontFamily.split(',')[0]?.trim() ?? '') : '';
 }
 
 /**
@@ -156,8 +156,19 @@ export function sanitizeElementLike(raw: unknown): ClipElementLike | null {
   if (isString(obj.fontFamily) && obj.fontFamily.length <= 512) el.fontFamily = obj.fontFamily;
   // النسق المعروف من الشاشة الأخرى: image/media عبر src + svg عبر asset
   for (const [k, v] of Object.entries(obj)) {
-    if (k === 'id' || k === 'type' || k === 'x' || k === 'y' || k === 'width' || k === 'height'
-      || k === 'src' || k === 'asset' || k === 'text' || k === 'fontFamily') continue;
+    if (
+      k === 'id' ||
+      k === 'type' ||
+      k === 'x' ||
+      k === 'y' ||
+      k === 'width' ||
+      k === 'height' ||
+      k === 'src' ||
+      k === 'asset' ||
+      k === 'text' ||
+      k === 'fontFamily'
+    )
+      continue;
     if (k === '__bento' || k === 'kind') continue;
     const clean = deepClean(v);
     if (clean !== undefined) el[k] = clean;
@@ -221,8 +232,11 @@ export function sanitizeClipFonts(raw: unknown): ClipFontRecord[] | undefined {
 export function clipAssetKeysOf(els: ClipElementLike[]): Set<string> {
   const keys = new Set<string>();
   for (const el of els) {
-    if ((el.type === 'image' || el.type === 'media')
-      && typeof el.src === 'string' && el.src.startsWith('asset:')) {
+    if (
+      (el.type === 'image' || el.type === 'media') &&
+      typeof el.src === 'string' &&
+      el.src.startsWith('asset:')
+    ) {
       keys.add(el.src.slice(6));
     }
     if (typeof el.asset === 'string') keys.add(el.asset);
@@ -267,7 +281,9 @@ export function serializeElements(
   assets?: Record<string, string>,
   fonts?: ClipFontRecord[],
 ): string {
-  const safeEls = els.map((e) => sanitizeElementLike(e)).filter((e): e is ClipElementLike => e !== null);
+  const safeEls = els
+    .map((e) => sanitizeElementLike(e))
+    .filter((e): e is ClipElementLike => e !== null);
   const payload: ClipPayload = {
     __bento: 'clip',
     kind: 'elements',
@@ -307,7 +323,11 @@ export function serializeSlides<TEl = ClipElementLike>(
 export function parseClip(text: string): ClipPayload | null {
   if (!text || text.length > CLIP_LIMITS.clipText) return null;
   let raw: unknown;
-  try { raw = JSON.parse(text); } catch { return null; }
+  try {
+    raw = JSON.parse(text);
+  } catch {
+    return null;
+  }
   if (!isPlainObject(raw)) return null;
   const p = raw as Record<string, unknown>;
   if (p.__bento !== 'clip') return null;
@@ -337,7 +357,10 @@ export function parseClip(text: string): ClipPayload | null {
 }
 
 /** دمج أصول الحمولة في المستند مع Remap عند تصادم المفتاح بمحتوى مختلف. */
-export function mergeClipAssets(payload: ClipPayload, target: ClipMergeTarget): Map<string, string> {
+export function mergeClipAssets(
+  payload: ClipPayload,
+  target: ClipMergeTarget,
+): Map<string, string> {
   const remap = new Map<string, string>();
   if (!payload.assets) return remap;
   target.assets = target.assets ?? {};
@@ -354,7 +377,11 @@ export function mergeClipAssets(payload: ClipPayload, target: ClipMergeTarget): 
 }
 
 /** دمج سجلات الخطوط المضمّنة بعد إعادة ترميز مفاتيح أصولها. */
-export function mergeClipFonts(payload: ClipPayload, target: ClipMergeTarget, remap: Map<string, string>): void {
+export function mergeClipFonts(
+  payload: ClipPayload,
+  target: ClipMergeTarget,
+  remap: Map<string, string>,
+): void {
   if (!payload.fonts?.length) return;
   target.fonts = target.fonts ?? [];
   for (const source of payload.fonts) {
@@ -367,8 +394,11 @@ export function mergeClipFonts(payload: ClipPayload, target: ClipMergeTarget, re
 export function rewriteClipRefs(els: ClipElementLike[], remap: Map<string, string>): void {
   if (!remap.size) return;
   for (const el of els) {
-    if ((el.type === 'image' || el.type === 'media')
-      && typeof el.src === 'string' && el.src.startsWith('asset:')) {
+    if (
+      (el.type === 'image' || el.type === 'media') &&
+      typeof el.src === 'string' &&
+      el.src.startsWith('asset:')
+    ) {
       const k = el.src.slice(6);
       if (remap.has(k)) el.src = 'asset:' + remap.get(k);
     }

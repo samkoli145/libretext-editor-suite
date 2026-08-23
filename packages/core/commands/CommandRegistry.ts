@@ -23,7 +23,7 @@
  * ═══════════════════════════════════════════════════════════════════════════
  */
 
-import type { EventBus } from "../events/EventBus";
+import type { EventBus } from '../events/EventBus';
 
 export interface CommandContext {
   source?: string;
@@ -40,17 +40,14 @@ export interface Command<TPayload = unknown> {
 
   isEnabled?: (payload?: TPayload, context?: CommandContext) => boolean;
 
-  run: (
-    payload?: TPayload,
-    context?: CommandContext
-  ) => unknown | Promise<unknown>;
+  run: (payload?: TPayload, context?: CommandContext) => unknown | Promise<unknown>;
 }
 
 export const CommandEvents = {
-  registered: "command:registered",
-  unregistered: "command:unregistered",
-  executed: "command:executed",
-  failed: "command:failed",
+  registered: 'command:registered',
+  unregistered: 'command:unregistered',
+  executed: 'command:executed',
+  failed: 'command:failed',
 } as const;
 
 export class CommandRegistry {
@@ -69,7 +66,7 @@ export class CommandRegistry {
   public register(command: Command<any>): () => void {
     if (this.commands.has(command.id)) {
       console.warn(
-        `[CommandRegistry] Command already registered: "${command.id}". It will be replaced.`
+        `[CommandRegistry] Command already registered: "${command.id}". It will be replaced.`,
       );
     }
 
@@ -98,9 +95,7 @@ export class CommandRegistry {
     return this.commands.has(commandId);
   }
 
-  public get<TPayload = unknown>(
-    commandId: string
-  ): Command<TPayload> | undefined {
+  public get<TPayload = unknown>(commandId: string): Command<TPayload> | undefined {
     return this.commands.get(commandId) as Command<TPayload> | undefined;
   }
 
@@ -111,7 +106,7 @@ export class CommandRegistry {
   public canExecute<TPayload = unknown>(
     commandId: string,
     payload?: TPayload,
-    context?: CommandContext
+    context?: CommandContext,
   ): boolean {
     const command = this.commands.get(commandId);
 
@@ -126,10 +121,7 @@ export class CommandRegistry {
     try {
       return Boolean(command.isEnabled(payload, context));
     } catch (error) {
-      console.error(
-        `[CommandRegistry] Error in isEnabled for command "${commandId}"`,
-        error
-      );
+      console.error(`[CommandRegistry] Error in isEnabled for command "${commandId}"`, error);
 
       return false;
     }
@@ -138,7 +130,7 @@ export class CommandRegistry {
   public async execute<TPayload = unknown>(
     commandId: string,
     payload?: TPayload,
-    context?: CommandContext
+    context?: CommandContext,
   ): Promise<unknown> {
     const command = this.commands.get(commandId);
 

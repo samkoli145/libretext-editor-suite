@@ -48,7 +48,7 @@ export function useMultiSelection() {
 
   const toggleSelect = useCallback((id: string) => {
     setSelectedIds((prev) =>
-      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
+      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id],
     );
   }, []);
 
@@ -90,7 +90,7 @@ export function useMultiSelection() {
         setSelectedIds(hitIds);
       }
     },
-    [marquee]
+    [marquee],
   );
 
   return {

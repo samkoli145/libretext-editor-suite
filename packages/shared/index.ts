@@ -52,11 +52,8 @@ export {
   renderLatexToHtml,
   renderLatexToSvg,
 } from './utils/ToolRegistry';
-export {
-  toolRegistry as unifiedToolRegistry,
-} from './tools/ToolRegistry';
+export { toolRegistry as unifiedToolRegistry } from './tools/ToolRegistry';
 export * from './tools/unifiedTools';
 export * from './engines';
 export * from './lib-core';
 export * from './utils/result';
-

@@ -31,7 +31,10 @@ export class WebComponentsEngine {
   /**
    * توليد مكون React TSX كامل مع Tailwind CSS
    */
-  public static generateReactTsx(components: UIComponentNode[], componentName = 'MyGeneratedUI'): string {
+  public static generateReactTsx(
+    components: UIComponentNode[],
+    componentName = 'MyGeneratedUI',
+  ): string {
     const renderNode = (node: UIComponentNode, indent = '      '): string => {
       const { type, props = {}, label } = node;
       const bg = props.bg || '#ffffff';
@@ -55,7 +58,7 @@ export class WebComponentsEngine {
       }
     };
 
-    const renderedNodes = components.map(c => renderNode(c)).join('\n\n');
+    const renderedNodes = components.map((c) => renderNode(c)).join('\n\n');
 
     return `import React from 'react';
 
@@ -81,11 +84,16 @@ export default ${componentName};
   /**
    * توليد Custom Element (Web Component) مستقل بـ Shadow DOM
    */
-  public static generateWebComponent(components: UIComponentNode[], tagName = 'custom-ui-widget'): string {
-    const htmlBody = components.map(c => {
-      const text = c.props?.text || c.label || '';
-      return `<div class="ui-item item-${c.type}">${text}</div>`;
-    }).join('\n      ');
+  public static generateWebComponent(
+    components: UIComponentNode[],
+    tagName = 'custom-ui-widget',
+  ): string {
+    const htmlBody = components
+      .map((c) => {
+        const text = c.props?.text || c.label || '';
+        return `<div class="ui-item item-${c.type}">${text}</div>`;
+      })
+      .join('\n      ');
 
     return `/**
  * Standalone Standard Web Component (<${tagName}>)
@@ -142,10 +150,13 @@ if (!customElements.get('${tagName}')) {
   /**
    * توليد Vue 3 Single File Component (.vue)
    */
-  public static generateVueSfc(components: UIComponentNode[], componentName = 'UiComponent'): string {
+  public static generateVueSfc(
+    components: UIComponentNode[],
+    componentName = 'UiComponent',
+  ): string {
     return `<template>
   <div class="ui-wrapper max-w-4xl mx-auto p-6 space-y-4 bg-white border border-slate-200 rounded-xl">
-    ${components.map(c => `<div class="ui-node-${c.type}">${c.props?.text || c.label || ''}</div>`).join('\n    ')}
+    ${components.map((c) => `<div class="ui-node-${c.type}">${c.props?.text || c.label || ''}</div>`).join('\n    ')}
   </div>
 </template>
 

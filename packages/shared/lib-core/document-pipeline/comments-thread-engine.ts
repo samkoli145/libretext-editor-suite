@@ -28,23 +28,23 @@
  */
 
 export interface CommentReply {
-  id: string
-  authorName: string
-  authorAvatar?: string
-  content: string
-  createdAt: number
+  id: string;
+  authorName: string;
+  authorAvatar?: string;
+  content: string;
+  createdAt: number;
 }
 
 export interface CommentThread {
-  id: string
-  targetElementId?: string
-  position?: { x: number; y: number }
-  authorName: string
-  authorAvatar?: string
-  content: string
-  createdAt: number
-  isResolved: boolean
-  replies: CommentReply[]
+  id: string;
+  targetElementId?: string;
+  position?: { x: number; y: number };
+  authorName: string;
+  authorAvatar?: string;
+  content: string;
+  createdAt: number;
+  isResolved: boolean;
+  replies: CommentReply[];
 }
 
 /**
@@ -53,7 +53,7 @@ export interface CommentThread {
 export function createCommentThread(
   content: string,
   authorName: string = 'المستخدم',
-  options?: { targetElementId?: string; position?: { x: number; y: number } }
+  options?: { targetElementId?: string; position?: { x: number; y: number } },
 ): CommentThread {
   return {
     id: `thread-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
@@ -64,7 +64,7 @@ export function createCommentThread(
     createdAt: Date.now(),
     isResolved: false,
     replies: [],
-  }
+  };
 }
 
 /**
@@ -73,19 +73,19 @@ export function createCommentThread(
 export function addReplyToThread(
   thread: CommentThread,
   replyContent: string,
-  authorName: string = 'المستخدم'
+  authorName: string = 'المستخدم',
 ): CommentThread {
   const reply: CommentReply = {
     id: `reply-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
     authorName,
     content: replyContent.trim(),
     createdAt: Date.now(),
-  }
+  };
 
   return {
     ...thread,
     replies: [...thread.replies, reply],
-  }
+  };
 }
 
 /**
@@ -95,5 +95,5 @@ export function toggleThreadResolved(thread: CommentThread): CommentThread {
   return {
     ...thread,
     isResolved: !thread.isResolved,
-  }
+  };
 }

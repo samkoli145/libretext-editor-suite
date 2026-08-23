@@ -36,7 +36,8 @@ export type LayerKind =
   | 'redaction-mask' // طبقة الحجب والتعتيم الأكاديمي
   | 'vector-drawings'; // طبقة الرسم الفيكتوري والخطوط
 
-export type GridPatternType = 'none' | 'graph-paper' | 'dot-grid' | 'music-staff' | 'isometric' | 'lined-ruled';
+export type GridPatternType =
+  'none' | 'graph-paper' | 'dot-grid' | 'music-staff' | 'isometric' | 'lined-ruled';
 
 export interface DocumentLayer {
   id: string;
@@ -139,22 +140,19 @@ export function normalizeLayersZIndex(layers: DocumentLayer[]): DocumentLayer[] 
  */
 export function toggleLayerVisibility(
   layers: DocumentLayer[],
-  targetLayerId: string
+  targetLayerId: string,
 ): DocumentLayer[] {
   return layers.map((layer) =>
-    layer.id === targetLayerId ? { ...layer, visible: !layer.visible } : layer
+    layer.id === targetLayerId ? { ...layer, visible: !layer.visible } : layer,
   );
 }
 
 /**
  * تبديل حالة قفل الطبقة (Lock/Unlock)
  */
-export function toggleLayerLock(
-  layers: DocumentLayer[],
-  targetLayerId: string
-): DocumentLayer[] {
+export function toggleLayerLock(layers: DocumentLayer[], targetLayerId: string): DocumentLayer[] {
   return layers.map((layer) =>
-    layer.id === targetLayerId ? { ...layer, locked: !layer.locked } : layer
+    layer.id === targetLayerId ? { ...layer, locked: !layer.locked } : layer,
   );
 }
 
@@ -164,10 +162,10 @@ export function toggleLayerLock(
 export function setLayerOpacity(
   layers: DocumentLayer[],
   targetLayerId: string,
-  opacity: number
+  opacity: number,
 ): DocumentLayer[] {
   const clamped = Math.max(0, Math.min(1, opacity));
   return layers.map((layer) =>
-    layer.id === targetLayerId ? { ...layer, opacity: clamped } : layer
+    layer.id === targetLayerId ? { ...layer, opacity: clamped } : layer,
   );
 }

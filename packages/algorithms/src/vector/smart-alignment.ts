@@ -95,8 +95,12 @@ export class SmartAlignmentSystem {
     return { x: alignedX, y: alignedY, guides };
   }
 
-  public setThreshold(t: number): void { this.threshold = t; }
-  public getThreshold(): number { return this.threshold; }
+  public setThreshold(t: number): void {
+    this.threshold = t;
+  }
+  public getThreshold(): number {
+    return this.threshold;
+  }
 }
 
 export const defaultSmartAlignment = new SmartAlignmentSystem(8);

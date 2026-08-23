@@ -102,7 +102,9 @@ export function parseColor(colorStr: string): RGBA | null {
   }
 
   // RGB / RGBA
-  const rgbMatch = c.match(/rgba?\(\s*([\d.]+)\s*,\s*([\d.]+)\s*,\s*([\d.]+)(?:\s*,\s*([\d.]+))?\s*\)/);
+  const rgbMatch = c.match(
+    /rgba?\(\s*([\d.]+)\s*,\s*([\d.]+)\s*,\s*([\d.]+)(?:\s*,\s*([\d.]+))?\s*\)/,
+  );
   if (rgbMatch) {
     return {
       r: Math.min(255, Math.max(0, parseFloat(rgbMatch[1]))),
@@ -135,7 +137,8 @@ export function generateSvgGradientElement(gradient: SvgGradient): string {
   const stopsHtml = gradient.stops
     .map((s) => {
       const offsetStr = typeof s.offset === 'number' ? `${Math.round(s.offset * 100)}%` : s.offset;
-      const opacityAttr = s.opacity !== undefined && s.opacity < 1 ? ` stop-opacity="${s.opacity}"` : '';
+      const opacityAttr =
+        s.opacity !== undefined && s.opacity < 1 ? ` stop-opacity="${s.opacity}"` : '';
       return `  <stop offset="${offsetStr}" stop-color="${s.color}"${opacityAttr} />`;
     })
     .join('\n');

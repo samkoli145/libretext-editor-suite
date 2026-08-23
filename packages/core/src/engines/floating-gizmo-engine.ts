@@ -13,7 +13,10 @@
  * ═══════════════════════════════════════════════════════════════════════════
  */
 
-export interface GizmoPosition { readonly x: number; readonly y: number; }
+export interface GizmoPosition {
+  readonly x: number;
+  readonly y: number;
+}
 
 export interface FloatingAction {
   readonly id: string;
@@ -70,7 +73,7 @@ function resolveActions(actionIds: readonly string[]): FloatingAction[] {
   const seen = new Set<string>();
   for (const id of actionIds) {
     for (const group of Object.values(ACTION_REGISTRY)) {
-      const found = group.find(a => a.id === id);
+      const found = group.find((a) => a.id === id);
       if (found && !seen.has(found.id)) {
         result.push(found);
         seen.add(found.id);
@@ -81,20 +84,24 @@ function resolveActions(actionIds: readonly string[]): FloatingAction[] {
 }
 
 function groupActions(actions: readonly FloatingAction[]): string[] {
-  return [...new Set(actions.map(a => a.group))];
+  return [...new Set(actions.map((a) => a.group))];
 }
 
 function calcWidth(groups: readonly string[], actions: readonly FloatingAction[]): number {
   let w = TOOLBAR_PAD * 2;
   for (let i = 0; i < groups.length; i++) {
-    const gActions = actions.filter(a => a.group === groups[i]);
+    const gActions = actions.filter((a) => a.group === groups[i]);
     w += gActions.length * 32;
     if (i < groups.length - 1) w += GROUP_GAP;
   }
   return w;
 }
 
-function positionAbove(bbox: { x: number; y: number; width: number; height: number }, vw: number, vh: number): GizmoPosition {
+function positionAbove(
+  bbox: { x: number; y: number; width: number; height: number },
+  vw: number,
+  vh: number,
+): GizmoPosition {
   const w = calcWidth(groupActions(resolveActions([])), resolveActions([]));
   let x = bbox.x + bbox.width / 2 - w / 2;
   let y = bbox.y - TOOLBAR_H - TOOLBAR_PAD;

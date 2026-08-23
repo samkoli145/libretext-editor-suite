@@ -36,7 +36,10 @@ import {
   Settings2,
   Sliders,
 } from 'lucide-react';
-import { SharedContextMenu, type ContextMenuItem } from '../../../shared/components/SharedContextMenu';
+import {
+  SharedContextMenu,
+  type ContextMenuItem,
+} from '../../../shared/components/SharedContextMenu';
 import { notificationEngine } from '../../../shared/engines/NotificationEngine';
 
 export interface CanvasRulersProps {
@@ -116,7 +119,7 @@ export const CanvasRulers: React.FC<CanvasRulersProps> = ({
   const handleRulerContextMenu = (
     e: React.MouseEvent,
     rulerType: 'horizontal' | 'vertical' | 'corner',
-    coordVal: number
+    coordVal: number,
   ) => {
     e.preventDefault();
     e.stopPropagation();
@@ -139,7 +142,9 @@ export const CanvasRulers: React.FC<CanvasRulersProps> = ({
     {
       id: 'set-px',
       label: 'بكسل (Pixels - px)',
-      icon: <Check className={`w-3.5 h-3.5 ${activeUnit === 'px' ? 'text-blue-600' : 'opacity-0'}`} />,
+      icon: (
+        <Check className={`w-3.5 h-3.5 ${activeUnit === 'px' ? 'text-blue-600' : 'opacity-0'}`} />
+      ),
       onClick: () => {
         setActiveUnit('px');
         onUnitChange?.('px');
@@ -149,7 +154,9 @@ export const CanvasRulers: React.FC<CanvasRulersProps> = ({
     {
       id: 'set-mm',
       label: 'ميليمتر (Millimeters - mm)',
-      icon: <Check className={`w-3.5 h-3.5 ${activeUnit === 'mm' ? 'text-blue-600' : 'opacity-0'}`} />,
+      icon: (
+        <Check className={`w-3.5 h-3.5 ${activeUnit === 'mm' ? 'text-blue-600' : 'opacity-0'}`} />
+      ),
       onClick: () => {
         setActiveUnit('mm');
         onUnitChange?.('mm');
@@ -159,7 +166,9 @@ export const CanvasRulers: React.FC<CanvasRulersProps> = ({
     {
       id: 'set-in',
       label: 'بوصة (Inches - in)',
-      icon: <Check className={`w-3.5 h-3.5 ${activeUnit === 'in' ? 'text-blue-600' : 'opacity-0'}`} />,
+      icon: (
+        <Check className={`w-3.5 h-3.5 ${activeUnit === 'in' ? 'text-blue-600' : 'opacity-0'}`} />
+      ),
       onClick: () => {
         setActiveUnit('in');
         onUnitChange?.('in');
@@ -169,7 +178,9 @@ export const CanvasRulers: React.FC<CanvasRulersProps> = ({
     {
       id: 'set-pt',
       label: 'نقطة طباعية (Points - pt)',
-      icon: <Check className={`w-3.5 h-3.5 ${activeUnit === 'pt' ? 'text-blue-600' : 'opacity-0'}`} />,
+      icon: (
+        <Check className={`w-3.5 h-3.5 ${activeUnit === 'pt' ? 'text-blue-600' : 'opacity-0'}`} />
+      ),
       onClick: () => {
         setActiveUnit('pt');
         onUnitChange?.('pt');
@@ -179,17 +190,20 @@ export const CanvasRulers: React.FC<CanvasRulersProps> = ({
     { id: 'sep-1', label: '', separator: true },
     {
       id: 'add-guide',
-      label: contextMenu.clickedRuler === 'vertical'
-        ? `إضافة خط إرشادي رأسي عند ${formatCoord(contextMenu.coordValue)} ${activeUnit}`
-        : `إضافة خط إرشادي أفقي عند ${formatCoord(contextMenu.coordValue)} ${activeUnit}`,
+      label:
+        contextMenu.clickedRuler === 'vertical'
+          ? `إضافة خط إرشادي رأسي عند ${formatCoord(contextMenu.coordValue)} ${activeUnit}`
+          : `إضافة خط إرشادي أفقي عند ${formatCoord(contextMenu.coordValue)} ${activeUnit}`,
       icon: <Plus className="w-3.5 h-3.5 text-blue-600" />,
       onClick: () => {
         if (onAddGuide && contextMenu.clickedRuler) {
           onAddGuide(
             contextMenu.clickedRuler === 'vertical' ? 'vertical' : 'horizontal',
-            contextMenu.coordValue
+            contextMenu.coordValue,
           );
-          notificationEngine.success(`تمت إضافة خط إرشادي جديد عند ${formatCoord(contextMenu.coordValue)} ${activeUnit}`);
+          notificationEngine.success(
+            `تمت إضافة خط إرشادي جديد عند ${formatCoord(contextMenu.coordValue)} ${activeUnit}`,
+          );
         }
       },
     },
@@ -204,7 +218,11 @@ export const CanvasRulers: React.FC<CanvasRulersProps> = ({
     {
       id: 'toggle-rulers',
       label: showRulers ? 'إخفاء المساطر' : 'إظهار المساطر',
-      icon: showRulers ? <EyeOff className="w-3.5 h-3.5 text-slate-600" /> : <Eye className="w-3.5 h-3.5 text-slate-600" />,
+      icon: showRulers ? (
+        <EyeOff className="w-3.5 h-3.5 text-slate-600" />
+      ) : (
+        <Eye className="w-3.5 h-3.5 text-slate-600" />
+      ),
       onClick: () => {
         setShowRulers(!showRulers);
       },
@@ -247,7 +265,7 @@ export const CanvasRulers: React.FC<CanvasRulersProps> = ({
               {formatCoord(px)}
             </text>
           )}
-        </g>
+        </g>,
       );
     }
     return ticks;
@@ -286,14 +304,17 @@ export const CanvasRulers: React.FC<CanvasRulersProps> = ({
               {formatCoord(px)}
             </text>
           )}
-        </g>
+        </g>,
       );
     }
     return ticks;
   };
 
   return (
-    <div className="relative w-full h-full flex flex-col overflow-hidden select-none bg-slate-100" dir="ltr">
+    <div
+      className="relative w-full h-full flex flex-col overflow-hidden select-none bg-slate-100"
+      dir="ltr"
+    >
       {/* Top Bar: Corner Box + Horizontal Ruler */}
       <div className="flex h-6 w-full bg-white border-b border-slate-200 z-20 shrink-0">
         {/* Corner Unit Switcher (Right-Click enabled) */}
@@ -327,9 +348,7 @@ export const CanvasRulers: React.FC<CanvasRulersProps> = ({
           }}
           title="مسطرة أفقية (انقر بالزر الأيمن لإضافة خط إرشادي وتغيير الوحدة)"
         >
-          <svg className="w-full h-6 block">
-            {renderHorizontalTicks()}
-          </svg>
+          <svg className="w-full h-6 block">{renderHorizontalTicks()}</svg>
         </div>
       </div>
 
@@ -345,15 +364,11 @@ export const CanvasRulers: React.FC<CanvasRulersProps> = ({
           }}
           title="مسطرة عمودية (انقر بالزر الأيمن لإضافة خط إرشادي وتغيير الوحدة)"
         >
-          <svg className="w-6 h-full block">
-            {renderVerticalTicks()}
-          </svg>
+          <svg className="w-6 h-full block">{renderVerticalTicks()}</svg>
         </div>
 
         {/* Artboard Stage Area */}
-        <div className="flex-1 relative overflow-hidden">
-          {children}
-        </div>
+        <div className="flex-1 relative overflow-hidden">{children}</div>
       </div>
 
       {/* Shared Context Menu for Rulers (Right-Click functionality) */}

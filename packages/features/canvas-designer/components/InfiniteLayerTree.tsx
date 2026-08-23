@@ -195,8 +195,8 @@ export function InfiniteLayerTree({
             isDragOver
               ? 'border-blue-500 bg-blue-50/90 ring-1 ring-blue-400'
               : isSelected
-              ? 'bg-blue-100/90 text-blue-900 border-blue-300 font-bold shadow-2xs'
-              : 'hover:bg-slate-50 text-slate-700 border-transparent'
+                ? 'bg-blue-100/90 text-blue-900 border-blue-300 font-bold shadow-2xs'
+                : 'hover:bg-slate-50 text-slate-700 border-transparent'
           }`}
           style={{ paddingRight: `${Math.max(8, depth * 16 + 8)}px` }}
         >
@@ -241,7 +241,11 @@ export function InfiniteLayerTree({
               className="p-1 text-slate-400 hover:text-slate-700 rounded cursor-pointer"
               title={isHidden ? 'إظهار العنصر' : 'إخفاء العنصر'}
             >
-              {isHidden ? <EyeOff className="w-3 h-3 text-rose-500" /> : <Eye className="w-3 h-3" />}
+              {isHidden ? (
+                <EyeOff className="w-3 h-3 text-rose-500" />
+              ) : (
+                <Eye className="w-3 h-3" />
+              )}
             </button>
 
             <button
@@ -253,7 +257,11 @@ export function InfiniteLayerTree({
               className="p-1 text-slate-400 hover:text-slate-700 rounded cursor-pointer"
               title={isLocked ? 'إلغاء القفل' : 'قفل العنصر'}
             >
-              {isLocked ? <Lock className="w-3 h-3 text-amber-600" /> : <Unlock className="w-3 h-3" />}
+              {isLocked ? (
+                <Lock className="w-3 h-3 text-amber-600" />
+              ) : (
+                <Unlock className="w-3 h-3" />
+              )}
             </button>
 
             {onDuplicateElement && (
@@ -666,9 +674,7 @@ export function InfiniteLayerTree({
             <FolderTree className="w-3 h-3 text-blue-600" />
             <span>شجرة الطبقات والعناصر المتداخلة</span>
           </span>
-          <span className="text-[10px] text-slate-400 font-mono">
-            {filteredElements.length}
-          </span>
+          <span className="text-[10px] text-slate-400 font-mono">{filteredElements.length}</span>
         </div>
 
         {filteredElements.length === 0 ? (

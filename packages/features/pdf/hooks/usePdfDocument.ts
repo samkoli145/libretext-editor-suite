@@ -31,7 +31,7 @@ import { createInitialPdfDocument } from '../model';
 
 export function usePdfDocument(
   initialDocument?: PdfDocumentModel,
-  onDocumentChange?: (doc: PdfDocumentModel) => void
+  onDocumentChange?: (doc: PdfDocumentModel) => void,
 ) {
   const [doc, setDoc] = useState<PdfDocumentModel>(() => {
     return initialDocument || createInitialPdfDocument();
@@ -40,39 +40,45 @@ export function usePdfDocument(
   const [activeTool, setActiveTool] = useState<string>('select');
   const [selectedAnnotationId, setSelectedAnnotationId] = useState<string | null>(null);
 
-  const updateDoc = useCallback((updater: (prev: PdfDocumentModel) => PdfDocumentModel) => {
-    setDoc(prev => {
-      const next = updater(prev);
-      onDocumentChange?.(next);
-      return next;
-    });
-  }, [onDocumentChange]);
+  const updateDoc = useCallback(
+    (updater: (prev: PdfDocumentModel) => PdfDocumentModel) => {
+      setDoc((prev) => {
+        const next = updater(prev);
+        onDocumentChange?.(next);
+        return next;
+      });
+    },
+    [onDocumentChange],
+  );
 
   const nextPage = useCallback(() => {
-    updateDoc(prev => ({
+    updateDoc((prev) => ({
       ...prev,
       currentPage: Math.min(prev.currentPage + 1, prev.totalPages),
     }));
   }, [updateDoc]);
 
   const prevPage = useCallback(() => {
-    updateDoc(prev => ({
+    updateDoc((prev) => ({
       ...prev,
       currentPage: Math.max(prev.currentPage - 1, 1),
     }));
   }, [updateDoc]);
 
-  const goToPage = useCallback((pageNum: number) => {
-    updateDoc(prev => ({
-      ...prev,
-      currentPage: Math.min(Math.max(1, pageNum), prev.totalPages),
-    }));
-  }, [updateDoc]);
+  const goToPage = useCallback(
+    (pageNum: number) => {
+      updateDoc((prev) => ({
+        ...prev,
+        currentPage: Math.min(Math.max(1, pageNum), prev.totalPages),
+      }));
+    },
+    [updateDoc],
+  );
 
   const rotatePage = useCallback(() => {
-    updateDoc(prev => ({
+    updateDoc((prev) => ({
       ...prev,
-      pages: (prev.pages || []).map(p => {
+      pages: (prev.pages || []).map((p) => {
         if (p.pageNumber === prev.currentPage) {
           return { ...p, rotation: ((p.rotation || 0) + 90) % 360 };
         }
@@ -82,48 +88,54 @@ export function usePdfDocument(
   }, [updateDoc]);
 
   const zoomIn = useCallback(() => {
-    updateDoc(prev => ({
+    updateDoc((prev) => ({
       ...prev,
       zoom: Math.min(prev.zoom + 10, 250),
     }));
   }, [updateDoc]);
 
   const zoomOut = useCallback(() => {
-    updateDoc(prev => ({
+    updateDoc((prev) => ({
       ...prev,
       zoom: Math.max(prev.zoom - 10, 50),
     }));
   }, [updateDoc]);
 
   const resetZoom = useCallback(() => {
-    updateDoc(prev => ({
+    updateDoc((prev) => ({
       ...prev,
       zoom: 100,
     }));
   }, [updateDoc]);
 
-  const addAnnotation = useCallback((annotation: Omit<PdfAnnotation, 'id'>) => {
-    const newAnno: PdfAnnotation = {
-      ...annotation,
-      id: `anno-${Date.now()}-${Math.random().toString(36).substr(2, 5)}`,
-    };
+  const addAnnotation = useCallback(
+    (annotation: Omit<PdfAnnotation, 'id'>) => {
+      const newAnno: PdfAnnotation = {
+        ...annotation,
+        id: `anno-${Date.now()}-${Math.random().toString(36).substr(2, 5)}`,
+      };
 
-    updateDoc(prev => ({
-      ...prev,
-      annotations: [...(prev.annotations || []), newAnno],
-    }));
+      updateDoc((prev) => ({
+        ...prev,
+        annotations: [...(prev.annotations || []), newAnno],
+      }));
 
-    setSelectedAnnotationId(newAnno.id);
-    return newAnno;
-  }, [updateDoc]);
+      setSelectedAnnotationId(newAnno.id);
+      return newAnno;
+    },
+    [updateDoc],
+  );
 
-  const removeAnnotation = useCallback((id: string) => {
-    updateDoc(prev => ({
-      ...prev,
-      annotations: (prev.annotations || []).filter(a => a.id !== id),
-    }));
-    setSelectedAnnotationId(prev => (prev === id ? null : prev));
-  }, [updateDoc]);
+  const removeAnnotation = useCallback(
+    (id: string) => {
+      updateDoc((prev) => ({
+        ...prev,
+        annotations: (prev.annotations || []).filter((a) => a.id !== id),
+      }));
+      setSelectedAnnotationId((prev) => (prev === id ? null : prev));
+    },
+    [updateDoc],
+  );
 
   return {
     doc,

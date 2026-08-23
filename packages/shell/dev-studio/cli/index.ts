@@ -14,18 +14,22 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { execSync } from 'child_process';
 import {
-  loadMemory, saveMemory, initializeMemory,
-  addSnapshot, addSession, addDecision,
+  loadMemory,
+  saveMemory,
+  initializeMemory,
+  addSnapshot,
+  addSession,
+  addDecision,
   getLatestSnapshot,
 } from '../knowledge/project-memory';
+import { scanProject, printSnapshot, diffSnapshots } from '../knowledge/project-scanner';
 import {
-  scanProject, printSnapshot, diffSnapshots,
-} from '../knowledge/project-scanner';
-import {
-  generateJournalEntry, generateChangelogEntry, createSession,
+  generateJournalEntry,
+  generateChangelogEntry,
+  createSession,
 } from '../knowledge/auto-reporter';
 import { cmdVerify, cmdCommitReady } from './DevStudioCommands';
-import { scanProject, formatReport } from '../pipeline/DebtGuardian';
+import { scanProject as scanProjectDebt, formatReport } from '../pipeline/DebtGuardian';
 
 import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
@@ -76,7 +80,7 @@ function cmdStatus(): void {
 
   if (memory.knownIssues.length > 0) {
     console.log(`\n⚠️  مشاكل معروفة:`);
-    memory.knownIssues.forEach(i => console.log(`   - ${i}`));
+    memory.knownIssues.forEach((i) => console.log(`   - ${i}`));
   }
 }
 
@@ -94,12 +98,16 @@ function cmdImport(sourceDir: string): void {
   let fileCount = 0;
   try {
     fileCount = parseInt(execSync(findCmd, { encoding: 'utf-8', timeout: 10000 }).trim());
-  } catch { /* */ }
+  } catch {
+    /* */
+  }
 
   console.log(`   وجد ${fileCount} ملف في المصدر`);
 
-  const packages = fs.readdirSync(path.join(sourceDir, 'packages'), { withFileTypes: true })
-    .filter(e => e.isDirectory()).map(e => e.name);
+  const packages = fs
+    .readdirSync(path.join(sourceDir, 'packages'), { withFileTypes: true })
+    .filter((e) => e.isDirectory())
+    .map((e) => e.name);
   console.log(`   الحزم: ${packages.join(', ')}`);
 
   console.log('\n⚠️  الاستيراد يدوياً حالياً — DevStudio يscan ويُوثّق فقط.');
@@ -113,7 +121,7 @@ function cmdVersion(): void {
 
 async function cmdDebt(): Promise<void> {
   console.log('🔎 جاري فحص الديون...\n');
-  const report = await scanProject(PROJECT_ROOT);
+  const report = await scanProjectDebt(PROJECT_ROOT);
   console.log(formatReport(report));
   if (report.bySeverity.error > 0) process.exitCode = 1;
 }
@@ -178,13 +186,22 @@ function main(): void {
         console.error('❌ تحديد الملفات: devstudio verify <file1.ts> [file2.ts ...]');
         process.exit(1);
       }
-      cmdVerify(args.slice(1)).catch(e => { console.error(e); process.exit(1); });
+      cmdVerify(args.slice(1)).catch((e) => {
+        console.error(e);
+        process.exit(1);
+      });
       break;
     case 'commit-ready':
-      cmdCommitReady([]).catch(e => { console.error(e); process.exit(1); });
+      cmdCommitReady([]).catch((e) => {
+        console.error(e);
+        process.exit(1);
+      });
       break;
     case 'debt':
-      cmdDebt().catch(e => { console.error(e); process.exit(1); });
+      cmdDebt().catch((e) => {
+        console.error(e);
+        process.exit(1);
+      });
       break;
     case 'init':
       cmdInit();

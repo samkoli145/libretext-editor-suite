@@ -1,5 +1,9 @@
 import { describe, it, expect } from 'vitest';
-import { clampElement, clampMultiple, isOutOfBounds } from '../../src/engines/bounding-clamping-engine';
+import {
+  clampElement,
+  clampMultiple,
+  isOutOfBounds,
+} from '../../src/engines/bounding-clamping-engine';
 
 describe('CORE-ENG-015: bounding-clamping-engine', () => {
   const canvas = { width: 800, height: 600 };
@@ -21,10 +25,13 @@ describe('CORE-ENG-015: bounding-clamping-engine', () => {
   });
 
   it('clampMultiple processes all', () => {
-    const results = clampMultiple([
-      { id: 'a', x: -10, y: 0, width: 50, height: 50 },
-      { id: 'b', x: 900, y: 0, width: 50, height: 50 },
-    ], canvas);
+    const results = clampMultiple(
+      [
+        { id: 'a', x: -10, y: 0, width: 50, height: 50 },
+        { id: 'b', x: 900, y: 0, width: 50, height: 50 },
+      ],
+      canvas,
+    );
     expect(results).toHaveLength(2);
     expect(results[0]!.x).toBe(0);
     expect(results[1]!.x).toBe(750);

@@ -78,11 +78,32 @@ const CANONICAL_TOOLING_REGISTRY: Record<string, ElementToolingProfile> = {
       { id: 'cut', label: 'قص', iconName: 'Scissors', category: 'system' },
       { id: 'copy', label: 'نسخ', iconName: 'Copy', category: 'system' },
       { id: 'paste', label: 'لصق', iconName: 'Clipboard', category: 'system' },
-      { id: 'turn_into_h1', label: 'تحويل إلى عنوان رئيسي H1', iconName: 'Heading1', category: 'structure' },
-      { id: 'turn_into_h2', label: 'تحويل إلى عنوان فرعي H2', iconName: 'Heading2', category: 'structure' },
-      { id: 'turn_into_list', label: 'تحويل إلى قائمة نقطية', iconName: 'List', category: 'structure' },
+      {
+        id: 'turn_into_h1',
+        label: 'تحويل إلى عنوان رئيسي H1',
+        iconName: 'Heading1',
+        category: 'structure',
+      },
+      {
+        id: 'turn_into_h2',
+        label: 'تحويل إلى عنوان فرعي H2',
+        iconName: 'Heading2',
+        category: 'structure',
+      },
+      {
+        id: 'turn_into_list',
+        label: 'تحويل إلى قائمة نقطية',
+        iconName: 'List',
+        category: 'structure',
+      },
       { id: 'clear_formatting', label: 'مسح التنسيق', iconName: 'Eraser', category: 'format' },
-      { id: 'delete_block', label: 'حذف الفقرة', iconName: 'Trash2', category: 'system', destructive: true },
+      {
+        id: 'delete_block',
+        label: 'حذف الفقرة',
+        iconName: 'Trash2',
+        category: 'system',
+        destructive: true,
+      },
     ],
     floatingGizmoTools: [
       { id: 'bold', name: 'عريض', iconName: 'Bold', group: 'text' },
@@ -99,13 +120,44 @@ const CANONICAL_TOOLING_REGISTRY: Record<string, ElementToolingProfile> = {
     domain: 'Universal',
     supportsTransformGizmo: false,
     contextMenuActions: [
-      { id: 'insert_row_above', label: 'إدراج صف لأعلى', iconName: 'ArrowUp', category: 'structure' },
-      { id: 'insert_row_below', label: 'إدراج صف لأسفل', iconName: 'ArrowDown', category: 'structure' },
-      { id: 'insert_col_left', label: 'إدراج عمود لليمين', iconName: 'ArrowRight', category: 'structure' },
-      { id: 'insert_col_right', label: 'إدراج عمود لليسار', iconName: 'ArrowLeft', category: 'structure' },
-      { id: 'merge_cells', label: 'دمج الخلايا المحددة', iconName: 'Combine', category: 'structure' },
+      {
+        id: 'insert_row_above',
+        label: 'إدراج صف لأعلى',
+        iconName: 'ArrowUp',
+        category: 'structure',
+      },
+      {
+        id: 'insert_row_below',
+        label: 'إدراج صف لأسفل',
+        iconName: 'ArrowDown',
+        category: 'structure',
+      },
+      {
+        id: 'insert_col_left',
+        label: 'إدراج عمود لليمين',
+        iconName: 'ArrowRight',
+        category: 'structure',
+      },
+      {
+        id: 'insert_col_right',
+        label: 'إدراج عمود لليسار',
+        iconName: 'ArrowLeft',
+        category: 'structure',
+      },
+      {
+        id: 'merge_cells',
+        label: 'دمج الخلايا المحددة',
+        iconName: 'Combine',
+        category: 'structure',
+      },
       { id: 'split_cell', label: 'تقسيم الخلية', iconName: 'Split', category: 'structure' },
-      { id: 'delete_table', label: 'حذف الجدول بالكامل', iconName: 'Trash2', category: 'system', destructive: true },
+      {
+        id: 'delete_table',
+        label: 'حذف الجدول بالكامل',
+        iconName: 'Trash2',
+        category: 'system',
+        destructive: true,
+      },
     ],
     floatingGizmoTools: [
       { id: 'cell_background', name: 'لون الخلية', iconName: 'Paintbrush', group: 'table' },
@@ -121,9 +173,20 @@ const CANONICAL_TOOLING_REGISTRY: Record<string, ElementToolingProfile> = {
       { id: 'bring_to_front', label: 'إحضار للمقدمة', iconName: 'Layers', category: 'transform' },
       { id: 'send_to_back', label: 'إرسال للخلف', iconName: 'Layers', category: 'transform' },
       { id: 'duplicate_shape', label: 'تكرار الشكل', iconName: 'Copy', category: 'system' },
-      { id: 'lock_aspect_ratio', label: 'قفل نسبة الأبعاد', iconName: 'Lock', category: 'transform' },
+      {
+        id: 'lock_aspect_ratio',
+        label: 'قفل نسبة الأبعاد',
+        iconName: 'Lock',
+        category: 'transform',
+      },
       { id: 'group_selection', label: 'تجميع الكائنات', iconName: 'Group', category: 'structure' },
-      { id: 'delete_shape', label: 'حذف الكائن', iconName: 'Trash2', category: 'system', destructive: true },
+      {
+        id: 'delete_shape',
+        label: 'حذف الكائن',
+        iconName: 'Trash2',
+        category: 'system',
+        destructive: true,
+      },
     ],
     floatingGizmoTools: [
       { id: 'fill_color', name: 'لون التعبئة', iconName: 'Palette', group: 'shape' },
@@ -138,10 +201,21 @@ const CANONICAL_TOOLING_REGISTRY: Record<string, ElementToolingProfile> = {
     domain: 'Base',
     supportsTransformGizmo: false,
     contextMenuActions: [
-      { id: 'edit_record_form', label: 'فتح نموذج التعديل', iconName: 'FileEdit', category: 'data' },
+      {
+        id: 'edit_record_form',
+        label: 'فتح نموذج التعديل',
+        iconName: 'FileEdit',
+        category: 'data',
+      },
       { id: 'duplicate_record', label: 'تكرار السجل', iconName: 'Copy', category: 'data' },
       { id: 'export_record_json', label: 'تصدير كـ JSON', iconName: 'Download', category: 'data' },
-      { id: 'delete_record', label: 'حذف السجل', iconName: 'Trash2', category: 'system', destructive: true },
+      {
+        id: 'delete_record',
+        label: 'حذف السجل',
+        iconName: 'Trash2',
+        category: 'system',
+        destructive: true,
+      },
     ],
     floatingGizmoTools: [
       { id: 'filter_field', name: 'تصفية حسب الحقل', iconName: 'Filter', group: 'record' },
@@ -179,12 +253,17 @@ export function calculateTransformGizmoHandles(
   y: number,
   width: number,
   height: number,
-  rotateAngle = 0
+  rotateAngle = 0,
 ): readonly TransformHandle[] {
   const halfW = width / 2;
   const halfH = height / 2;
 
-  const rawHandles: Array<{ type: TransformHandle['type']; relX: number; relY: number; cursor: string }> = [
+  const rawHandles: Array<{
+    type: TransformHandle['type'];
+    relX: number;
+    relY: number;
+    cursor: string;
+  }> = [
     { type: 'nw', relX: 0, relY: 0, cursor: 'nwse-resize' },
     { type: 'n', relX: halfW, relY: 0, cursor: 'ns-resize' },
     { type: 'ne', relX: width, relY: 0, cursor: 'nesw-resize' },

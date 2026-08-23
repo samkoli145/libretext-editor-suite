@@ -26,9 +26,8 @@
  * ═══════════════════════════════════════════════════════════════════════════
  */
 
-export type ToolCategory = 
-  | 'text' | 'format' | 'insert' | 'geometry' 
-  | 'logic' | 'data' | 'system' | 'visual' | string;
+export type ToolCategory =
+  'text' | 'format' | 'insert' | 'geometry' | 'logic' | 'data' | 'system' | 'visual' | string;
 
 export interface UnifiedToolItem {
   readonly id: string;
@@ -77,11 +76,11 @@ export class ToolRegistry {
   }
 
   public getToolsByCategory(category: ToolCategory): UnifiedToolItem[] {
-    return this.getAllTools().filter(t => t.category === category);
+    return this.getAllTools().filter((t) => t.category === category);
   }
 
   public getCategories(): ToolCategory[] {
-    const categories = new Set(this.getAllTools().map(t => t.category));
+    const categories = new Set(this.getAllTools().map((t) => t.category));
     return Array.from(categories);
   }
 
@@ -91,11 +90,11 @@ export class ToolRegistry {
       console.warn(`[ToolRegistry] Tool ${toolId} not found.`);
       return false;
     }
-    
+
     if (tool.execute) {
       return tool.execute(context);
     }
-    
+
     return false; // Tools must provide an executor or be handled externally
   }
 }

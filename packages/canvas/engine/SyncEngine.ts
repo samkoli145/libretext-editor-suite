@@ -47,7 +47,7 @@ export class SyncEngine {
   static emitSync(
     source: SyncSource,
     elements: CanvasElement[],
-    updatedElementIds: string[] = []
+    updatedElementIds: string[] = [],
   ): void {
     const event: SyncEvent = {
       source,

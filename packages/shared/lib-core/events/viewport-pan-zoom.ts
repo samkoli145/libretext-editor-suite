@@ -56,7 +56,7 @@ export class ViewportPanZoomEngine {
     deltaY: number,
     cursorScreenX: number,
     cursorScreenY: number,
-    containerRect: { left: number; top: number }
+    containerRect: { left: number; top: number },
   ): ViewportTransform {
     const mouseX = cursorScreenX - containerRect.left;
     const mouseY = cursorScreenY - containerRect.top;
@@ -79,7 +79,11 @@ export class ViewportPanZoomEngine {
   /**
    * Calculate updated pan offset from drag delta
    */
-  public calculatePan(current: ViewportTransform, deltaX: number, deltaY: number): ViewportTransform {
+  public calculatePan(
+    current: ViewportTransform,
+    deltaX: number,
+    deltaY: number,
+  ): ViewportTransform {
     return {
       ...current,
       x: current.x + deltaX,
@@ -94,7 +98,7 @@ export class ViewportPanZoomEngine {
     screenX: number,
     screenY: number,
     transform: ViewportTransform,
-    containerRect: { left: number; top: number }
+    containerRect: { left: number; top: number },
   ): { x: number; y: number } {
     const localX = screenX - containerRect.left;
     const localY = screenY - containerRect.top;
@@ -112,7 +116,7 @@ export class ViewportPanZoomEngine {
     canvasHeight: number,
     containerWidth: number,
     containerHeight: number,
-    padding: number = 40
+    padding: number = 40,
   ): ViewportTransform {
     const availableW = Math.max(containerWidth - padding * 2, 100);
     const availableH = Math.max(containerHeight - padding * 2, 100);

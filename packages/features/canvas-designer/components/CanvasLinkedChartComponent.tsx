@@ -26,17 +26,20 @@
  * ═══════════════════════════════════════════════════════════════════════════
  */
 
-import React, { useMemo } from 'react'
-import { LinkedChartBridge, DerivedChartData } from '../../../shared/lib-core/grid-engine/linked-chart-bridge'
+import React, { useMemo } from 'react';
+import {
+  LinkedChartBridge,
+  DerivedChartData,
+} from '../../../shared/lib-core/grid-engine/linked-chart-bridge';
 
 export interface CanvasLinkedChartProps {
-  id: string
-  chartType?: 'bar' | 'line' | 'area' | 'donut'
-  title?: string
-  width: number
-  height: number
-  tableData?: any[][]
-  scratchpadVars?: Array<{ name: string; value: unknown; description?: string }>
+  id: string;
+  chartType?: 'bar' | 'line' | 'area' | 'donut';
+  title?: string;
+  width: number;
+  height: number;
+  tableData?: any[][];
+  scratchpadVars?: Array<{ name: string; value: unknown; description?: string }>;
 }
 
 export const CanvasLinkedChartComponent: React.FC<CanvasLinkedChartProps> = ({
@@ -50,10 +53,10 @@ export const CanvasLinkedChartComponent: React.FC<CanvasLinkedChartProps> = ({
 }) => {
   const chartData: DerivedChartData = useMemo(() => {
     if (scratchpadVars && scratchpadVars.length > 0) {
-      return LinkedChartBridge.deriveFromScratchpadVars(scratchpadVars)
+      return LinkedChartBridge.deriveFromScratchpadVars(scratchpadVars);
     }
     if (tableData && tableData.length > 0) {
-      return LinkedChartBridge.deriveFromTableGrid(tableData)
+      return LinkedChartBridge.deriveFromTableGrid(tableData);
     }
     // بيانات تجريبية افتراضية واضحة للثيم الفاتح
     return LinkedChartBridge.deriveFromTableGrid([
@@ -62,17 +65,19 @@ export const CanvasLinkedChartComponent: React.FC<CanvasLinkedChartProps> = ({
       ['Q2', 6200, 3900],
       ['Q3', 7800, 4400],
       ['Q4', 9100, 5100],
-    ])
-  }, [tableData, scratchpadVars])
+    ]);
+  }, [tableData, scratchpadVars]);
 
-  const padding = { top: 35, right: 20, bottom: 35, left: 45 }
-  const chartW = Math.max(100, width - padding.left - padding.right)
-  const chartH = Math.max(80, height - padding.top - padding.bottom)
+  const padding = { top: 35, right: 20, bottom: 35, left: 45 };
+  const chartW = Math.max(100, width - padding.left - padding.right);
+  const chartH = Math.max(80, height - padding.top - padding.bottom);
 
   // حساب القيم القصوى والدنيا
-  const allValues = chartData.series.flatMap(s => s.values.filter((v): v is number => v !== null))
-  const maxVal = allValues.length > 0 ? Math.max(...allValues, 10) : 100
-  const minVal = 0
+  const allValues = chartData.series.flatMap((s) =>
+    s.values.filter((v): v is number => v !== null),
+  );
+  const maxVal = allValues.length > 0 ? Math.max(...allValues, 10) : 100;
+  const minVal = 0;
 
   return (
     <div
@@ -82,9 +87,11 @@ export const CanvasLinkedChartComponent: React.FC<CanvasLinkedChartProps> = ({
     >
       {/* الترويسة الفاتحة */}
       <div className="px-3 py-1.5 border-b border-gray-100 bg-gray-50/70 flex items-center justify-between">
-        <span className="text-xs font-bold text-gray-800 truncate">{title || 'رسم بياني مرتبط'}</span>
+        <span className="text-xs font-bold text-gray-800 truncate">
+          {title || 'رسم بياني مرتبط'}
+        </span>
         <div className="flex items-center gap-2">
-          {chartData.series.map(s => (
+          {chartData.series.map((s) => (
             <div key={s.name} className="flex items-center gap-1">
               <span className="w-2 h-2 rounded-full" style={{ backgroundColor: s.color }} />
               <span className="text-[10px] text-gray-600 truncate max-w-[60px]">{s.name}</span>
@@ -102,9 +109,9 @@ export const CanvasLinkedChartComponent: React.FC<CanvasLinkedChartProps> = ({
         ) : (
           <svg className="w-full h-full" viewBox={`0 0 ${width} ${height - 30}`}>
             {/* شبكة الخطوط الأفقية الإرشادية */}
-            {[0, 0.25, 0.5, 0.75, 1].map(ratio => {
-              const y = padding.top + chartH * (1 - ratio)
-              const val = Math.round(minVal + (maxVal - minVal) * ratio)
+            {[0, 0.25, 0.5, 0.75, 1].map((ratio) => {
+              const y = padding.top + chartH * (1 - ratio);
+              const val = Math.round(minVal + (maxVal - minVal) * ratio);
               return (
                 <g key={ratio}>
                   <line
@@ -124,26 +131,26 @@ export const CanvasLinkedChartComponent: React.FC<CanvasLinkedChartProps> = ({
                     {val}
                   </text>
                 </g>
-              )
+              );
             })}
 
             {/* رسم الأعمدة أو الخطوط */}
             {chartType === 'bar' && (
               <g id="chart-bars">
                 {chartData.categories.map((cat, catIdx) => {
-                  const groupWidth = chartW / chartData.categories.length
-                  const barWidth = Math.max(4, (groupWidth * 0.7) / chartData.series.length)
-                  const groupX = padding.left + catIdx * groupWidth
+                  const groupWidth = chartW / chartData.categories.length;
+                  const barWidth = Math.max(4, (groupWidth * 0.7) / chartData.series.length);
+                  const groupX = padding.left + catIdx * groupWidth;
 
                   return (
                     <g key={cat}>
                       {chartData.series.map((series, sIdx) => {
-                        const val = series.values[catIdx]
-                        if (val === null) return null
+                        const val = series.values[catIdx];
+                        if (val === null) return null;
 
-                        const barH = ((val - minVal) / (maxVal - minVal)) * chartH
-                        const barX = groupX + (groupWidth * 0.15) + sIdx * barWidth
-                        const barY = padding.top + chartH - barH
+                        const barH = ((val - minVal) / (maxVal - minVal)) * chartH;
+                        const barX = groupX + groupWidth * 0.15 + sIdx * barWidth;
+                        const barY = padding.top + chartH - barH;
 
                         return (
                           <rect
@@ -158,7 +165,7 @@ export const CanvasLinkedChartComponent: React.FC<CanvasLinkedChartProps> = ({
                           >
                             <title>{`${series.name} (${cat}): ${val}`}</title>
                           </rect>
-                        )
+                        );
                       })}
                       {/* تسمية الفئة على محور X */}
                       <text
@@ -170,23 +177,24 @@ export const CanvasLinkedChartComponent: React.FC<CanvasLinkedChartProps> = ({
                         {cat}
                       </text>
                     </g>
-                  )
+                  );
                 })}
               </g>
             )}
 
             {chartType === 'line' && (
               <g id="chart-lines">
-                {chartData.series.map(series => {
+                {chartData.series.map((series) => {
                   const points = series.values
                     .map((val, idx) => {
-                      if (val === null) return null
-                      const x = padding.left + (idx + 0.5) * (chartW / chartData.categories.length)
-                      const y = padding.top + chartH - ((val - minVal) / (maxVal - minVal)) * chartH
-                      return `${x},${y}`
+                      if (val === null) return null;
+                      const x = padding.left + (idx + 0.5) * (chartW / chartData.categories.length);
+                      const y =
+                        padding.top + chartH - ((val - minVal) / (maxVal - minVal)) * chartH;
+                      return `${x},${y}`;
                     })
                     .filter(Boolean)
-                    .join(' ')
+                    .join(' ');
 
                   return (
                     <g key={series.name}>
@@ -199,9 +207,11 @@ export const CanvasLinkedChartComponent: React.FC<CanvasLinkedChartProps> = ({
                         strokeLinejoin="round"
                       />
                       {series.values.map((val, idx) => {
-                        if (val === null) return null
-                        const x = padding.left + (idx + 0.5) * (chartW / chartData.categories.length)
-                        const y = padding.top + chartH - ((val - minVal) / (maxVal - minVal)) * chartH
+                        if (val === null) return null;
+                        const x =
+                          padding.left + (idx + 0.5) * (chartW / chartData.categories.length);
+                        const y =
+                          padding.top + chartH - ((val - minVal) / (maxVal - minVal)) * chartH;
                         return (
                           <circle
                             key={idx}
@@ -212,10 +222,10 @@ export const CanvasLinkedChartComponent: React.FC<CanvasLinkedChartProps> = ({
                             stroke={series.color}
                             strokeWidth="2"
                           />
-                        )
+                        );
                       })}
                     </g>
-                  )
+                  );
                 })}
               </g>
             )}
@@ -223,5 +233,5 @@ export const CanvasLinkedChartComponent: React.FC<CanvasLinkedChartProps> = ({
         )}
       </div>
     </div>
-  )
-}
+  );
+};

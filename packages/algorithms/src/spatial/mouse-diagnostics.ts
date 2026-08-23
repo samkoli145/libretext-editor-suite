@@ -41,7 +41,18 @@ export interface RelativeMouseOffsetResult {
   readonly local: Point2D;
   readonly absoluteLocal: Point2D;
   readonly normalized: { readonly u: number; readonly v: number };
-  readonly targetRect: DOMRect | { x: number; y: number; width: number; height: number; top: number; right: number; bottom: number; left: number };
+  readonly targetRect:
+    | DOMRect
+    | {
+        x: number;
+        y: number;
+        width: number;
+        height: number;
+        top: number;
+        right: number;
+        bottom: number;
+        left: number;
+      };
   readonly isInside: boolean;
   readonly zoom: number;
   readonly direction: 'rtl' | 'ltr';
@@ -62,8 +73,15 @@ function createEmptyRect() {
     return new DOMRect(0, 0, 0, 0);
   }
   return {
-    x: 0, y: 0, width: 0, height: 0, top: 0, right: 0, bottom: 0, left: 0,
-    toJSON: () => ({ x: 0, y: 0, width: 0, height: 0, top: 0, right: 0, bottom: 0, left: 0 })
+    x: 0,
+    y: 0,
+    width: 0,
+    height: 0,
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0,
+    toJSON: () => ({ x: 0, y: 0, width: 0, height: 0, top: 0, right: 0, bottom: 0, left: 0 }),
   };
 }
 
@@ -81,7 +99,7 @@ export function extractCssScale(element: HTMLElement): number {
 
   const matrixMatch = transform.match(/matrix\(([^)]+)\)/);
   if (matrixMatch) {
-    const values = matrixMatch[1]!.split(',').map(v => parseFloat(v.trim()));
+    const values = matrixMatch[1]!.split(',').map((v) => parseFloat(v.trim()));
     const first = values[0];
     if (first !== undefined && values.length >= 1 && Number.isFinite(first) && first !== 0) {
       return Math.abs(first);
@@ -90,7 +108,7 @@ export function extractCssScale(element: HTMLElement): number {
 
   const scaleMatch = transform.match(/scale\(([^)]+)\)/);
   if (scaleMatch) {
-    const values = scaleMatch[1]!.split(',').map(v => parseFloat(v.trim()));
+    const values = scaleMatch[1]!.split(',').map((v) => parseFloat(v.trim()));
     const first = values[0];
     if (first !== undefined && values.length >= 1 && Number.isFinite(first) && first !== 0) {
       return Math.abs(first);
@@ -117,7 +135,7 @@ export function calculateRelativeMouseOffset(
   clientX: number,
   clientY: number,
   container: HTMLElement | null,
-  options?: MouseDiagnosticsOptions
+  options?: MouseDiagnosticsOptions,
 ): RelativeMouseOffsetResult {
   const zoom = options?.zoom ?? 1;
   const includeScroll = options?.includeScroll ?? true;
@@ -138,7 +156,7 @@ export function calculateRelativeMouseOffset(
   const rect = container.getBoundingClientRect();
   const isRtl = options?.isRtl ?? detectRtl(container);
   const cssScale = extractCssScale(container);
-  
+
   const rawZoom = zoom * cssScale;
   const totalZoom = rawZoom <= 0 || !Number.isFinite(rawZoom) ? 1 : rawZoom;
 
@@ -148,22 +166,23 @@ export function calculateRelativeMouseOffset(
   const absoluteLocalX = (clientX - rect.left) / totalZoom + scrollX;
   const absoluteLocalY = (clientY - rect.top) / totalZoom + scrollY;
 
-  const localX = isRtl 
-    ? (rect.right - clientX) / totalZoom + scrollX 
+  const localX = isRtl
+    ? (rect.right - clientX) / totalZoom + scrollX
     : (clientX - rect.left) / totalZoom + scrollX;
 
   const width = rect.width / totalZoom;
   const height = rect.height / totalZoom;
 
-  const isInside = clientX >= rect.left && clientX <= rect.right && clientY >= rect.top && clientY <= rect.bottom;
+  const isInside =
+    clientX >= rect.left && clientX <= rect.right && clientY >= rect.top && clientY <= rect.bottom;
 
   return {
     screen: { x: clientX, y: clientY },
     local: { x: localX, y: absoluteLocalY },
     absoluteLocal: { x: absoluteLocalX, y: absoluteLocalY },
-    normalized: { 
-      u: clamp(width > 0 ? absoluteLocalX / width : 0, 0, 1), 
-      v: clamp(height > 0 ? absoluteLocalY / height : 0, 0, 1) 
+    normalized: {
+      u: clamp(width > 0 ? absoluteLocalX / width : 0, 0, 1),
+      v: clamp(height > 0 ? absoluteLocalY / height : 0, 0, 1),
     },
     targetRect: rect,
     isInside,

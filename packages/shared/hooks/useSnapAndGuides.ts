@@ -41,18 +41,14 @@ export function useSnapAndGuides(snapThreshold = 6) {
     (
       draggingBox: { x: number; y: number; width: number; height: number },
       otherElements: RectBounds[],
-      canvasBounds?: { width: number; height: number }
+      canvasBounds?: { width: number; height: number },
     ): SnapResult => {
-      const result = engine.calculateSnap(
-        draggingBox,
-        otherElements,
-        canvasBounds
-      );
+      const result = engine.calculateSnap(draggingBox, otherElements, canvasBounds);
 
       setActiveGuides(result.activeGuides);
       return result;
     },
-    [engine]
+    [engine],
   );
 
   const clearGuides = useCallback(() => {

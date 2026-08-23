@@ -60,11 +60,11 @@
  * // @function-index: #1/5 — BlockCategory
  */
 export type BlockCategory =
-  | 'primitive'  // عناصر أساسية لا تقبل أطفالاً
-  | 'layout'     // حاويات تنظم عرض الأطفال
-  | 'data'       // عرض البيانات والجداول
-  | 'media'      // الوسائط المتعددة
-  | 'section';   // أقسام جاهزة مركبة
+  | 'primitive' // عناصر أساسية لا تقبل أطفالاً
+  | 'layout' // حاويات تنظم عرض الأطفال
+  | 'data' // عرض البيانات والجداول
+  | 'media' // الوسائط المتعددة
+  | 'section'; // أقسام جاهزة مركبة
 
 /**
  * أنواع البلوكات البدائية (Primitive).
@@ -93,55 +93,31 @@ export type PrimitiveType =
  * أنواع البلوكات التخطيطية (Layout).
  * // @function-index: #3/5 — LayoutType
  */
-export type LayoutType =
-  | 'container'
-  | 'grid'
-  | 'flexbox'
-  | 'card'
-  | 'tabs'
-  | 'accordion'
-  | 'modal';
+export type LayoutType = 'container' | 'grid' | 'flexbox' | 'card' | 'tabs' | 'accordion' | 'modal';
 
 /**
  * أنواع بلوكات البيانات (Data).
  * // @function-index: #4/3 — DataType
  */
-export type DataType =
-  | 'data-table'
-  | 'stat-card'
-  | 'pagination';
+export type DataType = 'data-table' | 'stat-card' | 'pagination';
 
 /**
  * أنواع بلوكات الوسائط (Media).
  * // @function-index: #5/3 — MediaType
  */
-export type MediaType =
-  | 'video'
-  | 'audio'
-  | 'avatar'
-  | 'icon';
+export type MediaType = 'video' | 'audio' | 'avatar' | 'icon';
 
 /**
  * أنواع الأقسام الجاهزة (Section).
  * // @function-index: #6/2 — SectionType
  */
-export type SectionType =
-  | 'hero'
-  | 'pricing'
-  | 'testimonial'
-  | 'faq'
-  | 'cta';
+export type SectionType = 'hero' | 'pricing' | 'testimonial' | 'faq' | 'cta';
 
 /**
  * النوع الموحد — اتحاد كل الأنواع.
  * // @function-index: #7/1 — BlockType
  */
-export type BlockType =
-  | PrimitiveType
-  | LayoutType
-  | DataType
-  | MediaType
-  | SectionType;
+export type BlockType = PrimitiveType | LayoutType | DataType | MediaType | SectionType;
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // فئات Tailwind | Tailwind Classes
@@ -152,14 +128,14 @@ export type BlockType =
  * // @function-index: #8/1 — TailwindClasses
  */
 export type TailwindClasses = {
-  layout?: string[];      // grid, flex, block, etc.
-  spacing?: string[];     // p-4, m-2, gap-3, etc.
-  sizing?: string[];      // w-full, h-screen, etc.
-  typography?: string[];  // text-lg, font-bold, etc.
-  colors?: string[];      // bg-white, text-gray-900, etc.
-  borders?: string[];     // border, rounded-lg, etc.
-  effects?: string[];     // shadow, opacity, etc.
-  responsive?: string[];  // sm:, md:, lg:, etc.
+  layout?: string[]; // grid, flex, block, etc.
+  spacing?: string[]; // p-4, m-2, gap-3, etc.
+  sizing?: string[]; // w-full, h-screen, etc.
+  typography?: string[]; // text-lg, font-bold, etc.
+  colors?: string[]; // bg-white, text-gray-900, etc.
+  borders?: string[]; // border, rounded-lg, etc.
+  effects?: string[]; // shadow, opacity, etc.
+  responsive?: string[]; // sm:, md:, lg:, etc.
 };
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -168,12 +144,12 @@ export type TailwindClasses = {
 
 /**
  * عقدة البلوك — الوحدة الأساسية في النظام.
- * 
+ *
  * ⚠️ الحقول المضافة:
  * - children: موجودة فقط للعناصر الحاوية (Layout, Section).
  * - styles: موجودة فقط عند وجود فئات Tailwind مخصصة.
  * - data: موجودة فقط عند وجود بيانات مخصصة.
- * 
+ *
  * // @function-index: #9/1 — HtmlBlockNode
  */
 export interface HtmlBlockNode {
@@ -228,10 +204,10 @@ let blockSeq = 0;
 
 /**
  * توليد معرف فريد للبلوك.
- * 
+ *
  * ⚠️ BlockId لا يُعاد أبداً (مثل RID في rowcol.ts).
  * ⚠️ يستخدم timestamp + sequence + random لضمان التفرد.
- * 
+ *
  * // @function-index: #11/2 — mintBlockId
  */
 export function mintBlockId(): string {
@@ -243,12 +219,12 @@ export function mintBlockId(): string {
 
 /**
  * Type Guard للتحقق من صحة عقدة البلوك.
- * 
+ *
  * ⚠️ يتحقق من:
  * - وجود id و type و category
  * - صحة نوع props
  * - صحة children إن وجدت
- * 
+ *
  * // @function-index: #12/2 — isValidBlockNode
  */
 export function isValidBlockNode(node: unknown): node is HtmlBlockNode {
@@ -264,15 +240,37 @@ export function isValidBlockNode(node: unknown): node is HtmlBlockNode {
 
 /**
  * استخراج الفئة من النوع.
- * 
+ *
  * // @function-index: #13/2 — categoryFromType
  */
 export function categoryFromType(type: BlockType): BlockCategory {
   const primitives: PrimitiveType[] = [
-    'text', 'heading', 'button', 'input', 'textarea', 'select', 'checkbox', 'radio-group', 'switch', 'slider', 'color-picker', 'date-picker', 'tooltip', 'popover', 'badge', 'image', 'link'
+    'text',
+    'heading',
+    'button',
+    'input',
+    'textarea',
+    'select',
+    'checkbox',
+    'radio-group',
+    'switch',
+    'slider',
+    'color-picker',
+    'date-picker',
+    'tooltip',
+    'popover',
+    'badge',
+    'image',
+    'link',
   ];
   const layouts: LayoutType[] = [
-    'container', 'grid', 'flexbox', 'card', 'tabs', 'accordion', 'modal'
+    'container',
+    'grid',
+    'flexbox',
+    'card',
+    'tabs',
+    'accordion',
+    'modal',
   ];
   const data: DataType[] = ['data-table', 'stat-card', 'pagination'];
   const media: MediaType[] = ['video', 'audio', 'avatar', 'icon'];

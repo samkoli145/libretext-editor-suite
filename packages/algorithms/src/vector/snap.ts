@@ -40,7 +40,10 @@ export interface SnapConfig {
 
 export function snapPointToGrid(point: Point2D, gridSize = 10): Point2D {
   if (gridSize <= 1) return point;
-  return { x: Math.round(point.x / gridSize) * gridSize, y: Math.round(point.y / gridSize) * gridSize };
+  return {
+    x: Math.round(point.x / gridSize) * gridSize,
+    y: Math.round(point.y / gridSize) * gridSize,
+  };
 }
 
 function findBestSnap(
@@ -71,7 +74,8 @@ export function calculateSmartSnap(
 ): SnapResult {
   const threshold = config.snapThreshold ?? 6;
   const gridSize = config.gridSize ?? 10;
-  let dX = 0, dY = 0;
+  let dX = 0,
+    dY = 0;
   let bestX = threshold + 1;
   let bestY = threshold + 1;
   const targets: SnapTarget[] = [];
@@ -82,22 +86,76 @@ export function calculateSmartSnap(
     const mX = [movingBox.minX, movingBox.centerX, movingBox.maxX];
     const mY = [movingBox.minY, movingBox.centerY, movingBox.maxY];
     const rx = findBestSnap(mX, cxVals, bestX);
-    if (rx.best < bestX) { bestX = rx.best; dX = rx.delta; targets.push({ type: 'canvas', axis: 'x', position: rx.pos, guideStart: 0, guideEnd: config.canvasHeight }); }
+    if (rx.best < bestX) {
+      bestX = rx.best;
+      dX = rx.delta;
+      targets.push({
+        type: 'canvas',
+        axis: 'x',
+        position: rx.pos,
+        guideStart: 0,
+        guideEnd: config.canvasHeight,
+      });
+    }
     const ry = findBestSnap(mY, cyVals, bestY);
-    if (ry.best < bestY) { bestY = ry.best; dY = ry.delta; targets.push({ type: 'canvas', axis: 'y', position: ry.pos, guideStart: 0, guideEnd: config.canvasWidth }); }
+    if (ry.best < bestY) {
+      bestY = ry.best;
+      dY = ry.delta;
+      targets.push({
+        type: 'canvas',
+        axis: 'y',
+        position: ry.pos,
+        guideStart: 0,
+        guideEnd: config.canvasWidth,
+      });
+    }
   }
 
   if (config.snapToElements !== false && referenceBoxes.length > 0) {
     for (const ref of referenceBoxes) {
-      const rX = findBestSnap([movingBox.minX, movingBox.centerX, movingBox.maxX], [ref.minX, ref.centerX, ref.maxX], bestX);
-      if (rX.best < bestX) { bestX = rX.best; dX = rX.delta; targets.push({ type: 'element', axis: 'x', position: rX.pos, guideStart: Math.min(movingBox.minY, ref.minY) - 10, guideEnd: Math.max(movingBox.maxY, ref.maxY) + 10 }); }
-      const rY = findBestSnap([movingBox.minY, movingBox.centerY, movingBox.maxY], [ref.minY, ref.centerY, ref.maxY], bestY);
-      if (rY.best < bestY) { bestY = rY.best; dY = rY.delta; targets.push({ type: 'element', axis: 'y', position: rY.pos, guideStart: Math.min(movingBox.minX, ref.minX) - 10, guideEnd: Math.max(movingBox.maxX, ref.maxX) + 10 }); }
+      const rX = findBestSnap(
+        [movingBox.minX, movingBox.centerX, movingBox.maxX],
+        [ref.minX, ref.centerX, ref.maxX],
+        bestX,
+      );
+      if (rX.best < bestX) {
+        bestX = rX.best;
+        dX = rX.delta;
+        targets.push({
+          type: 'element',
+          axis: 'x',
+          position: rX.pos,
+          guideStart: Math.min(movingBox.minY, ref.minY) - 10,
+          guideEnd: Math.max(movingBox.maxY, ref.maxY) + 10,
+        });
+      }
+      const rY = findBestSnap(
+        [movingBox.minY, movingBox.centerY, movingBox.maxY],
+        [ref.minY, ref.centerY, ref.maxY],
+        bestY,
+      );
+      if (rY.best < bestY) {
+        bestY = rY.best;
+        dY = rY.delta;
+        targets.push({
+          type: 'element',
+          axis: 'y',
+          position: rY.pos,
+          guideStart: Math.min(movingBox.minX, ref.minX) - 10,
+          guideEnd: Math.max(movingBox.maxX, ref.maxX) + 10,
+        });
+      }
     }
   }
 
-  if (config.snapToGrid && bestX > threshold) dX = Math.round(movingBox.x / gridSize) * gridSize - movingBox.x;
-  if (config.snapToGrid && bestY > threshold) dY = Math.round(movingBox.y / gridSize) * gridSize - movingBox.y;
+  if (config.snapToGrid && bestX > threshold)
+    dX = Math.round(movingBox.x / gridSize) * gridSize - movingBox.x;
+  if (config.snapToGrid && bestY > threshold)
+    dY = Math.round(movingBox.y / gridSize) * gridSize - movingBox.y;
 
-  return { snappedPoint: { x: movingBox.x + dX, y: movingBox.y + dY }, delta: { x: dX, y: dY }, matchedTargets: targets };
+  return {
+    snappedPoint: { x: movingBox.x + dX, y: movingBox.y + dY },
+    delta: { x: dX, y: dY },
+    matchedTargets: targets,
+  };
 }

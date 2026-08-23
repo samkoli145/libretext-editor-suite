@@ -56,7 +56,12 @@ export class GridCore {
   private unsubs: Array<() => void> = [];
 
   // Callbacks الخارجية للتكامل
-  public onSelectionChange?: (summary: { ref: string; count: number; sum?: number; avg?: number }) => void;
+  public onSelectionChange?: (summary: {
+    ref: string;
+    count: number;
+    sum?: number;
+    avg?: number;
+  }) => void;
   public onContextMenu?: (e: MouseEvent, row: number, col: number) => void;
   public onCellChange?: (row: number, colId: string, value: unknown) => void;
 
@@ -101,12 +106,14 @@ export class GridCore {
 
     this.container = document.createElement('div');
     this.container.className = 'grid-master-container';
-    this.container.style.cssText = 'display:flex; flex-direction:column; width:100%; height:100%; overflow:hidden; background:#ffffff; color:#0f172a; font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size:13px;';
+    this.container.style.cssText =
+      'display:flex; flex-direction:column; width:100%; height:100%; overflow:hidden; background:#ffffff; color:#0f172a; font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size:13px;';
 
     // الرأس (Header)
     this.headerEl = document.createElement('div');
     this.headerEl.className = 'grid-header-bar';
-    this.headerEl.style.cssText = 'display:flex; height:28px; background:#f8fafc; border-bottom:1px solid #e2e8f0; font-weight:600; color:#475569; position:sticky; top:0; z-index:10;';
+    this.headerEl.style.cssText =
+      'display:flex; height:28px; background:#f8fafc; border-bottom:1px solid #e2e8f0; font-weight:600; color:#475569; position:sticky; top:0; z-index:10;';
 
     // منطقة التمرير (Scroller)
     this.scroller = document.createElement('div');
@@ -315,7 +322,10 @@ export class GridCore {
 
     const totalRows = 1000;
     const startRow = Math.max(0, Math.floor(scrollTop / ROW_HEIGHT) - OVERSCAN);
-    const endRow = Math.min(totalRows - 1, Math.ceil((scrollTop + viewHeight) / ROW_HEIGHT) + OVERSCAN);
+    const endRow = Math.min(
+      totalRows - 1,
+      Math.ceil((scrollTop + viewHeight) / ROW_HEIGHT) + OVERSCAN,
+    );
 
     this.bodyEl.style.height = `${totalRows * ROW_HEIGHT}px`;
     this.bodyEl.innerHTML = '';
@@ -374,9 +384,11 @@ export class GridCore {
     const existingFormula = sheet.cellFormulas?.get(key);
     const existingVal = this.store.readCell(this.sheetId, row, colDef.id);
 
-    const initialText = initialChar !== undefined
-      ? initialChar
-      : (existingFormula || (existingVal !== null && existingVal !== undefined ? String(existingVal) : ''));
+    const initialText =
+      initialChar !== undefined
+        ? initialChar
+        : existingFormula ||
+          (existingVal !== null && existingVal !== undefined ? String(existingVal) : '');
 
     // حقن حقل الإدخال فوق الخلية
     const input = document.createElement('input');
@@ -435,7 +447,9 @@ export class GridCore {
     this.isDestroyed = true;
     this.cancelEditing();
     for (const unsub of this.unsubs) {
-      try { unsub(); } catch {}
+      try {
+        unsub();
+      } catch {}
     }
     this.unsubs = [];
     this.host.innerHTML = '';

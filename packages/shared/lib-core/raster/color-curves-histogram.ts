@@ -50,9 +50,9 @@ export interface HistogramAnalysis {
 export interface LevelsParams {
   blackPoint: number; // 0 to 254
   whitePoint: number; // (blackPoint + 1) to 255
-  gamma: number;      // 0.1 to 5.0 (default 1.0)
-  outBlack?: number;  // 0 to 255
-  outWhite?: number;  // 0 to 255
+  gamma: number; // 0.1 to 5.0 (default 1.0)
+  outBlack?: number; // 0 to 255
+  outWhite?: number; // 0 to 255
 }
 
 export class ColorCurvesHistogramEngine {
@@ -193,12 +193,12 @@ export class ColorCurvesHistogramEngine {
     rgbPoints?: CurvePoint[],
     rPoints?: CurvePoint[],
     gPoints?: CurvePoint[],
-    bPoints?: CurvePoint[]
+    bPoints?: CurvePoint[],
   ): ImageData {
     const output = new ImageData(
       new Uint8ClampedArray(imageData.data),
       imageData.width,
-      imageData.height
+      imageData.height,
     );
     const data = output.data;
 
@@ -243,7 +243,7 @@ export class ColorCurvesHistogramEngine {
     const output = new ImageData(
       new Uint8ClampedArray(imageData.data),
       imageData.width,
-      imageData.height
+      imageData.height,
     );
     const data = output.data;
 
@@ -287,7 +287,7 @@ export class ColorCurvesHistogramEngine {
   public static drawHistogram(
     canvas: HTMLCanvasElement,
     analysis: HistogramAnalysis,
-    mode: 'luminance' | 'rgb' | 'all' = 'all'
+    mode: 'luminance' | 'rgb' | 'all' = 'all',
   ): void {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
@@ -311,7 +311,12 @@ export class ColorCurvesHistogramEngine {
       ctx.stroke();
     }
 
-    const drawCurve = (counts: number[], maxVal: number, strokeColor: string, fillColor: string) => {
+    const drawCurve = (
+      counts: number[],
+      maxVal: number,
+      strokeColor: string,
+      fillColor: string,
+    ) => {
       if (maxVal <= 0) return;
 
       ctx.beginPath();
@@ -340,7 +345,7 @@ export class ColorCurvesHistogramEngine {
         analysis.luminance.counts,
         analysis.luminance.maxCount,
         'rgba(71, 85, 105, 0.8)',
-        'rgba(148, 163, 184, 0.2)'
+        'rgba(148, 163, 184, 0.2)',
       );
     }
 
@@ -350,21 +355,21 @@ export class ColorCurvesHistogramEngine {
         analysis.r.counts,
         analysis.r.maxCount,
         'rgba(239, 68, 68, 0.7)',
-        'rgba(239, 68, 68, 0.1)'
+        'rgba(239, 68, 68, 0.1)',
       );
       // Green
       drawCurve(
         analysis.g.counts,
         analysis.g.maxCount,
         'rgba(34, 197, 94, 0.7)',
-        'rgba(34, 197, 94, 0.1)'
+        'rgba(34, 197, 94, 0.1)',
       );
       // Blue
       drawCurve(
         analysis.b.counts,
         analysis.b.maxCount,
         'rgba(59, 130, 246, 0.7)',
-        'rgba(59, 130, 246, 0.1)'
+        'rgba(59, 130, 246, 0.1)',
       );
     }
   }

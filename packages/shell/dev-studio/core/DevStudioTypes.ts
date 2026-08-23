@@ -58,11 +58,29 @@ export const COPYRIGHT_YEAR = 2026;
 export type EditorTarget = 'canvas' | 'ui' | 'richtext' | 'pdf' | 'all';
 
 export type ComponentCategory =
-  | 'selection' | 'drawing' | 'text' | 'shape' | 'image'
-  | 'chart' | 'table' | 'layout' | 'align' | 'transform'
-  | 'color' | 'effect' | 'animation' | 'interaction' | 'navigation'
-  | 'view' | 'export' | 'import' | 'debug' | 'test'
-  | 'math' | 'utility' | 'custom';
+  | 'selection'
+  | 'drawing'
+  | 'text'
+  | 'shape'
+  | 'image'
+  | 'chart'
+  | 'table'
+  | 'layout'
+  | 'align'
+  | 'transform'
+  | 'color'
+  | 'effect'
+  | 'animation'
+  | 'interaction'
+  | 'navigation'
+  | 'view'
+  | 'export'
+  | 'import'
+  | 'debug'
+  | 'test'
+  | 'math'
+  | 'utility'
+  | 'custom';
 
 export type ToolCategory = ComponentCategory;
 
@@ -121,7 +139,13 @@ export type DevStudioPatch =
       content: string;
       oldContent?: string;
       header?: FileHeader;
-      inverse: { op: 'modifyFile'; path: string; content: string; oldContent?: string; header?: FileHeader };
+      inverse: {
+        op: 'modifyFile';
+        path: string;
+        content: string;
+        oldContent?: string;
+        header?: FileHeader;
+      };
     }
   | {
       op: 'decomposeFile';
@@ -133,7 +157,11 @@ export type DevStudioPatch =
       op: 'recomposeFile';
       sourcePath: string;
       targetPaths: string[];
-      inverse: { op: 'decomposeFile'; sourcePath: string; targets: Array<{ path: string; content: string; header?: FileHeader }> };
+      inverse: {
+        op: 'decomposeFile';
+        sourcePath: string;
+        targets: Array<{ path: string; content: string; header?: FileHeader }>;
+      };
     }
   | {
       op: 'registerTool';
@@ -164,7 +192,12 @@ export type DevStudioPatch =
       registry: 'components' | 'algorithms' | 'inventory';
       props: Record<string, unknown>;
       drop?: string[];
-      inverse: { op: 'updateRegistry'; registry: 'components' | 'algorithms' | 'inventory'; props: Record<string, unknown>; drop?: string[] };
+      inverse: {
+        op: 'updateRegistry';
+        registry: 'components' | 'algorithms' | 'inventory';
+        props: Record<string, unknown>;
+        drop?: string[];
+      };
     };
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -172,13 +205,13 @@ export type DevStudioPatch =
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 export type DoctorCategory =
-  | 'theme'      // pure light theme, no dark surfaces
-  | 'deps'       // zero external dependencies, no eval
-  | 'geometry'   // nested radius rule, dimension sanity
-  | 'identity'   // unique ids, no orphans
-  | 'structure'  // mandatory header, copyright, Arabic summary
+  | 'theme' // pure light theme, no dark surfaces
+  | 'deps' // zero external dependencies, no eval
+  | 'geometry' // nested radius rule, dimension sanity
+  | 'identity' // unique ids, no orphans
+  | 'structure' // mandatory header, copyright, Arabic summary
   | 'additivity' // absent-means-no
-  | 'wire';      // deletion spelled as drop, never undefined
+  | 'wire'; // deletion spelled as drop, never undefined
 
 export type DoctorStatus = 'pass' | 'fail' | 'warn';
 
@@ -239,12 +272,7 @@ export type DevTaskStatus =
   | 'rolled-back';
 
 export type DevTaskType =
-  | 'add-tool'
-  | 'add-component'
-  | 'decompose'
-  | 'modify'
-  | 'organize'
-  | 'custom';
+  'add-tool' | 'add-component' | 'decompose' | 'modify' | 'organize' | 'custom';
 
 export interface DevTask {
   id: string;

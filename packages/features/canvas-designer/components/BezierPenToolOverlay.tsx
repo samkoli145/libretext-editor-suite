@@ -99,7 +99,7 @@ export const BezierPenToolOverlay: React.FC<BezierPenToolOverlayProps> = ({
         y: Math.round(rawY * 10) / 10,
       };
     },
-    [zoom]
+    [zoom],
   );
 
   // التعامل مع تحريك مؤشر الفأرة

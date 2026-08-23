@@ -24,7 +24,8 @@
  * ═══════════════════════════════════════════════════════════════════════════
  */
 
-export type ColumnType = 'string' | 'number' | 'boolean' | 'date' | 'currency' | 'percent' | 'formula' | 'auto';
+export type ColumnType =
+  'string' | 'number' | 'boolean' | 'date' | 'currency' | 'percent' | 'formula' | 'auto';
 
 export interface Column {
   id: string;
@@ -42,7 +43,7 @@ export type CellValue = string | number | boolean | null | undefined;
 export class FormulaError {
   constructor(
     public readonly code: string,
-    public readonly message: string = ''
+    public readonly message: string = '',
   ) {}
 
   toString(): string {
@@ -95,7 +96,8 @@ export interface TableSheet {
 
 export interface Patch {
   sheetId: string;
-  type: 'cell-change' | 'col-resize' | 'row-add' | 'row-delete' | 'col-add' | 'col-delete' | 'reorder';
+  type:
+    'cell-change' | 'col-resize' | 'row-add' | 'row-delete' | 'col-add' | 'col-delete' | 'reorder';
   target: { row?: number; col?: string | number; colId?: string };
   prevValue?: unknown;
   newValue?: unknown;
@@ -117,5 +119,11 @@ export interface GridHost {
 }
 
 export const isFormulaError = (val: unknown): val is FormulaError => {
-  return val instanceof FormulaError || (typeof val === 'object' && val !== null && 'code' in val && typeof (val as Record<string, unknown>).code === 'string');
+  return (
+    val instanceof FormulaError ||
+    (typeof val === 'object' &&
+      val !== null &&
+      'code' in val &&
+      typeof (val as Record<string, unknown>).code === 'string')
+  );
 };

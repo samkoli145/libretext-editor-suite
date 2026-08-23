@@ -33,7 +33,12 @@
 // ©️ جميع الحقوق محفوظة ©️ - 2026
 // ═══════════════════════════════════════════════════════════════
 
-import type { DevStudioPatch, ToolDefinition, EditorTarget, ComponentCategory } from '../core/DevStudioTypes';
+import type {
+  DevStudioPatch,
+  ToolDefinition,
+  EditorTarget,
+  ComponentCategory,
+} from '../core/DevStudioTypes';
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // الواجهات
@@ -107,19 +112,19 @@ export class EditorBridge {
 
     // لا ربط مزدوج
     const existing = this.registry.mounts.find(
-      m => m.toolId === toolId && (m.editor === editor || m.editor === 'all' || editor === 'all'),
+      (m) => m.toolId === toolId && (m.editor === editor || m.editor === 'all' || editor === 'all'),
     );
     if (existing) {
-      throw new Error(
-        `[EditorBridge] الأداة "${toolId}" مرتبطة بالفعل بـ "${existing.editor}"`,
-      );
+      throw new Error(`[EditorBridge] الأداة "${toolId}" مرتبطة بالفعل بـ "${existing.editor}"`);
     }
 
     // التحقق من أن الأداة تدعم هذا المحرر
-    if (tool.editors.length > 0 && !tool.editors.includes(editor) && !tool.editors.includes('all')) {
-      throw new Error(
-        `[EditorBridge] الأداة "${toolId}" لا تدعم المحرر "${editor}"`,
-      );
+    if (
+      tool.editors.length > 0 &&
+      !tool.editors.includes(editor) &&
+      !tool.editors.includes('all')
+    ) {
+      throw new Error(`[EditorBridge] الأداة "${toolId}" لا تدعم المحرر "${editor}"`);
     }
 
     const mount: ToolMount = {
@@ -156,7 +161,7 @@ export class EditorBridge {
 
     // إزالة كل الروابط المرتبطة بهذه الأداة
     const before = this.registry.mounts.length;
-    this.registry.mounts = this.registry.mounts.filter(m => m.toolId !== toolId);
+    this.registry.mounts = this.registry.mounts.filter((m) => m.toolId !== toolId);
     const removed = before - this.registry.mounts.length;
 
     if (removed === 0) {
@@ -165,12 +170,14 @@ export class EditorBridge {
       return [];
     }
 
-    return [{
-      op: 'unregisterTool',
-      toolId,
-      definition: tool,
-      inverse: { op: 'registerTool', toolId, definition: tool },
-    }];
+    return [
+      {
+        op: 'unregisterTool',
+        toolId,
+        definition: tool,
+        inverse: { op: 'registerTool', toolId, definition: tool },
+      },
+    ];
   }
 
   /**
@@ -211,8 +218,8 @@ export class EditorBridge {
   toolsForEditor(editor: EditorTarget): ToolDefinition[] {
     const mountedIds = new Set(
       this.registry.mounts
-        .filter(m => m.editor === editor || m.editor === 'all' || editor === 'all')
-        .map(m => m.toolId),
+        .filter((m) => m.editor === editor || m.editor === 'all' || editor === 'all')
+        .map((m) => m.toolId),
     );
 
     const result: ToolDefinition[] = [];
@@ -227,12 +234,10 @@ export class EditorBridge {
     }
 
     // ترتيب حسب الفئة ثم الترتيب
-    const mountOrder = new Map(
-      this.registry.mounts.map(m => [m.toolId, m.order]),
-    );
+    const mountOrder = new Map(this.registry.mounts.map((m) => [m.toolId, m.order]));
     return result.sort((a, b) => {
-      const aCat = this.registry.mounts.find(m => m.toolId === a.id)?.category ?? 'custom';
-      const bCat = this.registry.mounts.find(m => m.toolId === b.id)?.category ?? 'custom';
+      const aCat = this.registry.mounts.find((m) => m.toolId === a.id)?.category ?? 'custom';
+      const bCat = this.registry.mounts.find((m) => m.toolId === b.id)?.category ?? 'custom';
       if (aCat !== bCat) return aCat.localeCompare(bCat);
       return (mountOrder.get(a.id) ?? 0) - (mountOrder.get(b.id) ?? 0);
     });
@@ -244,7 +249,7 @@ export class EditorBridge {
   toolsByCategory(category: ComponentCategory): ToolDefinition[] {
     const result: ToolDefinition[] = [];
     for (const [id, tool] of this.registry.tools) {
-      const mount = this.registry.mounts.find(m => m.toolId === id);
+      const mount = this.registry.mounts.find((m) => m.toolId === id);
       if (mount?.category === category) {
         result.push(tool);
       }
@@ -257,7 +262,7 @@ export class EditorBridge {
    */
   isMounted(toolId: string, editor?: EditorTarget): boolean {
     return this.registry.mounts.some(
-      m => m.toolId === toolId && (!editor || m.editor === editor || m.editor === 'all'),
+      (m) => m.toolId === toolId && (!editor || m.editor === editor || m.editor === 'all'),
     );
   }
 
@@ -286,9 +291,7 @@ export class EditorBridge {
    */
   cleanOrphans(): number {
     const before = this.registry.mounts.length;
-    this.registry.mounts = this.registry.mounts.filter(
-      m => this.registry.tools.has(m.toolId),
-    );
+    this.registry.mounts = this.registry.mounts.filter((m) => this.registry.tools.has(m.toolId));
     return before - this.registry.mounts.length;
   }
 

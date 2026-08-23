@@ -96,7 +96,11 @@ describe('AutoVerifier', () => {
   it('autoVerify returns correct allPassed=false when any mutation check fails', async () => {
     const check: CheckFn = vi.fn(async (level: VerificationLevel, i?: number) => {
       const result: VerificationResult = {
-        level, passed: true, stdout: '', stderr: '', durationMs: 1,
+        level,
+        passed: true,
+        stdout: '',
+        stderr: '',
+        durationMs: 1,
       };
       return result;
     }) as unknown as CheckFn;

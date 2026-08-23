@@ -75,22 +75,18 @@ export interface OperationResult {
 
 /**
  * إضافة بلوك جديد.
- * 
+ *
  * ⚠️ يُعيد Patch مع inverse.
  * ⚠️ parentId يجب أن يكون موجوداً.
- * 
+ *
  * // @function-index: #50/4 — addBlock
  */
-export function addBlock(
-  parentId: string,
-  type: BlockType,
-  index?: number,
-): OperationResult {
+export function addBlock(parentId: string, type: BlockType, index?: number): OperationResult {
   const def = HtmlBlockRegistry.get(type);
   if (!def) {
     throw new Error(`[Operations] Unknown block type: ${type}`);
   }
-  
+
   const newBlock: HtmlBlockNode = {
     id: mintBlockId(),
     type,
@@ -99,7 +95,7 @@ export function addBlock(
     styles: { ...def.defaultTailwind },
     ...(def.acceptsChildren ? { children: [] } : {}),
   };
-  
+
   return {
     patch: { op: 'addBlock', parentId, block: newBlock, index },
     inverse: { op: 'removeBlock', blockId: newBlock.id, parentId },
@@ -108,10 +104,10 @@ export function addBlock(
 
 /**
  * إزالة بلوك.
- * 
+ *
  * ⚠️ يُعيد Patch مع inverse.
  * ⚠️ blockId يجب أن يكون موجوداً.
- * 
+ *
  * // @function-index: #51/4 — removeBlock
  */
 export function removeBlock(
@@ -128,17 +124,13 @@ export function removeBlock(
 
 /**
  * نقل بلوك.
- * 
+ *
  * ⚠️ يُعيد Patch مع inverse.
  * ⚠️ newIndex يجب أن يكون ضمن الحدود.
- * 
+ *
  * // @function-index: #52/4 — moveBlock
  */
-export function moveBlock(
-  blockId: string,
-  newIndex: number,
-  oldIndex = 0,
-): OperationResult {
+export function moveBlock(blockId: string, newIndex: number, oldIndex = 0): OperationResult {
   return {
     patch: { op: 'moveBlock', blockId, newIndex },
     inverse: { op: 'moveBlock', blockId, newIndex: oldIndex },
@@ -147,10 +139,10 @@ export function moveBlock(
 
 /**
  * تكرار بلوك.
- * 
+ *
  * ⚠️ يُعيد Patch مع inverse.
  * ⚠️ يُنشئ معرف جديد للبلوك المكرر.
- * 
+ *
  * // @function-index: #53/4 — duplicateBlock
  */
 export function duplicateBlock(
@@ -162,7 +154,7 @@ export function duplicateBlock(
     ...block,
     id: mintBlockId(),
   };
-  
+
   return {
     patch: { op: 'addBlock', parentId, block: newBlock, index },
     inverse: { op: 'removeBlock', blockId: newBlock.id, parentId },

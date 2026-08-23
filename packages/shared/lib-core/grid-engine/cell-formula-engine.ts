@@ -26,7 +26,15 @@
  */
 
 import { FormulaError, isFormulaError, type Cell, type CellRef, type CellValue } from './types';
-import { expandRange, formatRef, mapRefs, parseA1, rewriteFormulaRefs, shiftRefsForInsert, REF_ERR } from './a1-notation';
+import {
+  expandRange,
+  formatRef,
+  mapRefs,
+  parseA1,
+  rewriteFormulaRefs,
+  shiftRefsForInsert,
+  REF_ERR,
+} from './a1-notation';
 import { evaluateExpression, type EvalContext } from './formula-evaluator';
 
 const MAX_COLS = 16384;
@@ -175,11 +183,7 @@ export const cellDeps = (src: string): CellRef[] => {
 /**
  * تقييم صيغة لخلية واحدة مع دالة قراءة المراجع
  */
-export function evalCell(
-  src: string,
-  read: (r: CellRef) => Cell,
-  opts: { now?: Date } = {}
-): Cell {
+export function evalCell(src: string, read: (r: CellRef) => Cell, opts: { now?: Date } = {}): Cell {
   try {
     const { expr, deps } = bindRefs(src);
     for (const d of deps) {
@@ -192,7 +196,10 @@ export function evalCell(
       if (d.cells.length === 1) {
         varMap.set(d.name, read(d.cells[0]));
       } else {
-        varMap.set(d.name, d.cells.map((c) => read(c)));
+        varMap.set(
+          d.name,
+          d.cells.map((c) => read(c)),
+        );
       }
     }
 
@@ -318,7 +325,7 @@ export function shiftSheetFormulas(
   formulas: Map<string, string>,
   type: 'row' | 'col',
   startIndex: number,
-  count: number
+  count: number,
 ): Map<string, string> {
   const result = new Map<string, string>();
   for (const [key, formula] of formulas) {

@@ -19,43 +19,43 @@ export type LatexNodeType =
   | 'environment'
   | 'space'
   | 'color'
-  | 'error'
+  | 'error';
 
 export interface LatexNode {
-  type: LatexNodeType
-  value?: string
-  children?: LatexNode[]
-  position?: number
-  command?: string
-  numerator?: LatexNode[]
-  denominator?: LatexNode[]
-  radicand?: LatexNode[]
-  index?: LatexNode[]
-  rows?: LatexNode[][][]
-  matrixType?: 'pmatrix' | 'bmatrix' | 'vmatrix' | 'Vmatrix' | 'matrix'
-  environment?: string
-  color?: string
-  error?: string
+  type: LatexNodeType;
+  value?: string;
+  children?: LatexNode[];
+  position?: number;
+  command?: string;
+  numerator?: LatexNode[];
+  denominator?: LatexNode[];
+  radicand?: LatexNode[];
+  index?: LatexNode[];
+  rows?: LatexNode[][][];
+  matrixType?: 'pmatrix' | 'bmatrix' | 'vmatrix' | 'Vmatrix' | 'matrix';
+  environment?: string;
+  color?: string;
+  error?: string;
 }
 
 export interface LatexParseResult {
-  ok: boolean
-  ast?: LatexNode[]
-  error?: string
-  position?: number
+  ok: boolean;
+  ast?: LatexNode[];
+  error?: string;
+  position?: number;
 }
 
 export interface RenderOptions {
-  fontSize?: number
-  color?: string
-  width?: number
-  height?: number
+  fontSize?: number;
+  color?: string;
+  width?: number;
+  height?: number;
 }
 
 export interface RenderResult {
-  svg: string
-  width: number
-  height: number
+  svg: string;
+  width: number;
+  height: number;
 }
 
 export type SymbolCategory =
@@ -68,23 +68,20 @@ export type SymbolCategory =
   | 'logic'
   | 'geometry'
   | 'misc'
-  | 'functions'
+  | 'functions';
 
 export interface SymbolDefinition {
-  command: string
-  symbol: string
-  name: string
-  category: SymbolCategory
-  description?: string
+  command: string;
+  symbol: string;
+  name: string;
+  category: SymbolCategory;
+  description?: string;
 }
 
-export type EnvironmentCategory =
-  | 'equation'
-  | 'matrix'
-  | 'array'
+export type EnvironmentCategory = 'equation' | 'matrix' | 'array';
 
 export interface EnvironmentDefinition {
-  name: string
-  category: EnvironmentCategory
-  description?: string
+  name: string;
+  category: EnvironmentCategory;
+  description?: string;
 }

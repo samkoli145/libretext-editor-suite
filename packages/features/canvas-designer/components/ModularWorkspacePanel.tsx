@@ -42,7 +42,10 @@ import {
   Palette,
   Zap,
 } from 'lucide-react';
-import { SharedContextMenu, type ContextMenuItem } from '../../../shared/components/SharedContextMenu';
+import {
+  SharedContextMenu,
+  type ContextMenuItem,
+} from '../../../shared/components/SharedContextMenu';
 import { notificationEngine } from '../../../shared/engines/NotificationEngine';
 
 export interface WorkspaceTabConfig {
@@ -55,15 +58,78 @@ export interface WorkspaceTabConfig {
 }
 
 export const DEFAULT_WORKSPACE_TABS: WorkspaceTabConfig[] = [
-  { id: 'tools', name: 'Tools', nameAr: 'الأدوات الأساسية', iconName: 'Edit2', visible: true, order: 0 },
-  { id: 'presets', name: 'Templates', nameAr: 'القوالب الجاهزة', iconName: 'Layout', visible: true, order: 1 },
-  { id: 'components', name: 'Components', nameAr: 'المكونات والكتل', iconName: 'Sparkles', visible: true, order: 2 },
-  { id: 'colors', name: 'Color Palette', nameAr: 'الألوان والباليتات', iconName: 'Palette', visible: true, order: 3 },
-  { id: 'interactions', name: 'Interactions', nameAr: 'محرك التفاعل', iconName: 'Zap', visible: true, order: 4 },
-  { id: 'layers', name: 'Layers', nameAr: 'الطبقات والمجموعات', iconName: 'FolderTree', visible: true, order: 5 },
-  { id: 'code', name: 'Live Code', nameAr: 'الأكواد الحية (HTML/CSS)', iconName: 'Code2', visible: true, order: 6 },
-  { id: 'assets', name: 'Asset Manager', nameAr: 'مدير الصور والأصول', iconName: 'ImageIcon', visible: true, order: 7 },
-  { id: 'properties', name: 'Properties', nameAr: 'خصائص العنصر', iconName: 'Sliders', visible: true, order: 8 },
+  {
+    id: 'tools',
+    name: 'Tools',
+    nameAr: 'الأدوات الأساسية',
+    iconName: 'Edit2',
+    visible: true,
+    order: 0,
+  },
+  {
+    id: 'presets',
+    name: 'Templates',
+    nameAr: 'القوالب الجاهزة',
+    iconName: 'Layout',
+    visible: true,
+    order: 1,
+  },
+  {
+    id: 'components',
+    name: 'Components',
+    nameAr: 'المكونات والكتل',
+    iconName: 'Sparkles',
+    visible: true,
+    order: 2,
+  },
+  {
+    id: 'colors',
+    name: 'Color Palette',
+    nameAr: 'الألوان والباليتات',
+    iconName: 'Palette',
+    visible: true,
+    order: 3,
+  },
+  {
+    id: 'interactions',
+    name: 'Interactions',
+    nameAr: 'محرك التفاعل',
+    iconName: 'Zap',
+    visible: true,
+    order: 4,
+  },
+  {
+    id: 'layers',
+    name: 'Layers',
+    nameAr: 'الطبقات والمجموعات',
+    iconName: 'FolderTree',
+    visible: true,
+    order: 5,
+  },
+  {
+    id: 'code',
+    name: 'Live Code',
+    nameAr: 'الأكواد الحية (HTML/CSS)',
+    iconName: 'Code2',
+    visible: true,
+    order: 6,
+  },
+  {
+    id: 'assets',
+    name: 'Asset Manager',
+    nameAr: 'مدير الصور والأصول',
+    iconName: 'ImageIcon',
+    visible: true,
+    order: 7,
+  },
+  {
+    id: 'properties',
+    name: 'Properties',
+    nameAr: 'خصائص العنصر',
+    iconName: 'Sliders',
+    visible: true,
+    order: 8,
+  },
 ];
 
 export interface ModularWorkspacePanelProps {
@@ -191,7 +257,10 @@ export const ModularWorkspacePanelHeader: React.FC<ModularWorkspacePanelProps> =
     : [];
 
   return (
-    <div className="flex items-center border-b border-slate-200 bg-slate-50 p-1 gap-1 overflow-x-auto no-scrollbar select-none" dir="rtl">
+    <div
+      className="flex items-center border-b border-slate-200 bg-slate-50 p-1 gap-1 overflow-x-auto no-scrollbar select-none"
+      dir="rtl"
+    >
       {sortedTabs.map((tab, idx) => {
         const isActive = activeTabId === tab.id;
         const isEditing = editingTabId === tab.id;

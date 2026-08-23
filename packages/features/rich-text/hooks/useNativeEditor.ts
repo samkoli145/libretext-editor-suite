@@ -23,8 +23,8 @@
  * ═══════════════════════════════════════════════════════════════════════════
  */
 
-import { useEffect, useState, useRef } from "react";
-import { NativeEditor, type NativeEditorOptions } from "../core/NativeEditor";
+import { useEffect, useState, useRef } from 'react';
+import { NativeEditor, type NativeEditorOptions } from '../core/NativeEditor';
 
 export function useNativeEditor(options: NativeEditorOptions = {}, deps: any[] = []): NativeEditor {
   const optionsRef = useRef(options);

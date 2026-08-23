@@ -28,14 +28,14 @@ import { sanitizeHtml } from '../../core/engines/HtmlPipelineEngine';
 import { ImageFormatEngine } from '../lib-core/converters/image-format-engine';
 import { VectorTracerEngine } from '../lib-core/raster/vector-tracer-engine';
 
-export type FormatCategory = 
-  | 'libreoffice' 
-  | 'google' 
-  | 'documents' 
-  | 'web-code' 
+export type FormatCategory =
+  | 'libreoffice'
+  | 'google'
+  | 'documents'
+  | 'web-code'
   | 'interactive-components'
   | 'cad-vector'
-  | 'images' 
+  | 'images'
   | 'spreadsheets';
 
 export interface SupportedFormatOption {
@@ -645,7 +645,7 @@ export const SUPPORTED_CONVERTER_FORMATS: readonly SupportedFormatOption[] = [
   {
     id: 'yaml',
     nameAr: 'توصيف إعدادات مقروء (YAML Data)',
-    nameEn: 'YAML Ain\'t Markup Language',
+    nameEn: "YAML Ain't Markup Language",
     extension: 'yaml',
     mimeType: 'text/yaml;charset=utf-8',
     category: 'web-code',
@@ -938,19 +938,32 @@ export class UniversalFormatConverter {
    */
   static convertToDxf(elementsOrText: any, title = 'Drawing'): string {
     const lines: string[] = [
-      '0', 'SECTION',
-      '2', 'HEADER',
-      '9', '$ACADVER',
-      '1', 'AC1015',
-      '0', 'ENDSEC',
-      '0', 'SECTION',
-      '2', 'TABLES',
-      '0', 'ENDSEC',
-      '0', 'SECTION',
-      '2', 'BLOCKS',
-      '0', 'ENDSEC',
-      '0', 'SECTION',
-      '2', 'ENTITIES',
+      '0',
+      'SECTION',
+      '2',
+      'HEADER',
+      '9',
+      '$ACADVER',
+      '1',
+      'AC1015',
+      '0',
+      'ENDSEC',
+      '0',
+      'SECTION',
+      '2',
+      'TABLES',
+      '0',
+      'ENDSEC',
+      '0',
+      'SECTION',
+      '2',
+      'BLOCKS',
+      '0',
+      'ENDSEC',
+      '0',
+      'SECTION',
+      '2',
+      'ENTITIES',
     ];
 
     const elements = Array.isArray(elementsOrText) ? elementsOrText : [];
@@ -962,29 +975,108 @@ export class UniversalFormatConverter {
         const h = el.height || 60;
 
         if (el.type === 'circle' || el.type === 'ellipse') {
-          lines.push('0', 'CIRCLE', '8', '0', '10', String(x + w / 2), '20', String(y - h / 2), '30', '0.0', '40', String(w / 2));
+          lines.push(
+            '0',
+            'CIRCLE',
+            '8',
+            '0',
+            '10',
+            String(x + w / 2),
+            '20',
+            String(y - h / 2),
+            '30',
+            '0.0',
+            '40',
+            String(w / 2),
+          );
         } else if (el.type === 'text') {
-          lines.push('0', 'TEXT', '8', '0', '10', String(x), '20', String(y), '30', '0.0', '40', '16.0', '1', el.text || 'Text');
+          lines.push(
+            '0',
+            'TEXT',
+            '8',
+            '0',
+            '10',
+            String(x),
+            '20',
+            String(y),
+            '30',
+            '0.0',
+            '40',
+            '16.0',
+            '1',
+            el.text || 'Text',
+          );
         } else {
           // Closed polyline rectangle
           lines.push(
-            '0', 'LWPOLYLINE', '8', '0', '90', '4', '70', '1',
-            '10', String(x), '20', String(y),
-            '10', String(x + w), '20', String(y),
-            '10', String(x + w), '20', String(y - h),
-            '10', String(x), '20', String(y - h)
+            '0',
+            'LWPOLYLINE',
+            '8',
+            '0',
+            '90',
+            '4',
+            '70',
+            '1',
+            '10',
+            String(x),
+            '20',
+            String(y),
+            '10',
+            String(x + w),
+            '20',
+            String(y),
+            '10',
+            String(x + w),
+            '20',
+            String(y - h),
+            '10',
+            String(x),
+            '20',
+            String(y - h),
           );
         }
       });
     } else {
       // Default drawing border and text
       lines.push(
-        '0', 'TEXT', '8', '0', '10', '100.0', '20', '500.0', '30', '0.0', '40', '24.0', '1', title,
-        '0', 'LWPOLYLINE', '8', '0', '90', '4', '70', '1',
-        '10', '50.0', '20', '750.0',
-        '10', '750.0', '20', '750.0',
-        '10', '750.0', '20', '50.0',
-        '10', '50.0', '20', '50.0'
+        '0',
+        'TEXT',
+        '8',
+        '0',
+        '10',
+        '100.0',
+        '20',
+        '500.0',
+        '30',
+        '0.0',
+        '40',
+        '24.0',
+        '1',
+        title,
+        '0',
+        'LWPOLYLINE',
+        '8',
+        '0',
+        '90',
+        '4',
+        '70',
+        '1',
+        '10',
+        '50.0',
+        '20',
+        '750.0',
+        '10',
+        '750.0',
+        '20',
+        '750.0',
+        '10',
+        '750.0',
+        '20',
+        '50.0',
+        '10',
+        '50.0',
+        '20',
+        '50.0',
       );
     }
 
@@ -1048,7 +1140,11 @@ export class UniversalFormatConverter {
   /**
    * توليد كود HTML Web Components تفاعلي
    */
-  static generateHtmlWebComponent(title = 'CustomArtboard', baseHtml = '', elements: any[] = []): string {
+  static generateHtmlWebComponent(
+    title = 'CustomArtboard',
+    baseHtml = '',
+    elements: any[] = [],
+  ): string {
     const tagName = `wp-${title.toLowerCase().replace(/[^a-z0-9]/g, '-') || 'artboard-component'}`;
     const cleanTag = tagName.startsWith('wp-') ? tagName : `wp-${tagName}`;
 
@@ -1113,7 +1209,7 @@ export class UniversalFormatConverter {
           ? elements
               .map(
                 (el) =>
-                  `<div class="wp-element" style="left:${el.x}px; top:${el.y}px; width:${el.width}px; height:${el.height}px; background:${el.fill || '#ffffff'}; border:1px solid ${el.stroke || '#cbd5e1'}; border-radius:6px; display:flex; align-items:center; justify-content:center; color:#1e293b; font-size:14px;">${el.text || el.type}</div>`
+                  `<div class="wp-element" style="left:${el.x}px; top:${el.y}px; width:${el.width}px; height:${el.height}px; background:${el.fill || '#ffffff'}; border:1px solid ${el.stroke || '#cbd5e1'}; border-radius:6px; display:flex; align-items:center; justify-content:center; color:#1e293b; font-size:14px;">${el.text || el.type}</div>`,
               )
               .join('\n      ')
           : `<div class="wp-content">${sanitizeHtml(baseHtml)}</div>`
@@ -1211,10 +1307,25 @@ export class UniversalFormatConverter {
    */
   static async convertImageSource(
     imageSrcOrSvg: string,
-    targetFormat: 'png' | 'jpeg' | 'webp' | 'avif' | 'svg' | 'ico' | 'bmp' | 'gif' | 'tiff' | 'tga' | 'ppm' | string,
-    scale = 1
+    targetFormat:
+      | 'png'
+      | 'jpeg'
+      | 'webp'
+      | 'avif'
+      | 'svg'
+      | 'ico'
+      | 'bmp'
+      | 'gif'
+      | 'tiff'
+      | 'tga'
+      | 'ppm'
+      | string,
+    scale = 1,
   ): Promise<Blob> {
-    if (targetFormat === 'svg' && (imageSrcOrSvg.includes('<svg') || imageSrcOrSvg.startsWith('data:image/svg+xml'))) {
+    if (
+      targetFormat === 'svg' &&
+      (imageSrcOrSvg.includes('<svg') || imageSrcOrSvg.startsWith('data:image/svg+xml'))
+    ) {
       const svgText = imageSrcOrSvg.startsWith('data:')
         ? decodeURIComponent(imageSrcOrSvg.split(',')[1] || '')
         : imageSrcOrSvg;
@@ -1254,11 +1365,13 @@ export class UniversalFormatConverter {
         }
 
         if (targetFormat === 'ico') {
-          ImageFormatEngine.encodeIco(canvas).then((icoBuf) => {
-            resolve(new Blob([icoBuf], { type: 'image/x-icon' }));
-          }).catch(() => {
-            canvas.toBlob((b) => resolve(b || new Blob()), 'image/png');
-          });
+          ImageFormatEngine.encodeIco(canvas)
+            .then((icoBuf) => {
+              resolve(new Blob([icoBuf], { type: 'image/x-icon' }));
+            })
+            .catch(() => {
+              canvas.toBlob((b) => resolve(b || new Blob()), 'image/png');
+            });
           return;
         }
 
@@ -1284,7 +1397,7 @@ export class UniversalFormatConverter {
         }
 
         let mimeType = 'image/png';
-        let quality = 0.95;
+        const quality = 0.95;
 
         if (targetFormat === 'jpeg') mimeType = 'image/jpeg';
         else if (targetFormat === 'webp') mimeType = 'image/webp';
@@ -1304,7 +1417,7 @@ export class UniversalFormatConverter {
             }
           },
           mimeType,
-          quality
+          quality,
         );
       };
 
@@ -1331,7 +1444,9 @@ export class UniversalFormatConverter {
     const extension = fileName.split('.').pop()?.toLowerCase() || '';
 
     // الصور النقطية والمتجهة
-    if (['png', 'jpg', 'jpeg', 'webp', 'avif', 'ico', 'bmp', 'gif', 'tiff', 'svg'].includes(extension)) {
+    if (
+      ['png', 'jpg', 'jpeg', 'webp', 'avif', 'ico', 'bmp', 'gif', 'tiff', 'svg'].includes(extension)
+    ) {
       const isSvg = extension === 'svg';
       if (isSvg) {
         const svgText = await file.text();
@@ -1370,7 +1485,8 @@ export class UniversalFormatConverter {
         const elements = parsed.elements || parsed.blocks || [];
         return {
           title: parsed.title || baseName,
-          htmlContent: parsed.htmlContent || `<pre><code>${JSON.stringify(parsed, null, 2)}</code></pre>`,
+          htmlContent:
+            parsed.htmlContent || `<pre><code>${JSON.stringify(parsed, null, 2)}</code></pre>`,
           plainText: typeof parsed === 'string' ? parsed : JSON.stringify(parsed, null, 2),
           jsonData: parsed,
           elements: Array.isArray(elements) ? elements : undefined,
@@ -1458,7 +1574,7 @@ export class UniversalFormatConverter {
       title?: string;
       elements?: any[];
     },
-    targetFormatId: string
+    targetFormatId: string,
   ): Promise<ConversionResult> {
     const title = sourceData.title || 'document';
     const targetFormat = SUPPORTED_CONVERTER_FORMATS.find((f) => f.id === targetFormatId);
@@ -1472,7 +1588,11 @@ export class UniversalFormatConverter {
     }
 
     try {
-      const baseHtml = sourceData.html || (typeof sourceData.jsonData === 'object' ? `<pre>${JSON.stringify(sourceData.jsonData, null, 2)}</pre>` : sourceData.rawText || '');
+      const baseHtml =
+        sourceData.html ||
+        (typeof sourceData.jsonData === 'object'
+          ? `<pre>${JSON.stringify(sourceData.jsonData, null, 2)}</pre>`
+          : sourceData.rawText || '');
       const elements = sourceData.elements || (sourceData.jsonData as any)?.elements || [];
 
       switch (targetFormat.id) {
@@ -1484,7 +1604,13 @@ export class UniversalFormatConverter {
         case 'fodt': {
           const textContent = this.convertHtmlToFodt(baseHtml, title);
           const blob = new Blob([textContent], { type: targetFormat.mimeType });
-          return { success: true, blob, textContent, fileName: `${title}.fodt`, mimeType: targetFormat.mimeType };
+          return {
+            success: true,
+            blob,
+            textContent,
+            fileName: `${title}.fodt`,
+            mimeType: targetFormat.mimeType,
+          };
         }
 
         case 'ods': {
@@ -1497,155 +1623,298 @@ export class UniversalFormatConverter {
         case 'odf':
         case 'gdoc': {
           const blob = this.convertHtmlToOdtBlob(baseHtml, title);
-          return { success: true, blob, fileName: `${title}.${targetFormat.extension}`, mimeType: targetFormat.mimeType };
+          return {
+            success: true,
+            blob,
+            fileName: `${title}.${targetFormat.extension}`,
+            mimeType: targetFormat.mimeType,
+          };
         }
 
         case 'gsheet': {
           const csvText = this.convertHtmlTableToCsv(baseHtml);
           const blob = new Blob([csvText], { type: targetFormat.mimeType });
-          return { success: true, blob, textContent: csvText, fileName: `${title}.gsheet`, mimeType: targetFormat.mimeType };
+          return {
+            success: true,
+            blob,
+            textContent: csvText,
+            fileName: `${title}.gsheet`,
+            mimeType: targetFormat.mimeType,
+          };
         }
 
         case 'gslides':
         case 'gdraw': {
           const blob = this.convertHtmlToOdtBlob(baseHtml, title);
-          return { success: true, blob, fileName: `${title}.${targetFormat.extension}`, mimeType: targetFormat.mimeType };
+          return {
+            success: true,
+            blob,
+            fileName: `${title}.${targetFormat.extension}`,
+            mimeType: targetFormat.mimeType,
+          };
         }
 
         case 'docx': {
           const docxHtml = `<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40"><head><meta charset="utf-8"><title>${title}</title><style>body{font-family:Arial,sans-serif;}</style></head><body>${sanitizeHtml(baseHtml)}</body></html>`;
           const blob = new Blob(['\ufeff' + docxHtml], { type: targetFormat.mimeType });
-          return { success: true, blob, fileName: `${title}.docx`, mimeType: targetFormat.mimeType };
+          return {
+            success: true,
+            blob,
+            fileName: `${title}.docx`,
+            mimeType: targetFormat.mimeType,
+          };
         }
 
         case 'pdf': {
           // Multi-page PDF print layout
           const printHtml = `<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><title>${title}</title><style>@page{size:A4;margin:15mm;}body{font-family:system-ui,-apple-system,sans-serif;color:#1e293b;line-height:1.6;background:#fff;}h1{border-bottom:2px solid #e2e8f0;padding-bottom:8px;}.page-break{page-break-after:always;}</style></head><body><h1>${title}</h1><div>${sanitizeHtml(baseHtml)}</div><script>window.onload=()=>{window.print();}</script></body></html>`;
           const blob = new Blob([printHtml], { type: targetFormat.mimeType });
-          return { success: true, blob, textContent: printHtml, fileName: `${title}.pdf`, mimeType: targetFormat.mimeType };
+          return {
+            success: true,
+            blob,
+            textContent: printHtml,
+            fileName: `${title}.pdf`,
+            mimeType: targetFormat.mimeType,
+          };
         }
 
         case 'rtf': {
           const plain = this.convertHtmlToPlainText(baseHtml);
           const rtfContent = `{\\rtf1\\ansi\\deff0 {\\fonttbl {\\f0 Arial;}}\\f0\\fs24 ${plain.replace(/\n/g, '\\par\n')}}`;
           const blob = new Blob([rtfContent], { type: targetFormat.mimeType });
-          return { success: true, blob, textContent: rtfContent, fileName: `${title}.rtf`, mimeType: targetFormat.mimeType };
+          return {
+            success: true,
+            blob,
+            textContent: rtfContent,
+            fileName: `${title}.rtf`,
+            mimeType: targetFormat.mimeType,
+          };
         }
 
         case 'epub': {
           const xhtml = `<?xml version="1.0" encoding="utf-8"?><!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ar" dir="rtl"><head><title>${title}</title></head><body><h1>${title}</h1>${sanitizeHtml(baseHtml)}</body></html>`;
           const entries: ZipEntryInput[] = [
             { name: 'mimetype', data: 'application/epub+zip' },
-            { name: 'META-INF/container.xml', data: '<?xml version="1.0"?><container version="1.0" xmlns="urn:oasis:names:tc:opendocument:xmlns:container"><rootfiles><rootfile full-path="OEBPS/content.opf" media-type="application/oebps-package+xml"/></rootfiles></container>' },
-            { name: 'OEBPS/content.opf', data: `<?xml version="1.0"?><package version="3.0" xmlns="http://www.idpf.org/2007/opf" unique-identifier="pub-id"><metadata xmlns:dc="http://purl.org/dc/elements/1.1/"><dc:title>${title}</dc:title><dc:language>ar</dc:language></metadata><manifest><item id="chap1" href="chap1.xhtml" media-type="application/xhtml+xml"/></manifest><spine><itemref idref="chap1"/></spine></package>` },
+            {
+              name: 'META-INF/container.xml',
+              data: '<?xml version="1.0"?><container version="1.0" xmlns="urn:oasis:names:tc:opendocument:xmlns:container"><rootfiles><rootfile full-path="OEBPS/content.opf" media-type="application/oebps-package+xml"/></rootfiles></container>',
+            },
+            {
+              name: 'OEBPS/content.opf',
+              data: `<?xml version="1.0"?><package version="3.0" xmlns="http://www.idpf.org/2007/opf" unique-identifier="pub-id"><metadata xmlns:dc="http://purl.org/dc/elements/1.1/"><dc:title>${title}</dc:title><dc:language>ar</dc:language></metadata><manifest><item id="chap1" href="chap1.xhtml" media-type="application/xhtml+xml"/></manifest><spine><itemref idref="chap1"/></spine></package>`,
+            },
             { name: 'OEBPS/chap1.xhtml', data: xhtml },
           ];
           const blob = createZipArchive(entries);
-          return { success: true, blob, fileName: `${title}.epub`, mimeType: targetFormat.mimeType };
+          return {
+            success: true,
+            blob,
+            fileName: `${title}.epub`,
+            mimeType: targetFormat.mimeType,
+          };
         }
 
         case 'dxf': {
           const dxfContent = this.convertToDxf(elements, title);
           const blob = new Blob([dxfContent], { type: targetFormat.mimeType });
-          return { success: true, blob, textContent: dxfContent, fileName: `${title}.dxf`, mimeType: targetFormat.mimeType };
+          return {
+            success: true,
+            blob,
+            textContent: dxfContent,
+            fileName: `${title}.dxf`,
+            mimeType: targetFormat.mimeType,
+          };
         }
 
         case 'eps': {
           const epsContent = `%!PS-Adobe-3.0 EPSF-3.0\n%%BoundingBox: 0 0 1200 800\n%%Title: ${title}\n%%Creator: WebPainter Studio Universal Engine\n/Helvetica 24 selectfont\n50 750 moveto\n(${title}) show\nshowpage\n%%EOF`;
           const blob = new Blob([epsContent], { type: targetFormat.mimeType });
-          return { success: true, blob, textContent: epsContent, fileName: `${title}.eps`, mimeType: targetFormat.mimeType };
+          return {
+            success: true,
+            blob,
+            textContent: epsContent,
+            fileName: `${title}.eps`,
+            mimeType: targetFormat.mimeType,
+          };
         }
 
         case 'json-schema': {
-          const schemaText = this.generateJsonSchema(sourceData.jsonData || { title, elements }, title);
+          const schemaText = this.generateJsonSchema(
+            sourceData.jsonData || { title, elements },
+            title,
+          );
           const blob = new Blob([schemaText], { type: targetFormat.mimeType });
-          return { success: true, blob, textContent: schemaText, fileName: `${title}.schema.json`, mimeType: targetFormat.mimeType };
+          return {
+            success: true,
+            blob,
+            textContent: schemaText,
+            fileName: `${title}.schema.json`,
+            mimeType: targetFormat.mimeType,
+          };
         }
 
         case 'html-components': {
           const compContent = this.generateHtmlWebComponent(title, baseHtml, elements);
           const blob = new Blob([compContent], { type: targetFormat.mimeType });
-          return { success: true, blob, textContent: compContent, fileName: `${title}.component.html`, mimeType: targetFormat.mimeType };
+          return {
+            success: true,
+            blob,
+            textContent: compContent,
+            fileName: `${title}.component.html`,
+            mimeType: targetFormat.mimeType,
+          };
         }
 
         case 'tex': {
           const plain = this.convertHtmlToPlainText(baseHtml);
           const texContent = `\\documentclass{article}\n\\usepackage[utf8]{inputenc}\n\\usepackage{amsmath}\n\\title{${title}}\n\\author{WebPainter Studio}\n\\date{\\today}\n\\begin{document}\n\\maketitle\n\n${plain}\n\n\\end{document}`;
           const blob = new Blob([texContent], { type: targetFormat.mimeType });
-          return { success: true, blob, textContent: texContent, fileName: `${title}.tex`, mimeType: targetFormat.mimeType };
+          return {
+            success: true,
+            blob,
+            textContent: texContent,
+            fileName: `${title}.tex`,
+            mimeType: targetFormat.mimeType,
+          };
         }
 
         case 'bib': {
           const bibContent = `@article{${title.toLowerCase().replace(/\s+/g, '_')},\n  title={${title}},\n  author={WebPainter Studio},\n  year={${new Date().getFullYear()}},\n  note={Exported from WebPainter Studio Universal Multi-Format Engine}\n}`;
           const blob = new Blob([bibContent], { type: targetFormat.mimeType });
-          return { success: true, blob, textContent: bibContent, fileName: `${title}.bib`, mimeType: targetFormat.mimeType };
+          return {
+            success: true,
+            blob,
+            textContent: bibContent,
+            fileName: `${title}.bib`,
+            mimeType: targetFormat.mimeType,
+          };
         }
 
         case 'typ': {
           const plain = this.convertHtmlToPlainText(baseHtml);
           const typContent = `#set text(font: "Cairo", lang: "ar")\n#set page(paper: "a4", margin: 2.5cm)\n\n= ${title}\n\n${plain}`;
           const blob = new Blob([typContent], { type: targetFormat.mimeType });
-          return { success: true, blob, textContent: typContent, fileName: `${title}.typ`, mimeType: targetFormat.mimeType };
+          return {
+            success: true,
+            blob,
+            textContent: typContent,
+            fileName: `${title}.typ`,
+            mimeType: targetFormat.mimeType,
+          };
         }
 
         case 'adoc': {
           const plain = this.convertHtmlToMarkdown(baseHtml);
           const adocContent = `= ${title}\n:lang: ar\n:doctype: article\n\n${plain.replace(/#/g, '=')}`;
           const blob = new Blob([adocContent], { type: targetFormat.mimeType });
-          return { success: true, blob, textContent: adocContent, fileName: `${title}.adoc`, mimeType: targetFormat.mimeType };
+          return {
+            success: true,
+            blob,
+            textContent: adocContent,
+            fileName: `${title}.adoc`,
+            mimeType: targetFormat.mimeType,
+          };
         }
 
         case 'org': {
           const plain = this.convertHtmlToMarkdown(baseHtml);
           const orgContent = `#+TITLE: ${title}\n#+AUTHOR: WebPainter Studio\n#+DATE: ${new Date().toISOString()}\n\n${plain.replace(/^#/gm, '*')}`;
           const blob = new Blob([orgContent], { type: targetFormat.mimeType });
-          return { success: true, blob, textContent: orgContent, fileName: `${title}.org`, mimeType: targetFormat.mimeType };
+          return {
+            success: true,
+            blob,
+            textContent: orgContent,
+            fileName: `${title}.org`,
+            mimeType: targetFormat.mimeType,
+          };
         }
 
         case 'opml': {
           const opmlContent = `<?xml version="1.0" encoding="UTF-8"?>\n<opml version="2.0">\n  <head>\n    <title>${title}</title>\n    <dateCreated>${new Date().toUTCString()}</dateCreated>\n  </head>\n  <body>\n    <outline text="${title}">\n      <outline text="${this.convertHtmlToPlainText(baseHtml).slice(0, 100)}"/>\n    </outline>\n  </body>\n</opml>`;
           const blob = new Blob([opmlContent], { type: targetFormat.mimeType });
-          return { success: true, blob, textContent: opmlContent, fileName: `${title}.opml`, mimeType: targetFormat.mimeType };
+          return {
+            success: true,
+            blob,
+            textContent: opmlContent,
+            fileName: `${title}.opml`,
+            mimeType: targetFormat.mimeType,
+          };
         }
 
         case 'vtt': {
           const plain = this.convertHtmlToPlainText(baseHtml);
           const vttContent = `WEBVTT\n\n00:00:01.000 --> 00:00:10.000\n${plain.slice(0, 200)}\n`;
           const blob = new Blob([vttContent], { type: targetFormat.mimeType });
-          return { success: true, blob, textContent: vttContent, fileName: `${title}.vtt`, mimeType: targetFormat.mimeType };
+          return {
+            success: true,
+            blob,
+            textContent: vttContent,
+            fileName: `${title}.vtt`,
+            mimeType: targetFormat.mimeType,
+          };
         }
 
         case 'single-html': {
           const clean = sanitizeHtml(baseHtml);
           const singleHtml = `<!DOCTYPE html>\n<html lang="ar" dir="rtl">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width, initial-scale=1.0">\n<title>${title}</title>\n<style>\n  *, *::before, *::after { box-sizing: border-box; }\n  body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f8fafc; color: #1e293b; margin: 0; padding: 2rem; }\n  .container { max-width: 900px; margin: 0 auto; background: #ffffff; padding: 2.5rem; border-radius: 12px; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05); }\n</style>\n</head>\n<body>\n<div class="container">\n${clean}\n</div>\n</body>\n</html>`;
           const blob = new Blob([singleHtml], { type: targetFormat.mimeType });
-          return { success: true, blob, textContent: singleHtml, fileName: `${title}.html`, mimeType: targetFormat.mimeType };
+          return {
+            success: true,
+            blob,
+            textContent: singleHtml,
+            fileName: `${title}.html`,
+            mimeType: targetFormat.mimeType,
+          };
         }
 
         case 'md': {
           const textContent = this.convertHtmlToMarkdown(baseHtml);
           const blob = new Blob([textContent], { type: targetFormat.mimeType });
-          return { success: true, blob, textContent, fileName: `${title}.md`, mimeType: targetFormat.mimeType };
+          return {
+            success: true,
+            blob,
+            textContent,
+            fileName: `${title}.md`,
+            mimeType: targetFormat.mimeType,
+          };
         }
 
         case 'mdx': {
           const md = this.convertHtmlToMarkdown(baseHtml);
           const mdxContent = `export const meta = { title: "${title}", date: "${new Date().toISOString()}" };\n\n# ${title}\n\n${md}`;
           const blob = new Blob([mdxContent], { type: targetFormat.mimeType });
-          return { success: true, blob, textContent: mdxContent, fileName: `${title}.mdx`, mimeType: targetFormat.mimeType };
+          return {
+            success: true,
+            blob,
+            textContent: mdxContent,
+            fileName: `${title}.mdx`,
+            mimeType: targetFormat.mimeType,
+          };
         }
 
         case 'html': {
           const clean = sanitizeHtml(baseHtml);
           const htmlDoc = `<!DOCTYPE html>\n<html lang="ar" dir="rtl">\n<head>\n<meta charset="utf-8">\n<title>${title}</title>\n<style>body{font-family:system-ui,-apple-system,sans-serif;line-height:1.6;padding:2rem;color:#1e293b;}</style>\n</head>\n<body>\n${clean}\n</body>\n</html>`;
           const blob = new Blob([htmlDoc], { type: targetFormat.mimeType });
-          return { success: true, blob, textContent: htmlDoc, fileName: `${title}.html`, mimeType: targetFormat.mimeType };
+          return {
+            success: true,
+            blob,
+            textContent: htmlDoc,
+            fileName: `${title}.html`,
+            mimeType: targetFormat.mimeType,
+          };
         }
 
         case 'txt': {
           const textContent = this.convertHtmlToPlainText(baseHtml);
           const blob = new Blob([textContent], { type: targetFormat.mimeType });
-          return { success: true, blob, textContent, fileName: `${title}.txt`, mimeType: targetFormat.mimeType };
+          return {
+            success: true,
+            blob,
+            textContent,
+            fileName: `${title}.txt`,
+            mimeType: targetFormat.mimeType,
+          };
         }
 
         case 'jsonld': {
@@ -1658,69 +1927,135 @@ export class UniversalFormatConverter {
           };
           const jsonText = JSON.stringify(jsonLd, null, 2);
           const blob = new Blob([jsonText], { type: targetFormat.mimeType });
-          return { success: true, blob, textContent: jsonText, fileName: `${title}.jsonld`, mimeType: targetFormat.mimeType };
+          return {
+            success: true,
+            blob,
+            textContent: jsonText,
+            fileName: `${title}.jsonld`,
+            mimeType: targetFormat.mimeType,
+          };
         }
 
         case 'xml': {
           const xmlContent = `<?xml version="1.0" encoding="UTF-8"?>\n<document>\n  <metadata>\n    <title>${title}</title>\n    <timestamp>${new Date().toISOString()}</timestamp>\n  </metadata>\n  <content><![CDATA[\n${baseHtml}\n  ]]></content>\n</document>`;
           const blob = new Blob([xmlContent], { type: targetFormat.mimeType });
-          return { success: true, blob, textContent: xmlContent, fileName: `${title}.xml`, mimeType: targetFormat.mimeType };
+          return {
+            success: true,
+            blob,
+            textContent: xmlContent,
+            fileName: `${title}.xml`,
+            mimeType: targetFormat.mimeType,
+          };
         }
 
         case 'yaml': {
           const plain = this.convertHtmlToPlainText(baseHtml).replace(/\n/g, '\n  ');
           const yamlContent = `title: "${title}"\ncreated_at: "${new Date().toISOString()}"\nauthor: "WebPainter Studio"\ncontent: |\n  ${plain}\n`;
           const blob = new Blob([yamlContent], { type: targetFormat.mimeType });
-          return { success: true, blob, textContent: yamlContent, fileName: `${title}.yaml`, mimeType: targetFormat.mimeType };
+          return {
+            success: true,
+            blob,
+            textContent: yamlContent,
+            fileName: `${title}.yaml`,
+            mimeType: targetFormat.mimeType,
+          };
         }
 
         case 'css': {
           const cssContent = `/* WebPainter Universal CSS Stylesheet for ${title} */\n.wp-root {\n  display: flex;\n  flex-direction: column;\n  gap: 1.25rem;\n  padding: 1.5rem;\n  background: #ffffff;\n  border-radius: 10px;\n  border: 1px solid #e2e8f0;\n}\n.wp-title {\n  font-size: 1.5rem;\n  font-weight: 700;\n  color: #0f172a;\n}\n`;
           const blob = new Blob([cssContent], { type: targetFormat.mimeType });
-          return { success: true, blob, textContent: cssContent, fileName: `${title}.css`, mimeType: targetFormat.mimeType };
+          return {
+            success: true,
+            blob,
+            textContent: cssContent,
+            fileName: `${title}.css`,
+            mimeType: targetFormat.mimeType,
+          };
         }
 
         case 'scss': {
           const scssContent = `// WebPainter SCSS for ${title}\n$primary: #2563eb;\n$surface: #ffffff;\n$border-color: #e2e8f0;\n\n.artboard-layout {\n  background: $surface;\n  border: 1px solid $border-color;\n  border-radius: 8px;\n  padding: 1.5rem;\n  h1 { color: $primary; font-weight: bold; }\n}\n`;
           const blob = new Blob([scssContent], { type: targetFormat.mimeType });
-          return { success: true, blob, textContent: scssContent, fileName: `${title}.scss`, mimeType: targetFormat.mimeType };
+          return {
+            success: true,
+            blob,
+            textContent: scssContent,
+            fileName: `${title}.scss`,
+            mimeType: targetFormat.mimeType,
+          };
         }
 
         case 'tsx': {
           const compName = title.replace(/[^a-zA-Z0-9]/g, '') || 'GeneratedArtboard';
           const tsxContent = `import React from 'react';\n\nexport interface ${compName}Props {\n  className?: string;\n}\n\nexport const ${compName}: React.FC<${compName}Props> = ({ className = '' }) => {\n  return (\n    <div className={\`p-6 bg-white rounded-xl border border-slate-200 shadow-sm \${className}\`}>\n      <h1 className="text-xl font-bold text-slate-800 mb-4">${title}</h1>\n      <div className="prose text-slate-600">\n        {/* Interactive WebPainter Component */}\n      </div>\n    </div>\n  );\n};\n\nexport default ${compName};\n`;
           const blob = new Blob([tsxContent], { type: targetFormat.mimeType });
-          return { success: true, blob, textContent: tsxContent, fileName: `${compName}.tsx`, mimeType: targetFormat.mimeType };
+          return {
+            success: true,
+            blob,
+            textContent: tsxContent,
+            fileName: `${compName}.tsx`,
+            mimeType: targetFormat.mimeType,
+          };
         }
 
         case 'vue': {
           const vueContent = `<template>\n  <div class="artboard-container">\n    <h1 class="title">${title}</h1>\n    <div class="content">\n      <!-- WebPainter Universal Vue Component -->\n    </div>\n  </div>\n</template>\n\n<script setup lang="ts">\n// WebPainter Studio Universal Component\n</script>\n\n<style scoped>\n.artboard-container {\n  padding: 1.5rem;\n  background: #ffffff;\n  border: 1px solid #e2e8f0;\n  border-radius: 8px;\n}\n.title {\n  font-size: 1.25rem;\n  font-weight: bold;\n  color: #1e293b;\n}\n</style>\n`;
           const blob = new Blob([vueContent], { type: targetFormat.mimeType });
-          return { success: true, blob, textContent: vueContent, fileName: `${title}.vue`, mimeType: targetFormat.mimeType };
+          return {
+            success: true,
+            blob,
+            textContent: vueContent,
+            fileName: `${title}.vue`,
+            mimeType: targetFormat.mimeType,
+          };
         }
 
         case 'svelte': {
           const svelteContent = `<script lang="ts">\n  export let title: string = "${title}";\n</script>\n\n<div class="svelte-artboard">\n  <h2>{title}</h2>\n  <slot />\n</div>\n\n<style>\n  .svelte-artboard {\n    padding: 1.5rem;\n    background: #ffffff;\n    border: 1px solid #e2e8f0;\n    border-radius: 8px;\n  }\n</style>\n`;
           const blob = new Blob([svelteContent], { type: targetFormat.mimeType });
-          return { success: true, blob, textContent: svelteContent, fileName: `${title}.svelte`, mimeType: targetFormat.mimeType };
+          return {
+            success: true,
+            blob,
+            textContent: svelteContent,
+            fileName: `${title}.svelte`,
+            mimeType: targetFormat.mimeType,
+          };
         }
 
         case 'flutter': {
           const flutterContent = `import 'package:flutter/material.dart';\n\nclass ${title.replace(/[^a-zA-Z0-9]/g, '') || 'ArtboardWidget'} extends StatelessWidget {\n  const ${title.replace(/[^a-zA-Z0-9]/g, '') || 'ArtboardWidget'}({Key? key}) : super(key: key);\n\n  @override\n  Widget build(BuildContext context) {\n    return Container(\n      padding: const EdgeInsets.all(16.0),\n      decoration: BoxDecoration(\n        color: Colors.white,\n        borderRadius: BorderRadius.circular(8.0),\n        border: Border.all(color: Colors.grey.shade300),\n      ),\n      child: Text('${title}', style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),\n    );\n  }\n}\n`;
           const blob = new Blob([flutterContent], { type: targetFormat.mimeType });
-          return { success: true, blob, textContent: flutterContent, fileName: `${title}.dart`, mimeType: targetFormat.mimeType };
+          return {
+            success: true,
+            blob,
+            textContent: flutterContent,
+            fileName: `${title}.dart`,
+            mimeType: targetFormat.mimeType,
+          };
         }
 
         case 'mermaid': {
           const mermaidContent = `graph TD\n  Start[${title}] --> Process[معالجة وتخطيط]\n  Process --> End[تصدير نهائي]\n`;
           const blob = new Blob([mermaidContent], { type: targetFormat.mimeType });
-          return { success: true, blob, textContent: mermaidContent, fileName: `${title}.mmd`, mimeType: targetFormat.mimeType };
+          return {
+            success: true,
+            blob,
+            textContent: mermaidContent,
+            fileName: `${title}.mmd`,
+            mimeType: targetFormat.mimeType,
+          };
         }
 
         case 'drawio': {
           const drawioXml = `<mxfile host="WebPainter" modified="${new Date().toISOString()}" agent="WebPainter Studio" version="1.0" type="device">\n  <diagram id="diagram_1" name="Page-1">\n    <mxGraphModel dx="1000" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169">\n      <root>\n        <mxCell id="0"/>\n        <mxCell id="1" parent="0"/>\n        <mxCell id="2" value="${title}" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#2563eb;" vertex="1" parent="1">\n          <mxGeometry x="120" y="120" width="160" height="80" as="geometry"/>\n        </mxCell>\n      </root>\n    </mxGraphModel>\n  </diagram>\n</mxfile>`;
           const blob = new Blob([drawioXml], { type: targetFormat.mimeType });
-          return { success: true, blob, textContent: drawioXml, fileName: `${title}.drawio`, mimeType: targetFormat.mimeType };
+          return {
+            success: true,
+            blob,
+            textContent: drawioXml,
+            fileName: `${title}.drawio`,
+            mimeType: targetFormat.mimeType,
+          };
         }
 
         case 'figma-tokens': {
@@ -1748,40 +2083,81 @@ export class UniversalFormatConverter {
           };
           const jsonText = JSON.stringify(tokens, null, 2);
           const blob = new Blob([jsonText], { type: targetFormat.mimeType });
-          return { success: true, blob, textContent: jsonText, fileName: `${title}.tokens.json`, mimeType: targetFormat.mimeType };
+          return {
+            success: true,
+            blob,
+            textContent: jsonText,
+            fileName: `${title}.tokens.json`,
+            mimeType: targetFormat.mimeType,
+          };
         }
 
         case 'canvas2d': {
           const canvasCode = `// HTML5 Canvas 2D Render script for ${title}\nconst canvas = document.createElement('canvas');\ncanvas.width = 800;\ncanvas.height = 600;\nconst ctx = canvas.getContext('2d');\nif (ctx) {\n  ctx.fillStyle = '#ffffff';\n  ctx.fillRect(0, 0, 800, 600);\n  ctx.fillStyle = '#1e293b';\n  ctx.font = '24px sans-serif';\n  ctx.textAlign = 'center';\n  ctx.fillText('${title}', 400, 300);\n}\ndocument.body.appendChild(canvas);\n`;
           const blob = new Blob([canvasCode], { type: targetFormat.mimeType });
-          return { success: true, blob, textContent: canvasCode, fileName: `${title}.canvas.js`, mimeType: targetFormat.mimeType };
+          return {
+            success: true,
+            blob,
+            textContent: canvasCode,
+            fileName: `${title}.canvas.js`,
+            mimeType: targetFormat.mimeType,
+          };
         }
 
         case 'csv': {
           const csvText = this.convertHtmlTableToCsv(baseHtml);
           const blob = new Blob([csvText], { type: targetFormat.mimeType });
-          return { success: true, blob, textContent: csvText, fileName: `${title}.csv`, mimeType: targetFormat.mimeType };
+          return {
+            success: true,
+            blob,
+            textContent: csvText,
+            fileName: `${title}.csv`,
+            mimeType: targetFormat.mimeType,
+          };
         }
 
         case 'tsv': {
           const csvText = this.convertHtmlTableToCsv(baseHtml);
           const tsvText = csvText.replace(/,/g, '\t');
           const blob = new Blob([tsvText], { type: targetFormat.mimeType });
-          return { success: true, blob, textContent: tsvText, fileName: `${title}.tsv`, mimeType: targetFormat.mimeType };
+          return {
+            success: true,
+            blob,
+            textContent: tsvText,
+            fileName: `${title}.tsv`,
+            mimeType: targetFormat.mimeType,
+          };
         }
 
         case 'sql': {
           const cleanText = this.convertHtmlToPlainText(baseHtml).replace(/'/g, "''");
           const sqlScript = `-- WebPainter SQL Insert Dump for ${title}\nCREATE TABLE IF NOT EXISTS artboards (\n  id SERIAL PRIMARY KEY,\n  title VARCHAR(255) NOT NULL,\n  content TEXT,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP\n);\n\nINSERT INTO artboards (title, content) VALUES ('${title.replace(/'/g, "''")}', '${cleanText}');\n`;
           const blob = new Blob([sqlScript], { type: targetFormat.mimeType });
-          return { success: true, blob, textContent: sqlScript, fileName: `${title}.sql`, mimeType: targetFormat.mimeType };
+          return {
+            success: true,
+            blob,
+            textContent: sqlScript,
+            fileName: `${title}.sql`,
+            mimeType: targetFormat.mimeType,
+          };
         }
 
         case 'json': {
-          const dataToSerialize = sourceData.jsonData || { title, htmlContent: baseHtml, elements, exportedAt: new Date().toISOString() };
+          const dataToSerialize = sourceData.jsonData || {
+            title,
+            htmlContent: baseHtml,
+            elements,
+            exportedAt: new Date().toISOString(),
+          };
           const jsonText = JSON.stringify(dataToSerialize, null, 2);
           const blob = new Blob([jsonText], { type: targetFormat.mimeType });
-          return { success: true, blob, textContent: jsonText, fileName: `${title}.json`, mimeType: targetFormat.mimeType };
+          return {
+            success: true,
+            blob,
+            textContent: jsonText,
+            fileName: `${title}.json`,
+            mimeType: targetFormat.mimeType,
+          };
         }
 
         // تحويلات الصور
@@ -1802,22 +2178,50 @@ export class UniversalFormatConverter {
             const generatedSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600"><rect width="100%" height="100%" fill="${bgFill}"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="24" fill="#334155">${title}</text></svg>`;
             if (targetFormat.id === 'svg') {
               const blob = new Blob([generatedSvg], { type: targetFormat.mimeType });
-              return { success: true, blob, textContent: generatedSvg, fileName: `${title}.svg`, mimeType: targetFormat.mimeType };
+              return {
+                success: true,
+                blob,
+                textContent: generatedSvg,
+                fileName: `${title}.svg`,
+                mimeType: targetFormat.mimeType,
+              };
             }
-            const blob = await this.convertImageSource(generatedSvg, (targetFormat.id === 'transparent-png' ? 'png' : targetFormat.id) as any);
-            return { success: true, blob, fileName: `${title}.${targetFormat.extension}`, mimeType: targetFormat.mimeType };
+            const blob = await this.convertImageSource(
+              generatedSvg,
+              (targetFormat.id === 'transparent-png' ? 'png' : targetFormat.id) as any,
+            );
+            return {
+              success: true,
+              blob,
+              fileName: `${title}.${targetFormat.extension}`,
+              mimeType: targetFormat.mimeType,
+            };
           }
 
           const blob = await this.convertImageSource(
             imageSrc,
-            targetFormat.id === 'jpg' ? 'jpeg' : (targetFormat.id === 'transparent-png' ? 'png' : (targetFormat.id as any))
+            targetFormat.id === 'jpg'
+              ? 'jpeg'
+              : targetFormat.id === 'transparent-png'
+                ? 'png'
+                : (targetFormat.id as any),
           );
-          return { success: true, blob, fileName: `${title}.${targetFormat.extension}`, mimeType: targetFormat.mimeType };
+          return {
+            success: true,
+            blob,
+            fileName: `${title}.${targetFormat.extension}`,
+            mimeType: targetFormat.mimeType,
+          };
         }
 
         default: {
           const blob = new Blob([baseHtml], { type: 'text/plain' });
-          return { success: true, blob, fileName: `${title}.${targetFormat.extension}`, mimeType: targetFormat.mimeType };
+          return {
+            success: true,
+            blob,
+            fileName: `${title}.${targetFormat.extension}`,
+            mimeType: targetFormat.mimeType,
+          };
         }
       }
     } catch (err: any) {
@@ -1857,8 +2261,14 @@ export class UniversalFormatConverter {
 
   private static extractOdtParagraphs(html: string): string {
     return html
-      .replace(/<h1[^>]*>(.*?)<\/h1>/gi, '<text:h text:style-name="Heading1" text:outline-level="1">$1</text:h>')
-      .replace(/<h2[^>]*>(.*?)<\/h2>/gi, '<text:h text:style-name="Heading2" text:outline-level="2">$1</text:h>')
+      .replace(
+        /<h1[^>]*>(.*?)<\/h1>/gi,
+        '<text:h text:style-name="Heading1" text:outline-level="1">$1</text:h>',
+      )
+      .replace(
+        /<h2[^>]*>(.*?)<\/h2>/gi,
+        '<text:h text:style-name="Heading2" text:outline-level="2">$1</text:h>',
+      )
       .replace(/<h3[^>]*>(.*?)<\/h3>/gi, '<text:h text:outline-level="3">$1</text:h>')
       .replace(/<p[^>]*>(.*?)<\/p>/gi, '<text:p text:style-name="Standard">$1</text:p>')
       .replace(/<strong[^>]*>(.*?)<\/strong>/gi, '<text:span text:style-name="Bold">$1</text:span>')

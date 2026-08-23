@@ -68,7 +68,7 @@ export interface MouseDiagnosticsOptions {
 export function calculateRelativeMouseOffset(
   event: MouseEvent | React.MouseEvent,
   container: HTMLElement | null,
-  options?: MouseDiagnosticsOptions
+  options?: MouseDiagnosticsOptions,
 ): RelativeMouseOffsetResult {
   const zoom = options?.zoom ?? 1;
   const includeScroll = options?.includeScroll ?? true;
@@ -110,7 +110,10 @@ export function calculateRelativeMouseOffset(
       // Chrome/Firefox: scrollLeft يكون سالبًا أو صفرًا في وضع RTL
       // Safari: scrollLeft يكون موجبًا
       const rawScrollLeft = container.scrollLeft;
-      const maxScrollLeft = Math.max(0, (container.scrollWidth || 0) - (container.clientWidth || 0));
+      const maxScrollLeft = Math.max(
+        0,
+        (container.scrollWidth || 0) - (container.clientWidth || 0),
+      );
 
       if (rawScrollLeft <= 0) {
         scrollX = Math.abs(rawScrollLeft);
@@ -146,10 +149,7 @@ export function calculateRelativeMouseOffset(
 
   // 7. التحقق من وقوع النقطة داخل الحدود
   const isInside =
-    screenX >= rect.left &&
-    screenX <= rect.right &&
-    screenY >= rect.top &&
-    screenY <= rect.bottom;
+    screenX >= rect.left && screenX <= rect.right && screenY >= rect.top && screenY <= rect.bottom;
 
   return {
     screen: { x: screenX, y: screenY },
@@ -238,7 +238,7 @@ function createEmptyRect(): DOMRect {
 export function calculateCanvasCoordinates(
   event: MouseEvent | React.MouseEvent,
   canvasContainer: HTMLElement | null,
-  zoom: number = 1
+  zoom: number = 1,
 ): { x: number; y: number; isInside: boolean } {
   const result = calculateRelativeMouseOffset(event, canvasContainer, {
     zoom,

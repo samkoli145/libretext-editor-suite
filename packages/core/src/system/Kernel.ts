@@ -46,7 +46,7 @@ export class Kernel {
 
   constructor(
     private events: EventBus,
-    private commands: CommandRegistry
+    private commands: CommandRegistry,
   ) {}
 
   async boot(): Promise<Result<KernelContext, Error>> {

@@ -34,15 +34,29 @@ function parseArgs(): ScaffoldOpts {
   let dryRun = false;
   for (const a of args) {
     if (a.startsWith('--name=')) name = a.slice(7).trim();
-    else if (a.startsWith('--domain=')) { const d = a.slice(9).trim(); if (['Writer','Calc','Impress','Base'].includes(d)) domain = d as ScaffoldOpts['domain']; }
-    else if (a.startsWith('--traits=')) traits = a.slice(9).split(',').map(t => t.trim()).filter(Boolean);
+    else if (a.startsWith('--domain=')) {
+      const d = a.slice(9).trim();
+      if (['Writer', 'Calc', 'Impress', 'Base'].includes(d)) domain = d as ScaffoldOpts['domain'];
+    } else if (a.startsWith('--traits='))
+      traits = a
+        .slice(9)
+        .split(',')
+        .map((t) => t.trim())
+        .filter(Boolean);
     else if (a === '--dry-run') dryRun = true;
   }
   return { name, domain, traits, dryRun };
 }
 
-function toKebab(s: string): string { return s.replace(/([a-z])([A-Z])/g, '$1-$2').replace(/[\s_]+/g, '-').toLowerCase(); }
-function toPascal(s: string): string { return s.replace(/(?:^|[-_])(\w)/g, (_, c) => c ? c.toUpperCase() : '').replace(/\s+/g, ''); }
+function toKebab(s: string): string {
+  return s
+    .replace(/([a-z])([A-Z])/g, '$1-$2')
+    .replace(/[\s_]+/g, '-')
+    .toLowerCase();
+}
+function toPascal(s: string): string {
+  return s.replace(/(?:^|[-_])(\w)/g, (_, c) => (c ? c.toUpperCase() : '')).replace(/\s+/g, '');
+}
 
 function genBlockCode(opts: ScaffoldOpts, kebab: string, pascal: string, date: string): string {
   return `/**
@@ -106,10 +120,20 @@ export function runScaffolder(): void {
     return;
   }
 
-  for (const d of [blocksDir, testsDir]) { if (!fs.existsSync(d)) fs.mkdirSync(d, { recursive: true }); }
+  for (const d of [blocksDir, testsDir]) {
+    if (!fs.existsSync(d)) fs.mkdirSync(d, { recursive: true });
+  }
 
-  fs.writeFileSync(path.join(blocksDir, `${kebab}-block.ts`), genBlockCode(opts, kebab, pascal, date), 'utf-8');
-  fs.writeFileSync(path.join(testsDir, `${kebab}-block.test.ts`), genTestCode(opts, kebab, pascal, date), 'utf-8');
+  fs.writeFileSync(
+    path.join(blocksDir, `${kebab}-block.ts`),
+    genBlockCode(opts, kebab, pascal, date),
+    'utf-8',
+  );
+  fs.writeFileSync(
+    path.join(testsDir, `${kebab}-block.test.ts`),
+    genTestCode(opts, kebab, pascal, date),
+    'utf-8',
+  );
 
   console.log(`[scaffold:block] Created 2 files for "${opts.name}" (${opts.domain}):`);
   console.log(`  Block: ${blocksDir}/${kebab}-block.ts`);
@@ -117,4 +141,4 @@ export function runScaffolder(): void {
   console.log(`  Traits: ${opts.traits.join(', ')}`);
 }
 
-import.meta.url === `file://${process.argv[1]}` && runScaffolder();
+if (import.meta.url === `file://${process.argv[1]}`) runScaffolder();

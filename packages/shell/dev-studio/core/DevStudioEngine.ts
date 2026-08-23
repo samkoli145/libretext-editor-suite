@@ -40,7 +40,7 @@ export class DevStudioEngine {
   private projectSurface: ProjectSurface = {
     readFile: () => null,
     listFiles: () => [],
-    apply: () => {}
+    apply: () => {},
   };
   private pipeline: TaskPipeline;
 
@@ -49,7 +49,7 @@ export class DevStudioEngine {
       project: this.projectSurface,
       doctor: defaultDoctorGate,
       snapshots: globalSnapshotEngine,
-      rollback: globalRollbackManager
+      rollback: globalRollbackManager,
     });
 
     this.pipeline.on((event) => {
@@ -58,16 +58,24 @@ export class DevStudioEngine {
           doctor: 'validating',
           checkpoint: 'checkpointed',
           execute: 'executing',
-          test: 'testing'
+          test: 'testing',
         };
         const st = statusMap[event.gate] || 'executing';
         globalDevStudioEvents.emit('task:status', { taskId: event.taskId, status: st });
       } else if (event.type === 'gateFailed') {
-        globalDevStudioEvents.emit('task:status', { taskId: event.taskId, status: 'failed', error: event.reason });
+        globalDevStudioEvents.emit('task:status', {
+          taskId: event.taskId,
+          status: 'failed',
+          error: event.reason,
+        });
       } else if (event.type === 'taskCommitted') {
         globalDevStudioEvents.emit('task:status', { taskId: event.taskId, status: 'committed' });
       } else if (event.type === 'taskRolledBack') {
-        globalDevStudioEvents.emit('task:status', { taskId: event.taskId, status: 'rolled-back', error: event.reason });
+        globalDevStudioEvents.emit('task:status', {
+          taskId: event.taskId,
+          status: 'rolled-back',
+          error: event.reason,
+        });
       }
     });
   }
@@ -78,7 +86,7 @@ export class DevStudioEngine {
       project: this.projectSurface,
       doctor: defaultDoctorGate,
       snapshots: globalSnapshotEngine,
-      rollback: globalRollbackManager
+      rollback: globalRollbackManager,
     });
   }
 
@@ -96,7 +104,7 @@ export class DevStudioEngine {
   async executeTask(
     label: string,
     type: DevTask['type'],
-    patches: DevStudioPatch[]
+    patches: DevStudioPatch[],
   ): Promise<{ success: boolean; task: DevTask; error?: string }> {
     const taskBefore: DevTask = {
       id: `task-${Date.now().toString(36)}`,
@@ -104,14 +112,14 @@ export class DevStudioEngine {
       label,
       status: 'created',
       patches,
-      createdAt: Date.now()
+      createdAt: Date.now(),
     };
     globalDevStudioEvents.emit('task:created', taskBefore);
 
     const result = this.pipeline.run({
       type,
       label,
-      patches
+      patches,
     });
 
     const task: DevTask = {
@@ -122,7 +130,7 @@ export class DevStudioEngine {
       patches,
       checkpointId: result.checkpointId,
       error: result.error,
-      completedAt: result.status === 'committed' ? Date.now() : undefined
+      completedAt: result.status === 'committed' ? Date.now() : undefined,
     };
 
     this.tasks.unshift(task);
@@ -135,7 +143,7 @@ export class DevStudioEngine {
     return {
       success: result.status === 'committed',
       task,
-      error: result.error
+      error: result.error,
     };
   }
 

@@ -40,10 +40,22 @@ export const AVAILABLE_FONTS = [
   { id: 'Cairo', nameAr: 'خط القاهرة (Cairo)', fontStack: "'Cairo', sans-serif" },
   { id: 'Tajawal', nameAr: 'خط تجوال (Tajawal)', fontStack: "'Tajawal', sans-serif" },
   { id: 'Almarai', nameAr: 'خط المراعي (Almarai)', fontStack: "'Almarai', sans-serif" },
-  { id: 'Noto Kufi Arabic', nameAr: 'نوتو كوفي (Noto Kufi Arabic)', fontStack: "'Noto Kufi Arabic', sans-serif" },
-  { id: 'Noto Naskh Arabic', nameAr: 'نوتو نسخ (Noto Naskh Arabic)', fontStack: "'Noto Naskh Arabic', serif" },
+  {
+    id: 'Noto Kufi Arabic',
+    nameAr: 'نوتو كوفي (Noto Kufi Arabic)',
+    fontStack: "'Noto Kufi Arabic', sans-serif",
+  },
+  {
+    id: 'Noto Naskh Arabic',
+    nameAr: 'نوتو نسخ (Noto Naskh Arabic)',
+    fontStack: "'Noto Naskh Arabic', serif",
+  },
   { id: 'Amiri', nameAr: 'خط أميري (Amiri)', fontStack: "'Amiri', serif" },
-  { id: 'Plus Jakarta Sans', nameAr: 'بلس جاكرتا (Plus Jakarta Sans)', fontStack: "'Plus Jakarta Sans', sans-serif" },
+  {
+    id: 'Plus Jakarta Sans',
+    nameAr: 'بلس جاكرتا (Plus Jakarta Sans)',
+    fontStack: "'Plus Jakarta Sans', sans-serif",
+  },
 ] as const;
 
 export const ICON_SIZES: Record<IconSizeMode, { label: string; px: number }> = {
@@ -82,7 +94,7 @@ class UiPreferencesServiceImpl {
   }
 
   public updatePreferences(partial: Partial<UiPreferences>): UiPreferences {
-    let next: UiPreferences = {
+    const next: UiPreferences = {
       ...this.currentPrefs,
       ...partial,
     };
@@ -126,7 +138,8 @@ class UiPreferencesServiceImpl {
       const raw = localStorage.getItem(STORAGE_KEY);
       if (!raw) return { ...DEFAULT_UI_PREFERENCES };
       const parsed = JSON.parse(raw);
-      const iconSize = parsed.iconSize in ICON_SIZES ? parsed.iconSize : DEFAULT_UI_PREFERENCES.iconSize;
+      const iconSize =
+        parsed.iconSize in ICON_SIZES ? parsed.iconSize : DEFAULT_UI_PREFERENCES.iconSize;
       return {
         ...DEFAULT_UI_PREFERENCES,
         ...parsed,

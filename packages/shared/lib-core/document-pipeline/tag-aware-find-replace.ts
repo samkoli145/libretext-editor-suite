@@ -37,68 +37,70 @@
  * يختلفان أبداً.
  */
 function mapTextChunks(html: string, fn: (chunk: string) => string): string {
-  const out: string[] = []
-  let i = 0
+  const out: string[] = [];
+  let i = 0;
   while (i < html.length) {
-    const lt = html.indexOf('<', i)
-    const chunk = lt < 0 ? html.slice(i) : html.slice(i, lt)
-    out.push(fn(chunk))
-    if (lt < 0) break
-    const gt = html.indexOf('>', lt)
+    const lt = html.indexOf('<', i);
+    const chunk = lt < 0 ? html.slice(i) : html.slice(i, lt);
+    out.push(fn(chunk));
+    if (lt < 0) break;
+    const gt = html.indexOf('>', lt);
     if (gt < 0) {
-      out.push(html.slice(lt))
-      break
+      out.push(html.slice(lt));
+      break;
     }
-    out.push(html.slice(lt, gt + 1)) // الوسم نفسه، دون مساس
-    i = gt + 1
+    out.push(html.slice(lt, gt + 1)); // الوسم نفسه، دون مساس
+    i = gt + 1;
   }
-  return out.join('')
+  return out.join('');
 }
 
 /** كم مرة سيُستبدل `needle` فعلياً داخل هذه الكتلة. */
 export function countOutsideTags(html: string | undefined, needle: string): number {
-  if (!html || !needle) return 0
-  const lowerNeedle = needle.toLowerCase()
-  let n = 0
+  if (!html || !needle) return 0;
+  const lowerNeedle = needle.toLowerCase();
+  let n = 0;
   mapTextChunks(html, (chunk) => {
-    const lower = chunk.toLowerCase()
-    for (let from = 0; ; ) {
-      const at = lower.indexOf(lowerNeedle, from)
-      if (at < 0) return chunk
-      n++
-      from = at + needle.length
+    const lower = chunk.toLowerCase();
+    for (let from = 0; ;) {
+      const at = lower.indexOf(lowerNeedle, from);
+      if (at < 0) return chunk;
+      n++;
+      from = at + needle.length;
     }
-  })
-  return n
+  });
+  return n;
 }
 
 /** استبدال `needle` بـ `withText` داخل الشقوق النصية فقط، دون المساس بالوسوم. */
 export function replaceOutsideTags(html: string, needle: string, withText: string): string {
-  if (!needle) return html
-  const lowerNeedle = needle.toLowerCase()
+  if (!needle) return html;
+  const lowerNeedle = needle.toLowerCase();
   return mapTextChunks(html, (chunk) => {
-    const lower = chunk.toLowerCase()
-    let out = ''
-    let from = 0
+    const lower = chunk.toLowerCase();
+    let out = '';
+    let from = 0;
     for (;;) {
-      const at = lower.indexOf(lowerNeedle, from)
+      const at = lower.indexOf(lowerNeedle, from);
       if (at < 0) {
-        out += chunk.slice(from)
-        return out
+        out += chunk.slice(from);
+        return out;
       }
-      out += chunk.slice(from, at) + withText
-      from = at + needle.length
+      out += chunk.slice(from, at) + withText;
+      from = at + needle.length;
     }
-  })
+  });
 }
 
 /** واجهة موحدة: استبدال داخل كتلة HTML وإرجاع العدد الفعلي للتغييرات. */
 export function replaceInHtmlBlock(
   html: string | undefined,
   needle: string,
-  withText: string
+  withText: string,
 ): { html: string; count: number } {
-  if (!html) return { html: html ?? '', count: 0 }
-  const count = countOutsideTags(html, needle)
-  return count === 0 ? { html, count: 0 } : { html: replaceOutsideTags(html, needle, withText), count }
+  if (!html) return { html: html ?? '', count: 0 };
+  const count = countOutsideTags(html, needle);
+  return count === 0
+    ? { html, count: 0 }
+    : { html: replaceOutsideTags(html, needle, withText), count };
 }

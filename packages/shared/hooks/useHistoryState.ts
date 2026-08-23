@@ -26,7 +26,10 @@
  */
 
 import { useState, useRef, useCallback, useEffect } from 'react';
-import { HistoryDiffEngine, HistoryConfig } from '../lib-core/document-pipeline/history-diff-engine';
+import {
+  HistoryDiffEngine,
+  HistoryConfig,
+} from '../lib-core/document-pipeline/history-diff-engine';
 
 export interface UseHistoryReturn<T> {
   state: T;

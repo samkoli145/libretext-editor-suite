@@ -23,7 +23,12 @@
  * ═══════════════════════════════════════════════════════════════════════════
  */
 
-import type { CanvasElement, ElementInteraction, InteractionTrigger, InteractionAction } from '../model';
+import type {
+  CanvasElement,
+  ElementInteraction,
+  InteractionTrigger,
+  InteractionAction,
+} from '../model';
 
 export interface InteractionLinkGeometry {
   interactionId: string;
@@ -48,7 +53,9 @@ export interface InteractionLinkGeometry {
 /**
  * توليد نغمة صوتية تفاعلية فورية باستخدام Web Audio API (Zero External Files)
  */
-export function playSyntheticAudioFeedback(soundType: 'click' | 'pop' | 'success' | 'chime' | 'laser' = 'click') {
+export function playSyntheticAudioFeedback(
+  soundType: 'click' | 'pop' | 'success' | 'chime' | 'laser' = 'click',
+) {
   try {
     const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
     if (!AudioContextClass) return;
@@ -124,7 +131,7 @@ export function playSyntheticAudioFeedback(soundType: 'click' | 'pop' | 'success
  */
 export function calculateInteractionLinks(
   elements: CanvasElement[],
-  activeSelectedId?: string | null
+  activeSelectedId?: string | null,
 ): InteractionLinkGeometry[] {
   const links: InteractionLinkGeometry[] = [];
   const elMap = new Map<string, CanvasElement>();
@@ -142,9 +149,7 @@ export function calculateInteractionLinks(
 
       // إذا كان هناك عنصر محدد، نفضل إبراز الروابط المرتبطة به أو عرض الكل
       const isRelated =
-        !activeSelectedId ||
-        activeSelectedId === sourceEl.id ||
-        activeSelectedId === targetEl.id;
+        !activeSelectedId || activeSelectedId === sourceEl.id || activeSelectedId === targetEl.id;
 
       if (!isRelated && activeSelectedId) return;
 
@@ -221,7 +226,7 @@ export function executeInteractionTrigger(
     zoom?: number;
     onNotify?: (msg: string, type?: 'info' | 'success' | 'warning') => void;
     onUpdateElement?: (id: string, updates: Partial<CanvasElement>) => void;
-  }
+  },
 ) {
   if (!interaction.enabled) return;
 
@@ -231,7 +236,10 @@ export function executeInteractionTrigger(
         if (!interaction.targetElementId) return;
         const target = allElements.find((el) => el.id === interaction.targetElementId);
         if (!target) {
-          options?.onNotify?.(`العنصر المستهدف غير موجود (${interaction.targetElementId})`, 'warning');
+          options?.onNotify?.(
+            `العنصر المستهدف غير موجود (${interaction.targetElementId})`,
+            'warning',
+          );
           return;
         }
 
@@ -249,7 +257,8 @@ export function executeInteractionTrigger(
         }
 
         // تمرير إلى عنصر DOM إن وجد
-        const domEl = document.getElementById(`canvas-el-${target.id}`) || document.getElementById(target.id);
+        const domEl =
+          document.getElementById(`canvas-el-${target.id}`) || document.getElementById(target.id);
         if (domEl) {
           domEl.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
           // تسليط وميض بصري على العنصر
@@ -259,7 +268,10 @@ export function executeInteractionTrigger(
           }, 1500);
         }
 
-        options?.onNotify?.(`تم التمرير إلى العنصر: ${target.text || target.type || target.id}`, 'info');
+        options?.onNotify?.(
+          `تم التمرير إلى العنصر: ${target.text || target.type || target.id}`,
+          'info',
+        );
         break;
       }
 
@@ -277,7 +289,10 @@ export function executeInteractionTrigger(
         if (!target) return;
         const newVisible = target.visible === false ? true : false;
         options?.onUpdateElement?.(target.id, { visible: newVisible });
-        options?.onNotify?.(`تم تبديل رؤية العنصر (${target.id}) إلى: ${newVisible ? 'مرئي' : 'مخفي'}`, 'info');
+        options?.onNotify?.(
+          `تم تبديل رؤية العنصر (${target.id}) إلى: ${newVisible ? 'مرئي' : 'مخفي'}`,
+          'info',
+        );
         break;
       }
 

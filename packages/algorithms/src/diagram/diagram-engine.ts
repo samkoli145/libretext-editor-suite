@@ -49,7 +49,10 @@ function pathBetween(from: DiagramNode, to: DiagramNode): string {
 
 function calcViewBox(nodes: readonly DiagramNode[]): string {
   if (nodes.length === 0) return '0 0 100 100';
-  let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+  let minX = Infinity,
+    minY = Infinity,
+    maxX = -Infinity,
+    maxY = -Infinity;
   for (const n of nodes) {
     if (n.x < minX) minX = n.x;
     if (n.y < minY) minY = n.y;
@@ -70,11 +73,21 @@ export function createDiagramEngine() {
   let nodes: DiagramNode[] = [];
   let edges: DiagramEdge[] = [];
 
-  function addNode(node: DiagramNode): void { nodes = [...nodes, node]; }
-  function addEdge(edge: DiagramEdge): void { edges = [...edges, edge]; }
-  function removeNode(id: string): void { nodes = nodes.filter(n => n.id !== id); edges = edges.filter(e => e.fromId !== id && e.toId !== id); }
-  function updateNode(id: string, props: Partial<Pick<DiagramNode, 'x' | 'y' | 'width' | 'height' | 'label' | 'color'>>): void {
-    nodes = nodes.map(n => n.id === id ? { ...n, ...props } : n);
+  function addNode(node: DiagramNode): void {
+    nodes = [...nodes, node];
+  }
+  function addEdge(edge: DiagramEdge): void {
+    edges = [...edges, edge];
+  }
+  function removeNode(id: string): void {
+    nodes = nodes.filter((n) => n.id !== id);
+    edges = edges.filter((e) => e.fromId !== id && e.toId !== id);
+  }
+  function updateNode(
+    id: string,
+    props: Partial<Pick<DiagramNode, 'x' | 'y' | 'width' | 'height' | 'label' | 'color'>>,
+  ): void {
+    nodes = nodes.map((n) => (n.id === id ? { ...n, ...props } : n));
   }
   function autoLayout(): DiagramLayout {
     const laid = layoutTree(nodes);
@@ -88,23 +101,49 @@ export function createDiagramEngine() {
     const layout = toLayout();
     const lines = [`<svg viewBox="${layout.viewBox}" xmlns="http://www.w3.org/2000/svg">`];
     for (const e of layout.edges) {
-      const from = layout.nodes.find(n => n.id === e.fromId);
-      const to = layout.nodes.find(n => n.id === e.toId);
+      const from = layout.nodes.find((n) => n.id === e.fromId);
+      const to = layout.nodes.find((n) => n.id === e.toId);
       if (from && to) {
-        const dash = e.style === 'dashed' ? ' stroke-dasharray="6 4"' : e.style === 'dotted' ? ' stroke-dasharray="2 4"' : '';
-        lines.push(`  <path d="${pathBetween(from, to)}" fill="none" stroke="#64748b" stroke-width="2"${dash}/>`);
+        const dash =
+          e.style === 'dashed'
+            ? ' stroke-dasharray="6 4"'
+            : e.style === 'dotted'
+              ? ' stroke-dasharray="2 4"'
+              : '';
+        lines.push(
+          `  <path d="${pathBetween(from, to)}" fill="none" stroke="#64748b" stroke-width="2"${dash}/>`,
+        );
       }
     }
     for (const n of layout.nodes) {
       const fill = n.color || '#f8fafc';
-      lines.push(`  <rect x="${n.x}" y="${n.y}" width="${n.width}" height="${n.height}" rx="8" fill="${fill}" stroke="#94a3b8"/>`);
-      lines.push(`  <text x="${n.x + n.width / 2}" y="${n.y + n.height / 2 + 4}" text-anchor="middle" font-size="14" fill="#1e293b">${n.label}</text>`);
+      lines.push(
+        `  <rect x="${n.x}" y="${n.y}" width="${n.width}" height="${n.height}" rx="8" fill="${fill}" stroke="#94a3b8"/>`,
+      );
+      lines.push(
+        `  <text x="${n.x + n.width / 2}" y="${n.y + n.height / 2 + 4}" text-anchor="middle" font-size="14" fill="#1e293b">${n.label}</text>`,
+      );
     }
     lines.push('</svg>');
     return lines.join('\n');
   }
-  function clear(): void { nodes = []; edges = []; }
-  function getNodeCount(): number { return nodes.length; }
+  function clear(): void {
+    nodes = [];
+    edges = [];
+  }
+  function getNodeCount(): number {
+    return nodes.length;
+  }
 
-  return { addNode, addEdge, removeNode, updateNode, autoLayout, toLayout, toSvg, clear, getNodeCount };
+  return {
+    addNode,
+    addEdge,
+    removeNode,
+    updateNode,
+    autoLayout,
+    toLayout,
+    toSvg,
+    clear,
+    getNodeCount,
+  };
 }

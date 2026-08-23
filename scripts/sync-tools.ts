@@ -20,26 +20,102 @@ import fs from 'fs';
 import path from 'path';
 
 const BLOCKS_DATA = [
-  { id: 'paragraph', name: 'Paragraph', domain: 'Writer', category: 'Text', tools: ['Bold', 'Italic', 'Underline', 'Color', 'Align', 'Indent'] },
-  { id: 'heading', name: 'Heading H1-H6', domain: 'Writer', category: 'Text', tools: ['HeadingLevel', 'AutoNumber', 'Anchor'] },
-  { id: 'table', name: 'Table', domain: 'Universal', category: 'Data', tools: ['InsertRow', 'InsertCol', 'DeleteRow', 'DeleteCol', 'MergeCells', 'SplitCell'] },
-  { id: 'cell', name: 'Calc Cell', domain: 'Calc', category: 'Data', tools: ['FormulaEditor', 'NumberFormat', 'ConditionalFormat', 'TextWrap'] },
-  { id: 'shape', name: 'Vector Shape', domain: 'Impress', category: 'Visual', tools: ['ResizeHandles', 'RotateHandle', 'FillColor', 'Snap', 'AlignSmart'] },
-  { id: 'slide', name: 'Slide', domain: 'Impress', category: 'Layout', tools: ['LayoutPicker', 'Background', 'PresenterNotes', 'Reorder', 'Transitions'] },
-  { id: 'database_record', name: 'Record', domain: 'Base', category: 'Data', tools: ['RecordForm', 'FieldConfig', 'SortFilter', 'RelationLink'] },
-  { id: 'math', name: 'Math LaTeX', domain: 'Universal', category: 'Plugin', tools: ['SymbolPalette', 'LaTeXEditor', 'DisplayMode'] },
-  { id: 'mermaid', name: 'Mermaid', domain: 'Universal', category: 'Plugin', tools: ['DiagramEditor', 'TypeSelector', 'ExportSVG'] },
+  {
+    id: 'paragraph',
+    name: 'Paragraph',
+    domain: 'Writer',
+    category: 'Text',
+    tools: ['Bold', 'Italic', 'Underline', 'Color', 'Align', 'Indent'],
+  },
+  {
+    id: 'heading',
+    name: 'Heading H1-H6',
+    domain: 'Writer',
+    category: 'Text',
+    tools: ['HeadingLevel', 'AutoNumber', 'Anchor'],
+  },
+  {
+    id: 'table',
+    name: 'Table',
+    domain: 'Universal',
+    category: 'Data',
+    tools: ['InsertRow', 'InsertCol', 'DeleteRow', 'DeleteCol', 'MergeCells', 'SplitCell'],
+  },
+  {
+    id: 'cell',
+    name: 'Calc Cell',
+    domain: 'Calc',
+    category: 'Data',
+    tools: ['FormulaEditor', 'NumberFormat', 'ConditionalFormat', 'TextWrap'],
+  },
+  {
+    id: 'shape',
+    name: 'Vector Shape',
+    domain: 'Impress',
+    category: 'Visual',
+    tools: ['ResizeHandles', 'RotateHandle', 'FillColor', 'Snap', 'AlignSmart'],
+  },
+  {
+    id: 'slide',
+    name: 'Slide',
+    domain: 'Impress',
+    category: 'Layout',
+    tools: ['LayoutPicker', 'Background', 'PresenterNotes', 'Reorder', 'Transitions'],
+  },
+  {
+    id: 'database_record',
+    name: 'Record',
+    domain: 'Base',
+    category: 'Data',
+    tools: ['RecordForm', 'FieldConfig', 'SortFilter', 'RelationLink'],
+  },
+  {
+    id: 'math',
+    name: 'Math LaTeX',
+    domain: 'Universal',
+    category: 'Plugin',
+    tools: ['SymbolPalette', 'LaTeXEditor', 'DisplayMode'],
+  },
+  {
+    id: 'mermaid',
+    name: 'Mermaid',
+    domain: 'Universal',
+    category: 'Plugin',
+    tools: ['DiagramEditor', 'TypeSelector', 'ExportSVG'],
+  },
 ];
 
 const CANONICAL_TOOLS: Record<string, string[]> = {
   TextFormatting: ['Bold', 'Italic', 'Underline', 'Color', 'Align', 'Indent', 'ClearFormat'],
   StructureAndHeading: ['HeadingLevel', 'AutoNumber', 'Anchor', 'CollapseExpand'],
-  TableGrid: ['InsertRow', 'InsertCol', 'DeleteRow', 'DeleteCol', 'MergeCells', 'SplitCell', 'Sort'],
-  CalcSpreadsheet: ['FormulaEditor', 'NumberFormat', 'ConditionalFormat', 'TextWrap', 'TracePrecedents'],
+  TableGrid: [
+    'InsertRow',
+    'InsertCol',
+    'DeleteRow',
+    'DeleteCol',
+    'MergeCells',
+    'SplitCell',
+    'Sort',
+  ],
+  CalcSpreadsheet: [
+    'FormulaEditor',
+    'NumberFormat',
+    'ConditionalFormat',
+    'TextWrap',
+    'TracePrecedents',
+  ],
   SpatialTransform: ['ResizeHandles', 'RotateHandle', 'FillColor', 'Snap', 'AlignSmart', 'ZOrder'],
   SlidePresentation: ['LayoutPicker', 'Background', 'PresenterNotes', 'Reorder', 'Transitions'],
   DatabaseRecord: ['RecordForm', 'FieldConfig', 'SortFilter', 'RelationLink', 'ValidationRules'],
-  PluginsAndAddons: ['SymbolPalette', 'LaTeXEditor', 'DisplayMode', 'DiagramEditor', 'TypeSelector', 'ExportSVG', 'Zoom'],
+  PluginsAndAddons: [
+    'SymbolPalette',
+    'LaTeXEditor',
+    'DisplayMode',
+    'DiagramEditor',
+    'TypeSelector',
+    'ExportSVG',
+    'Zoom',
+  ],
   ClipboardAndLifecycle: ['Cut', 'Copy', 'Paste', 'Duplicate', 'Delete'],
 };
 
@@ -56,7 +132,7 @@ export function runSyncTools(): void {
       st.tools += b.tools.length;
       st.list.push(...b.tools);
     }
-    b.tools.forEach(t => allTools.add(t));
+    b.tools.forEach((t) => allTools.add(t));
   }
 
   console.log('Domain Distribution:');
@@ -77,7 +153,9 @@ export function runSyncTools(): void {
   md += `\n## Canonical Tool Packages\n\n`;
   for (const [pkg, tools] of Object.entries(CANONICAL_TOOLS)) {
     md += `### ${pkg} (${tools.length})\n`;
-    tools.forEach(t => { md += `- ${allTools.has(t) ? '[USED]' : '[AVAIL]'} ${t}\n`; });
+    tools.forEach((t) => {
+      md += `- ${allTools.has(t) ? '[USED]' : '[AVAIL]'} ${t}\n`;
+    });
     md += `\n`;
   }
   md += `## Recommendations\n\n`;
@@ -90,4 +168,4 @@ export function runSyncTools(): void {
   console.log('[sync:tools] Done');
 }
 
-import.meta.url === `file://${process.argv[1]}` && runSyncTools();
+if (import.meta.url === `file://${process.argv[1]}`) runSyncTools();

@@ -1,7 +1,13 @@
 import { describe, it, expect } from 'vitest';
 import { createMarqueeSelectionEngine } from '../../src/engines/marquee-selection-engine';
 
-const el = (id: string, x: number, y: number, w = 50, h = 50) => ({ id, x, y, width: w, height: h });
+const el = (id: string, x: number, y: number, w = 50, h = 50) => ({
+  id,
+  x,
+  y,
+  width: w,
+  height: h,
+});
 
 describe('CORE-ENG-010: MarqueeSelectionEngine', () => {
   it('is inactive by default', () => {

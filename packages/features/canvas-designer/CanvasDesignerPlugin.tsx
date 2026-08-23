@@ -10,16 +10,16 @@
  * ═══════════════════════════════════════════════════════════════════════════
  */
 
-import React, { useState } from "react";
-import type { EditorPlugin, EditorPluginProps, DocumentModel } from "../../core/types";
-import { CanvasDesignerData, createDefaultCanvasData, CanvasElement } from "./model";
-import { useContextMenu } from "../../shared/hooks/useContextMenu";
-import { SharedContextMenu } from "../../shared/components/SharedContextMenu";
+import React, { useState } from 'react';
+import type { EditorPlugin, EditorPluginProps, DocumentModel } from '../../core/types';
+import { CanvasDesignerData, createDefaultCanvasData, CanvasElement } from './model';
+import { useContextMenu } from '../../shared/hooks/useContextMenu';
+import { SharedContextMenu } from '../../shared/components/SharedContextMenu';
 import {
   resolveContextMenuForBlock,
   type TraitAwareBlockTarget,
   type TraitMenuCallbacks,
-} from "@libretext/core";
+} from '@libretext/core';
 import {
   Paintbrush,
   Plus,
@@ -33,7 +33,7 @@ import {
   Type,
   Layers,
   Sparkles,
-} from "lucide-react";
+} from 'lucide-react';
 
 export function CanvasDesignerEditor({
   document,
@@ -41,7 +41,7 @@ export function CanvasDesignerEditor({
 }: EditorPluginProps<CanvasDesignerData>) {
   const data = document.data || createDefaultCanvasData();
   const [selectedElementId, setSelectedElementId] = useState<string | null>(
-    data.elements[0]?.id || null
+    data.elements[0]?.id || null,
   );
   const [zoom, setZoom] = useState<number>(data.viewport?.zoom || 1);
 
@@ -57,21 +57,21 @@ export function CanvasDesignerEditor({
     });
   };
 
-  const handleAddElement = (type: CanvasElement["type"]) => {
+  const handleAddElement = (type: CanvasElement['type']) => {
     const id = `el-${Date.now()}`;
     const newEl: CanvasElement = {
       id,
       type,
       x: 100 + data.elements.length * 20,
       y: 100 + data.elements.length * 20,
-      width: type === "circle" ? 120 : type === "text" ? 200 : 250,
-      height: type === "circle" ? 120 : type === "text" ? 50 : 140,
+      width: type === 'circle' ? 120 : type === 'text' ? 200 : 250,
+      height: type === 'circle' ? 120 : type === 'text' ? 50 : 140,
       zIndex: data.elements.length + 1,
-      fillColor: type === "circle" ? "#e0e7ff" : "#f8fafc",
-      strokeColor: "#3b82f6",
+      fillColor: type === 'circle' ? '#e0e7ff' : '#f8fafc',
+      strokeColor: '#3b82f6',
       strokeWidth: 2,
       borderRadius: 12,
-      text: type === "text" ? "نص جديد" : `${type.toUpperCase()} عنصر`,
+      text: type === 'text' ? 'نص جديد' : `${type.toUpperCase()} عنصر`,
     };
 
     updateData({
@@ -115,7 +115,7 @@ export function CanvasDesignerEditor({
         updateData({
           ...data,
           elements: data.elements.map((item) =>
-            item.id === id ? { ...item, locked: lock } : item
+            item.id === id ? { ...item, locked: lock } : item,
           ),
         });
       },
@@ -141,7 +141,7 @@ export function CanvasDesignerEditor({
         updateData({
           ...data,
           elements: data.elements.map((item) =>
-            item.id === id ? { ...item, width: 200, height: 100 } : item
+            item.id === id ? { ...item, width: 200, height: 100 } : item,
           ),
         });
       },
@@ -150,8 +150,8 @@ export function CanvasDesignerEditor({
           ...data,
           elements: data.elements.map((item) =>
             item.id === id
-              ? { ...item, fillColor: "#ffffff", strokeColor: "#cbd5e1", strokeWidth: 1 }
-              : item
+              ? { ...item, fillColor: '#ffffff', strokeColor: '#cbd5e1', strokeWidth: 1 }
+              : item,
           ),
         });
       },
@@ -196,21 +196,21 @@ export function CanvasDesignerEditor({
           {/* Quick Add Shape Buttons */}
           <div className="flex items-center gap-1">
             <button
-              onClick={() => handleAddElement("rectangle")}
+              onClick={() => handleAddElement('rectangle')}
               className="px-2 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded text-xs flex items-center gap-1 transition-colors"
             >
               <Square className="w-3.5 h-3.5 text-blue-600" />
               <span>مستطيل</span>
             </button>
             <button
-              onClick={() => handleAddElement("circle")}
+              onClick={() => handleAddElement('circle')}
               className="px-2 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded text-xs flex items-center gap-1 transition-colors"
             >
               <Circle className="w-3.5 h-3.5 text-purple-600" />
               <span>دائرة</span>
             </button>
             <button
-              onClick={() => handleAddElement("text")}
+              onClick={() => handleAddElement('text')}
               className="px-2 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded text-xs flex items-center gap-1 transition-colors"
             >
               <Type className="w-3.5 h-3.5 text-emerald-600" />
@@ -255,8 +255,8 @@ export function CanvasDesignerEditor({
                 onClick={() => setSelectedElementId(el.id)}
                 className={`flex items-center justify-between p-2 rounded-lg cursor-pointer transition-colors ${
                   el.id === selectedElementId
-                    ? "bg-purple-50 text-purple-700 font-semibold border border-purple-200"
-                    : "hover:bg-slate-100 text-slate-700 border border-transparent"
+                    ? 'bg-purple-50 text-purple-700 font-semibold border border-purple-200'
+                    : 'hover:bg-slate-100 text-slate-700 border border-transparent'
                 }`}
               >
                 <span className="truncate">{el.text || el.id}</span>
@@ -282,16 +282,15 @@ export function CanvasDesignerEditor({
               width: `${data.canvasSettings?.width || 1280}px`,
               height: `${data.canvasSettings?.height || 720}px`,
               transform: `scale(${zoom})`,
-              transformOrigin: "center center",
+              transformOrigin: 'center center',
             }}
           >
             {/* Grid Pattern Background */}
             <div
               className="absolute inset-0 pointer-events-none rounded-2xl opacity-40"
               style={{
-                backgroundImage:
-                  "radial-gradient(circle, #cbd5e1 1px, transparent 1px)",
-                backgroundSize: "20px 20px",
+                backgroundImage: 'radial-gradient(circle, #cbd5e1 1px, transparent 1px)',
+                backgroundSize: '20px 20px',
               }}
             />
 
@@ -308,16 +307,16 @@ export function CanvasDesignerEditor({
                   onContextMenu={(e) => handleElementContextMenu(e, el)}
                   className={`absolute flex flex-col items-center justify-center p-3 text-center transition-shadow cursor-pointer ${
                     isSelected
-                      ? "ring-2 ring-purple-600 shadow-md z-30"
-                      : "hover:ring-1 hover:ring-purple-300 z-10"
-                  } ${el.locked ? "opacity-75 cursor-not-allowed" : ""}`}
+                      ? 'ring-2 ring-purple-600 shadow-md z-30'
+                      : 'hover:ring-1 hover:ring-purple-300 z-10'
+                  } ${el.locked ? 'opacity-75 cursor-not-allowed' : ''}`}
                   style={{
                     left: `${el.x}px`,
                     top: `${el.y}px`,
                     width: `${el.width}px`,
                     height: `${el.height}px`,
-                    backgroundColor: el.fillColor || "#ffffff",
-                    borderColor: el.strokeColor || "#cbd5e1",
+                    backgroundColor: el.fillColor || '#ffffff',
+                    borderColor: el.strokeColor || '#cbd5e1',
                     borderWidth: `${el.strokeWidth || 1}px`,
                     borderRadius: `${el.borderRadius || 8}px`,
                   }}
@@ -327,9 +326,7 @@ export function CanvasDesignerEditor({
                       {el.text}
                     </div>
                   )}
-                  {el.subtitle && (
-                    <div className="text-xs text-slate-500 mt-1">{el.subtitle}</div>
-                  )}
+                  {el.subtitle && <div className="text-xs text-slate-500 mt-1">{el.subtitle}</div>}
                 </div>
               );
             })}
@@ -348,12 +345,12 @@ export function CanvasDesignerEditor({
               <label className="block font-medium text-slate-600 mb-1">العنوان / النص</label>
               <input
                 type="text"
-                value={selectedElement.text || ""}
+                value={selectedElement.text || ''}
                 onChange={(e) => {
                   updateData({
                     ...data,
                     elements: data.elements.map((el) =>
-                      el.id === selectedElement.id ? { ...el, text: e.target.value } : el
+                      el.id === selectedElement.id ? { ...el, text: e.target.value } : el,
                     ),
                   });
                 }}
@@ -365,12 +362,12 @@ export function CanvasDesignerEditor({
               <label className="block font-medium text-slate-600 mb-1">لون التعبئة (Fill)</label>
               <input
                 type="color"
-                value={selectedElement.fillColor || "#ffffff"}
+                value={selectedElement.fillColor || '#ffffff'}
                 onChange={(e) => {
                   updateData({
                     ...data,
                     elements: data.elements.map((el) =>
-                      el.id === selectedElement.id ? { ...el, fillColor: e.target.value } : el
+                      el.id === selectedElement.id ? { ...el, fillColor: e.target.value } : el,
                     ),
                   });
                 }}
@@ -382,12 +379,12 @@ export function CanvasDesignerEditor({
               <label className="block font-medium text-slate-600 mb-1">لون الإطار (Stroke)</label>
               <input
                 type="color"
-                value={selectedElement.strokeColor || "#3b82f6"}
+                value={selectedElement.strokeColor || '#3b82f6'}
                 onChange={(e) => {
                   updateData({
                     ...data,
                     elements: data.elements.map((el) =>
-                      el.id === selectedElement.id ? { ...el, strokeColor: e.target.value } : el
+                      el.id === selectedElement.id ? { ...el, strokeColor: e.target.value } : el,
                     ),
                   });
                 }}
@@ -412,23 +409,23 @@ export function CanvasDesignerEditor({
 }
 
 export class CanvasDesignerPlugin implements EditorPlugin<CanvasDesignerData> {
-  id = "canvas-designer-plugin";
-  name = "لوحة تصميم ورسم وكانفا";
-  documentType = "canvas";
-  iconName = "Paintbrush";
-  fileExtensions = ["canvas.json", "json", "svg"] as const;
-  description = "محرر الكانفا والرسم الفيكتوري وتصميم الواجهات الشامل";
+  id = 'canvas-designer-plugin';
+  name = 'لوحة تصميم ورسم وكانفا';
+  documentType = 'canvas';
+  iconName = 'Paintbrush';
+  fileExtensions = ['canvas.json', 'json', 'svg'] as const;
+  description = 'محرر الكانفا والرسم الفيكتوري وتصميم الواجهات الشامل';
 
   renderEditor(props: EditorPluginProps<CanvasDesignerData>) {
     return <CanvasDesignerEditor {...props} />;
   }
 
-  createDefaultDocument(title = "لوحة كانفا جديدة"): DocumentModel<CanvasDesignerData> {
+  createDefaultDocument(title = 'لوحة كانفا جديدة'): DocumentModel<CanvasDesignerData> {
     return {
       id: `doc-${Date.now()}`,
-      type: "canvas",
+      type: 'canvas',
       title,
-      fileExtension: "canvas.json",
+      fileExtension: 'canvas.json',
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
       version: 1,

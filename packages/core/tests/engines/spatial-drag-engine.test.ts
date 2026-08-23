@@ -1,7 +1,13 @@
 import { describe, it, expect } from 'vitest';
 import { createSpatialDragEngine } from '../../src/engines/spatial-drag-engine';
 
-const el = (id: string, x: number, y: number, w = 100, h = 50) => ({ id, x, y, width: w, height: h });
+const el = (id: string, x: number, y: number, w = 100, h = 50) => ({
+  id,
+  x,
+  y,
+  width: w,
+  height: h,
+});
 
 describe('CORE-ENG-009: SpatialDragEngine', () => {
   it('returns empty when not started', () => {

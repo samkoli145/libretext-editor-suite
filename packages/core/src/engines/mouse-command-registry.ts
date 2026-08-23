@@ -47,13 +47,21 @@ export function createMouseCommandRegistry() {
     }
   }
 
-  function get(id: string): MouseCommand | undefined { return commands.get(id); }
-  function list(): readonly MouseCommand[] { return Array.from(commands.values()); }
-  function listByCategory(category: string): readonly MouseCommand[] {
-    return Array.from(commands.values()).filter(c => c.category === category);
+  function get(id: string): MouseCommand | undefined {
+    return commands.get(id);
   }
-  function size(): number { return commands.size; }
-  function clear(): void { commands.clear(); }
+  function list(): readonly MouseCommand[] {
+    return Array.from(commands.values());
+  }
+  function listByCategory(category: string): readonly MouseCommand[] {
+    return Array.from(commands.values()).filter((c) => c.category === category);
+  }
+  function size(): number {
+    return commands.size;
+  }
+  function clear(): void {
+    commands.clear();
+  }
 
   return { register, unregister, execute, get, list, listByCategory, size, clear };
 }

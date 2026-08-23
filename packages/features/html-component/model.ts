@@ -16,7 +16,7 @@
  * ═══════════════════════════════════════════════════════════════════════════
  */
 
-export type HTMLNodeType = 
+export type HTMLNodeType =
   | 'container'
   | 'card'
   | 'heading'
@@ -103,7 +103,8 @@ export const INITIAL_HTML_COMPONENT_DATA: HTMLComponentData = {
       name: 'حقل إدخال النص',
       props: {
         placeholder: 'أدخل النص هنا...',
-        className: 'w-full px-3 py-2 text-sm bg-white border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500',
+        className:
+          'w-full px-3 py-2 text-sm bg-white border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500',
       },
       children: [],
     },
@@ -114,7 +115,8 @@ export const INITIAL_HTML_COMPONENT_DATA: HTMLComponentData = {
       props: {
         text: 'تنفيذ الإجراء',
         variant: 'primary',
-        className: 'px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-md hover:bg-blue-700 transition-colors shadow-sm',
+        className:
+          'px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-md hover:bg-blue-700 transition-colors shadow-sm',
       },
       children: [],
     },
@@ -125,7 +127,8 @@ export const INITIAL_HTML_COMPONENT_DATA: HTMLComponentData = {
       props: {
         text: 'إضافة عنصر جديد',
         variant: 'outline',
-        className: 'px-4 py-2 bg-white text-slate-700 text-sm font-medium border border-slate-300 rounded-md hover:bg-slate-50 transition-colors',
+        className:
+          'px-4 py-2 bg-white text-slate-700 text-sm font-medium border border-slate-300 rounded-md hover:bg-slate-50 transition-colors',
       },
       children: [],
     },
@@ -137,7 +140,11 @@ export const INITIAL_HTML_COMPONENT_DATA: HTMLComponentData = {
 /**
  * تحويل شجرة العقد إلى كود HTML نظيف ومنسق
  */
-export function generateHtmlFromNodes(nodeId: string, nodes: Record<string, HTMLNodeItem>, indent = 0): string {
+export function generateHtmlFromNodes(
+  nodeId: string,
+  nodes: Record<string, HTMLNodeItem>,
+  indent = 0,
+): string {
   const node = nodes[nodeId];
   if (!node) return '';
 
@@ -184,7 +191,11 @@ export function generateHtmlFromNodes(nodeId: string, nodes: Record<string, HTML
 /**
  * تحويل شجرة العقد إلى كود TSX/JSX نظيف
  */
-export function generateTsxFromNodes(nodeId: string, nodes: Record<string, HTMLNodeItem>, indent = 0): string {
+export function generateTsxFromNodes(
+  nodeId: string,
+  nodes: Record<string, HTMLNodeItem>,
+  indent = 0,
+): string {
   const node = nodes[nodeId];
   if (!node) return '';
 

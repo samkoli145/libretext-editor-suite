@@ -58,7 +58,7 @@ export class AudioBlock {
     position: Partial<BlockPosition> = {},
     style: Partial<BlockStyle> = {},
     config: AudioBlockConfig = {},
-    constraints: SizeConstraints = {}
+    constraints: SizeConstraints = {},
   ) {
     this.config = config;
     this.metadata = {
@@ -98,7 +98,11 @@ export class AudioBlock {
   }
 
   getMetadata(): BlockMetadata {
-    return { ...this.metadata, position: { ...this.metadata.position }, style: { ...this.metadata.style } };
+    return {
+      ...this.metadata,
+      position: { ...this.metadata.position },
+      style: { ...this.metadata.style },
+    };
   }
 
   getConfig(): AudioBlockConfig {
@@ -169,7 +173,7 @@ export class AudioBlock {
       { width: this.metadata.position.width, height: this.metadata.position.height },
       width,
       height,
-      this.metadata.constraints
+      this.metadata.constraints,
     );
     this.metadata.position.width = updated.width;
     this.metadata.position.height = updated.height;
@@ -182,7 +186,7 @@ export class AudioBlock {
       { width: this.metadata.position.width, height: this.metadata.position.height },
       dWidth,
       dHeight,
-      this.metadata.constraints
+      this.metadata.constraints,
     );
     this.metadata.position.width = updated.width;
     this.metadata.position.height = updated.height;
@@ -226,7 +230,7 @@ export function createAudioBlock(
   position?: Partial<BlockPosition>,
   style?: Partial<BlockStyle>,
   config?: AudioBlockConfig,
-  constraints?: SizeConstraints
+  constraints?: SizeConstraints,
 ): AudioBlock {
   return new AudioBlock(position, style, config, constraints);
 }
@@ -247,7 +251,7 @@ export interface AudioBlockNode {
 
 export function createAudioBlockNode(
   id: string,
-  data: Partial<AudioBlockData> = {}
+  data: Partial<AudioBlockData> = {},
 ): AudioBlockNode {
   return {
     id,

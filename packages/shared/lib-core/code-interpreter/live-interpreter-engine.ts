@@ -42,7 +42,16 @@ export type SupportedLanguage =
   | 'yaml';
 
 export interface CodeToken {
-  type: 'keyword' | 'tag' | 'attribute' | 'string' | 'number' | 'comment' | 'operator' | 'punctuation' | 'text';
+  type:
+    | 'keyword'
+    | 'tag'
+    | 'attribute'
+    | 'string'
+    | 'number'
+    | 'comment'
+    | 'operator'
+    | 'punctuation'
+    | 'text';
   value: string;
   line: number;
   col: number;
@@ -168,7 +177,8 @@ export class LiveInterpreterEngine {
 
       // Regex patterns for light-theme tokenization
       if (language === 'html' || language === 'xml' || language === 'svg') {
-        const tagRegex = /(<\/?[a-zA-Z0-9:-]+)|(\s+[a-zA-Z0-9:-]+(?==))|(=(?:["'][^"']*["']|\S+))|(<!--[\s\S]*?-->)|([^<>&]+)|([<>&/]+)/g;
+        const tagRegex =
+          /(<\/?[a-zA-Z0-9:-]+)|(\s+[a-zA-Z0-9:-]+(?==))|(=(?:["'][^"']*["']|\S+))|(<!--[\s\S]*?-->)|([^<>&]+)|([<>&/]+)/g;
         let match: RegExpExecArray | null;
         while ((match = tagRegex.exec(lineStr)) !== null) {
           const val = match[0];
@@ -183,7 +193,8 @@ export class LiveInterpreterEngine {
           col += val.length;
         }
       } else if (language === 'json' || language === 'yaml') {
-        const jsonRegex = /(true|false|null)|(-?\d+(?:\.\d+)?(?:[eE][+-]?\d+)?)|("(?:\\.|[^"\\])*")|([:,\{\}\[\]])|([^"\s:,\{\}\[\]]+)/g;
+        const jsonRegex =
+          /(true|false|null)|(-?\d+(?:\.\d+)?(?:[eE][+-]?\d+)?)|("(?:\\.|[^"\\])*")|([:,\{\}\[\]])|([^"\s:,\{\}\[\]]+)/g;
         let match: RegExpExecArray | null;
         while ((match = jsonRegex.exec(lineStr)) !== null) {
           const val = match[0];
@@ -198,7 +209,8 @@ export class LiveInterpreterEngine {
         }
       } else {
         // General JS/TS/CSS tokenizer
-        const generalRegex = /(\b(?:const|let|var|function|return|if|else|import|export|from|class|extends|interface|type|default|async|await|for|while|typeof|new)\b)|(\b(?:true|false|null|undefined)\b)|(-?\d+(?:\.\d+)?)|("(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|`(?:\\.|[^`\\])*`)|(\/\/[^\n]*)|([\{\}\(\)\[\];,\.<>+\-*\/=!:?&|~%^]+)|([a-zA-Z_$][a-zA-Z0-9_$]*)|(\s+)/g;
+        const generalRegex =
+          /(\b(?:const|let|var|function|return|if|else|import|export|from|class|extends|interface|type|default|async|await|for|while|typeof|new)\b)|(\b(?:true|false|null|undefined)\b)|(-?\d+(?:\.\d+)?)|("(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|`(?:\\.|[^`\\])*`)|(\/\/[^\n]*)|([\{\}\(\)\[\];,\.<>+\-*\/=!:?&|~%^]+)|([a-zA-Z_$][a-zA-Z0-9_$]*)|(\s+)/g;
         let match: RegExpExecArray | null;
         while ((match = generalRegex.exec(lineStr)) !== null) {
           const val = match[0];
@@ -264,15 +276,21 @@ export class LiveInterpreterEngine {
     let inList = false;
 
     for (let i = 0; i < lines.length; i++) {
-      let line = lines[i];
+      const line = lines[i];
 
       // Headings
       if (line.startsWith('# ')) {
-        htmlLines.push(`<h1 class="text-2xl font-bold text-slate-900 border-b border-slate-200 pb-2 mb-4 mt-6">${this.formatInlineMd(line.slice(2))}</h1>`);
+        htmlLines.push(
+          `<h1 class="text-2xl font-bold text-slate-900 border-b border-slate-200 pb-2 mb-4 mt-6">${this.formatInlineMd(line.slice(2))}</h1>`,
+        );
       } else if (line.startsWith('## ')) {
-        htmlLines.push(`<h2 class="text-xl font-semibold text-slate-800 border-b border-slate-100 pb-1 mb-3 mt-5">${this.formatInlineMd(line.slice(3))}</h2>`);
+        htmlLines.push(
+          `<h2 class="text-xl font-semibold text-slate-800 border-b border-slate-100 pb-1 mb-3 mt-5">${this.formatInlineMd(line.slice(3))}</h2>`,
+        );
       } else if (line.startsWith('### ')) {
-        htmlLines.push(`<h3 class="text-lg font-medium text-slate-800 mb-2 mt-4">${this.formatInlineMd(line.slice(4))}</h3>`);
+        htmlLines.push(
+          `<h3 class="text-lg font-medium text-slate-800 mb-2 mt-4">${this.formatInlineMd(line.slice(4))}</h3>`,
+        );
       } else if (line.startsWith('- ') || line.startsWith('* ')) {
         if (!inList) {
           htmlLines.push('<ul class="list-disc list-inside space-y-1 my-2 text-slate-700">');
@@ -280,14 +298,27 @@ export class LiveInterpreterEngine {
         }
         htmlLines.push(`<li>${this.formatInlineMd(line.slice(2))}</li>`);
       } else if (line.startsWith('> ')) {
-        if (inList) { htmlLines.push('</ul>'); inList = false; }
-        htmlLines.push(`<blockquote class="border-s-4 border-blue-500 bg-blue-50/50 ps-4 py-2 my-2 text-slate-700 italic rounded-e">${this.formatInlineMd(line.slice(2))}</blockquote>`);
+        if (inList) {
+          htmlLines.push('</ul>');
+          inList = false;
+        }
+        htmlLines.push(
+          `<blockquote class="border-s-4 border-blue-500 bg-blue-50/50 ps-4 py-2 my-2 text-slate-700 italic rounded-e">${this.formatInlineMd(line.slice(2))}</blockquote>`,
+        );
       } else if (line.trim() === '') {
-        if (inList) { htmlLines.push('</ul>'); inList = false; }
+        if (inList) {
+          htmlLines.push('</ul>');
+          inList = false;
+        }
         htmlLines.push('<div class="h-3"></div>');
       } else {
-        if (inList) { htmlLines.push('</ul>'); inList = false; }
-        htmlLines.push(`<p class="text-slate-700 leading-relaxed my-1.5">${this.formatInlineMd(line)}</p>`);
+        if (inList) {
+          htmlLines.push('</ul>');
+          inList = false;
+        }
+        htmlLines.push(
+          `<p class="text-slate-700 leading-relaxed my-1.5">${this.formatInlineMd(line)}</p>`,
+        );
       }
     }
 
@@ -321,7 +352,8 @@ export class LiveInterpreterEngine {
       if (
         parsed &&
         typeof parsed === 'object' &&
-        (('type' in parsed && 'data' in parsed) || ('title' in parsed && Array.isArray(parsed.data)))
+        (('type' in parsed && 'data' in parsed) ||
+          ('title' in parsed && Array.isArray(parsed.data)))
       ) {
         const chartConfig = parsed as ChartConfig;
         const res = zeroDependencyChartEngine.renderInteractiveSvg(chartConfig);
@@ -359,13 +391,15 @@ export class LiveInterpreterEngine {
    */
   private renderYamlExplorerLive(code: string): string {
     const lines = code.split('\n');
-    const nodesHtml = lines.map((l, i) => {
-      const indent = l.search(/\S|$/);
-      return `<div class="py-0.5 hover:bg-blue-50 px-2 rounded cursor-pointer transition-colors" style="padding-right: ${Math.max(8, indent * 16)}px">
+    const nodesHtml = lines
+      .map((l, i) => {
+        const indent = l.search(/\S|$/);
+        return `<div class="py-0.5 hover:bg-blue-50 px-2 rounded cursor-pointer transition-colors" style="padding-right: ${Math.max(8, indent * 16)}px">
         <span class="text-slate-400 select-none text-[10px] me-2">${i + 1}</span>
         <span class="text-slate-800">${this.escapeHtml(l)}</span>
       </div>`;
-    }).join('');
+      })
+      .join('');
 
     return `<div class="p-4 bg-white rounded-lg border border-slate-200 font-mono text-xs">${nodesHtml}</div>`;
   }
@@ -390,18 +424,27 @@ export class LiveInterpreterEngine {
     const logs: string[] = [];
     try {
       const customConsole = {
-        log: (...args: unknown[]) => logs.push(args.map(a => typeof a === 'object' ? JSON.stringify(a) : String(a)).join(' ')),
+        log: (...args: unknown[]) =>
+          logs.push(
+            args.map((a) => (typeof a === 'object' ? JSON.stringify(a) : String(a))).join(' '),
+          ),
         warn: (...args: unknown[]) => logs.push('⚠️ ' + args.join(' ')),
         error: (...args: unknown[]) => logs.push('❌ ' + args.join(' ')),
       };
-      
+
       // Execute in sandboxed Function wrapper with custom console
       const runFn = new Function('console', code);
       runFn(customConsole);
 
-      const logsHtml = logs.length > 0
-        ? logs.map(l => `<div class="py-1 px-2 border-b border-slate-100 last:border-0 font-mono text-xs text-slate-800">${this.escapeHtml(l)}</div>`).join('')
-        : '<div class="text-slate-400 italic text-xs p-2">تم التنفيذ بنجاح (بدون مخرجات console.log)</div>';
+      const logsHtml =
+        logs.length > 0
+          ? logs
+              .map(
+                (l) =>
+                  `<div class="py-1 px-2 border-b border-slate-100 last:border-0 font-mono text-xs text-slate-800">${this.escapeHtml(l)}</div>`,
+              )
+              .join('')
+          : '<div class="text-slate-400 italic text-xs p-2">تم التنفيذ بنجاح (بدون مخرجات console.log)</div>';
 
       return `<div class="p-4 bg-white rounded-lg border border-slate-200">
         <div class="flex items-center justify-between pb-2 mb-2 border-b border-slate-100">
@@ -468,7 +511,9 @@ export class LiveInterpreterEngine {
       return `<div class="py-0.5 hover:bg-slate-50" style="padding-right:${indent}px"><span class="text-slate-600 font-semibold">${keyName}:</span> <span class="text-blue-600">"${this.escapeHtml(data)}"</span></div>`;
     }
     if (Array.isArray(data)) {
-      const items = data.map((item, idx) => this.buildJsonVisualTree(item, `[${idx}]`, depth + 1)).join('');
+      const items = data
+        .map((item, idx) => this.buildJsonVisualTree(item, `[${idx}]`, depth + 1))
+        .join('');
       return `<div class="py-0.5">
         <div class="hover:bg-slate-50 font-semibold text-slate-700" style="padding-right:${indent}px">
           <span>▼ ${keyName}</span> <span class="text-slate-400 text-[10px]">(${data.length} عناصر)</span>
@@ -478,7 +523,9 @@ export class LiveInterpreterEngine {
     }
     if (typeof data === 'object') {
       const keys = Object.keys(data as Record<string, unknown>);
-      const items = keys.map(k => this.buildJsonVisualTree((data as Record<string, unknown>)[k], k, depth + 1)).join('');
+      const items = keys
+        .map((k) => this.buildJsonVisualTree((data as Record<string, unknown>)[k], k, depth + 1))
+        .join('');
       return `<div class="py-0.5">
         <div class="hover:bg-slate-50 font-semibold text-slate-700" style="padding-right:${indent}px">
           <span>▼ ${keyName}</span> <span class="text-slate-400 text-[10px]">{ ${keys.length} حقول }</span>
@@ -493,7 +540,10 @@ export class LiveInterpreterEngine {
     return text
       .replace(/\*\*(.*?)\*\*/g, '<strong class="font-bold text-slate-900">$1</strong>')
       .replace(/\*(.*?)\*/g, '<em class="italic text-slate-800">$1</em>')
-      .replace(/`([^`]+)`/g, '<code class="px-1.5 py-0.5 bg-slate-100 text-blue-700 rounded font-mono text-xs">$1</code>');
+      .replace(
+        /`([^`]+)`/g,
+        '<code class="px-1.5 py-0.5 bg-slate-100 text-blue-700 rounded font-mono text-xs">$1</code>',
+      );
   }
 
   private escapeHtml(str: string): string {
@@ -567,7 +617,7 @@ export class LiveInterpreterEngine {
     ];
 
     // Add all 20 chart presets into snippets for 1-click mouse insertion
-    const chartPresets = zeroDependencyChartEngine.get20ChartPresets().map(cp => ({
+    const chartPresets = zeroDependencyChartEngine.get20ChartPresets().map((cp) => ({
       id: `chart-${cp.id}`,
       title: cp.title,
       description: cp.description,
@@ -585,7 +635,7 @@ export class LiveInterpreterEngine {
           data: cp.data,
         },
         null,
-        2
+        2,
       ),
     }));
 

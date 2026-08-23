@@ -26,10 +26,7 @@
  */
 
 import { useState, useEffect, useRef, useCallback } from 'react';
-import {
-  clampDimension,
-  type ResizeConstraints,
-} from '../lib-core/events/dockable-tab-engine';
+import { clampDimension, type ResizeConstraints } from '../lib-core/events/dockable-tab-engine';
 
 export type DockSide = 'left' | 'right';
 
@@ -104,7 +101,12 @@ export function useDockablePanel({
     startWidth: defaultWidth,
   });
 
-  const floatDragStartRef = useRef<{ startX: number; startY: number; initX: number; initY: number }>({
+  const floatDragStartRef = useRef<{
+    startX: number;
+    startY: number;
+    initX: number;
+    initY: number;
+  }>({
     startX: 0,
     startY: 0,
     initX: 100,
@@ -134,7 +136,7 @@ export function useDockablePanel({
         startWidth: width,
       };
     },
-    [width]
+    [width],
   );
 
   // Resize Mouse Events
@@ -177,7 +179,7 @@ export function useDockablePanel({
         initY: floatingPos.y,
       };
     },
-    [isFloating, floatingPos]
+    [isFloating, floatingPos],
   );
 
   useEffect(() => {
@@ -186,8 +188,14 @@ export function useDockablePanel({
     const handleMouseMove = (e: MouseEvent) => {
       const dx = e.clientX - floatDragStartRef.current.startX;
       const dy = e.clientY - floatDragStartRef.current.startY;
-      const nx = Math.max(10, Math.min(window.innerWidth - width - 20, floatDragStartRef.current.initX + dx));
-      const ny = Math.max(10, Math.min(window.innerHeight - 200, floatDragStartRef.current.initY + dy));
+      const nx = Math.max(
+        10,
+        Math.min(window.innerWidth - width - 20, floatDragStartRef.current.initX + dx),
+      );
+      const ny = Math.max(
+        10,
+        Math.min(window.innerHeight - 200, floatDragStartRef.current.initY + dy),
+      );
       setFloatingPos({ x: nx, y: ny });
     };
 

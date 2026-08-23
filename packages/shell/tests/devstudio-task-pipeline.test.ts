@@ -14,10 +14,19 @@
  */
 
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { TaskPipeline, type DoctorGate, type TaskRequest, type PipelineEvent } from '../dev-studio/pipeline/TaskPipeline';
+import {
+  TaskPipeline,
+  type DoctorGate,
+  type TaskRequest,
+  type PipelineEvent,
+} from '../dev-studio/pipeline/TaskPipeline';
 import { SnapshotEngine, MemorySnapshotStorage } from '../dev-studio/checkpoint/SnapshotEngine';
 import { RollbackManager } from '../dev-studio/checkpoint/RollbackManager';
-import type { DevStudioPatch, DoctorCheck, ProjectSurface } from '../dev-studio/core/DevStudioTypes';
+import type {
+  DevStudioPatch,
+  DoctorCheck,
+  ProjectSurface,
+} from '../dev-studio/core/DevStudioTypes';
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // Helpers
@@ -77,7 +86,6 @@ function setupPipeline(opts?: {
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 describe('TaskPipeline', () => {
-
   // ── Positive Tests ──
 
   describe('positive: مهمة ناجحة بالكامل', () => {
@@ -99,8 +107,13 @@ describe('TaskPipeline', () => {
       const events: PipelineEvent[] = [];
       pipeline.on((e) => events.push(e));
       pipeline.run({ type: 'modify', label: 'E', patches: [makePatch()] });
-      expect(events.map(e => e.type)).toEqual([
-        'taskStarted', 'gatePassed', 'gatePassed', 'gatePassed', 'gatePassed', 'taskCommitted',
+      expect(events.map((e) => e.type)).toEqual([
+        'taskStarted',
+        'gatePassed',
+        'gatePassed',
+        'gatePassed',
+        'gatePassed',
+        'taskCommitted',
       ]);
     });
 
@@ -157,10 +170,14 @@ describe('TaskPipeline', () => {
       const result = pipeline.run({
         type: 'modify',
         label: 'Bad path',
-        patches: [{
-          op: 'addFile', path: '../escape.ts', content: '',
-          inverse: { op: 'removeFile', path: '../escape.ts' },
-        }],
+        patches: [
+          {
+            op: 'addFile',
+            path: '../escape.ts',
+            content: '',
+            inverse: { op: 'removeFile', path: '../escape.ts' },
+          },
+        ],
       });
       expect(result.status).toBe('failed');
       expect(result.error).toContain('مسار غير صالح');

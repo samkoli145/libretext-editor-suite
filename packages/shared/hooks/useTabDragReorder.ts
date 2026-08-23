@@ -60,10 +60,7 @@ export function useTabDragReorder(documents: DocumentModel[]) {
     });
   }, []);
 
-  const isTabPinned = useCallback(
-    (tabId: string) => pinnedTabIds.includes(tabId),
-    [pinnedTabIds]
-  );
+  const isTabPinned = useCallback((tabId: string) => pinnedTabIds.includes(tabId), [pinnedTabIds]);
 
   const handleDragStart = (e: React.DragEvent, tabId: string) => {
     setDraggedTabId(tabId);

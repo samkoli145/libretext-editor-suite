@@ -35,7 +35,7 @@ export class Debouncer<TArgs extends unknown[], TResult> {
 
   constructor(
     private readonly fn: (...args: TArgs) => TResult,
-    private readonly delayMs: number = 150
+    private readonly delayMs: number = 150,
   ) {}
 
   /**
@@ -102,7 +102,7 @@ export class Debouncer<TArgs extends unknown[], TResult> {
  */
 export function debounce<TArgs extends unknown[], TResult>(
   fn: (...args: TArgs) => TResult,
-  delayMs: number = 150
+  delayMs: number = 150,
 ): (...args: TArgs) => Promise<TResult> {
   const debouncer = new Debouncer(fn, delayMs);
   return (...args) => debouncer.invoke(...args);
@@ -113,7 +113,7 @@ export function debounce<TArgs extends unknown[], TResult>(
  */
 export function throttle<TArgs extends unknown[], TResult>(
   fn: (...args: TArgs) => TResult,
-  intervalMs: number = 100
+  intervalMs: number = 100,
 ): (...args: TArgs) => TResult | undefined {
   let lastCall = 0;
   let lastResult: TResult | undefined;

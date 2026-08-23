@@ -23,5 +23,5 @@
  * ═══════════════════════════════════════════════════════════════════════════
  */
 
-export * from "./PluginRegistry";
-export * from "./BaseEditorPlugin";
+export * from './PluginRegistry';
+export * from './BaseEditorPlugin';

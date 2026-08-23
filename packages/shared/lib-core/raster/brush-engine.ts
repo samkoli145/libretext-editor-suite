@@ -47,7 +47,7 @@ export class BrushEngine {
   public static drawStroke(
     ctx: CanvasRenderingContext2D,
     points: BrushPoint[],
-    settings: BrushSettings
+    settings: BrushSettings,
   ): void {
     if (!points || points.length === 0) return;
 
@@ -109,7 +109,7 @@ export class BrushEngine {
     ctx: CanvasRenderingContext2D,
     point: BrushPoint,
     settings: BrushSettings,
-    density = 25
+    density = 25,
   ): void {
     ctx.save();
     ctx.fillStyle = settings.color;

@@ -44,9 +44,7 @@ export class ServiceContainer {
   get<T>(token: ServiceToken<T>): Result<T, Error> {
     const service = this.services.get(token.name);
     if (!service) {
-      return err(
-        new Error(`Service '${token.name}' not registered in ServiceContainer`)
-      );
+      return err(new Error(`Service '${token.name}' not registered in ServiceContainer`));
     }
     return ok(service as T);
   }

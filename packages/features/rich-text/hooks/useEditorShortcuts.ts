@@ -22,8 +22,8 @@
  * ═══════════════════════════════════════════════════════════════════════════
  */
 
-import { useEffect } from "react";
-import type { INativeEditor } from "../types";
+import { useEffect } from 'react';
+import type { INativeEditor } from '../types';
 
 export function useEditorShortcuts(editor: INativeEditor | null, onSave?: () => void) {
   useEffect(() => {
@@ -31,13 +31,13 @@ export function useEditorShortcuts(editor: INativeEditor | null, onSave?: () => 
 
     const handleKeyDown = (e: KeyboardEvent) => {
       // Ctrl+S or Cmd+S for saving
-      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "s") {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 's') {
         e.preventDefault();
         onSave?.();
       }
     };
 
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
   }, [editor, onSave]);
 }

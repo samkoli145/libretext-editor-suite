@@ -215,7 +215,8 @@ export class ImageStyleEngine {
 
     if (opts.softEdges) {
       style.maskImage = 'radial-gradient(ellipse at center, rgba(0,0,0,1) 65%, rgba(0,0,0,0) 100%)';
-      style.WebkitMaskImage = 'radial-gradient(ellipse at center, rgba(0,0,0,1) 65%, rgba(0,0,0,0) 100%)';
+      style.WebkitMaskImage =
+        'radial-gradient(ellipse at center, rgba(0,0,0,1) 65%, rgba(0,0,0,0) 100%)';
     }
 
     return style;
@@ -283,11 +284,14 @@ export class ImageStyleEngine {
 
     let glossLayer = '';
     if (opts.gloss === 'top-shine') {
-      glossLayer = '<div style="position: absolute; top: 0; left: 0; right: 0; height: 45%; background: linear-gradient(180deg, rgba(255,255,255,0.45) 0%, rgba(255,255,255,0) 100%); pointer-events: none;"></div>';
+      glossLayer =
+        '<div style="position: absolute; top: 0; left: 0; right: 0; height: 45%; background: linear-gradient(180deg, rgba(255,255,255,0.45) 0%, rgba(255,255,255,0) 100%); pointer-events: none;"></div>';
     } else if (opts.gloss === 'diagonal-gloss' || opts.gloss === 'diagonal-sweep') {
-      glossLayer = '<div style="position: absolute; inset: 0; background: linear-gradient(135deg, rgba(255,255,255,0.35) 0%, rgba(255,255,255,0) 50%, rgba(255,255,255,0.1) 100%); pointer-events: none;"></div>';
+      glossLayer =
+        '<div style="position: absolute; inset: 0; background: linear-gradient(135deg, rgba(255,255,255,0.35) 0%, rgba(255,255,255,0) 50%, rgba(255,255,255,0.1) 100%); pointer-events: none;"></div>';
     } else if (opts.gloss === 'glass-card' || opts.gloss === 'glass-luster') {
-      glossLayer = '<div style="position: absolute; inset: 0; border: 1px solid rgba(255,255,255,0.6); box-shadow: inset 0 1px 1px rgba(255,255,255,0.8); pointer-events: none;"></div>';
+      glossLayer =
+        '<div style="position: absolute; inset: 0; border: 1px solid rgba(255,255,255,0.6); box-shadow: inset 0 1px 1px rgba(255,255,255,0.8); pointer-events: none;"></div>';
     }
 
     let colorLayer = '';

@@ -21,12 +21,7 @@
  * ═══════════════════════════════════════════════════════════════════════════
  */
 
-export const KNOWN_TRAITS = [
-  'draggable',
-  'resizable',
-  'styleable',
-  'lockable',
-] as const;
+export const KNOWN_TRAITS = ['draggable', 'resizable', 'styleable', 'lockable'] as const;
 
 export type TraitName = (typeof KNOWN_TRAITS)[number];
 

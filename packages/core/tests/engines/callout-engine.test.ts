@@ -11,7 +11,11 @@ describe('CORE-ENG-020: callout-engine', () => {
   });
 
   it('createCallout with overrides', () => {
-    const cfg = createCallout('c2', 'Warning', 0, 0, { color: 'warning', shape: 'pill', hasArrow: false });
+    const cfg = createCallout('c2', 'Warning', 0, 0, {
+      color: 'warning',
+      shape: 'pill',
+      hasArrow: false,
+    });
     expect(cfg.color).toBe('warning');
     expect(cfg.shape).toBe('pill');
     expect(cfg.hasArrow).toBe(false);

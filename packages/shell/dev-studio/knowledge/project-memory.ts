@@ -102,9 +102,7 @@ export function addDecision(projectRoot: string, decision: DecisionEntry): void 
 
 export function getLatestSnapshot(projectRoot: string): ProjectSnapshot | null {
   const memory = loadMemory(projectRoot);
-  return memory.snapshots.length > 0
-    ? memory.snapshots[memory.snapshots.length - 1]
-    : null;
+  return memory.snapshots.length > 0 ? memory.snapshots[memory.snapshots.length - 1] : null;
 }
 
 export function getSessionCount(projectRoot: string): number {

@@ -22,6 +22,6 @@
  * ═══════════════════════════════════════════════════════════════════════════
  */
 
-export * from "./model";
-export * from "./RichTextEditor";
-export * from "./RichTextPlugin";
+export * from './model';
+export * from './RichTextEditor';
+export * from './RichTextPlugin';

@@ -104,7 +104,7 @@ export class ImageFormatEngine {
     }
 
     // ─── 3. Pixel Data (Bottom-Up order in standard BMP) ───
-    let offset = fileHeaderSize + dibHeaderSize;
+    const offset = fileHeaderSize + dibHeaderSize;
     for (let y = height - 1; y >= 0; y--) {
       const rowStart = offset + (height - 1 - y) * rowStride;
       for (let x = 0; x < width; x++) {
@@ -186,7 +186,7 @@ export class ImageFormatEngine {
    */
   public static async encodeIco(
     sourceCanvas: HTMLCanvasElement,
-    sizes: number[] = [16, 32, 48, 64, 128, 256]
+    sizes: number[] = [16, 32, 48, 64, 128, 256],
   ): Promise<Uint8Array> {
     const validSizes = sizes.filter((s) => s >= 16 && s <= 256);
     if (validSizes.length === 0) validSizes.push(32, 64);
@@ -202,7 +202,9 @@ export class ImageFormatEngine {
         sCtx.imageSmoothingEnabled = true;
         sCtx.imageSmoothingQuality = 'high';
         sCtx.drawImage(sourceCanvas, 0, 0, size, size);
-        const blob = await new Promise<Blob | null>((resolve) => scaledCanvas.toBlob(resolve, 'image/png'));
+        const blob = await new Promise<Blob | null>((resolve) =>
+          scaledCanvas.toBlob(resolve, 'image/png'),
+        );
         if (blob) {
           const ab = await blob.arrayBuffer();
           pngBlobs.push({ size, bytes: new Uint8Array(ab) });
@@ -335,7 +337,10 @@ export class ImageFormatEngine {
     let pos = 0;
 
     const readToken = (): string => {
-      while (pos < bytes.length && (bytes[pos] === 32 || bytes[pos] === 10 || bytes[pos] === 13 || bytes[pos] === 9)) {
+      while (
+        pos < bytes.length &&
+        (bytes[pos] === 32 || bytes[pos] === 10 || bytes[pos] === 13 || bytes[pos] === 9)
+      ) {
         pos++;
       }
       if (pos >= bytes.length) return '';
@@ -346,7 +351,7 @@ export class ImageFormatEngine {
         }
         return readToken();
       }
-      let start = pos;
+      const start = pos;
       while (pos < bytes.length && bytes[pos] > 32) {
         pos++;
       }
@@ -362,7 +367,10 @@ export class ImageFormatEngine {
 
     const maxVal = magic === 'P1' || magic === 'P4' ? 1 : parseInt(readToken(), 10);
     // تجاوز الفراغ الفاصل
-    while (pos < bytes.length && (bytes[pos] === 32 || bytes[pos] === 10 || bytes[pos] === 13 || bytes[pos] === 9)) {
+    while (
+      pos < bytes.length &&
+      (bytes[pos] === 32 || bytes[pos] === 10 || bytes[pos] === 13 || bytes[pos] === 9)
+    ) {
       pos++;
     }
 
@@ -474,9 +482,15 @@ export class ImageFormatEngine {
    */
   public static async convertToBlob(
     canvas: HTMLCanvasElement,
-    options: ImageEncodeOptions
+    options: ImageEncodeOptions,
   ): Promise<Blob> {
-    const { format, quality = 0.92, dpi = 72, transparent = false, backgroundColor = '#ffffff' } = options;
+    const {
+      format,
+      quality = 0.92,
+      dpi = 72,
+      transparent = false,
+      backgroundColor = '#ffffff',
+    } = options;
 
     if (format === 'bmp') {
       const ctx = canvas.getContext('2d');
@@ -538,7 +552,7 @@ export class ImageFormatEngine {
           solidCanvas.toBlob(
             (b) => (b ? resolve(b) : reject(new Error('فشل تصدير JPEG'))),
             targetMime,
-            quality
+            quality,
           );
         });
       }
@@ -548,7 +562,7 @@ export class ImageFormatEngine {
       canvas.toBlob(
         (b) => (b ? resolve(b) : reject(new Error(`فشل تصدير ${format}`))),
         targetMime,
-        quality
+        quality,
       );
     });
   }

@@ -79,7 +79,9 @@ export function readNavState(): NavigationState {
 export function writeNavState(state: NavigationState): void {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-  } catch { /* private mode */ }
+  } catch {
+    /* private mode */
+  }
 }
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -182,8 +184,7 @@ export class TreeNavigation {
     const expanded = new Set(this.state.expanded);
     const query = this.state.query?.toLowerCase();
 
-    const matches = (node: TreeNode): boolean =>
-      !query || node.name.toLowerCase().includes(query);
+    const matches = (node: TreeNode): boolean => !query || node.name.toLowerCase().includes(query);
 
     const walk = (node: TreeNode, depth: number): boolean => {
       let anyVisible = false;
@@ -207,7 +208,10 @@ export class TreeNavigation {
         return false;
       } else {
         if (query) {
-          if (matches(node)) { out.push(node); return true; }
+          if (matches(node)) {
+            out.push(node);
+            return true;
+          }
           return false;
         }
         out.push(node);

@@ -92,7 +92,8 @@ export interface ElementStyles {
   display?: 'block' | 'flex' | 'grid' | 'inline-block' | 'none';
   flexDirection?: 'row' | 'row-reverse' | 'column' | 'column-reverse';
   alignItems?: 'flex-start' | 'center' | 'flex-end' | 'stretch' | 'baseline';
-  justifyContent?: 'flex-start' | 'center' | 'flex-end' | 'space-between' | 'space-around' | 'space-evenly';
+  justifyContent?:
+    'flex-start' | 'center' | 'flex-end' | 'space-between' | 'space-around' | 'space-evenly';
   gridCols?: number; // 1 to 6 or 12
   gap?: string;
   width?: string;
@@ -204,7 +205,20 @@ export interface ComponentPreset {
   id: string;
   name: string;
   nameAr: string;
-  category: 'hero' | 'navbar' | 'features' | 'pricing' | 'testimonials' | 'faq' | 'cta' | 'footer' | 'cms' | 'basic' | 'callouts' | 'connectors' | 'interactive';
+  category:
+    | 'hero'
+    | 'navbar'
+    | 'features'
+    | 'pricing'
+    | 'testimonials'
+    | 'faq'
+    | 'cta'
+    | 'footer'
+    | 'cms'
+    | 'basic'
+    | 'callouts'
+    | 'connectors'
+    | 'interactive';
   descriptionAr: string;
   icon: string;
   element: PageElement;
@@ -247,8 +261,19 @@ export interface CanvasElement {
   borderRadius?: number;
   shadow?: string;
   boxShadow?: string;
-  shapeMask?: 'none' | 'rounded' | 'circle' | 'pill' | 'squircle' | 'hexagon' | 'octagon' | 'diamond' | 'star' | 'shield';
-  animation?: 'none' | 'fade-in' | 'pulse' | 'float' | 'spin' | 'bounce' | 'slide-right' | 'slide-up';
+  shapeMask?:
+    | 'none'
+    | 'rounded'
+    | 'circle'
+    | 'pill'
+    | 'squircle'
+    | 'hexagon'
+    | 'octagon'
+    | 'diamond'
+    | 'star'
+    | 'shield';
+  animation?:
+    'none' | 'fade-in' | 'pulse' | 'float' | 'spin' | 'bounce' | 'slide-right' | 'slide-up';
   glossEffect?: 'none' | 'top-shine' | 'diagonal-gloss' | 'glass-card';
   softEdges?: boolean;
   colorOverlay?: string;
@@ -310,7 +335,15 @@ export interface CanvasElement {
   sides?: number;
 
   // Diagram & Mind Map Node Details
-  nodeType?: 'process' | 'decision' | 'start' | 'end' | 'database' | 'mindmap-root' | 'mindmap-branch' | 'mindmap-sub';
+  nodeType?:
+    | 'process'
+    | 'decision'
+    | 'start'
+    | 'end'
+    | 'database'
+    | 'mindmap-root'
+    | 'mindmap-branch'
+    | 'mindmap-sub';
   connections?: Array<{ targetId: string; label?: string; style?: 'solid' | 'dashed' }>;
 
   // Linked Chart & Bezier Curve Properties
@@ -323,11 +356,7 @@ export interface CanvasElement {
 }
 
 export type InteractionTrigger =
-  | 'onClick'
-  | 'onMouseEnter'
-  | 'onMouseLeave'
-  | 'onScrollIntoView'
-  | 'onDoubleClick';
+  'onClick' | 'onMouseEnter' | 'onMouseLeave' | 'onScrollIntoView' | 'onDoubleClick';
 
 export type InteractionAction =
   | 'scrollToElement'
@@ -467,7 +496,8 @@ export function createDefaultCanvasData(title = 'لوحة تصميم ويب وك
         strokeWidth: 1,
         borderRadius: 16,
         text: 'صمم واجهاتك وصدّر الأكواد البرمجية فورياً',
-        subtitle: 'منظومة متكاملة لربط الكانفا الفيكتوري بصفحات الويب الحية بتنسيق فاتح نقي وسرعة فائقة.',
+        subtitle:
+          'منظومة متكاملة لربط الكانفا الفيكتوري بصفحات الويب الحية بتنسيق فاتح نقي وسرعة فائقة.',
       },
       {
         id: 'el-feat-1',

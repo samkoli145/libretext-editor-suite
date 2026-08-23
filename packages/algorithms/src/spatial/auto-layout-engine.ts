@@ -53,13 +53,13 @@ export interface LayoutResult {
 
 export function calculateAutoLayout(
   container: LayoutContainer,
-  nodes: LayoutNode[]
+  nodes: LayoutNode[],
 ): LayoutResult[] {
   if (!nodes.length) return [];
 
   const isRow = container.direction === 'row';
-  const availableMain = (isRow ? container.width : container.height) - (container.padding * 2);
-  const availableCross = (isRow ? container.height : container.width) - (container.padding * 2);
+  const availableMain = (isRow ? container.width : container.height) - container.padding * 2;
+  const availableCross = (isRow ? container.height : container.width) - container.padding * 2;
 
   // 1. حساب المساحة الأساسية المطلوبة
   let totalFixedMain = (nodes.length - 1) * container.gap;

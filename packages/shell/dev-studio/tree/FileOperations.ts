@@ -147,10 +147,7 @@ export function modifyFilePatch(
  * - مسار فاسد
  * - ملف غير موجود
  */
-export function removeFilePatch(
-  project: ProjectSurface,
-  path: string,
-): DevStudioPatch {
+export function removeFilePatch(project: ProjectSurface, path: string): DevStudioPatch {
   if (!isValidStudioPath(path)) {
     throw new Error(`[FileOperations] invalid path: ${path}`);
   }

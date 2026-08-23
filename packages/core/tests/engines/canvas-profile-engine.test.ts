@@ -23,7 +23,13 @@ const mockTools: UnifiedToolItem[] = [
   { id: 'formula-vlookup', name: 'VLOOKUP', nameAr: 'بحث', category: 'data', actionId: 'vlookup' },
   { id: 'draw-rect', name: 'Rectangle', nameAr: 'مستطيل', category: 'geometry', actionId: 'rect' },
   { id: 'draw-circle', name: 'Circle', nameAr: 'دائرة', category: 'geometry', actionId: 'circle' },
-  { id: 'export-pdf', name: 'Export PDF', nameAr: 'تصدير PDF', category: 'system', actionId: 'pdf' },
+  {
+    id: 'export-pdf',
+    name: 'Export PDF',
+    nameAr: 'تصدير PDF',
+    category: 'system',
+    actionId: 'pdf',
+  },
   { id: 'image-crop', name: 'Crop', nameAr: 'قص', category: 'visual', actionId: 'crop' },
   { id: 'image-filter', name: 'Filter', nameAr: 'فلتر', category: 'visual', actionId: 'filter' },
 ];
@@ -73,7 +79,7 @@ describe('CORE-ENG-021: canvas-profile-engine', () => {
       });
       const result = getFilteredTools(p, mockTools);
       expect(result.tools).toHaveLength(2);
-      expect(result.tools.every(t => t.category === 'text')).toBe(true);
+      expect(result.tools.every((t) => t.category === 'text')).toBe(true);
     });
 
     it('returns tools from multiple categories', () => {
@@ -96,7 +102,7 @@ describe('CORE-ENG-021: canvas-profile-engine', () => {
         blockedIds: ['export-pdf'],
       });
       const result = getFilteredTools(p, mockTools);
-      expect(result.tools.find(t => t.id === 'export-pdf')).toBeUndefined();
+      expect(result.tools.find((t) => t.id === 'export-pdf')).toBeUndefined();
       expect(result.blockedCount).toBe(1);
     });
 
@@ -128,11 +134,15 @@ describe('CORE-ENG-021: canvas-profile-engine', () => {
   describe('mergeProfiles', () => {
     it('merges categories as union', () => {
       const a = createCanvasProfile({
-        id: 'a', nameAr: 'أ', nameEn: 'A',
+        id: 'a',
+        nameAr: 'أ',
+        nameEn: 'A',
         allowedCategories: ['text'],
       });
       const b = createCanvasProfile({
-        id: 'b', nameAr: 'ب', nameEn: 'B',
+        id: 'b',
+        nameAr: 'ب',
+        nameEn: 'B',
         allowedCategories: ['data'],
       });
       const merged = mergeProfiles(a, b);
@@ -141,12 +151,16 @@ describe('CORE-ENG-021: canvas-profile-engine', () => {
 
     it('merges blocked IDs as union', () => {
       const a = createCanvasProfile({
-        id: 'a', nameAr: 'أ', nameEn: 'A',
+        id: 'a',
+        nameAr: 'أ',
+        nameEn: 'A',
         allowedCategories: ['text'],
         blockedIds: ['export-pdf'],
       });
       const b = createCanvasProfile({
-        id: 'b', nameAr: 'ب', nameEn: 'B',
+        id: 'b',
+        nameAr: 'ب',
+        nameEn: 'B',
         allowedCategories: ['text'],
         blockedIds: ['image-filter'],
       });
@@ -156,12 +170,16 @@ describe('CORE-ENG-021: canvas-profile-engine', () => {
 
     it('takes highest priority', () => {
       const a = createCanvasProfile({
-        id: 'a', nameAr: 'أ', nameEn: 'A',
+        id: 'a',
+        nameAr: 'أ',
+        nameEn: 'A',
         allowedCategories: ['text'],
         priority: 3,
       });
       const b = createCanvasProfile({
-        id: 'b', nameAr: 'ب', nameEn: 'B',
+        id: 'b',
+        nameAr: 'ب',
+        nameEn: 'B',
         allowedCategories: ['text'],
         priority: 7,
       });
@@ -171,11 +189,15 @@ describe('CORE-ENG-021: canvas-profile-engine', () => {
 
     it('generates combined ID', () => {
       const a = createCanvasProfile({
-        id: 'writer', nameAr: 'محرر', nameEn: 'Writer',
+        id: 'writer',
+        nameAr: 'محرر',
+        nameEn: 'Writer',
         allowedCategories: ['text'],
       });
       const b = createCanvasProfile({
-        id: 'image', nameAr: 'صور', nameEn: 'Image',
+        id: 'image',
+        nameAr: 'صور',
+        nameEn: 'Image',
         allowedCategories: ['visual'],
       });
       const merged = mergeProfiles(a, b);
@@ -184,11 +206,15 @@ describe('CORE-ENG-021: canvas-profile-engine', () => {
 
     it('deduplicates categories', () => {
       const a = createCanvasProfile({
-        id: 'a', nameAr: 'أ', nameEn: 'A',
+        id: 'a',
+        nameAr: 'أ',
+        nameEn: 'A',
         allowedCategories: ['text', 'format'],
       });
       const b = createCanvasProfile({
-        id: 'b', nameAr: 'ب', nameEn: 'B',
+        id: 'b',
+        nameAr: 'ب',
+        nameEn: 'B',
         allowedCategories: ['text', 'data'],
       });
       const merged = mergeProfiles(a, b);
@@ -200,11 +226,15 @@ describe('CORE-ENG-021: canvas-profile-engine', () => {
     it('filters with merged profiles', () => {
       const profiles = [
         createCanvasProfile({
-          id: 'a', nameAr: 'أ', nameEn: 'A',
+          id: 'a',
+          nameAr: 'أ',
+          nameEn: 'A',
           allowedCategories: ['text'],
         }),
         createCanvasProfile({
-          id: 'b', nameAr: 'ب', nameEn: 'B',
+          id: 'b',
+          nameAr: 'ب',
+          nameEn: 'B',
           allowedCategories: ['data'],
         }),
       ];
@@ -215,19 +245,23 @@ describe('CORE-ENG-021: canvas-profile-engine', () => {
     it('applies blocked IDs from all profiles', () => {
       const profiles = [
         createCanvasProfile({
-          id: 'a', nameAr: 'أ', nameEn: 'A',
+          id: 'a',
+          nameAr: 'أ',
+          nameEn: 'A',
           allowedCategories: ['text', 'data'],
           blockedIds: ['bold'],
         }),
         createCanvasProfile({
-          id: 'b', nameAr: 'ب', nameEn: 'B',
+          id: 'b',
+          nameAr: 'ب',
+          nameEn: 'B',
           allowedCategories: ['text', 'data'],
           blockedIds: ['formula-sum'],
         }),
       ];
       const result = getFilteredToolsFromProfiles(profiles, mockTools);
-      expect(result.tools.find(t => t.id === 'bold')).toBeUndefined();
-      expect(result.tools.find(t => t.id === 'formula-sum')).toBeUndefined();
+      expect(result.tools.find((t) => t.id === 'bold')).toBeUndefined();
+      expect(result.tools.find((t) => t.id === 'formula-sum')).toBeUndefined();
       expect(result.tools).toHaveLength(2); // italic + formula-vlookup
     });
   });
@@ -243,7 +277,9 @@ describe('CORE-ENG-021: canvas-profile-engine', () => {
 
     it('blocks explicitly blocked tool', () => {
       const p = createCanvasProfile({
-        id: 'test', nameAr: 'اختبار', nameEn: 'Test',
+        id: 'test',
+        nameAr: 'اختبار',
+        nameEn: 'Test',
         allowedCategories: ['text', 'data'],
         blockedIds: ['bold'],
       });

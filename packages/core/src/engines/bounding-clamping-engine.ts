@@ -45,13 +45,9 @@ export function clampMultiple(
   elements: readonly ClampInput[],
   canvas: CanvasBounds,
 ): readonly ClampResult[] {
-  return elements.map(el => clampElement(el, canvas));
+  return elements.map((el) => clampElement(el, canvas));
 }
 
 export function isOutOfBounds(el: ClampInput, canvas: CanvasBounds): boolean {
-  return (
-    el.x < 0 || el.y < 0 ||
-    el.x + el.width > canvas.width ||
-    el.y + el.height > canvas.height
-  );
+  return el.x < 0 || el.y < 0 || el.x + el.width > canvas.width || el.y + el.height > canvas.height;
 }

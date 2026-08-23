@@ -30,15 +30,7 @@ import type { LanguageId } from '../language-definition';
 
 export interface SymbolInformation {
   name: string;
-  kind:
-    | 'class'
-    | 'interface'
-    | 'function'
-    | 'method'
-    | 'property'
-    | 'variable'
-    | 'enum'
-    | 'struct';
+  kind: 'class' | 'interface' | 'function' | 'method' | 'property' | 'variable' | 'enum' | 'struct';
   line: number;
   containerName?: string;
 }

@@ -47,10 +47,7 @@ const RADIUS_RE = /(?:outer|border)-radius\s*:\s*(\d+(?:\.\d+)?)px/i;
 const INNER_RE = /inner-radius\s*:\s*(\d+(?:\.\d+)?)px/i;
 const PAD_RE = /padding\s*:\s*(\d+(?:\.\d+)?)px/i;
 
-export function checkGeometry(
-  patches: DevStudioPatch[],
-  _project?: ProjectSurface,
-): DoctorCheck[] {
+export function checkGeometry(patches: DevStudioPatch[], _project?: ProjectSurface): DoctorCheck[] {
   const checks: DoctorCheck[] = [];
 
   for (const { path, content } of contentsOf(patches)) {
@@ -169,15 +166,18 @@ export class GeometryValidator {
       },
     ];
     const checks = checkGeometry(patches);
-    return checks.find((c) => c.status === 'fail') || checks[0] || {
-      id: `geo-check-${filePath}`,
-      name: 'Geometry Compliance Audit',
-      nameAr: 'تدقيق الأبعاد والتوافق الهندسي',
-      category: 'geometry',
-      categoryAr: 'الهندسة والرياضيات',
-      status: 'pass',
-      message: `File [${filePath}] complies with all geometric constraints.`,
-      messageAr: `الملف [${filePath}] متوافق مع كافة القيود الهندسية والرياضية.`,
-    };
+    return (
+      checks.find((c) => c.status === 'fail') ||
+      checks[0] || {
+        id: `geo-check-${filePath}`,
+        name: 'Geometry Compliance Audit',
+        nameAr: 'تدقيق الأبعاد والتوافق الهندسي',
+        category: 'geometry',
+        categoryAr: 'الهندسة والرياضيات',
+        status: 'pass',
+        message: `File [${filePath}] complies with all geometric constraints.`,
+        messageAr: `الملف [${filePath}] متوافق مع كافة القيود الهندسية والرياضية.`,
+      }
+    );
   }
 }

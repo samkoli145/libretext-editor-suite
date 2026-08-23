@@ -26,7 +26,11 @@
 /**
  * تنزيل كائن أو نص كملف إلى جهاز المستخدم
  */
-export function downloadFile(content: string, fileName: string, mimeType = 'text/plain;charset=utf-8') {
+export function downloadFile(
+  content: string,
+  fileName: string,
+  mimeType = 'text/plain;charset=utf-8',
+) {
   const blob = new Blob([content], { type: mimeType });
   const url = URL.createObjectURL(blob);
   const anchor = window.document.createElement('a');

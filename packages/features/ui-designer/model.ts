@@ -31,13 +31,7 @@
  */
 
 export type UIComponentCategory =
-  | 'layout'
-  | 'typography'
-  | 'inputs'
-  | 'feedback'
-  | 'navigation'
-  | 'sections'
-  | 'widgets';
+  'layout' | 'typography' | 'inputs' | 'feedback' | 'navigation' | 'sections' | 'widgets';
 
 export interface UIComponentDefinition {
   type: string;

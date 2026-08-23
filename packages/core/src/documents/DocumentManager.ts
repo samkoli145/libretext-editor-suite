@@ -23,19 +23,19 @@
  * ═══════════════════════════════════════════════════════════════════════════
  */
 
-import type { DocumentModel, DocumentType } from "../types";
-import type { EventBus } from "../events/EventBus";
-import type { PluginRegistry } from "../plugins/PluginRegistry";
+import type { DocumentModel, DocumentType } from '../types';
+import type { EventBus } from '../events/EventBus';
+import type { PluginRegistry } from '../plugins/PluginRegistry';
 
 export const DocumentEvents = {
-  created: "document:created",
-  opened: "document:opened",
-  changed: "document:changed",
-  saved: "document:saved",
-  deleted: "document:deleted",
-  closed: "document:closed",
-  activated: "document:activated",
-  listChanged: "document:list-changed",
+  created: 'document:created',
+  opened: 'document:opened',
+  changed: 'document:changed',
+  saved: 'document:saved',
+  deleted: 'document:deleted',
+  closed: 'document:closed',
+  activated: 'document:activated',
+  listChanged: 'document:list-changed',
 } as const;
 
 export interface DocumentMetadataSummary {
@@ -121,21 +121,14 @@ export class DocumentManager {
     return this.activeDocumentId;
   }
 
-  public createDocument(
-    type: DocumentType,
-    title?: string
-  ): DocumentModel {
+  public createDocument(type: DocumentType, title?: string): DocumentModel {
     const plugin = this.pluginRegistry.getPlugin(type);
 
     if (!plugin) {
-      throw new Error(
-        `[DocumentManager] No plugin registered for document type: "${type}"`
-      );
+      throw new Error(`[DocumentManager] No plugin registered for document type: "${type}"`);
     }
 
-    const document = plugin.createDefaultDocument(
-      title ?? `مستند ${type}`
-    );
+    const document = plugin.createDefaultDocument(title ?? `مستند ${type}`);
 
     this.openDocuments.set(document.id, document);
     this.setActiveDocument(document.id);
@@ -151,7 +144,7 @@ export class DocumentManager {
     document: DocumentModel,
     options?: {
       activate?: boolean;
-    }
+    },
   ): DocumentModel {
     const existing = this.openDocuments.get(document.id);
 
@@ -174,9 +167,7 @@ export class DocumentManager {
     return nextDocument;
   }
 
-  public async openStoredDocument(
-    id: string
-  ): Promise<DocumentModel | null> {
+  public async openStoredDocument(id: string): Promise<DocumentModel | null> {
     const alreadyOpen = this.openDocuments.get(id);
 
     if (alreadyOpen) {
@@ -199,7 +190,7 @@ export class DocumentManager {
 
   public updateDocument(
     id: string,
-    updater: Partial<DocumentModel> | ((document: DocumentModel) => DocumentModel)
+    updater: Partial<DocumentModel> | ((document: DocumentModel) => DocumentModel),
   ): DocumentModel | null {
     const current = this.openDocuments.get(id);
 
@@ -209,7 +200,7 @@ export class DocumentManager {
 
     let next: DocumentModel;
 
-    if (typeof updater === "function") {
+    if (typeof updater === 'function') {
       const updated = updater(current);
 
       next = {
@@ -239,7 +230,7 @@ export class DocumentManager {
 
   public updateDocumentData<TData = unknown>(
     id: string,
-    dataOrUpdater: Partial<TData> | ((currentData: unknown) => TData)
+    dataOrUpdater: Partial<TData> | ((currentData: unknown) => TData),
   ): DocumentModel | null {
     const document = this.openDocuments.get(id);
 
@@ -249,14 +240,9 @@ export class DocumentManager {
 
     let nextData: unknown;
 
-    if (typeof dataOrUpdater === "function") {
-      nextData = (dataOrUpdater as (currentData: unknown) => unknown)(
-        document.data
-      );
-    } else if (
-      isRecord(document.data) &&
-      isRecord(dataOrUpdater)
-    ) {
+    if (typeof dataOrUpdater === 'function') {
+      nextData = (dataOrUpdater as (currentData: unknown) => unknown)(document.data);
+    } else if (isRecord(document.data) && isRecord(dataOrUpdater)) {
       nextData = {
         ...(document.data as Record<string, unknown>),
         ...(dataOrUpdater as Record<string, unknown>),
@@ -273,9 +259,7 @@ export class DocumentManager {
 
   public setActiveDocument(id: string | null): void {
     if (id !== null && !this.openDocuments.has(id)) {
-      console.warn(
-        `[DocumentManager] Cannot activate document. Document not open: "${id}"`
-      );
+      console.warn(`[DocumentManager] Cannot activate document. Document not open: "${id}"`);
 
       return;
     }
@@ -308,12 +292,10 @@ export class DocumentManager {
   }
 
   public async saveDocument(id?: string): Promise<DocumentModel> {
-    const document = id
-      ? this.getDocument(id)
-      : this.activeDocument;
+    const document = id ? this.getDocument(id) : this.activeDocument;
 
     if (!document) {
-      throw new Error("[DocumentManager] No document to save.");
+      throw new Error('[DocumentManager] No document to save.');
     }
 
     await this.storage.save(document);
@@ -331,12 +313,10 @@ export class DocumentManager {
   }
 
   public serializeDocument(id?: string): string {
-    const document = id
-      ? this.getDocument(id)
-      : this.activeDocument;
+    const document = id ? this.getDocument(id) : this.activeDocument;
 
     if (!document) {
-      throw new Error("[DocumentManager] No document to serialize.");
+      throw new Error('[DocumentManager] No document to serialize.');
     }
 
     const plugin = this.pluginRegistry.getPlugin(document.type);
@@ -351,15 +331,11 @@ export class DocumentManager {
   public deserializeDocument(raw: string): DocumentModel {
     const parsed = JSON.parse(raw) as Partial<DocumentModel>;
 
-    if (!parsed || typeof parsed.type !== "string") {
-      throw new Error(
-        "[DocumentManager] Invalid document format: missing document type."
-      );
+    if (!parsed || typeof parsed.type !== 'string') {
+      throw new Error('[DocumentManager] Invalid document format: missing document type.');
     }
 
-    const plugin = this.pluginRegistry.getPlugin(
-      parsed.type as DocumentType
-    );
+    const plugin = this.pluginRegistry.getPlugin(parsed.type as DocumentType);
 
     if (plugin?.deserialize) {
       return plugin.deserialize(raw);
@@ -387,7 +363,7 @@ export class DocumentManager {
 }
 
 function cloneValue<T>(value: T): T {
-  if (typeof structuredClone === "function") {
+  if (typeof structuredClone === 'function') {
     return structuredClone(value);
   }
 
@@ -395,9 +371,5 @@ function cloneValue<T>(value: T): T {
 }
 
 function isRecord(value: unknown): value is Record<string, unknown> {
-  return (
-    typeof value === "object" &&
-    value !== null &&
-    !Array.isArray(value)
-  );
+  return typeof value === 'object' && value !== null && !Array.isArray(value);
 }

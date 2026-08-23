@@ -24,14 +24,7 @@
  */
 
 export type SvgAnimationType =
-  | 'none'
-  | 'fade-in'
-  | 'pulse'
-  | 'float'
-  | 'spin'
-  | 'bounce'
-  | 'slide-right'
-  | 'slide-up';
+  'none' | 'fade-in' | 'pulse' | 'float' | 'spin' | 'bounce' | 'slide-right' | 'slide-up';
 
 export interface AnimationPreset {
   id: SvgAnimationType;

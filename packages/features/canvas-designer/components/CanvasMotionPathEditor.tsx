@@ -27,7 +27,7 @@
  * ═══════════════════════════════════════════════════════════════════════════
  */
 
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef } from 'react';
 import {
   MotionPathData,
   createMotionPathFromSvg,
@@ -35,17 +35,17 @@ import {
   insertWaypointOnSegment,
   removeWaypoint,
   serializeMotionPath,
-} from '../../../shared/lib-core/animation/motion-path-engine'
-import { mirrorPoint } from '../../../shared/lib-core/geometry/bezier-curves'
-import { Play, Pause, Plus, Trash2, RotateCw, FastForward } from 'lucide-react'
+} from '../../../shared/lib-core/animation/motion-path-engine';
+import { mirrorPoint } from '../../../shared/lib-core/geometry/bezier-curves';
+import { Play, Pause, Plus, Trash2, RotateCw, FastForward } from 'lucide-react';
 
 export interface CanvasMotionPathEditorProps {
-  elementId: string
-  elementBounds: { x: number; y: number; width: number; height: number }
-  initialPathString?: string
-  zoom: number
-  onUpdatePath: (pathString: string) => void
-  onClose: () => void
+  elementId: string;
+  elementBounds: { x: number; y: number; width: number; height: number };
+  initialPathString?: string;
+  zoom: number;
+  onUpdatePath: (pathString: string) => void;
+  onClose: () => void;
 }
 
 export function CanvasMotionPathEditor({
@@ -57,124 +57,131 @@ export function CanvasMotionPathEditor({
   onClose,
 }: CanvasMotionPathEditorProps) {
   const [motionData, setMotionData] = useState<MotionPathData>(() =>
-    createMotionPathFromSvg(initialPathString)
-  )
-  const [selectedWaypointId, setSelectedWaypointId] = useState<string | null>(null)
-  const [isPlaying, setIsPlaying] = useState<boolean>(true)
-  const [animProgress, setAnimProgress] = useState<number>(0)
+    createMotionPathFromSvg(initialPathString),
+  );
+  const [selectedWaypointId, setSelectedWaypointId] = useState<string | null>(null);
+  const [isPlaying, setIsPlaying] = useState<boolean>(true);
+  const [animProgress, setAnimProgress] = useState<number>(0);
 
   // مركز العنصر في الكانفا
-  const originX = elementBounds.x + elementBounds.width / 2
-  const originY = elementBounds.y + elementBounds.height / 2
+  const originX = elementBounds.x + elementBounds.width / 2;
+  const originY = elementBounds.y + elementBounds.height / 2;
 
   // حلقة المحاكاة اللحظية (Live Loop Preview)
   useEffect(() => {
-    if (!isPlaying) return
-    let reqId: number
-    let startTime = performance.now()
-    const durationMs = motionData.durationSeconds * 1000
+    if (!isPlaying) return;
+    let reqId: number;
+    const startTime = performance.now();
+    const durationMs = motionData.durationSeconds * 1000;
 
     const loopFrame = (now: number) => {
-      const elapsed = now - startTime
-      const progress = (elapsed % durationMs) / durationMs
-      setAnimProgress(progress)
-      reqId = requestAnimationFrame(loopFrame)
-    }
+      const elapsed = now - startTime;
+      const progress = (elapsed % durationMs) / durationMs;
+      setAnimProgress(progress);
+      reqId = requestAnimationFrame(loopFrame);
+    };
 
-    reqId = requestAnimationFrame(loopFrame)
-    return () => cancelAnimationFrame(reqId)
-  }, [isPlaying, motionData.durationSeconds])
+    reqId = requestAnimationFrame(loopFrame);
+    return () => cancelAnimationFrame(reqId);
+  }, [isPlaying, motionData.durationSeconds]);
 
   // حساب موضع نقطة المحاكاة اللحظية
-  const sample = sampleMotionPath(motionData, animProgress)
-  const liveDotX = originX + sample.x
-  const liveDotY = originY + sample.y
+  const sample = sampleMotionPath(motionData, animProgress);
+  const liveDotX = originX + sample.x;
+  const liveDotY = originY + sample.y;
 
   // سحب نقطة تثبيت (Waypoint Drag)
   const handleWaypointMouseDown = (
     e: React.MouseEvent,
     wpId: string,
-    initialPt: { x: number; y: number }
+    initialPt: { x: number; y: number },
   ) => {
-    e.stopPropagation()
-    setSelectedWaypointId(wpId)
+    e.stopPropagation();
+    setSelectedWaypointId(wpId);
 
-    const startClientX = e.clientX
-    const startClientY = e.clientY
+    const startClientX = e.clientX;
+    const startClientY = e.clientY;
 
     const handleMouseMove = (moveEvent: MouseEvent) => {
-      const dx = (moveEvent.clientX - startClientX) / zoom
-      const dy = (moveEvent.clientY - startClientY) / zoom
+      const dx = (moveEvent.clientX - startClientX) / zoom;
+      const dy = (moveEvent.clientY - startClientY) / zoom;
 
       setMotionData((prev) => {
         const updatedWps = prev.waypoints.map((wp) => {
-          if (wp.id !== wpId) return wp
-          const newPt = { x: Math.round(initialPt.x + dx), y: Math.round(initialPt.y + dy) }
+          if (wp.id !== wpId) return wp;
+          const newPt = { x: Math.round(initialPt.x + dx), y: Math.round(initialPt.y + dy) };
           // تحديث المقابض بنقلها مع النقطة
-          const deltaX = newPt.x - wp.point.x
-          const deltaY = newPt.y - wp.point.y
-          const newIn = wp.inHandle ? { x: wp.inHandle.x + deltaX, y: wp.inHandle.y + deltaY } : undefined
-          const newOut = wp.outHandle ? { x: wp.outHandle.x + deltaX, y: wp.outHandle.y + deltaY } : undefined
+          const deltaX = newPt.x - wp.point.x;
+          const deltaY = newPt.y - wp.point.y;
+          const newIn = wp.inHandle
+            ? { x: wp.inHandle.x + deltaX, y: wp.inHandle.y + deltaY }
+            : undefined;
+          const newOut = wp.outHandle
+            ? { x: wp.outHandle.x + deltaX, y: wp.outHandle.y + deltaY }
+            : undefined;
           return {
             ...wp,
             point: newPt,
             inHandle: newIn,
             outHandle: newOut,
-          }
-        })
-        const nextData = serializeMotionPath({ ...prev, waypoints: updatedWps })
-        return nextData
-      })
-    }
+          };
+        });
+        const nextData = serializeMotionPath({ ...prev, waypoints: updatedWps });
+        return nextData;
+      });
+    };
 
     const handleMouseUp = () => {
-      window.removeEventListener('mousemove', handleMouseMove)
-      window.removeEventListener('mouseup', handleMouseUp)
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mouseup', handleMouseUp);
       setMotionData((latest) => {
-        onUpdatePath(latest.pathString)
-        return latest
-      })
-    }
+        onUpdatePath(latest.pathString);
+        return latest;
+      });
+    };
 
-    window.addEventListener('mousemove', handleMouseMove)
-    window.addEventListener('mouseup', handleMouseUp)
-  }
+    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mouseup', handleMouseUp);
+  };
 
   // سحب مقبض بيزير (Handle Drag)
   const handleControlHandleMouseDown = (
     e: React.MouseEvent,
     wpId: string,
     handleType: 'in' | 'out',
-    initialHandlePt: { x: number; y: number }
+    initialHandlePt: { x: number; y: number },
   ) => {
-    e.stopPropagation()
-    const startClientX = e.clientX
-    const startClientY = e.clientY
+    e.stopPropagation();
+    const startClientX = e.clientX;
+    const startClientY = e.clientY;
 
     const handleMouseMove = (moveEvent: MouseEvent) => {
-      const dx = (moveEvent.clientX - startClientX) / zoom
-      const dy = (moveEvent.clientY - startClientY) / zoom
-      const isAltKey = moveEvent.altKey
+      const dx = (moveEvent.clientX - startClientX) / zoom;
+      const dy = (moveEvent.clientY - startClientY) / zoom;
+      const isAltKey = moveEvent.altKey;
 
       setMotionData((prev) => {
         const updatedWps = prev.waypoints.map((wp) => {
-          if (wp.id !== wpId) return wp
-          const newHandlePt = { x: Math.round(initialHandlePt.x + dx), y: Math.round(initialHandlePt.y + dy) }
+          if (wp.id !== wpId) return wp;
+          const newHandlePt = {
+            x: Math.round(initialHandlePt.x + dx),
+            y: Math.round(initialHandlePt.y + dy),
+          };
 
-          let newIn = wp.inHandle
-          let newOut = wp.outHandle
+          let newIn = wp.inHandle;
+          let newOut = wp.outHandle;
 
           if (handleType === 'in') {
-            newIn = newHandlePt
+            newIn = newHandlePt;
             if (!isAltKey && !wp.isCorner && wp.outHandle) {
-              const oppLen = Math.hypot(wp.outHandle.x - wp.point.x, wp.outHandle.y - wp.point.y)
-              newOut = mirrorPoint(wp.point, newIn, oppLen)
+              const oppLen = Math.hypot(wp.outHandle.x - wp.point.x, wp.outHandle.y - wp.point.y);
+              newOut = mirrorPoint(wp.point, newIn, oppLen);
             }
           } else {
-            newOut = newHandlePt
+            newOut = newHandlePt;
             if (!isAltKey && !wp.isCorner && wp.inHandle) {
-              const oppLen = Math.hypot(wp.inHandle.x - wp.point.x, wp.inHandle.y - wp.point.y)
-              newIn = mirrorPoint(wp.point, newOut, oppLen)
+              const oppLen = Math.hypot(wp.inHandle.x - wp.point.x, wp.inHandle.y - wp.point.y);
+              newIn = mirrorPoint(wp.point, newOut, oppLen);
             }
           }
 
@@ -184,41 +191,49 @@ export function CanvasMotionPathEditor({
             outHandle: newOut,
             isManual: true,
             isCorner: isAltKey ? true : wp.isCorner,
-          }
-        })
-        return serializeMotionPath({ ...prev, waypoints: updatedWps })
-      })
-    }
+          };
+        });
+        return serializeMotionPath({ ...prev, waypoints: updatedWps });
+      });
+    };
 
     const handleMouseUp = () => {
-      window.removeEventListener('mousemove', handleMouseMove)
-      window.removeEventListener('mouseup', handleMouseUp)
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mouseup', handleMouseUp);
       setMotionData((latest) => {
-        onUpdatePath(latest.pathString)
-        return latest
-      })
-    }
+        onUpdatePath(latest.pathString);
+        return latest;
+      });
+    };
 
-    window.addEventListener('mousemove', handleMouseMove)
-    window.addEventListener('mouseup', handleMouseUp)
-  }
+    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mouseup', handleMouseUp);
+  };
 
   // تحويل المسار النسبي إلى مسار مطلق على شاشة الكانفا
   const canvasPathD = motionData.waypoints.reduce((acc, wp, idx) => {
-    const absX = originX + wp.point.x
-    const absY = originY + wp.point.y
-    if (idx === 0) return `M ${absX} ${absY}`
+    const absX = originX + wp.point.x;
+    const absY = originY + wp.point.y;
+    if (idx === 0) return `M ${absX} ${absY}`;
 
-    const prevWp = motionData.waypoints[idx - 1]
-    const cp1X = prevWp.outHandle ? originX + prevWp.outHandle.x : originX + prevWp.point.x + (wp.point.x - prevWp.point.x) / 3
-    const cp1Y = prevWp.outHandle ? originY + prevWp.outHandle.y : originY + prevWp.point.y + (wp.point.y - prevWp.point.y) / 3
-    const cp2X = wp.inHandle ? originX + wp.inHandle.x : originX + prevWp.point.x + (2 * (wp.point.x - prevWp.point.x)) / 3
-    const cp2Y = wp.inHandle ? originY + wp.inHandle.y : originY + prevWp.point.y + (2 * (wp.point.y - prevWp.point.y)) / 3
+    const prevWp = motionData.waypoints[idx - 1];
+    const cp1X = prevWp.outHandle
+      ? originX + prevWp.outHandle.x
+      : originX + prevWp.point.x + (wp.point.x - prevWp.point.x) / 3;
+    const cp1Y = prevWp.outHandle
+      ? originY + prevWp.outHandle.y
+      : originY + prevWp.point.y + (wp.point.y - prevWp.point.y) / 3;
+    const cp2X = wp.inHandle
+      ? originX + wp.inHandle.x
+      : originX + prevWp.point.x + (2 * (wp.point.x - prevWp.point.x)) / 3;
+    const cp2Y = wp.inHandle
+      ? originY + wp.inHandle.y
+      : originY + prevWp.point.y + (2 * (wp.point.y - prevWp.point.y)) / 3;
 
-    return `${acc} C ${cp1X} ${cp1Y}, ${cp2X} ${cp2Y}, ${absX} ${absY}`
-  }, '')
+    return `${acc} C ${cp1X} ${cp1Y}, ${cp2X} ${cp2Y}, ${absX} ${absY}`;
+  }, '');
 
-  const selectedWp = motionData.waypoints.find((wp) => wp.id === selectedWaypointId)
+  const selectedWp = motionData.waypoints.find((wp) => wp.id === selectedWaypointId);
 
   return (
     <>
@@ -236,21 +251,21 @@ export function CanvasMotionPathEditor({
           strokeDasharray="6 4"
           className="pointer-events-auto cursor-pointer"
           onDoubleClick={(e) => {
-            e.stopPropagation()
+            e.stopPropagation();
             // إضافة نقطة تثبيت في المنتصف
             setMotionData((prev) => {
-              const updated = insertWaypointOnSegment(prev, 0, 0.5)
-              onUpdatePath(updated.pathString)
-              return updated
-            })
+              const updated = insertWaypointOnSegment(prev, 0, 0.5);
+              onUpdatePath(updated.pathString);
+              return updated;
+            });
           }}
         />
 
         {/* خطوط مقابض التحكم بيزير */}
         {motionData.waypoints.map((wp) => {
-          const absX = originX + wp.point.x
-          const absY = originY + wp.point.y
-          const isSel = wp.id === selectedWaypointId
+          const absX = originX + wp.point.x;
+          const absY = originY + wp.point.y;
+          const isSel = wp.id === selectedWaypointId;
 
           return (
             <g key={`handles-${wp.id}`}>
@@ -272,9 +287,7 @@ export function CanvasMotionPathEditor({
                     stroke="#7c3aed"
                     strokeWidth={2}
                     className="pointer-events-auto cursor-move hover:scale-125 transition-transform"
-                    onMouseDown={(e) =>
-                      handleControlHandleMouseDown(e, wp.id, 'in', wp.inHandle!)
-                    }
+                    onMouseDown={(e) => handleControlHandleMouseDown(e, wp.id, 'in', wp.inHandle!)}
                   />
                 </>
               )}
@@ -315,16 +328,16 @@ export function CanvasMotionPathEditor({
                 className="pointer-events-auto cursor-move hover:scale-125 transition-transform"
                 onMouseDown={(e) => handleWaypointMouseDown(e, wp.id, wp.point)}
                 onDoubleClick={(e) => {
-                  e.stopPropagation()
+                  e.stopPropagation();
                   setMotionData((prev) => {
-                    const updated = removeWaypoint(prev, wp.id)
-                    onUpdatePath(updated.pathString)
-                    return updated
-                  })
+                    const updated = removeWaypoint(prev, wp.id);
+                    onUpdatePath(updated.pathString);
+                    return updated;
+                  });
                 }}
               />
             </g>
-          )
+          );
         })}
 
         {/* نقطة المحاكاة اللحظية (Live Loop Dot) */}
@@ -361,8 +374,8 @@ export function CanvasMotionPathEditor({
             step={0.5}
             value={motionData.durationSeconds}
             onChange={(e) => {
-              const val = parseFloat(e.target.value) || 3
-              setMotionData((prev) => ({ ...prev, durationSeconds: val }))
+              const val = parseFloat(e.target.value) || 3;
+              setMotionData((prev) => ({ ...prev, durationSeconds: val }));
             }}
             className="w-14 px-2 py-1 bg-slate-50 border border-slate-200 rounded-lg text-center font-bold text-violet-700"
           />
@@ -372,9 +385,9 @@ export function CanvasMotionPathEditor({
         <button
           onClick={() => {
             setMotionData((prev) => {
-              const updated = { ...prev, autoRotate: !prev.autoRotate }
-              return updated
-            })
+              const updated = { ...prev, autoRotate: !prev.autoRotate };
+              return updated;
+            });
           }}
           className={`px-2.5 py-1.5 rounded-xl border font-medium flex items-center gap-1 transition-colors ${
             motionData.autoRotate
@@ -395,5 +408,5 @@ export function CanvasMotionPathEditor({
         </button>
       </div>
     </>
-  )
+  );
 }

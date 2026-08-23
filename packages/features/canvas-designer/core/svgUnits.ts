@@ -81,7 +81,7 @@ export function convertUnit(
   fromUnit: string,
   toUnit: string,
   dpi = 96,
-  basePx = 16
+  basePx = 16,
 ): number {
   if (fromUnit === toUnit || value === 0) {
     return value;

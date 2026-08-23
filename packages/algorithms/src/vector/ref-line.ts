@@ -38,22 +38,60 @@ export function calculateAlignmentRefLines(
   const lines: ReferenceLine[] = [];
   for (const other of otherBoxes) {
     if (Math.abs(activeBox.minY - other.minY) <= tolerance) {
-      lines.push({ id: generateId('ref-top'), orientation: 'horizontal', position: other.minY, start: Math.min(activeBox.minX, other.minX) - 10, end: Math.max(activeBox.maxX, other.maxX) + 10 });
+      lines.push({
+        id: generateId('ref-top'),
+        orientation: 'horizontal',
+        position: other.minY,
+        start: Math.min(activeBox.minX, other.minX) - 10,
+        end: Math.max(activeBox.maxX, other.maxX) + 10,
+      });
     }
     if (Math.abs(activeBox.centerY - other.centerY) <= tolerance) {
-      lines.push({ id: generateId('ref-mid'), orientation: 'horizontal', position: other.centerY, start: Math.min(activeBox.minX, other.minX) - 10, end: Math.max(activeBox.maxX, other.maxX) + 10, color: '#3b82f6' });
+      lines.push({
+        id: generateId('ref-mid'),
+        orientation: 'horizontal',
+        position: other.centerY,
+        start: Math.min(activeBox.minX, other.minX) - 10,
+        end: Math.max(activeBox.maxX, other.maxX) + 10,
+        color: '#3b82f6',
+      });
     }
     if (Math.abs(activeBox.maxY - other.maxY) <= tolerance) {
-      lines.push({ id: generateId('ref-bot'), orientation: 'horizontal', position: other.maxY, start: Math.min(activeBox.minX, other.minX) - 10, end: Math.max(activeBox.maxX, other.maxX) + 10 });
+      lines.push({
+        id: generateId('ref-bot'),
+        orientation: 'horizontal',
+        position: other.maxY,
+        start: Math.min(activeBox.minX, other.minX) - 10,
+        end: Math.max(activeBox.maxX, other.maxX) + 10,
+      });
     }
     if (Math.abs(activeBox.minX - other.minX) <= tolerance) {
-      lines.push({ id: generateId('ref-left'), orientation: 'vertical', position: other.minX, start: Math.min(activeBox.minY, other.minY) - 10, end: Math.max(activeBox.maxY, other.maxY) + 10 });
+      lines.push({
+        id: generateId('ref-left'),
+        orientation: 'vertical',
+        position: other.minX,
+        start: Math.min(activeBox.minY, other.minY) - 10,
+        end: Math.max(activeBox.maxY, other.maxY) + 10,
+      });
     }
     if (Math.abs(activeBox.centerX - other.centerX) <= tolerance) {
-      lines.push({ id: generateId('ref-ctr'), orientation: 'vertical', position: other.centerX, start: Math.min(activeBox.minY, other.minY) - 10, end: Math.max(activeBox.maxY, other.maxY) + 10, color: '#3b82f6' });
+      lines.push({
+        id: generateId('ref-ctr'),
+        orientation: 'vertical',
+        position: other.centerX,
+        start: Math.min(activeBox.minY, other.minY) - 10,
+        end: Math.max(activeBox.maxY, other.maxY) + 10,
+        color: '#3b82f6',
+      });
     }
     if (Math.abs(activeBox.maxX - other.maxX) <= tolerance) {
-      lines.push({ id: generateId('ref-rgt'), orientation: 'vertical', position: other.maxX, start: Math.min(activeBox.minY, other.minY) - 10, end: Math.max(activeBox.maxY, other.maxY) + 10 });
+      lines.push({
+        id: generateId('ref-rgt'),
+        orientation: 'vertical',
+        position: other.maxX,
+        start: Math.min(activeBox.minY, other.minY) - 10,
+        end: Math.max(activeBox.maxY, other.maxY) + 10,
+      });
     }
   }
   return lines;
@@ -69,24 +107,54 @@ export function calculateDistanceBadges(
 ): DistanceBadge[] {
   const badges: DistanceBadge[] = [];
   for (const other of otherBoxes) {
-    const yOverlap = Math.max(0, Math.min(activeBox.maxY, other.maxY) - Math.max(activeBox.minY, other.minY));
+    const yOverlap = Math.max(
+      0,
+      Math.min(activeBox.maxY, other.maxY) - Math.max(activeBox.minY, other.minY),
+    );
     if (yOverlap > 20) {
       if (activeBox.minX > other.maxX) {
         const gap = calcGap(other.maxX, activeBox.minX);
-        badges.push({ id: generateId('badge-h'), x: other.maxX + gap / 2, y: Math.max(activeBox.centerY, other.centerY), distance: gap, orientation: 'horizontal' });
+        badges.push({
+          id: generateId('badge-h'),
+          x: other.maxX + gap / 2,
+          y: Math.max(activeBox.centerY, other.centerY),
+          distance: gap,
+          orientation: 'horizontal',
+        });
       } else if (other.minX > activeBox.maxX) {
         const gap = calcGap(activeBox.maxX, other.minX);
-        badges.push({ id: generateId('badge-h'), x: activeBox.maxX + gap / 2, y: Math.max(activeBox.centerY, other.centerY), distance: gap, orientation: 'horizontal' });
+        badges.push({
+          id: generateId('badge-h'),
+          x: activeBox.maxX + gap / 2,
+          y: Math.max(activeBox.centerY, other.centerY),
+          distance: gap,
+          orientation: 'horizontal',
+        });
       }
     }
-    const xOverlap = Math.max(0, Math.min(activeBox.maxX, other.maxX) - Math.max(activeBox.minX, other.minX));
+    const xOverlap = Math.max(
+      0,
+      Math.min(activeBox.maxX, other.maxX) - Math.max(activeBox.minX, other.minX),
+    );
     if (xOverlap > 20) {
       if (activeBox.minY > other.maxY) {
         const gap = calcGap(other.maxY, activeBox.minY);
-        badges.push({ id: generateId('badge-v'), x: Math.max(activeBox.centerX, other.centerX), y: other.maxY + gap / 2, distance: gap, orientation: 'vertical' });
+        badges.push({
+          id: generateId('badge-v'),
+          x: Math.max(activeBox.centerX, other.centerX),
+          y: other.maxY + gap / 2,
+          distance: gap,
+          orientation: 'vertical',
+        });
       } else if (other.minY > activeBox.maxY) {
         const gap = calcGap(activeBox.maxY, other.minY);
-        badges.push({ id: generateId('badge-v'), x: Math.max(activeBox.centerX, other.centerX), y: activeBox.maxY + gap / 2, distance: gap, orientation: 'vertical' });
+        badges.push({
+          id: generateId('badge-v'),
+          x: Math.max(activeBox.centerX, other.centerX),
+          y: activeBox.maxY + gap / 2,
+          distance: gap,
+          orientation: 'vertical',
+        });
       }
     }
   }

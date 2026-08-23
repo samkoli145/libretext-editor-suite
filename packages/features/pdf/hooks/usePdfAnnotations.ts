@@ -49,7 +49,7 @@ export function usePdfAnnotations({ doc, updateDoc }: UsePdfAnnotationsProps) {
 
       return newAnno;
     },
-    [updateDoc]
+    [updateDoc],
   );
 
   const deleteAnnotation = useCallback(
@@ -60,19 +60,17 @@ export function usePdfAnnotations({ doc, updateDoc }: UsePdfAnnotationsProps) {
       }));
       setSelectedAnnotationId((prev) => (prev === id ? null : prev));
     },
-    [updateDoc]
+    [updateDoc],
   );
 
   const updateAnnotation = useCallback(
     (id: string, updates: Partial<PdfAnnotation>) => {
       updateDoc((prev) => ({
         ...prev,
-        annotations: (prev.annotations || []).map((a) =>
-          a.id === id ? { ...a, ...updates } : a
-        ),
+        annotations: (prev.annotations || []).map((a) => (a.id === id ? { ...a, ...updates } : a)),
       }));
     },
-    [updateDoc]
+    [updateDoc],
   );
 
   const clearAllAnnotationsOnPage = useCallback(
@@ -82,10 +80,11 @@ export function usePdfAnnotations({ doc, updateDoc }: UsePdfAnnotationsProps) {
         annotations: (prev.annotations || []).filter((a) => a.pageNumber !== pageNumber),
       }));
     },
-    [updateDoc]
+    [updateDoc],
   );
 
-  const selectedAnnotation = (doc.annotations || []).find((a) => a.id === selectedAnnotationId) || null;
+  const selectedAnnotation =
+    (doc.annotations || []).find((a) => a.id === selectedAnnotationId) || null;
 
   return {
     activeTool,

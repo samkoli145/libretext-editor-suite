@@ -29,14 +29,14 @@
 export function downloadFile(
   data: Blob | string,
   fileName: string,
-  mimeType: string = "application/octet-stream"
+  mimeType: string = 'application/octet-stream',
 ): void {
-  const blob = typeof data === "string" ? new Blob([data], { type: mimeType }) : data;
+  const blob = typeof data === 'string' ? new Blob([data], { type: mimeType }) : data;
   const url = URL.createObjectURL(blob);
-  const anchor = document.createElement("a");
+  const anchor = document.createElement('a');
   anchor.href = url;
   anchor.download = fileName;
-  anchor.style.display = "none";
+  anchor.style.display = 'none';
   document.body.appendChild(anchor);
   anchor.click();
 

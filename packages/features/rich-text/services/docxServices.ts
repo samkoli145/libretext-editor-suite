@@ -23,9 +23,9 @@
  * ═══════════════════════════════════════════════════════════════════════════
  */
 
-import type { INativeEditor } from "../types";
-import { downloadFile } from "./fileUtils";
-import { generateDocxFromHtml, parseDocxToHtml } from "./docxUtils";
+import type { INativeEditor } from '../types';
+import { downloadFile } from './fileUtils';
+import { generateDocxFromHtml, parseDocxToHtml } from './docxUtils';
 
 /**
  * Service to handle DOCX and other format imports into the editor (100% native)
@@ -38,9 +38,9 @@ export async function importDocxFile(file: File): Promise<string> {
 /**
  * Service to handle DOCX export from the editor (100% native OOXML)
  */
-export async function exportToDocx(editor: INativeEditor, fileName: string = "document") {
+export async function exportToDocx(editor: INativeEditor, fileName: string = 'document') {
   const html = editor.getHTML();
-  const cleanName = fileName.replace(/[\\/:*?"<>|]/g, "_").trim() || "document";
+  const cleanName = fileName.replace(/[\\/:*?"<>|]/g, '_').trim() || 'document';
   const blob = await generateDocxFromHtml(html, cleanName);
   downloadFile(blob, `${cleanName}.docx`);
 }
@@ -48,9 +48,9 @@ export async function exportToDocx(editor: INativeEditor, fileName: string = "do
 /**
  * Export to plain HTML file
  */
-export function exportToHtml(editor: INativeEditor, fileName: string = "document") {
+export function exportToHtml(editor: INativeEditor, fileName: string = 'document') {
   const html = editor.getHTML();
-  const cleanName = fileName.replace(/[\\/:*?"<>|]/g, "_").trim() || "document";
+  const cleanName = fileName.replace(/[\\/:*?"<>|]/g, '_').trim() || 'document';
   const styledHtml = `<!DOCTYPE html>
 <html dir="rtl" lang="ar">
 <head>
@@ -70,14 +70,14 @@ export function exportToHtml(editor: INativeEditor, fileName: string = "document
 </body>
 </html>`;
 
-  downloadFile(styledHtml, `${cleanName}.html`, "text/html;charset=utf-8");
+  downloadFile(styledHtml, `${cleanName}.html`, 'text/html;charset=utf-8');
 }
 
 /**
  * Export to Markdown file
  */
-export function exportToMarkdown(editor: INativeEditor, fileName: string = "document") {
+export function exportToMarkdown(editor: INativeEditor, fileName: string = 'document') {
   const text = editor.getText();
-  const cleanName = fileName.replace(/[\\/:*?"<>|]/g, "_").trim() || "document";
-  downloadFile(text, `${cleanName}.md`, "text/markdown;charset=utf-8");
+  const cleanName = fileName.replace(/[\\/:*?"<>|]/g, '_').trim() || 'document';
+  downloadFile(text, `${cleanName}.md`, 'text/markdown;charset=utf-8');
 }

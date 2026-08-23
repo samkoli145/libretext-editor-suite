@@ -118,7 +118,11 @@ export * from './converters/universal-format-converter';
 
 // ─── محركات التفاعل الجديدة ───
 export { ContextMenuEngine } from './engines/context-menu-engine';
-export type { ContextMenuItem, ContextMenuTarget, ContextMenuResult } from './engines/context-menu-engine';
+export type {
+  ContextMenuItem,
+  ContextMenuTarget,
+  ContextMenuResult,
+} from './engines/context-menu-engine';
 
 // ─── محرك القوائم السياقية المتقدم ───
 export {
@@ -176,17 +180,36 @@ export type {
 } from './engines/context-menu-css';
 
 export { SelectionGizmoEngine } from './engines/selection-gizmo-engine';
-export type { Handle, HandlePosition, GizmoToolbar, GizmoAction, Rect } from './engines/selection-gizmo-engine';
+export type {
+  Handle,
+  HandlePosition,
+  GizmoToolbar,
+  GizmoAction,
+  Rect,
+} from './engines/selection-gizmo-engine';
 
 export { ComposableTraitsEngine } from './engines/composable-traits-engine';
 export type { TraitDef, ComposedProfile } from './engines/composable-traits-engine';
 
 export { FloatingGizmoEngine } from './engines/floating-gizmo-engine';
-export type { FloatingAction, FloatingGizmoState, GizmoPosition } from './engines/floating-gizmo-engine';
+export type {
+  FloatingAction,
+  FloatingGizmoState,
+  GizmoPosition,
+} from './engines/floating-gizmo-engine';
 
 // ─── محركات الماوس والأدوات ───
-export type { ToolCategory, ContextMenuAction, FloatingGizmoTool, TransformHandle, ElementToolingProfile } from './engines/mouse-tooling-engine';
-export { getToolingProfileForNode, calculateTransformGizmoHandles } from './engines/mouse-tooling-engine';
+export type {
+  ToolCategory,
+  ContextMenuAction,
+  FloatingGizmoTool,
+  TransformHandle,
+  ElementToolingProfile,
+} from './engines/mouse-tooling-engine';
+export {
+  getToolingProfileForNode,
+  calculateTransformGizmoHandles,
+} from './engines/mouse-tooling-engine';
 
 export type { UnifiedToolItem } from './engines/tool-registry';
 export { ToolRegistry, toolRegistry } from './engines/tool-registry';
@@ -228,13 +251,22 @@ export type { SpatialBlock, MappedBlock } from './engines/block-mapper';
 
 // ─── Level 5: محركات متوسطة ───
 export { createComponentRegistry } from './registry/component-registry';
-export type { ComponentCategory, ComponentPosition, ComponentRegistration } from './registry/component-registry';
+export type {
+  ComponentCategory,
+  ComponentPosition,
+  ComponentRegistration,
+} from './registry/component-registry';
 
 export { resolveComponents, sortByIdWeight } from './engines/smart-component-engine';
 export type { ComponentDependency, ResolveResult } from './engines/smart-component-engine';
 
 export { renderCalloutSvg, createCallout } from './engines/callout-engine';
-export type { CalloutShape, CalloutColor, CalloutPosition, CalloutConfig } from './engines/callout-engine';
+export type {
+  CalloutShape,
+  CalloutColor,
+  CalloutPosition,
+  CalloutConfig,
+} from './engines/callout-engine';
 
 // ─── Level 6: بروفايلات الكانفا ───
 export {
@@ -248,7 +280,11 @@ export {
   IMPRESS_PROFILE,
   BASE_PROFILE,
 } from './engines/canvas-profile-engine';
-export type { CanvasProfile, FilterResult, CanvasProfileConfig } from './engines/canvas-profile-engine';
+export type {
+  CanvasProfile,
+  FilterResult,
+  CanvasProfileConfig,
+} from './engines/canvas-profile-engine';
 
 // ─── كتل المحتوى ───
 export { createCodeEditorBlock } from './blocks/code-editor';

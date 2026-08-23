@@ -10,9 +10,9 @@
  * ═══════════════════════════════════════════════════════════════════════════
  */
 
-import React, { useRef, useState, useEffect } from "react";
-import type { EditorPluginProps } from "../../core/types";
-import { RichTextData, normalizeRichTextContent } from "./model";
+import React, { useRef, useState, useEffect } from 'react';
+import type { EditorPluginProps } from '../../core/types';
+import { RichTextData, normalizeRichTextContent } from './model';
 import {
   Bold,
   Italic,
@@ -32,26 +32,23 @@ import {
   Printer,
   Sparkles,
   Highlighter,
-} from "lucide-react";
+} from 'lucide-react';
 
-export function RichTextEditor({
-  document,
-  onChange,
-}: EditorPluginProps<RichTextData>) {
+export function RichTextEditor({ document, onChange }: EditorPluginProps<RichTextData>) {
   const contentHtml = normalizeRichTextContent(document.data?.content);
   const editorRef = useRef<HTMLDivElement>(null);
   const [wordCount, setWordCount] = useState(0);
 
   useEffect(() => {
     if (editorRef.current && editorRef.current.innerHTML !== contentHtml) {
-      editorRef.current.innerHTML = contentHtml || "<h1>عنوان المستند</h1><p>أدخل النص هنا...</p>";
+      editorRef.current.innerHTML = contentHtml || '<h1>عنوان المستند</h1><p>أدخل النص هنا...</p>';
     }
     calculateWordCount();
   }, [document.id]);
 
   const calculateWordCount = () => {
     if (!editorRef.current) return;
-    const text = editorRef.current.innerText || "";
+    const text = editorRef.current.innerText || '';
     const words = text.trim() ? text.trim().split(/\s+/).length : 0;
     setWordCount(words);
   };
@@ -89,21 +86,21 @@ export function RichTextEditor({
           {/* Headings */}
           <div className="flex items-center gap-0.5 border-l border-slate-200 pl-2 ml-1">
             <button
-              onClick={() => execCmd("formatBlock", "<h1>")}
+              onClick={() => execCmd('formatBlock', '<h1>')}
               className="p-1.5 rounded hover:bg-slate-100 text-slate-700 font-bold text-xs transition-colors"
               title="عنوان رئيسي H1"
             >
               <Heading1 className="w-4 h-4 text-blue-600" />
             </button>
             <button
-              onClick={() => execCmd("formatBlock", "<h2>")}
+              onClick={() => execCmd('formatBlock', '<h2>')}
               className="p-1.5 rounded hover:bg-slate-100 text-slate-700 font-bold text-xs transition-colors"
               title="عنوان فرعي H2"
             >
               <Heading2 className="w-4 h-4 text-blue-600" />
             </button>
             <button
-              onClick={() => execCmd("formatBlock", "<h3>")}
+              onClick={() => execCmd('formatBlock', '<h3>')}
               className="p-1.5 rounded hover:bg-slate-100 text-slate-700 font-bold text-xs transition-colors"
               title="عنوان H3"
             >
@@ -114,28 +111,28 @@ export function RichTextEditor({
           {/* Text Style */}
           <div className="flex items-center gap-0.5 border-l border-slate-200 pl-2 ml-1">
             <button
-              onClick={() => execCmd("bold")}
+              onClick={() => execCmd('bold')}
               className="p-1.5 rounded hover:bg-slate-100 text-slate-700 transition-colors"
               title="عريض (Bold)"
             >
               <Bold className="w-4 h-4" />
             </button>
             <button
-              onClick={() => execCmd("italic")}
+              onClick={() => execCmd('italic')}
               className="p-1.5 rounded hover:bg-slate-100 text-slate-700 transition-colors"
               title="مائل (Italic)"
             >
               <Italic className="w-4 h-4" />
             </button>
             <button
-              onClick={() => execCmd("underline")}
+              onClick={() => execCmd('underline')}
               className="p-1.5 rounded hover:bg-slate-100 text-slate-700 transition-colors"
               title="سطر تحت النص (Underline)"
             >
               <Underline className="w-4 h-4" />
             </button>
             <button
-              onClick={() => execCmd("strikeThrough")}
+              onClick={() => execCmd('strikeThrough')}
               className="p-1.5 rounded hover:bg-slate-100 text-slate-700 transition-colors"
               title="مشطوب (Strikethrough)"
             >
@@ -146,28 +143,28 @@ export function RichTextEditor({
           {/* Alignment */}
           <div className="flex items-center gap-0.5 border-l border-slate-200 pl-2 ml-1">
             <button
-              onClick={() => execCmd("justifyRight")}
+              onClick={() => execCmd('justifyRight')}
               className="p-1.5 rounded hover:bg-slate-100 text-slate-700 transition-colors"
               title="محاذاة لليمين"
             >
               <AlignRight className="w-4 h-4" />
             </button>
             <button
-              onClick={() => execCmd("justifyCenter")}
+              onClick={() => execCmd('justifyCenter')}
               className="p-1.5 rounded hover:bg-slate-100 text-slate-700 transition-colors"
               title="محاذاة للوسط"
             >
               <AlignCenter className="w-4 h-4" />
             </button>
             <button
-              onClick={() => execCmd("justifyLeft")}
+              onClick={() => execCmd('justifyLeft')}
               className="p-1.5 rounded hover:bg-slate-100 text-slate-700 transition-colors"
               title="محاذاة لليسار"
             >
               <AlignLeft className="w-4 h-4" />
             </button>
             <button
-              onClick={() => execCmd("justifyFull")}
+              onClick={() => execCmd('justifyFull')}
               className="p-1.5 rounded hover:bg-slate-100 text-slate-700 transition-colors"
               title="ضبط المحاذاة (Justify)"
             >
@@ -178,14 +175,14 @@ export function RichTextEditor({
           {/* Lists */}
           <div className="flex items-center gap-0.5">
             <button
-              onClick={() => execCmd("insertUnorderedList")}
+              onClick={() => execCmd('insertUnorderedList')}
               className="p-1.5 rounded hover:bg-slate-100 text-slate-700 transition-colors"
               title="قائمة نقطية"
             >
               <List className="w-4 h-4" />
             </button>
             <button
-              onClick={() => execCmd("insertOrderedList")}
+              onClick={() => execCmd('insertOrderedList')}
               className="p-1.5 rounded hover:bg-slate-100 text-slate-700 transition-colors"
               title="قائمة رقمية"
             >
@@ -215,7 +212,7 @@ export function RichTextEditor({
             contentEditable
             onInput={handleInput}
             className="prose prose-slate max-w-none focus:outline-none min-h-[850px] text-slate-900 leading-relaxed font-sans"
-            style={{ direction: "rtl", textAlign: "right" }}
+            style={{ direction: 'rtl', textAlign: 'right' }}
           />
         </div>
       </div>

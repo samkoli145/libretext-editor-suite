@@ -206,7 +206,7 @@ export function getRotatedBBox(
   y: number,
   width: number,
   height: number,
-  angleDeg: number
+  angleDeg: number,
 ): BoundingBox {
   if (angleDeg % 360 === 0) {
     return { x, y, width, height };

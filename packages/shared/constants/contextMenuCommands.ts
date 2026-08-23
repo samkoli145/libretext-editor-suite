@@ -95,36 +95,66 @@ export type ContextTargetType =
 
 /**
  * بناء بنود القائمة السياقية حسب نوع العنصر الهدف.
- * 
+ *
  * @param targetType - نوع العنصر الهدف
  * @param isRtl - هل الواجهة RTL؟
  * @returns قائمة البنود
  */
 export function buildContextMenuItems(
   targetType: ContextTargetType,
-  isRtl: boolean = true
+  isRtl: boolean = true,
 ): ContextMenuItemDefinition[] {
   switch (targetType) {
     case 'canvas-element':
       return [
-        { id: 'cm-duplicate', label: 'تكرار', commandId: ContextMenuCommands.CANVAS_DUPLICATE, shortcut: 'Ctrl+D' },
-        { id: 'cm-delete', label: 'حذف', commandId: ContextMenuCommands.CANVAS_DELETE, shortcut: 'Delete' },
+        {
+          id: 'cm-duplicate',
+          label: 'تكرار',
+          commandId: ContextMenuCommands.CANVAS_DUPLICATE,
+          shortcut: 'Ctrl+D',
+        },
+        {
+          id: 'cm-delete',
+          label: 'حذف',
+          commandId: ContextMenuCommands.CANVAS_DELETE,
+          shortcut: 'Delete',
+        },
         { id: 'cm-sep-1', label: '', separator: true },
         {
           id: 'cm-align',
           label: 'محاذاة',
           children: [
-            { id: 'cm-align-left', label: 'محاذاة يسار', commandId: ContextMenuCommands.CANVAS_ALIGN_LEFT },
-            { id: 'cm-align-center', label: 'محاذاة وسط', commandId: ContextMenuCommands.CANVAS_ALIGN_CENTER },
-            { id: 'cm-align-right', label: 'محاذاة يمين', commandId: ContextMenuCommands.CANVAS_ALIGN_RIGHT },
+            {
+              id: 'cm-align-left',
+              label: 'محاذاة يسار',
+              commandId: ContextMenuCommands.CANVAS_ALIGN_LEFT,
+            },
+            {
+              id: 'cm-align-center',
+              label: 'محاذاة وسط',
+              commandId: ContextMenuCommands.CANVAS_ALIGN_CENTER,
+            },
+            {
+              id: 'cm-align-right',
+              label: 'محاذاة يمين',
+              commandId: ContextMenuCommands.CANVAS_ALIGN_RIGHT,
+            },
           ],
         },
         {
           id: 'cm-layer',
           label: 'الطبقات',
           children: [
-            { id: 'cm-bring-front', label: 'إلى الأمام', commandId: ContextMenuCommands.CANVAS_BRING_TO_FRONT },
-            { id: 'cm-send-back', label: 'إلى الخلف', commandId: ContextMenuCommands.CANVAS_SEND_TO_BACK },
+            {
+              id: 'cm-bring-front',
+              label: 'إلى الأمام',
+              commandId: ContextMenuCommands.CANVAS_BRING_TO_FRONT,
+            },
+            {
+              id: 'cm-send-back',
+              label: 'إلى الخلف',
+              commandId: ContextMenuCommands.CANVAS_SEND_TO_BACK,
+            },
           ],
         },
         { id: 'cm-sep-2', label: '', separator: true },
@@ -133,24 +163,63 @@ export function buildContextMenuItems(
 
     case 'canvas-background':
       return [
-        { id: 'cm-paste', label: 'لصق', commandId: ContextMenuCommands.EDIT_PASTE, shortcut: 'Ctrl+V' },
+        {
+          id: 'cm-paste',
+          label: 'لصق',
+          commandId: ContextMenuCommands.EDIT_PASTE,
+          shortcut: 'Ctrl+V',
+        },
         { id: 'cm-sep-1', label: '', separator: true },
-        { id: 'cm-select-all', label: 'تحديد الكل', commandId: 'canvas:select-all', shortcut: 'Ctrl+A' },
+        {
+          id: 'cm-select-all',
+          label: 'تحديد الكل',
+          commandId: 'canvas:select-all',
+          shortcut: 'Ctrl+A',
+        },
       ];
 
     case 'text':
     case 'text-selection':
       return [
         { id: 'cm-cut', label: 'قص', commandId: ContextMenuCommands.EDIT_CUT, shortcut: 'Ctrl+X' },
-        { id: 'cm-copy', label: 'نسخ', commandId: ContextMenuCommands.EDIT_COPY, shortcut: 'Ctrl+C' },
-        { id: 'cm-paste', label: 'لصق', commandId: ContextMenuCommands.EDIT_PASTE, shortcut: 'Ctrl+V' },
+        {
+          id: 'cm-copy',
+          label: 'نسخ',
+          commandId: ContextMenuCommands.EDIT_COPY,
+          shortcut: 'Ctrl+C',
+        },
+        {
+          id: 'cm-paste',
+          label: 'لصق',
+          commandId: ContextMenuCommands.EDIT_PASTE,
+          shortcut: 'Ctrl+V',
+        },
         { id: 'cm-sep-1', label: '', separator: true },
-        { id: 'cm-bold', label: 'عريض', commandId: ContextMenuCommands.FORMAT_BOLD, shortcut: 'Ctrl+B' },
-        { id: 'cm-italic', label: 'مائل', commandId: ContextMenuCommands.FORMAT_ITALIC, shortcut: 'Ctrl+I' },
-        { id: 'cm-underline', label: 'تسطير', commandId: ContextMenuCommands.FORMAT_UNDERLINE, shortcut: 'Ctrl+U' },
+        {
+          id: 'cm-bold',
+          label: 'عريض',
+          commandId: ContextMenuCommands.FORMAT_BOLD,
+          shortcut: 'Ctrl+B',
+        },
+        {
+          id: 'cm-italic',
+          label: 'مائل',
+          commandId: ContextMenuCommands.FORMAT_ITALIC,
+          shortcut: 'Ctrl+I',
+        },
+        {
+          id: 'cm-underline',
+          label: 'تسطير',
+          commandId: ContextMenuCommands.FORMAT_UNDERLINE,
+          shortcut: 'Ctrl+U',
+        },
         { id: 'cm-sep-2', label: '', separator: true },
         { id: 'cm-insert-link', label: 'إدراج رابط', commandId: ContextMenuCommands.INSERT_LINK },
-        { id: 'cm-insert-equation', label: 'إدراج معادلة', commandId: ContextMenuCommands.LATEX_INSERT_EQUATION },
+        {
+          id: 'cm-insert-equation',
+          label: 'إدراج معادلة',
+          commandId: ContextMenuCommands.LATEX_INSERT_EQUATION,
+        },
       ];
 
     case 'image':
@@ -163,9 +232,21 @@ export function buildContextMenuItems(
           id: 'cm-align',
           label: 'محاذاة',
           children: [
-            { id: 'cm-align-left', label: 'يسار', commandId: ContextMenuCommands.CANVAS_ALIGN_LEFT },
-            { id: 'cm-align-center', label: 'وسط', commandId: ContextMenuCommands.CANVAS_ALIGN_CENTER },
-            { id: 'cm-align-right', label: 'يمين', commandId: ContextMenuCommands.CANVAS_ALIGN_RIGHT },
+            {
+              id: 'cm-align-left',
+              label: 'يسار',
+              commandId: ContextMenuCommands.CANVAS_ALIGN_LEFT,
+            },
+            {
+              id: 'cm-align-center',
+              label: 'وسط',
+              commandId: ContextMenuCommands.CANVAS_ALIGN_CENTER,
+            },
+            {
+              id: 'cm-align-right',
+              label: 'يمين',
+              commandId: ContextMenuCommands.CANVAS_ALIGN_RIGHT,
+            },
           ],
         },
       ];
@@ -194,10 +275,25 @@ export function buildContextMenuItems(
 
     default:
       return [
-        { id: 'cm-undo', label: 'تراجع', commandId: ContextMenuCommands.EDIT_UNDO, shortcut: 'Ctrl+Z' },
-        { id: 'cm-redo', label: 'إعادة', commandId: ContextMenuCommands.EDIT_REDO, shortcut: 'Ctrl+Y' },
+        {
+          id: 'cm-undo',
+          label: 'تراجع',
+          commandId: ContextMenuCommands.EDIT_UNDO,
+          shortcut: 'Ctrl+Z',
+        },
+        {
+          id: 'cm-redo',
+          label: 'إعادة',
+          commandId: ContextMenuCommands.EDIT_REDO,
+          shortcut: 'Ctrl+Y',
+        },
         { id: 'cm-sep-1', label: '', separator: true },
-        { id: 'cm-save', label: 'حفظ', commandId: ContextMenuCommands.DOCUMENT_SAVE, shortcut: 'Ctrl+S' },
+        {
+          id: 'cm-save',
+          label: 'حفظ',
+          commandId: ContextMenuCommands.DOCUMENT_SAVE,
+          shortcut: 'Ctrl+S',
+        },
         { id: 'cm-print', label: 'طباعة', commandId: ContextMenuCommands.DOCUMENT_PRINT },
       ];
   }

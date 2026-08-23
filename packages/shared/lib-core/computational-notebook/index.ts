@@ -14,7 +14,7 @@
  * ═══════════════════════════════════════════════════════════════
  */
 
-export * from './types.ts'
+export * from './types.ts';
 export {
   generateVarId,
   findVar,
@@ -24,11 +24,11 @@ export {
   createNotebook,
   deleteNotebook,
   renameNotebook,
-} from './scratchpad-patches.ts'
-export * from './ScratchpadParser.ts'
-export * from './ScratchpadGraph.ts'
-export * from './ScratchpadEngine.ts'
-export * from './ScratchpadStore.ts'
-export * from './ScratchpadBindings.ts'
-export * from './unit-calc-engine.ts'
-export * from './negative-control-tests.ts'
+} from './scratchpad-patches.ts';
+export * from './ScratchpadParser.ts';
+export * from './ScratchpadGraph.ts';
+export * from './ScratchpadEngine.ts';
+export * from './ScratchpadStore.ts';
+export * from './ScratchpadBindings.ts';
+export * from './unit-calc-engine.ts';
+export * from './negative-control-tests.ts';

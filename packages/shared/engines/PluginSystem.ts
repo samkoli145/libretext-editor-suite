@@ -77,7 +77,10 @@ export class PluginManager {
     return Array.from(this.plugins.values());
   }
 
-  public getToolbarButtons(): Array<{ plugin: EditorPlugin; button: NonNullable<EditorPlugin['toolbarButton']> }> {
+  public getToolbarButtons(): Array<{
+    plugin: EditorPlugin;
+    button: NonNullable<EditorPlugin['toolbarButton']>;
+  }> {
     return this.getPlugins()
       .filter((p) => p.toolbarButton)
       .map((p) => ({ plugin: p, button: p.toolbarButton! }));
@@ -85,9 +88,12 @@ export class PluginManager {
 
   public getContextMenuItems(
     context?: any,
-    pos?: number
+    pos?: number,
   ): Array<{ plugin: EditorPlugin; item: NonNullable<EditorPlugin['contextMenuItems']>[0] }> {
-    const items: Array<{ plugin: EditorPlugin; item: NonNullable<EditorPlugin['contextMenuItems']>[0] }> = [];
+    const items: Array<{
+      plugin: EditorPlugin;
+      item: NonNullable<EditorPlugin['contextMenuItems']>[0];
+    }> = [];
 
     for (const plugin of this.plugins.values()) {
       if (!plugin.contextMenuItems) continue;

@@ -119,12 +119,36 @@ export interface ContextMenuItemStyle {
 }
 
 export const CONTEXT_MENU_ITEM_STYLES = Object.freeze({
-  default: Object.freeze({ background: 'transparent', color: '#0F172A', fontWeight: '400' }) as ContextMenuItemStyle,
-  hover: Object.freeze({ background: '#F1F5F9', color: '#0F172A', fontWeight: '500' }) as ContextMenuItemStyle,
-  focus: Object.freeze({ background: '#EFF6FF', color: '#1E40AF', fontWeight: '500' }) as ContextMenuItemStyle,
-  danger: Object.freeze({ background: 'transparent', color: '#DC2626', fontWeight: '400' }) as ContextMenuItemStyle,
-  dangerHover: Object.freeze({ background: '#FEF2F2', color: '#DC2626', fontWeight: '500' }) as ContextMenuItemStyle,
-  disabled: Object.freeze({ background: 'transparent', color: '#CBD5E1', fontWeight: '400' }) as ContextMenuItemStyle,
+  default: Object.freeze({
+    background: 'transparent',
+    color: '#0F172A',
+    fontWeight: '400',
+  }) as ContextMenuItemStyle,
+  hover: Object.freeze({
+    background: '#F1F5F9',
+    color: '#0F172A',
+    fontWeight: '500',
+  }) as ContextMenuItemStyle,
+  focus: Object.freeze({
+    background: '#EFF6FF',
+    color: '#1E40AF',
+    fontWeight: '500',
+  }) as ContextMenuItemStyle,
+  danger: Object.freeze({
+    background: 'transparent',
+    color: '#DC2626',
+    fontWeight: '400',
+  }) as ContextMenuItemStyle,
+  dangerHover: Object.freeze({
+    background: '#FEF2F2',
+    color: '#DC2626',
+    fontWeight: '500',
+  }) as ContextMenuItemStyle,
+  disabled: Object.freeze({
+    background: 'transparent',
+    color: '#CBD5E1',
+    fontWeight: '400',
+  }) as ContextMenuItemStyle,
 });
 
 // ─── CSS Generation ───

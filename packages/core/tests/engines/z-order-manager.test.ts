@@ -2,7 +2,11 @@ import { describe, it, expect } from 'vitest';
 import { reorderZIndex, applyZOrderChanges } from '../../src/engines/z-order-manager';
 
 describe('CORE-ENG-016: z-order-manager', () => {
-  const els = [{ id: 'a', zIndex: 1 }, { id: 'b', zIndex: 2 }, { id: 'c', zIndex: 3 }];
+  const els = [
+    { id: 'a', zIndex: 1 },
+    { id: 'b', zIndex: 2 },
+    { id: 'c', zIndex: 3 },
+  ];
 
   it('bring-to-front sets max zIndex', () => {
     const result = reorderZIndex(els, ['a'], 'bring-to-front');
@@ -26,8 +30,8 @@ describe('CORE-ENG-016: z-order-manager', () => {
 
   it('applyZOrderChanges merges', () => {
     const result = applyZOrderChanges(els, [{ id: 'b', zIndex: 10 }]);
-    expect(result.find(e => e.id === 'b')!.zIndex).toBe(10);
-    expect(result.find(e => e.id === 'a')!.zIndex).toBe(1);
+    expect(result.find((e) => e.id === 'b')!.zIndex).toBe(10);
+    expect(result.find((e) => e.id === 'a')!.zIndex).toBe(1);
   });
 
   it('returns empty for no selection', () => {

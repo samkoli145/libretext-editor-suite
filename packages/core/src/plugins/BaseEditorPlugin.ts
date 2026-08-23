@@ -23,16 +23,11 @@
  * ═══════════════════════════════════════════════════════════════════════════
  */
 
-import type { ComponentType } from "react";
-import type {
-  DocumentModel,
-  DocumentType,
-  EditorPlugin,
-  EditorPluginProps,
-} from "../types";
+import type { ComponentType } from 'react';
+import type { DocumentModel, DocumentType, EditorPlugin, EditorPluginProps } from '../types';
 
 function createDocumentId(): string {
-  if (typeof crypto !== "undefined" && "randomUUID" in crypto) {
+  if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) {
     return crypto.randomUUID();
   }
 
@@ -40,16 +35,14 @@ function createDocumentId(): string {
 }
 
 function toIsoString(value: unknown): string {
-  return typeof value === "string" ? value : new Date().toISOString();
+  return typeof value === 'string' ? value : new Date().toISOString();
 }
 
 function toVersion(value: unknown): number {
-  return typeof value === "number" && Number.isFinite(value) ? value : 1;
+  return typeof value === 'number' && Number.isFinite(value) ? value : 1;
 }
 
-export abstract class BaseEditorPlugin<TData = unknown>
-  implements EditorPlugin<TData>
-{
+export abstract class BaseEditorPlugin<TData = unknown> implements EditorPlugin<TData> {
   abstract id: string;
   abstract name: string;
   abstract documentType: DocumentType;
@@ -80,10 +73,7 @@ export abstract class BaseEditorPlugin<TData = unknown>
   /**
    * مساعد لإنشاء هيكل مستند جديد.
    */
-  protected createDocumentShell(
-    title: string,
-    data: TData
-  ): DocumentModel<TData> {
+  protected createDocumentShell(title: string, data: TData): DocumentModel<TData> {
     const now = new Date().toISOString();
 
     return {
@@ -110,26 +100,26 @@ export abstract class BaseEditorPlugin<TData = unknown>
   protected deserializeJson(raw: string): DocumentModel<TData> {
     const parsed = JSON.parse(raw) as Partial<DocumentModel<TData>>;
 
-    if (!parsed || typeof parsed !== "object") {
-      throw new Error("Invalid document format: expected an object.");
+    if (!parsed || typeof parsed !== 'object') {
+      throw new Error('Invalid document format: expected an object.');
     }
 
-    if (!parsed.id || typeof parsed.id !== "string") {
-      throw new Error("Invalid document format: missing document id.");
+    if (!parsed.id || typeof parsed.id !== 'string') {
+      throw new Error('Invalid document format: missing document id.');
     }
 
-    if (!parsed.type || typeof parsed.type !== "string") {
-      throw new Error("Invalid document format: missing document type.");
+    if (!parsed.type || typeof parsed.type !== 'string') {
+      throw new Error('Invalid document format: missing document type.');
     }
 
-    if (!("data" in parsed)) {
-      throw new Error("Invalid document format: missing document data.");
+    if (!('data' in parsed)) {
+      throw new Error('Invalid document format: missing document data.');
     }
 
     return {
       id: parsed.id,
       type: this.documentType,
-      title: typeof parsed.title === "string" ? parsed.title : "Untitled",
+      title: typeof parsed.title === 'string' ? parsed.title : 'Untitled',
       createdAt: toIsoString(parsed.createdAt),
       updatedAt: toIsoString(parsed.updatedAt),
       version: toVersion(parsed.version),

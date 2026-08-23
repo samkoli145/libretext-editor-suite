@@ -95,7 +95,7 @@ export function deriveSignature(tags: readonly CapabilityTag[]): string {
  * التحقق من أن كل الـ tags المدخلة معروفة ومطابقة للقائمة المعتمدة
  */
 export function validateTags(
-  tags: readonly string[]
+  tags: readonly string[],
 ): { valid: true } | { valid: false; unknown: string[] } {
   const knownSet = new Set<string>(KNOWN_CAPABILITY_TAGS);
   const unknown = tags.filter((t) => !knownSet.has(t));
@@ -133,7 +133,7 @@ export class CapabilityRegistry {
     if (existingList && existingList.length > 0) {
       return {
         hasConflict: true,
-        conflictingBlock: existingList[0]?.id ?? "",
+        conflictingBlock: existingList[0]?.id ?? '',
         reason: 'duplicate-signature',
       };
     }
@@ -146,7 +146,7 @@ export class CapabilityRegistry {
   register(
     id: string,
     tags: readonly CapabilityTag[],
-    options?: { allowDuplicateSignature?: boolean; reason?: string }
+    options?: { allowDuplicateSignature?: boolean; reason?: string },
   ): Capability {
     const conflict = this.checkConflict(id, tags);
     if (conflict.hasConflict) {
@@ -155,7 +155,7 @@ export class CapabilityRegistry {
       }
       if (conflict.reason === 'duplicate-signature' && !options?.allowDuplicateSignature) {
         throw new Error(
-          `تركيبة القدرات هذه مطابقة تماماً لبلوك موجود: "${conflict.conflictingBlock}". فكّر في توسيعه أو استخدم الاستثناء الموثق بحجة واضحة.`
+          `تركيبة القدرات هذه مطابقة تماماً لبلوك موجود: "${conflict.conflictingBlock}". فكّر في توسيعه أو استخدم الاستثناء الموثق بحجة واضحة.`,
         );
       }
     }
@@ -215,4 +215,3 @@ export class CapabilityRegistry {
     }
   }
 }
-

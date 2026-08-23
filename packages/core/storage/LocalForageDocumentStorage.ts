@@ -23,16 +23,16 @@
  * ═══════════════════════════════════════════════════════════════════════════
  */
 
-import localforage from "localforage";
-import type { DocumentModel } from "../types";
-import type { DocumentStorage, DocumentMetadataSummary } from "../documents/DocumentManager";
+import localforage from 'localforage';
+import type { DocumentModel } from '../types';
+import type { DocumentStorage, DocumentMetadataSummary } from '../documents/DocumentManager';
 
 const store = localforage.createInstance({
-  name: "webpainter-next",
-  storeName: "documents",
+  name: 'webpainter-next',
+  storeName: 'documents',
 });
 
-const INDEX_KEY = "meta:index";
+const INDEX_KEY = 'meta:index';
 
 function docKey(id: string): string {
   return `doc:${id}`;

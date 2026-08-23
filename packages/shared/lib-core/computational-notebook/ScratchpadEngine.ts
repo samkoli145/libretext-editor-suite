@@ -25,11 +25,8 @@
  * ═══════════════════════════════════════════════════════════════
  */
 
-import { parse, type ASTNode } from './ScratchpadParser.ts'
-import {
-  buildGraphFromExpressions,
-  topologicalSort,
-} from './ScratchpadGraph.ts'
+import { parse, type ASTNode } from './ScratchpadParser.ts';
+import { buildGraphFromExpressions, topologicalSort } from './ScratchpadGraph.ts';
 import {
   setScratchpadVar as makeSetPatch,
   deleteScratchpadVar as makeDeletePatch,
@@ -38,7 +35,7 @@ import {
   deleteNotebook as makeDeleteNbPatch,
   renameNotebook as makeRenameNbPatch,
   findVar,
-} from './scratchpad-patches.ts'
+} from './scratchpad-patches.ts';
 import {
   type ScratchpadPatch,
   isScratchpadError,
@@ -53,19 +50,19 @@ import {
   type Notebook,
   type ScratchpadEvent,
   type ScratchpadColumnType,
-} from './types.ts'
+} from './types.ts';
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // 🎯 محرك المفكرة الحسابية المنقى (Pure Derivation Engine)
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 export class ScratchpadEngine {
-  private notebooks = new Map<string, Notebook>()
-  private activeNotebookId: string | null = null
-  private listeners = new Map<string, Set<(event: ScratchpadEvent) => void>>()
+  private notebooks = new Map<string, Notebook>();
+  private activeNotebookId: string | null = null;
+  private listeners = new Map<string, Set<(event: ScratchpadEvent) => void>>();
 
   constructor() {
-    const defaultId = 'default'
+    const defaultId = 'default';
     this.notebooks.set(
       defaultId,
       normalizeNotebook({
@@ -73,9 +70,9 @@ export class ScratchpadEngine {
         name: 'دفتر الحسابات الرئيسي',
         lines: [],
         vars: new Map(),
-      })
-    )
-    this.activeNotebookId = defaultId
+      }),
+    );
+    this.activeNotebookId = defaultId;
   }
 
   // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -86,53 +83,53 @@ export class ScratchpadEngine {
     name: string,
     expr: string,
     options?: {
-      type?: ScratchpadColumnType
-      format?: string
-      description?: string
-      notebookId?: string
-    }
+      type?: ScratchpadColumnType;
+      format?: string;
+      description?: string;
+      notebookId?: string;
+    },
   ): ScratchpadPatch[] {
-    const notebook = this.getNotebook(options?.notebookId)
+    const notebook = this.getNotebook(options?.notebookId);
     if (!notebook) {
-      throw new Error(`Notebook not found: ${options?.notebookId ?? this.activeNotebookId}`)
+      throw new Error(`Notebook not found: ${options?.notebookId ?? this.activeNotebookId}`);
     }
-    return makeSetPatch(notebook, name, expr, options)
+    return makeSetPatch(notebook, name, expr, options);
   }
 
   deleteVar(nameOrId: string, notebookId?: string): ScratchpadPatch[] {
-    const notebook = this.getNotebook(notebookId)
+    const notebook = this.getNotebook(notebookId);
     if (!notebook) {
-      throw new Error(`Notebook not found: ${notebookId ?? this.activeNotebookId}`)
+      throw new Error(`Notebook not found: ${notebookId ?? this.activeNotebookId}`);
     }
-    return makeDeletePatch(notebook, nameOrId)
+    return makeDeletePatch(notebook, nameOrId);
   }
 
   renameVar(oldNameOrId: string, newName: string, notebookId?: string): ScratchpadPatch[] {
-    const notebook = this.getNotebook(notebookId)
+    const notebook = this.getNotebook(notebookId);
     if (!notebook) {
-      throw new Error(`Notebook not found: ${notebookId ?? this.activeNotebookId}`)
+      throw new Error(`Notebook not found: ${notebookId ?? this.activeNotebookId}`);
     }
-    return makeRenamePatch(notebook, oldNameOrId, newName)
+    return makeRenamePatch(notebook, oldNameOrId, newName);
   }
 
   createNotebook(notebookId: string, name: string): ScratchpadPatch[] {
-    return makeCreateNbPatch(notebookId, name)
+    return makeCreateNbPatch(notebookId, name);
   }
 
   deleteNotebook(notebookId?: string): ScratchpadPatch[] {
-    const notebook = this.getNotebook(notebookId)
+    const notebook = this.getNotebook(notebookId);
     if (!notebook) {
-      throw new Error(`Notebook not found: ${notebookId ?? this.activeNotebookId}`)
+      throw new Error(`Notebook not found: ${notebookId ?? this.activeNotebookId}`);
     }
-    return makeDeleteNbPatch(notebook)
+    return makeDeleteNbPatch(notebook);
   }
 
   renameNotebook(newName: string, notebookId?: string): ScratchpadPatch[] {
-    const notebook = this.getNotebook(notebookId)
+    const notebook = this.getNotebook(notebookId);
     if (!notebook) {
-      throw new Error(`Notebook not found: ${notebookId ?? this.activeNotebookId}`)
+      throw new Error(`Notebook not found: ${notebookId ?? this.activeNotebookId}`);
     }
-    return makeRenameNbPatch(notebook, newName)
+    return makeRenameNbPatch(notebook, newName);
   }
 
   // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -140,127 +137,131 @@ export class ScratchpadEngine {
   // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
   deriveVar(varId: string, notebookId?: string): ComputedVar | null {
-    const notebook = this.getNotebook(notebookId)
-    if (!notebook) return null
+    const notebook = this.getNotebook(notebookId);
+    if (!notebook) return null;
 
-    const v = notebook.vars.get(varId)
-    if (!v) return null
+    const v = notebook.vars.get(varId);
+    if (!v) return null;
 
-    const allComputed = this.deriveAll(notebook.id)
-    return allComputed.get(varId) ?? null
+    const allComputed = this.deriveAll(notebook.id);
+    return allComputed.get(varId) ?? null;
   }
 
   deriveAll(notebookId?: string): Map<string, ComputedVar> {
-    const notebook = this.getNotebook(notebookId)
-    if (!notebook) return new Map()
+    const notebook = this.getNotebook(notebookId);
+    if (!notebook) return new Map();
 
-    const results = new Map<string, ComputedVar>()
-    const exprs = new Map<string, string>()
+    const results = new Map<string, ComputedVar>();
+    const exprs = new Map<string, string>();
 
     for (const [id, v] of notebook.vars) {
-      exprs.set(id, v.expr)
+      exprs.set(id, v.expr);
     }
 
-    const graph = buildGraphFromExpressions(exprs)
-    const { order, cycles } = topologicalSort(graph)
+    const graph = buildGraphFromExpressions(exprs);
+    const { order, cycles } = topologicalSort(graph);
 
-    const evaluatedValues = new Map<string, unknown>()
+    const evaluatedValues = new Map<string, unknown>();
     const context = {
       vars: notebook.vars,
       evaluatedValues,
-    }
+    };
 
     // 1. Evaluate in strict topological order
     for (const varId of order) {
-      const v = notebook.vars.get(varId)
-      if (!v) continue
+      const v = notebook.vars.get(varId);
+      if (!v) continue;
 
-      const result = this.evaluateExpression(v.expr, context)
-      evaluatedValues.set(varId, result)
+      const result = this.evaluateExpression(v.expr, context);
+      evaluatedValues.set(varId, result);
 
       results.set(varId, {
         ...v,
         value: isScratchpadError(result) ? null : result,
         error: isScratchpadError(result) ? result : undefined,
-      })
+      });
     }
 
     // 2. Cycles get explicit #CYCLE! error (Rule #3: Honest error)
     for (const varId of cycles) {
-      const v = notebook.vars.get(varId)
-      if (!v) continue
+      const v = notebook.vars.get(varId);
+      if (!v) continue;
 
       results.set(varId, {
         ...v,
         value: null,
         error: ERR_CYCLE(),
-      })
+      });
     }
 
-    return results
+    return results;
   }
 
   private evaluateExpression(
     expr: string,
-    context: { vars: Map<string, ScratchpadVar>; evaluatedValues: Map<string, unknown> }
+    context: { vars: Map<string, ScratchpadVar>; evaluatedValues: Map<string, unknown> },
   ): unknown {
-    const ast = parse(expr)
-    if (isScratchpadError(ast)) return ast
+    const ast = parse(expr);
+    if (isScratchpadError(ast)) return ast;
 
-    return this.evaluateAST(ast, context)
+    return this.evaluateAST(ast, context);
   }
 
   private evaluateAST(
     node: ASTNode,
-    context: { vars: Map<string, ScratchpadVar>; evaluatedValues: Map<string, unknown> }
+    context: { vars: Map<string, ScratchpadVar>; evaluatedValues: Map<string, unknown> },
   ): unknown {
     switch (node.type) {
       case 'number':
       case 'string':
-        return node.value
+        return node.value;
 
       case 'variable': {
-        const varId = this.findVarIdByName(node.name, context.vars)
-        if (!varId) return ERR_REF(node.name)
+        const varId = this.findVarIdByName(node.name, context.vars);
+        if (!varId) return ERR_REF(node.name);
 
         if (context.evaluatedValues.has(varId)) {
-          return context.evaluatedValues.get(varId)
+          return context.evaluatedValues.get(varId);
         }
-        return ERR_REF(node.name)
+        return ERR_REF(node.name);
       }
 
       case 'unary': {
-        const operand = this.evaluateAST(node.operand, context)
-        if (isScratchpadError(operand)) return operand
+        const operand = this.evaluateAST(node.operand, context);
+        if (isScratchpadError(operand)) return operand;
 
         if (node.op === '-') {
-          if (typeof operand !== 'number') return ERR_VALUE('Unary minus requires number')
-          return -operand
+          if (typeof operand !== 'number') return ERR_VALUE('Unary minus requires number');
+          return -operand;
         }
-        return operand
+        return operand;
       }
 
       case 'binary': {
-        const left = this.evaluateAST(node.left, context)
-        const right = this.evaluateAST(node.right, context)
+        const left = this.evaluateAST(node.left, context);
+        const right = this.evaluateAST(node.right, context);
 
-        if (isScratchpadError(left)) return left
-        if (isScratchpadError(right)) return right
+        if (isScratchpadError(left)) return left;
+        if (isScratchpadError(right)) return right;
 
         if (typeof left !== 'number' || typeof right !== 'number') {
-          return ERR_VALUE('Binary operations require numbers')
+          return ERR_VALUE('Binary operations require numbers');
         }
 
         switch (node.op) {
-          case '+': return left + right
-          case '-': return left - right
-          case '*': return left * right
+          case '+':
+            return left + right;
+          case '-':
+            return left - right;
+          case '*':
+            return left * right;
           case '/':
-            if (right === 0) return ERR_DIV0()
-            return left / right
-          case '^': return Math.pow(left, right)
+            if (right === 0) return ERR_DIV0();
+            return left / right;
+          case '^':
+            return Math.pow(left, right);
           default:
-            return ERR_VALUE(`Unknown operator: ${node.op}`)
+            return ERR_VALUE(`Unknown operator: ${node.op}`);
         }
       }
 
@@ -278,37 +279,37 @@ export class ScratchpadEngine {
           round: (x) => Math.round(x),
           min: (...args) => Math.min(...args),
           max: (...args) => Math.max(...args),
-        }
+        };
 
-        const func = funcs[node.name.toLowerCase()]
-        if (!func) return ERR_NAME(node.name)
+        const func = funcs[node.name.toLowerCase()];
+        if (!func) return ERR_NAME(node.name);
 
-        const args: number[] = []
+        const args: number[] = [];
         for (const argNode of node.args) {
-          const arg = this.evaluateAST(argNode, context)
-          if (isScratchpadError(arg)) return arg
-          if (typeof arg !== 'number') return ERR_VALUE(`Function ${node.name} requires numbers`)
-          args.push(arg)
+          const arg = this.evaluateAST(argNode, context);
+          if (isScratchpadError(arg)) return arg;
+          if (typeof arg !== 'number') return ERR_VALUE(`Function ${node.name} requires numbers`);
+          args.push(arg);
         }
 
         try {
-          return func(...args)
+          return func(...args);
         } catch (e) {
-          return ERR_VALUE(`Error in ${node.name}: ${e}`)
+          return ERR_VALUE(`Error in ${node.name}: ${e}`);
         }
       }
 
       default:
-        return ERR_VALUE('Unknown AST node')
+        return ERR_VALUE('Unknown AST node');
     }
   }
 
   private findVarIdByName(name: string, vars: Map<string, ScratchpadVar>): string | null {
-    const normalized = name.startsWith('$') ? name.slice(1).toLowerCase() : name.toLowerCase()
+    const normalized = name.startsWith('$') ? name.slice(1).toLowerCase() : name.toLowerCase();
     for (const [id, v] of vars) {
-      if (v.name.toLowerCase() === normalized) return id
+      if (v.name.toLowerCase() === normalized) return id;
     }
-    return null
+    return null;
   }
 
   // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -316,34 +317,34 @@ export class ScratchpadEngine {
   // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
   getActiveNotebook(): Notebook | null {
-    if (!this.activeNotebookId) return null
-    return this.notebooks.get(this.activeNotebookId) ?? null
+    if (!this.activeNotebookId) return null;
+    return this.notebooks.get(this.activeNotebookId) ?? null;
   }
 
   getAllNotebooks(): Notebook[] {
-    return Array.from(this.notebooks.values())
+    return Array.from(this.notebooks.values());
   }
 
   setActiveNotebook(id: string): boolean {
-    if (!this.notebooks.has(id)) return false
-    this.activeNotebookId = id
+    if (!this.notebooks.has(id)) return false;
+    this.activeNotebookId = id;
     this.emit({
       type: 'notebookLoaded',
       notebookId: id,
-    })
-    return true
+    });
+    return true;
   }
 
   loadNotebook(raw: Record<string, unknown> | Notebook): void {
-    const notebook = normalizeNotebook(raw as any)
-    this.notebooks.set(notebook.id, notebook)
+    const notebook = normalizeNotebook(raw as any);
+    this.notebooks.set(notebook.id, notebook);
     if (!this.activeNotebookId) {
-      this.activeNotebookId = notebook.id
+      this.activeNotebookId = notebook.id;
     }
     this.emit({
       type: 'notebookLoaded',
       notebookId: notebook.id,
-    })
+    });
   }
 
   // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -351,40 +352,40 @@ export class ScratchpadEngine {
   // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
   getVarValue(nameOrId: string, notebookId?: string): unknown {
-    const notebook = this.getNotebook(notebookId)
-    if (!notebook) return null
+    const notebook = this.getNotebook(notebookId);
+    if (!notebook) return null;
 
-    const v = findVar(notebook, nameOrId)
-    if (!v) return null
+    const v = findVar(notebook, nameOrId);
+    if (!v) return null;
 
-    const computed = this.deriveVar(v.id, notebook.id)
-    return computed?.value ?? null
+    const computed = this.deriveVar(v.id, notebook.id);
+    return computed?.value ?? null;
   }
 
   getComputedVar(nameOrId: string, notebookId?: string): ComputedVar | null {
-    const notebook = this.getNotebook(notebookId)
-    if (!notebook) return null
+    const notebook = this.getNotebook(notebookId);
+    if (!notebook) return null;
 
-    const v = findVar(notebook, nameOrId)
-    if (!v) return null
+    const v = findVar(notebook, nameOrId);
+    if (!v) return null;
 
-    return this.deriveVar(v.id, notebook.id)
+    return this.deriveVar(v.id, notebook.id);
   }
 
   getAllComputedVars(notebookId?: string): Map<string, ComputedVar> {
-    return this.deriveAll(notebookId)
+    return this.deriveAll(notebookId);
   }
 
   listVars(notebookId?: string): ScratchpadVar[] {
-    const nb = this.getNotebook(notebookId)
-    if (!nb) return []
-    return Array.from(nb.vars.values())
+    const nb = this.getNotebook(notebookId);
+    if (!nb) return [];
+    return Array.from(nb.vars.values());
   }
 
   getVar(nameOrId: string, notebookId?: string): ScratchpadVar | null {
-    const nb = this.getNotebook(notebookId)
-    if (!nb) return null
-    return findVar(nb, nameOrId)
+    const nb = this.getNotebook(notebookId);
+    if (!nb) return null;
+    return findVar(nb, nameOrId);
   }
 
   // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -393,44 +394,50 @@ export class ScratchpadEngine {
 
   on(eventType: string, listener: (event: ScratchpadEvent) => void): void {
     if (!this.listeners.has(eventType)) {
-      this.listeners.set(eventType, new Set())
+      this.listeners.set(eventType, new Set());
     }
-    this.listeners.get(eventType)!.add(listener)
+    this.listeners.get(eventType)!.add(listener);
   }
 
   off(eventType: string, listener: (event: ScratchpadEvent) => void): void {
-    this.listeners.get(eventType)?.delete(listener)
+    this.listeners.get(eventType)?.delete(listener);
   }
 
   emit(event: ScratchpadEvent): void {
-    const listeners = this.listeners.get(event.type)
-    if (!listeners) return
+    const listeners = this.listeners.get(event.type);
+    if (!listeners) return;
 
     for (const listener of listeners) {
       try {
-        listener(event)
+        listener(event);
       } catch (e) {
-        console.error('Error in event listener:', e)
+        console.error('Error in event listener:', e);
       }
     }
   }
 
   subscribe(listener: (event: ScratchpadEvent) => void): () => void {
-    const eventTypes = ['varChanged', 'varDeleted', 'notebookChanged', 'notebookLoaded', 'patchApplied']
+    const eventTypes = [
+      'varChanged',
+      'varDeleted',
+      'notebookChanged',
+      'notebookLoaded',
+      'patchApplied',
+    ];
     for (const et of eventTypes) {
-      this.on(et, listener)
+      this.on(et, listener);
     }
     return () => {
       for (const et of eventTypes) {
-        this.off(et, listener)
+        this.off(et, listener);
       }
-    }
+    };
   }
 
   private getNotebook(notebookId?: string): Notebook | null {
-    const id = notebookId ?? this.activeNotebookId
-    if (!id) return null
-    return this.notebooks.get(id) ?? null
+    const id = notebookId ?? this.activeNotebookId;
+    if (!id) return null;
+    return this.notebooks.get(id) ?? null;
   }
 }
 
@@ -438,15 +445,15 @@ export class ScratchpadEngine {
 // 🌐 Singleton Instance
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-let engineInstance: ScratchpadEngine | null = null
+let engineInstance: ScratchpadEngine | null = null;
 
 export function getScratchpadEngine(): ScratchpadEngine {
   if (!engineInstance) {
-    engineInstance = new ScratchpadEngine()
+    engineInstance = new ScratchpadEngine();
   }
-  return engineInstance
+  return engineInstance;
 }
 
 export function resetScratchpadEngine(): void {
-  engineInstance = null
+  engineInstance = null;
 }

@@ -41,14 +41,14 @@ export interface CropRect {
 
 export interface ImageFilters {
   readonly brightness?: number; // 0-200 (100 = عادي)
-  readonly contrast?: number;   // 0-200 (100 = عادي)
-  readonly grayscale?: number;  // 0-100 (0 = عادي)
-  readonly blur?: number;       // 0-20 (بالبكسل)
-  readonly saturate?: number;   // 0-200 (100 = عادي)
+  readonly contrast?: number; // 0-200 (100 = عادي)
+  readonly grayscale?: number; // 0-100 (0 = عادي)
+  readonly blur?: number; // 0-20 (بالبكسل)
+  readonly saturate?: number; // 0-200 (100 = عادي)
   readonly saturation?: number; // Alias for saturate
-  readonly sepia?: number;      // 0-100 (0 = عادي)
-  readonly hueRotate?: number;  // 0-360 (درجة)
-  readonly invert?: number;     // 0-100 (0 = عادي)
+  readonly sepia?: number; // 0-100 (0 = عادي)
+  readonly hueRotate?: number; // 0-360 (درجة)
+  readonly invert?: number; // 0-100 (0 = عادي)
 }
 
 export type ImageFilterOptions = ImageFilters;
@@ -160,7 +160,7 @@ export function applyOrientation(
   ctx: CanvasRenderingContext2D,
   orientation: number,
   width: number,
-  height: number
+  height: number,
 ): void {
   switch (orientation) {
     case 2: // Flip Horizontal
@@ -207,18 +207,23 @@ export async function prepareUploadedImage(
     maxHeight?: number;
     quality?: number;
     format?: 'image/jpeg' | 'image/png' | 'image/webp';
-  }
+  },
 ): Promise<ProcessedImageResult> {
   if (!file) {
     throw new Error('[ImagePipeline] الملف غير صالح');
   }
 
-  if (!SUPPORTED_IMAGE_TYPES.has(file.type) && !/\.(png|jpe?g|gif|webp|bmp|svg)$/i.test(file.name)) {
+  if (
+    !SUPPORTED_IMAGE_TYPES.has(file.type) &&
+    !/\.(png|jpe?g|gif|webp|bmp|svg)$/i.test(file.name)
+  ) {
     throw new Error(`[ImagePipeline] نوع الصورة غير مدعوم: ${file.type}`);
   }
 
   if (file.size > MAX_FILE_SIZE) {
-    throw new Error(`[ImagePipeline] حجم الصورة يتجاوز الحد الأقصى (${MAX_FILE_SIZE / (1024 * 1024)}MB)`);
+    throw new Error(
+      `[ImagePipeline] حجم الصورة يتجاوز الحد الأقصى (${MAX_FILE_SIZE / (1024 * 1024)}MB)`,
+    );
   }
 
   // 1. قراءة ArrayBuffer لفحص EXIF Orientation
@@ -287,7 +292,7 @@ export async function processImageFile(file: File): Promise<ProcessedImageResult
  */
 export async function transformImage(
   source: HTMLImageElement | string,
-  options: ImageTransformOptions
+  options: ImageTransformOptions,
 ): Promise<ProcessedImageResult> {
   const image = typeof source === 'string' ? await loadImage(source) : source;
   const origW = image.naturalWidth || 400;
@@ -301,7 +306,7 @@ export async function transformImage(
   const safeCropH = Math.max(1, Math.min(crop.height, origH - safeCropY));
 
   // 2. التحويلات الهندسية (Rotation & Flip)
-  const rotation = ((options.rotation || 0) % 360 + 360) % 360;
+  const rotation = (((options.rotation || 0) % 360) + 360) % 360;
   const isRotated90or270 = rotation === 90 || rotation === 270;
 
   const targetW = isRotated90or270 ? safeCropH : safeCropW;
@@ -352,7 +357,7 @@ export async function transformImage(
     -drawW / 2,
     -drawH / 2,
     drawW,
-    drawH
+    drawH,
   );
 
   ctx.restore();
@@ -376,7 +381,7 @@ export async function transformImage(
  */
 export async function cropImage(
   source: HTMLImageElement | string,
-  cropRect: CropRect
+  cropRect: CropRect,
 ): Promise<string> {
   const result = await transformImage(source, { crop: cropRect });
   return result.dataUrl;
@@ -387,7 +392,7 @@ export async function cropImage(
  */
 export async function applyImageFilter(
   source: HTMLImageElement | string,
-  filters: ImageFilters
+  filters: ImageFilters,
 ): Promise<string> {
   const result = await transformImage(source, { filters });
   return result.dataUrl;
@@ -400,7 +405,7 @@ export function resizeImageToFit(
   width: number,
   height: number,
   maxWidth: number,
-  maxHeight: number
+  maxHeight: number,
 ): ResizeResult {
   if (width <= 0 || height <= 0 || maxWidth <= 0 || maxHeight <= 0) {
     return { width: 0, height: 0, scale: 0 };
@@ -426,7 +431,7 @@ export function resizeImageToFit(
 export async function compressImage(
   source: HTMLImageElement | string,
   quality: number = 0.85,
-  format: 'image/jpeg' | 'image/webp' | 'image/png' = 'image/jpeg'
+  format: 'image/jpeg' | 'image/webp' | 'image/png' = 'image/jpeg',
 ): Promise<string> {
   const result = await transformImage(source, { quality, format });
   return result.dataUrl;
@@ -437,7 +442,7 @@ export async function compressImage(
  */
 export async function createThumbnail(
   source: HTMLImageElement | string,
-  size: number = 120
+  size: number = 120,
 ): Promise<string> {
   const image = typeof source === 'string' ? await loadImage(source) : source;
   const width = image.naturalWidth || 100;
@@ -478,7 +483,11 @@ function createCanvas(width: number, height: number): HTMLCanvasElement | Offscr
   throw new Error('[ImagePipeline] لا تتوفر بيئة كانفا في هذا السياق');
 }
 
-function toDataUrl(canvas: HTMLCanvasElement | OffscreenCanvas, type = 'image/png', quality?: number): string {
+function toDataUrl(
+  canvas: HTMLCanvasElement | OffscreenCanvas,
+  type = 'image/png',
+  quality?: number,
+): string {
   if ('toDataURL' in canvas && typeof (canvas as HTMLCanvasElement).toDataURL === 'function') {
     return (canvas as HTMLCanvasElement).toDataURL(type, quality);
   }
@@ -510,14 +519,18 @@ function loadImage(src: string): Promise<HTMLImageElement> {
 
 export function buildFilterString(filters: ImageFilters): string {
   const parts: string[] = [];
-  if (filters.brightness !== undefined && filters.brightness !== 100) parts.push(`brightness(${filters.brightness}%)`);
-  if (filters.contrast !== undefined && filters.contrast !== 100) parts.push(`contrast(${filters.contrast}%)`);
+  if (filters.brightness !== undefined && filters.brightness !== 100)
+    parts.push(`brightness(${filters.brightness}%)`);
+  if (filters.contrast !== undefined && filters.contrast !== 100)
+    parts.push(`contrast(${filters.contrast}%)`);
   const sat = filters.saturation ?? filters.saturate;
   if (sat !== undefined && sat !== 100) parts.push(`saturate(${sat}%)`);
-  if (filters.grayscale !== undefined && filters.grayscale > 0) parts.push(`grayscale(${filters.grayscale}%)`);
+  if (filters.grayscale !== undefined && filters.grayscale > 0)
+    parts.push(`grayscale(${filters.grayscale}%)`);
   if (filters.blur !== undefined && filters.blur > 0) parts.push(`blur(${filters.blur}px)`);
   if (filters.sepia !== undefined && filters.sepia > 0) parts.push(`sepia(${filters.sepia}%)`);
-  if (filters.hueRotate !== undefined && filters.hueRotate > 0) parts.push(`hue-rotate(${filters.hueRotate}deg)`);
+  if (filters.hueRotate !== undefined && filters.hueRotate > 0)
+    parts.push(`hue-rotate(${filters.hueRotate}deg)`);
   if (filters.invert !== undefined && filters.invert > 0) parts.push(`invert(${filters.invert}%)`);
   return parts.length > 0 ? parts.join(' ') : 'none';
 }

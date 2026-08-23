@@ -34,7 +34,7 @@ export function createRectanglePath(
   w: number,
   h: number,
   rx = 0,
-  ry = 0
+  ry = 0,
 ): string {
   if (rx <= 0 && ry <= 0) {
     return `M ${x} ${y} H ${x + w} V ${y + h} H ${x} Z`;
@@ -98,7 +98,7 @@ export function createStarPath(
   cy: number,
   numPoints = 5,
   outerRadius = 50,
-  innerRadius = 25
+  innerRadius = 25,
 ): string {
   const points: Point[] = [];
   const step = Math.PI / numPoints;

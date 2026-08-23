@@ -25,10 +25,10 @@
  * ═══════════════════════════════════════════════════════════════════════════
  */
 
-import React, { useState, useEffect, useRef } from "react";
-import { useEditorServices } from "../app/providers";
-import { DocumentEditorHost } from "../app/DocumentEditorHost";
-import type { DocumentModel, DocumentType } from "../core/types";
+import React, { useState, useEffect, useRef } from 'react';
+import { useEditorServices } from '../app/providers';
+import { DocumentEditorHost } from '../app/DocumentEditorHost';
+import type { DocumentModel, DocumentType } from '../core/types';
 import {
   FileText,
   Layout,
@@ -49,7 +49,7 @@ import {
   Maximize2,
   Layers,
   Search,
-} from "lucide-react";
+} from 'lucide-react';
 
 export function Workbench() {
   const services = useEditorServices();
@@ -57,7 +57,7 @@ export function Workbench() {
   const [activeDocId, setActiveDocId] = useState<string | null>(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [showNewDocMenu, setShowNewDocMenu] = useState(false);
-  const [viewMode, setViewMode] = useState<"editor" | "devstudio">("editor");
+  const [viewMode, setViewMode] = useState<'editor' | 'devstudio'>('editor');
   const devStudioRef = useRef<HTMLDivElement>(null);
 
   // Sync documents list and active document from DocumentManager
@@ -71,10 +71,10 @@ export function Workbench() {
 
     updateDocs();
 
-    const unsubDocCreated = services.events.on("document:created", updateDocs);
-    const unsubDocOpened = services.events.on("document:opened", updateDocs);
-    const unsubDocClosed = services.events.on("document:closed", updateDocs);
-    const unsubDocSwitched = services.events.on("document:switched", updateDocs);
+    const unsubDocCreated = services.events.on('document:created', updateDocs);
+    const unsubDocOpened = services.events.on('document:opened', updateDocs);
+    const unsubDocClosed = services.events.on('document:closed', updateDocs);
+    const unsubDocSwitched = services.events.on('document:switched', updateDocs);
 
     return () => {
       unsubDocCreated();
@@ -87,7 +87,7 @@ export function Workbench() {
   // Handle document creation
   const handleCreateDocument = (type: DocumentType, title?: string) => {
     const plugin = services.plugins.getPlugin(type);
-    const docTitle = title || (plugin ? `${plugin.name} جديد` : "مستند جديد");
+    const docTitle = title || (plugin ? `${plugin.name} جديد` : 'مستند جديد');
     const doc = services.documents.createDocument(type, docTitle);
     setActiveDocId(doc.id);
     setShowNewDocMenu(false);
@@ -96,7 +96,7 @@ export function Workbench() {
   // Ensure at least one default document exists if none
   useEffect(() => {
     if (documents.length === 0) {
-      handleCreateDocument("rich-text", "مستند البداية - LibreText");
+      handleCreateDocument('rich-text', 'مستند البداية - LibreText');
     }
   }, [documents.length]);
 
@@ -121,13 +121,13 @@ export function Workbench() {
 
   const docTypeIcon = (type: DocumentType) => {
     switch (type) {
-      case "rich-text":
+      case 'rich-text':
         return <FileText className="w-4 h-4 text-blue-600" />;
-      case "canvas":
+      case 'canvas':
         return <Paintbrush className="w-4 h-4 text-purple-600" />;
-      case "ui-page":
+      case 'ui-page':
         return <Layout className="w-4 h-4 text-emerald-600" />;
-      case "pdf":
+      case 'pdf':
         return <FileCheck className="w-4 h-4 text-rose-600" />;
       default:
         return <FileCode className="w-4 h-4 text-amber-600" />;
@@ -144,7 +144,11 @@ export function Workbench() {
             className="p-1.5 rounded-md hover:bg-slate-100 text-slate-600 transition-colors"
             title="تبديل الشريط الجانبي"
           >
-            {isSidebarOpen ? <ChevronRight className="w-5 h-5" /> : <ChevronLeft className="w-5 h-5" />}
+            {isSidebarOpen ? (
+              <ChevronRight className="w-5 h-5" />
+            ) : (
+              <ChevronLeft className="w-5 h-5" />
+            )}
           </button>
 
           {/* Logo & Brand */}
@@ -171,8 +175,8 @@ export function Workbench() {
                   }}
                   className={`flex items-center gap-2 px-3 py-1.5 rounded-t-md text-xs font-medium cursor-pointer border-t-2 transition-all ${
                     isActive
-                      ? "bg-slate-100/80 text-blue-700 border-blue-600 shadow-2xs font-semibold"
-                      : "bg-transparent text-slate-600 border-transparent hover:bg-slate-100/60"
+                      ? 'bg-slate-100/80 text-blue-700 border-blue-600 shadow-2xs font-semibold'
+                      : 'bg-transparent text-slate-600 border-transparent hover:bg-slate-100/60'
                   }`}
                 >
                   {docTypeIcon(doc.type)}
@@ -204,7 +208,7 @@ export function Workbench() {
                     اختر نوع المستند
                   </div>
                   <button
-                    onClick={() => handleCreateDocument("rich-text")}
+                    onClick={() => handleCreateDocument('rich-text')}
                     className="w-full text-right px-3 py-2 text-xs flex items-center gap-2 hover:bg-blue-50 text-slate-700 hover:text-blue-700"
                   >
                     <FileText className="w-4 h-4 text-blue-600" />
@@ -214,7 +218,7 @@ export function Workbench() {
                     </div>
                   </button>
                   <button
-                    onClick={() => handleCreateDocument("canvas")}
+                    onClick={() => handleCreateDocument('canvas')}
                     className="w-full text-right px-3 py-2 text-xs flex items-center gap-2 hover:bg-purple-50 text-slate-700 hover:text-purple-700"
                   >
                     <Paintbrush className="w-4 h-4 text-purple-600" />
@@ -224,7 +228,7 @@ export function Workbench() {
                     </div>
                   </button>
                   <button
-                    onClick={() => handleCreateDocument("ui-page")}
+                    onClick={() => handleCreateDocument('ui-page')}
                     className="w-full text-right px-3 py-2 text-xs flex items-center gap-2 hover:bg-emerald-50 text-slate-700 hover:text-emerald-700"
                   >
                     <Layout className="w-4 h-4 text-emerald-600" />
@@ -234,7 +238,7 @@ export function Workbench() {
                     </div>
                   </button>
                   <button
-                    onClick={() => handleCreateDocument("pdf")}
+                    onClick={() => handleCreateDocument('pdf')}
                     className="w-full text-right px-3 py-2 text-xs flex items-center gap-2 hover:bg-rose-50 text-slate-700 hover:text-rose-700"
                   >
                     <FileCheck className="w-4 h-4 text-rose-600" />
@@ -252,11 +256,11 @@ export function Workbench() {
         {/* Action Controls & Dev Studio Switcher */}
         <div className="flex items-center gap-2">
           <button
-            onClick={() => setViewMode(viewMode === "editor" ? "devstudio" : "editor")}
+            onClick={() => setViewMode(viewMode === 'editor' ? 'devstudio' : 'editor')}
             className={`flex items-center gap-1.5 px-3 py-1 rounded-md text-xs font-semibold border transition-all ${
-              viewMode === "devstudio"
-                ? "bg-slate-900 text-white border-slate-900 shadow-xs"
-                : "bg-white text-slate-700 border-slate-300 hover:bg-slate-100"
+              viewMode === 'devstudio'
+                ? 'bg-slate-200 text-slate-900 border-slate-400 shadow-xs'
+                : 'bg-white text-slate-700 border-slate-300 hover:bg-slate-100'
             }`}
           >
             <Code2 className="w-3.5 h-3.5" />
@@ -296,8 +300,8 @@ export function Workbench() {
                   }}
                   className={`flex items-center justify-between p-2 rounded-lg text-xs cursor-pointer transition-colors ${
                     doc.id === activeDoc?.id
-                      ? "bg-blue-50 text-blue-700 font-semibold"
-                      : "text-slate-600 hover:bg-slate-100"
+                      ? 'bg-blue-50 text-blue-700 font-semibold'
+                      : 'text-slate-600 hover:bg-slate-100'
                   }`}
                 >
                   <div className="flex items-center gap-2 truncate">
@@ -317,13 +321,13 @@ export function Workbench() {
               </div>
               <div className="grid grid-cols-2 gap-1.5">
                 <button
-                  onClick={() => handleCreateDocument("rich-text", "تقرير عمل جديد")}
+                  onClick={() => handleCreateDocument('rich-text', 'تقرير عمل جديد')}
                   className="p-2 text-right rounded bg-white border border-slate-200 hover:border-blue-300 text-[11px] text-slate-700 font-medium truncate hover:shadow-2xs"
                 >
                   📄 تقرير عمل
                 </button>
                 <button
-                  onClick={() => handleCreateDocument("canvas", "مخطط هيكلي جديد")}
+                  onClick={() => handleCreateDocument('canvas', 'مخطط هيكلي جديد')}
                   className="p-2 text-right rounded bg-white border border-slate-200 hover:border-purple-300 text-[11px] text-slate-700 font-medium truncate hover:shadow-2xs"
                 >
                   🎨 مخطط رسم
@@ -335,7 +339,7 @@ export function Workbench() {
 
         {/* Editor Main Canvas Surface */}
         <main className="flex-1 flex flex-col bg-slate-100/60 overflow-hidden relative">
-          {viewMode === "editor" ? (
+          {viewMode === 'editor' ? (
             activeDoc ? (
               <DocumentEditorHost
                 key={activeDoc.id}
@@ -347,12 +351,14 @@ export function Workbench() {
                 <div className="w-16 h-16 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center mb-4">
                   <Sparkles className="w-8 h-8" />
                 </div>
-                <h2 className="text-xl font-bold text-slate-800 mb-1">مرحباً بك في LibreText Suite</h2>
+                <h2 className="text-xl font-bold text-slate-800 mb-1">
+                  مرحباً بك في LibreText Suite
+                </h2>
                 <p className="text-sm text-slate-500 max-w-md mb-6">
                   محرر المستندات والواجهات واللوحات التفاعلية الذكي بمعمارية معيارية ناصعة الفتح.
                 </p>
                 <button
-                  onClick={() => handleCreateDocument("rich-text")}
+                  onClick={() => handleCreateDocument('rich-text')}
                   className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-semibold shadow-md transition-all"
                 >
                   إنشاء مستند جديد
@@ -360,12 +366,14 @@ export function Workbench() {
               </div>
             )
           ) : (
-            <div className="flex-1 p-6 bg-slate-900 text-slate-100 overflow-auto font-mono text-xs">
+            <div className="flex-1 p-6 bg-slate-50 text-slate-800 overflow-auto font-mono text-xs">
               <div className="max-w-4xl mx-auto space-y-4">
-                <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+                <div className="flex items-center justify-between border-b border-slate-200 pb-3">
                   <div className="flex items-center gap-2">
                     <Code2 className="w-5 h-5 text-emerald-400" />
-                    <span className="text-sm font-bold text-white">Dev Studio Diagnostics & Architecture</span>
+                    <span className="text-sm font-bold text-white">
+                      Dev Studio Diagnostics & Architecture
+                    </span>
                   </div>
                   <span className="px-2 py-0.5 rounded bg-emerald-950 text-emerald-400 text-[10px] border border-emerald-800">
                     Engine Active
@@ -374,11 +382,11 @@ export function Workbench() {
                 <div className="grid grid-cols-3 gap-3">
                   <div className="p-3 rounded-lg bg-slate-800/80 border border-slate-700">
                     <div className="text-slate-400 text-[10px] mb-1">Active Core Document</div>
-                    <div className="font-semibold text-slate-200">{activeDoc?.title || "None"}</div>
+                    <div className="font-semibold text-slate-200">{activeDoc?.title || 'None'}</div>
                   </div>
                   <div className="p-3 rounded-lg bg-slate-800/80 border border-slate-700">
                     <div className="text-slate-400 text-[10px] mb-1">Document Format Type</div>
-                    <div className="font-semibold text-slate-200">{activeDoc?.type || "N/A"}</div>
+                    <div className="font-semibold text-slate-200">{activeDoc?.type || 'N/A'}</div>
                   </div>
                   <div className="p-3 rounded-lg bg-slate-800/80 border border-slate-700">
                     <div className="text-slate-400 text-[10px] mb-1">Total Open Documents</div>
@@ -389,11 +397,19 @@ export function Workbench() {
                 <div className="p-4 rounded-lg bg-slate-800/50 border border-slate-700 space-y-2">
                   <div className="text-slate-300 font-semibold mb-2">Registered Editor Plugins</div>
                   <ul className="space-y-1 text-slate-400">
-                    <li className="flex items-center gap-2">✓ RichTextPlugin (@libretext/core: rich-text)</li>
-                    <li className="flex items-center gap-2">✓ CanvasDesignerPlugin (@libretext/core: canvas)</li>
-                    <li className="flex items-center gap-2">✓ UIDesignerPlugin (@libretext/core: ui-page)</li>
+                    <li className="flex items-center gap-2">
+                      ✓ RichTextPlugin (@libretext/core: rich-text)
+                    </li>
+                    <li className="flex items-center gap-2">
+                      ✓ CanvasDesignerPlugin (@libretext/core: canvas)
+                    </li>
+                    <li className="flex items-center gap-2">
+                      ✓ UIDesignerPlugin (@libretext/core: ui-page)
+                    </li>
                     <li className="flex items-center gap-2">✓ PdfPlugin (@libretext/core: pdf)</li>
-                    <li className="flex items-center gap-2">✓ HTMLComponentPlugin (@libretext/core: html-component)</li>
+                    <li className="flex items-center gap-2">
+                      ✓ HTMLComponentPlugin (@libretext/core: html-component)
+                    </li>
                   </ul>
                 </div>
               </div>
@@ -407,7 +423,7 @@ export function Workbench() {
         <div className="flex items-center gap-4">
           <span className="flex items-center gap-1 font-medium text-slate-700">
             {activeDoc ? docTypeIcon(activeDoc.type) : null}
-            <span>{activeDoc?.title || "لا يوجد مستند"}</span>
+            <span>{activeDoc?.title || 'لا يوجد مستند'}</span>
           </span>
           <span className="text-slate-300">|</span>
           <span>الإصدار: v{activeDoc?.version || 1}</span>

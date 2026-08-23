@@ -53,12 +53,7 @@
  * ═══════════════════════════════════════════════════════════════════════════
  */
 
-import {
-  HtmlBlockNode,
-  TailwindClasses,
-  mintBlockId,
-  categoryFromType,
-} from './html-block-types';
+import { HtmlBlockNode, TailwindClasses, mintBlockId, categoryFromType } from './html-block-types';
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // Helpers | دوال مساعدة
@@ -91,10 +86,7 @@ function createNode(
  * إنشاء عقدة نصية.
  * // @function-index: #2/11 — textNode
  */
-function textNode(
-  content: string,
-  styles: TailwindClasses = {},
-): HtmlBlockNode {
+function textNode(content: string, styles: TailwindClasses = {}): HtmlBlockNode {
   return createNode('text', { content }, styles);
 }
 
@@ -142,9 +134,7 @@ export interface HeroPresetOptions {
  * إنشاء قسم Hero جاهز.
  * // @function-index: #6/11 — createHeroPreset
  */
-export function createHeroPreset(
-  opts: HeroPresetOptions = {},
-): HtmlBlockNode {
+export function createHeroPreset(opts: HeroPresetOptions = {}): HtmlBlockNode {
   const title = opts.title ?? 'مرحباً بك في موقعنا';
   const subtitle = opts.subtitle ?? 'نص وصفي يشرح القيمة المقدمة';
   const primary = opts.primaryButton ?? 'ابدأ الآن';
@@ -212,9 +202,7 @@ export interface PricingPresetOptions {
  * إنشاء جدول أسعار جاهز.
  * // @function-index: #9/11 — createPricingPreset
  */
-export function createPricingPreset(
-  opts: PricingPresetOptions = {},
-): HtmlBlockNode {
+export function createPricingPreset(opts: PricingPresetOptions = {}): HtmlBlockNode {
   const plans: PricingPlan[] = opts.plans ?? [
     { name: 'أساسي', price: '$9', features: ['ميزة 1', 'ميزة 2'] },
     { name: 'احترافي', price: '$29', features: ['ميزة 1', 'ميزة 2', 'ميزة 3'], highlighted: true },
@@ -328,9 +316,7 @@ function createTestimonialCard(t: Testimonial): HtmlBlockNode {
  * إنشاء قسم آراء العملاء.
  * // @function-index: #14/11 — createTestimonialsPreset
  */
-export function createTestimonialsPreset(
-  opts: TestimonialsPresetOptions = {},
-): HtmlBlockNode {
+export function createTestimonialsPreset(opts: TestimonialsPresetOptions = {}): HtmlBlockNode {
   const testimonials: Testimonial[] = opts.testimonials ?? [
     { quote: 'منتج رائع غيّر طريقة عملنا', author: 'أحمد محمد', role: 'مدير تنفيذي' },
     { quote: 'دعم فني ممتاز وسرعة في الاستجابة', author: 'سارة علي', role: 'مديرة تسويق' },
@@ -385,9 +371,7 @@ export interface FaqPresetOptions {
  * إنشاء قسم الأسئلة الشائعة.
  * // @function-index: #17/11 — createFaqPreset
  */
-export function createFaqPreset(
-  opts: FaqPresetOptions = {},
-): HtmlBlockNode {
+export function createFaqPreset(opts: FaqPresetOptions = {}): HtmlBlockNode {
   const items: FaqItem[] = opts.items ?? [
     { question: 'كيف أبدأ؟', answer: 'سجل حساباً مجانياً وابدأ في دقائق.' },
     { question: 'هل هناك نسخة تجريبية؟', answer: 'نعم، 14 يوم مجاناً بدون بطاقة ائتمان.' },
@@ -407,22 +391,12 @@ export function createFaqPreset(
     ),
   );
 
-  return createNode(
-    'faq',
-    {},
-    { layout: ['py-16', 'px-4', 'max-w-3xl', 'mx-auto'] },
-    [
-      headingNode('الأسئلة الشائعة', 'h2', {
-        typography: ['text-3xl', 'font-bold', 'text-center', 'mb-12'],
-      }),
-      createNode(
-        'container',
-        {},
-        { layout: ['flex', 'flex-col'] },
-        accordionItems,
-      ),
-    ],
-  );
+  return createNode('faq', {}, { layout: ['py-16', 'px-4', 'max-w-3xl', 'mx-auto'] }, [
+    headingNode('الأسئلة الشائعة', 'h2', {
+      typography: ['text-3xl', 'font-bold', 'text-center', 'mb-12'],
+    }),
+    createNode('container', {}, { layout: ['flex', 'flex-col'] }, accordionItems),
+  ]);
 }
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -443,9 +417,7 @@ export interface CtaPresetOptions {
  * إنشاء قسم دعوة للعمل.
  * // @function-index: #19/11 — createCtaPreset
  */
-export function createCtaPreset(
-  opts: CtaPresetOptions = {},
-): HtmlBlockNode {
+export function createCtaPreset(opts: CtaPresetOptions = {}): HtmlBlockNode {
   const title = opts.title ?? 'جاهز للبدء؟';
   const subtitle = opts.subtitle ?? 'انضم إلى آلاف العملاء الراضين اليوم';
   const buttonText = opts.buttonText ?? 'ابدأ مجاناً';

@@ -78,7 +78,13 @@ export interface ResizeResult {
 const MAX_FILE_SIZE = 25 * 1024 * 1024;
 
 const SUPPORTED_IMAGE_TYPES: ReadonlySet<string> = new Set([
-  'image/png', 'image/jpeg', 'image/jpg', 'image/gif', 'image/webp', 'image/bmp', 'image/svg+xml',
+  'image/png',
+  'image/jpeg',
+  'image/jpg',
+  'image/gif',
+  'image/webp',
+  'image/bmp',
+  'image/svg+xml',
 ]);
 
 export function readJpegOrientation(buffer: ArrayBuffer): number {
@@ -109,7 +115,7 @@ export function readJpegOrientation(buffer: ArrayBuffer): number {
         const tag = view.getUint16(entryOffset, isLittleEndian);
         if (tag === 0x0112) {
           const orientation = view.getUint16(entryOffset + 8, isLittleEndian);
-          return (orientation >= 1 && orientation <= 8) ? orientation : 1;
+          return orientation >= 1 && orientation <= 8 ? orientation : 1;
         }
       }
       return 1;
@@ -125,30 +131,66 @@ export function readJpegOrientation(buffer: ArrayBuffer): number {
 }
 
 export function applyOrientation(
-  ctx: CanvasRenderingContext2D, orientation: number, width: number, height: number
+  ctx: CanvasRenderingContext2D,
+  orientation: number,
+  width: number,
+  height: number,
 ): void {
   switch (orientation) {
-    case 2: ctx.translate(width, 0); ctx.scale(-1, 1); break;
-    case 3: ctx.translate(width, height); ctx.rotate(Math.PI); break;
-    case 4: ctx.translate(0, height); ctx.scale(1, -1); break;
-    case 5: ctx.rotate(0.5 * Math.PI); ctx.scale(1, -1); break;
-    case 6: ctx.rotate(0.5 * Math.PI); ctx.translate(0, -height); break;
-    case 7: ctx.rotate(0.5 * Math.PI); ctx.translate(width, -height); ctx.scale(-1, 1); break;
-    case 8: ctx.rotate(-0.5 * Math.PI); ctx.translate(-width, 0); break;
-    default: break;
+    case 2:
+      ctx.translate(width, 0);
+      ctx.scale(-1, 1);
+      break;
+    case 3:
+      ctx.translate(width, height);
+      ctx.rotate(Math.PI);
+      break;
+    case 4:
+      ctx.translate(0, height);
+      ctx.scale(1, -1);
+      break;
+    case 5:
+      ctx.rotate(0.5 * Math.PI);
+      ctx.scale(1, -1);
+      break;
+    case 6:
+      ctx.rotate(0.5 * Math.PI);
+      ctx.translate(0, -height);
+      break;
+    case 7:
+      ctx.rotate(0.5 * Math.PI);
+      ctx.translate(width, -height);
+      ctx.scale(-1, 1);
+      break;
+    case 8:
+      ctx.rotate(-0.5 * Math.PI);
+      ctx.translate(-width, 0);
+      break;
+    default:
+      break;
   }
 }
 
 export async function prepareUploadedImage(
   file: File,
-  opts?: { maxWidth?: number; maxHeight?: number; quality?: number; format?: 'image/jpeg' | 'image/png' | 'image/webp' }
+  opts?: {
+    maxWidth?: number;
+    maxHeight?: number;
+    quality?: number;
+    format?: 'image/jpeg' | 'image/png' | 'image/webp';
+  },
 ): Promise<ProcessedImageResult> {
   if (!file) throw new Error('[ImagePipeline] الملف غير صالح');
-  if (!SUPPORTED_IMAGE_TYPES.has(file.type) && !/\.(png|jpe?g|gif|webp|bmp|svg)$/i.test(file.name)) {
+  if (
+    !SUPPORTED_IMAGE_TYPES.has(file.type) &&
+    !/\.(png|jpe?g|gif|webp|bmp|svg)$/i.test(file.name)
+  ) {
     throw new Error(`[ImagePipeline] نوع الصورة غير مدعوم: ${file.type}`);
   }
   if (file.size > MAX_FILE_SIZE) {
-    throw new Error(`[ImagePipeline] حجم الصورة يتجاوز الحد الأقصى (${MAX_FILE_SIZE / (1024 * 1024)}MB)`);
+    throw new Error(
+      `[ImagePipeline] حجم الصورة يتجاوز الحد الأقصى (${MAX_FILE_SIZE / (1024 * 1024)}MB)`,
+    );
   }
 
   const buffer = await file.arrayBuffer();
@@ -174,7 +216,12 @@ export async function prepareUploadedImage(
 
   if (orientation > 1) {
     ctx.save();
-    applyOrientation(ctx as CanvasRenderingContext2D, orientation, isSwapped ? finalH : finalW, isSwapped ? finalW : finalH);
+    applyOrientation(
+      ctx as CanvasRenderingContext2D,
+      orientation,
+      isSwapped ? finalH : finalW,
+      isSwapped ? finalW : finalH,
+    );
     ctx.drawImage(image, 0, 0, isSwapped ? finalH : finalW, isSwapped ? finalW : finalH);
     ctx.restore();
   } else {
@@ -200,7 +247,8 @@ export async function processImageFile(file: File): Promise<ProcessedImageResult
 }
 
 export async function transformImage(
-  source: HTMLImageElement | string, options: ImageTransformOptions
+  source: HTMLImageElement | string,
+  options: ImageTransformOptions,
 ): Promise<ProcessedImageResult> {
   const image = typeof source === 'string' ? await loadImage(source) : source;
   const origW = image.naturalWidth || 400;
@@ -212,7 +260,7 @@ export async function transformImage(
   const safeCropW = Math.max(1, Math.min(crop.width, origW - safeCropX));
   const safeCropH = Math.max(1, Math.min(crop.height, origH - safeCropY));
 
-  const rotation = ((options.rotation || 0) % 360 + 360) % 360;
+  const rotation = (((options.rotation || 0) % 360) + 360) % 360;
   const isRotated90or270 = rotation === 90 || rotation === 270;
   const targetW = isRotated90or270 ? safeCropH : safeCropW;
   const targetH = isRotated90or270 ? safeCropW : safeCropH;
@@ -236,7 +284,17 @@ export async function transformImage(
 
   const drawW = isRotated90or270 ? fit.height : fit.width;
   const drawH = isRotated90or270 ? fit.width : fit.height;
-  ctx.drawImage(image, safeCropX, safeCropY, safeCropW, safeCropH, -drawW / 2, -drawH / 2, drawW, drawH);
+  ctx.drawImage(
+    image,
+    safeCropX,
+    safeCropY,
+    safeCropW,
+    safeCropH,
+    -drawW / 2,
+    -drawH / 2,
+    drawW,
+    drawH,
+  );
   ctx.restore();
 
   const format = options.format || 'image/png';
@@ -244,38 +302,62 @@ export async function transformImage(
   const resultDataUrl = toDataUrl(canvas, format, quality);
 
   return {
-    dataUrl: resultDataUrl, width: fit.width, height: fit.height,
+    dataUrl: resultDataUrl,
+    width: fit.width,
+    height: fit.height,
     aspectRatio: fit.height > 0 ? fit.width / fit.height : 1,
-    fileSize: Math.round((resultDataUrl.length * 3) / 4), mimeType: format,
+    fileSize: Math.round((resultDataUrl.length * 3) / 4),
+    mimeType: format,
   };
 }
 
-export async function cropImage(source: HTMLImageElement | string, cropRect: CropRect): Promise<string> {
+export async function cropImage(
+  source: HTMLImageElement | string,
+  cropRect: CropRect,
+): Promise<string> {
   const result = await transformImage(source, { crop: cropRect });
   return result.dataUrl;
 }
 
-export async function applyImageFilter(source: HTMLImageElement | string, filters: ImageFilters): Promise<string> {
+export async function applyImageFilter(
+  source: HTMLImageElement | string,
+  filters: ImageFilters,
+): Promise<string> {
   const result = await transformImage(source, { filters });
   return result.dataUrl;
 }
 
-export function resizeImageToFit(width: number, height: number, maxWidth: number, maxHeight: number): ResizeResult {
-  if (width <= 0 || height <= 0 || maxWidth <= 0 || maxHeight <= 0) return { width: 0, height: 0, scale: 0 };
+export function resizeImageToFit(
+  width: number,
+  height: number,
+  maxWidth: number,
+  maxHeight: number,
+): ResizeResult {
+  if (width <= 0 || height <= 0 || maxWidth <= 0 || maxHeight <= 0)
+    return { width: 0, height: 0, scale: 0 };
   const scaleX = maxWidth / width;
   const scaleY = maxHeight / height;
   const scale = Math.min(scaleX, scaleY, 1);
-  return { width: Math.max(1, Math.round(width * scale)), height: Math.max(1, Math.round(height * scale)), scale };
+  return {
+    width: Math.max(1, Math.round(width * scale)),
+    height: Math.max(1, Math.round(height * scale)),
+    scale,
+  };
 }
 
 export async function compressImage(
-  source: HTMLImageElement | string, quality = 0.85, format: 'image/jpeg' | 'image/webp' | 'image/png' = 'image/jpeg'
+  source: HTMLImageElement | string,
+  quality = 0.85,
+  format: 'image/jpeg' | 'image/webp' | 'image/png' = 'image/jpeg',
 ): Promise<string> {
   const result = await transformImage(source, { quality, format });
   return result.dataUrl;
 }
 
-export async function createThumbnail(source: HTMLImageElement | string, size = 120): Promise<string> {
+export async function createThumbnail(
+  source: HTMLImageElement | string,
+  size = 120,
+): Promise<string> {
   const image = typeof source === 'string' ? await loadImage(source) : source;
   const width = image.naturalWidth || 100;
   const height = image.naturalHeight || 100;
@@ -304,7 +386,11 @@ function createCanvas(width: number, height: number): HTMLCanvasElement | Offscr
   throw new Error('[ImagePipeline] لا تتوفر بيئة كانفا في هذا السياق');
 }
 
-function toDataUrl(canvas: HTMLCanvasElement | OffscreenCanvas, type = 'image/png', quality?: number): string {
+function toDataUrl(
+  canvas: HTMLCanvasElement | OffscreenCanvas,
+  type = 'image/png',
+  quality?: number,
+): string {
   if ('toDataURL' in canvas && typeof (canvas as HTMLCanvasElement).toDataURL === 'function') {
     return (canvas as HTMLCanvasElement).toDataURL(type, quality);
   }
@@ -322,7 +408,10 @@ function readFileAsDataUrl(file: File): Promise<string> {
 
 function loadImage(src: string): Promise<HTMLImageElement> {
   return new Promise((resolve, reject) => {
-    if (!src) { reject(new Error('[ImagePipeline] مصدر الصورة فارغ')); return; }
+    if (!src) {
+      reject(new Error('[ImagePipeline] مصدر الصورة فارغ'));
+      return;
+    }
     const image = new Image();
     image.crossOrigin = 'anonymous';
     image.onload = () => resolve(image);
@@ -333,14 +422,18 @@ function loadImage(src: string): Promise<HTMLImageElement> {
 
 export function buildFilterString(filters: ImageFilters): string {
   const parts: string[] = [];
-  if (filters.brightness !== undefined && filters.brightness !== 100) parts.push(`brightness(${filters.brightness}%)`);
-  if (filters.contrast !== undefined && filters.contrast !== 100) parts.push(`contrast(${filters.contrast}%)`);
+  if (filters.brightness !== undefined && filters.brightness !== 100)
+    parts.push(`brightness(${filters.brightness}%)`);
+  if (filters.contrast !== undefined && filters.contrast !== 100)
+    parts.push(`contrast(${filters.contrast}%)`);
   const sat = filters.saturation ?? filters.saturate;
   if (sat !== undefined && sat !== 100) parts.push(`saturate(${sat}%)`);
-  if (filters.grayscale !== undefined && filters.grayscale > 0) parts.push(`grayscale(${filters.grayscale}%)`);
+  if (filters.grayscale !== undefined && filters.grayscale > 0)
+    parts.push(`grayscale(${filters.grayscale}%)`);
   if (filters.blur !== undefined && filters.blur > 0) parts.push(`blur(${filters.blur}px)`);
   if (filters.sepia !== undefined && filters.sepia > 0) parts.push(`sepia(${filters.sepia}%)`);
-  if (filters.hueRotate !== undefined && filters.hueRotate > 0) parts.push(`hue-rotate(${filters.hueRotate}deg)`);
+  if (filters.hueRotate !== undefined && filters.hueRotate > 0)
+    parts.push(`hue-rotate(${filters.hueRotate}deg)`);
   if (filters.invert !== undefined && filters.invert > 0) parts.push(`invert(${filters.invert}%)`);
   return parts.length > 0 ? parts.join(' ') : 'none';
 }

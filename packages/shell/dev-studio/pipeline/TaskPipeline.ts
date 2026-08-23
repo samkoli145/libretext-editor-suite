@@ -167,13 +167,18 @@ export class TaskPipeline {
    */
   on(listener: (event: PipelineEvent) => void): () => void {
     this.listeners.add(listener);
-    return () => { this.listeners.delete(listener); };
+    return () => {
+      this.listeners.delete(listener);
+    };
   }
 
   private emit(event: PipelineEvent): void {
     for (const listener of this.listeners) {
-      try { listener(event); }
-      catch (e) { console.error('[TaskPipeline] listener failed:', e); }
+      try {
+        listener(event);
+      } catch (e) {
+        console.error('[TaskPipeline] listener failed:', e);
+      }
     }
   }
 
@@ -206,8 +211,7 @@ export class TaskPipeline {
     // لا مهمة حية — الخط أحادي المهمة
     if (this.liveTask !== null) {
       throw new Error(
-        `[TaskPipeline] المهمة "${this.liveTask.id}" لا تزال حية — ` +
-        `مهمة واحدة في كل مرة`,
+        `[TaskPipeline] المهمة "${this.liveTask.id}" لا تزال حية — ` + `مهمة واحدة في كل مرة`,
       );
     }
   }
@@ -225,17 +229,23 @@ export class TaskPipeline {
    * is a rig that proves nothing". الدكتور الذي يمرر كل شيء
    * لا يثبت شيئاً.
    */
-  private runDoctor(
-    patches: DevStudioPatch[],
-  ): { passed: boolean; report: DoctorReportWire; failedChecks: DoctorCheck[] } {
+  private runDoctor(patches: DevStudioPatch[]): {
+    passed: boolean;
+    report: DoctorReportWire;
+    failedChecks: DoctorCheck[];
+  } {
     const checks = this.doctor.check(patches, this.project);
 
-    let passed = 0, failed = 0, warnings = 0;
+    let passed = 0,
+      failed = 0,
+      warnings = 0;
     const failedChecks: DoctorCheck[] = [];
     for (const c of checks) {
       if (c.status === 'pass') passed++;
-      else if (c.status === 'fail') { failed++; failedChecks.push(c); }
-      else warnings++;
+      else if (c.status === 'fail') {
+        failed++;
+        failedChecks.push(c);
+      } else warnings++;
     }
 
     const report: DoctorReportWire = {
@@ -294,11 +304,16 @@ export class TaskPipeline {
       task.error = doctorResult.report.rejectionReason;
       this.liveTask = null;
       this.emit({
-        type: 'gateFailed', taskId, gate: 'doctor',
+        type: 'gateFailed',
+        taskId,
+        gate: 'doctor',
         reason: task.error ?? 'unknown',
       });
       return {
-        taskId, status: 'failed', error: task.error, appliedCount: 0,
+        taskId,
+        status: 'failed',
+        error: task.error,
+        appliedCount: 0,
       };
     }
     this.emit({ type: 'gatePassed', taskId, gate: 'doctor' });
@@ -357,7 +372,9 @@ export class TaskPipeline {
     task.status = 'committed';
     this.liveTask = null;
     this.emit({
-      type: 'taskCommitted', taskId, appliedCount: req.patches.length,
+      type: 'taskCommitted',
+      taskId,
+      appliedCount: req.patches.length,
     });
 
     return {

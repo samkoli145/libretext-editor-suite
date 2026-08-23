@@ -67,8 +67,10 @@ export function approximateFraction(val: number, maxDenominator = 1000): Fractio
     };
   }
 
-  let h1 = 1, h0 = 0;
-  let k1 = 0, k0 = 1;
+  let h1 = 1,
+    h0 = 0;
+  let k1 = 0,
+    k0 = 1;
   let b = fractional;
 
   do {
@@ -80,7 +82,11 @@ export function approximateFraction(val: number, maxDenominator = 1000): Fractio
     k1 = a * k1 + k0;
     k0 = aux;
     b = 1 / (b - a);
-  } while (Math.abs(fractional - h1 / k1) > fractional * 1e-4 && k1 <= maxDenominator && Number.isFinite(b));
+  } while (
+    Math.abs(fractional - h1 / k1) > fractional * 1e-4 &&
+    k1 <= maxDenominator &&
+    Number.isFinite(b)
+  );
 
   const numerator = sign * (whole > 0 ? h1 : h1);
   const denominator = k1;
@@ -125,11 +131,7 @@ export function parseNumberPattern(fmt: string | undefined): NumberPattern {
 /**
  * تنسيق الأرقام عبر Intl.NumberFormat مع الحفاظ على الأداء
  */
-export function formatNumber(
-  val: unknown,
-  pattern: NumberPattern,
-  locale = 'en-US'
-): string {
+export function formatNumber(val: unknown, pattern: NumberPattern, locale = 'en-US'): string {
   if (val === null || val === undefined || val === '') return '';
   const num = typeof val === 'number' ? val : Number(val);
   if (isNaN(num)) return String(val);
@@ -154,11 +156,7 @@ export function formatNumber(
 /**
  * تنسيق التواريخ القياسية
  */
-export function formatDate(
-  val: unknown,
-  fmt = 'YYYY-MM-DD',
-  locale = 'en-US'
-): string {
+export function formatDate(val: unknown, fmt = 'YYYY-MM-DD', locale = 'en-US'): string {
   if (!val) return '';
   const d = val instanceof Date ? val : new Date(String(val));
   if (isNaN(d.getTime())) return String(val);
@@ -186,11 +184,7 @@ export function formatDate(
 /**
  * تنسيق العملات العالمية (180+ عملة)
  */
-export function formatCurrency(
-  val: unknown,
-  currencyCode = 'USD',
-  locale = 'en-US'
-): string {
+export function formatCurrency(val: unknown, currencyCode = 'USD', locale = 'en-US'): string {
   if (val === null || val === undefined || val === '') return '';
   const num = typeof val === 'number' ? val : Number(val);
   if (isNaN(num)) return String(val);
@@ -228,7 +222,7 @@ export class FormatEngine {
   public static format(
     value: unknown,
     formatPattern?: string,
-    opts: { type?: string; currency?: string; locale?: string } = {}
+    opts: { type?: string; currency?: string; locale?: string } = {},
   ): string {
     if (value === null || value === undefined || value === '') return '';
     if (typeof value === 'object' && value !== null && 'code' in value) {
@@ -238,7 +232,9 @@ export class FormatEngine {
     const fmt = formatPattern?.trim();
     if (!fmt) {
       if (typeof value === 'number') {
-        return Number.isInteger(value) ? String(value) : value.toLocaleString(opts.locale ?? 'en-US', { maximumFractionDigits: 4 });
+        return Number.isInteger(value)
+          ? String(value)
+          : value.toLocaleString(opts.locale ?? 'en-US', { maximumFractionDigits: 4 });
       }
       return String(value);
     }
@@ -270,12 +266,24 @@ export class FormatEngine {
     }
 
     // 4. التاريخ
-    if (fmt.includes('Y') || fmt.includes('M') || fmt.includes('D') || fmt.includes('h') || fmt.includes('s')) {
+    if (
+      fmt.includes('Y') ||
+      fmt.includes('M') ||
+      fmt.includes('D') ||
+      fmt.includes('h') ||
+      fmt.includes('s')
+    ) {
       return formatDate(value, fmt, opts.locale);
     }
 
     // 5. العملة
-    if (fmt.includes('$') || fmt.includes('€') || fmt.includes('£') || fmt.includes('¥') || opts.currency) {
+    if (
+      fmt.includes('$') ||
+      fmt.includes('€') ||
+      fmt.includes('£') ||
+      fmt.includes('¥') ||
+      opts.currency
+    ) {
       if (opts.currency) {
         return formatCurrency(value, opts.currency, opts.locale);
       }

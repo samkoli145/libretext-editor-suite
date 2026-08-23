@@ -42,14 +42,29 @@ export type RibbonTab = 'Home' | 'Insert' | 'Layout' | 'Review';
  * الفئة إلى تبويب، لا إلى موقع في شريط.
  */
 const CATEGORY_TO_TAB: Record<ComponentCategory, RibbonTab> = {
-  text: 'Home', align: 'Home', color: 'Home', drawing: 'Home',
-  selection: 'Home', shape: 'Home', effect: 'Home',
-  image: 'Insert', chart: 'Insert', table: 'Insert',
-  layout: 'Layout', transform: 'Layout', navigation: 'Layout',
-  animation: 'Layout', interaction: 'Layout', view: 'Layout',
-  export: 'Insert', import: 'Insert',
-  debug: 'Review', test: 'Review', math: 'Review',
-  utility: 'Home', custom: 'Home',
+  text: 'Home',
+  align: 'Home',
+  color: 'Home',
+  drawing: 'Home',
+  selection: 'Home',
+  shape: 'Home',
+  effect: 'Home',
+  image: 'Insert',
+  chart: 'Insert',
+  table: 'Insert',
+  layout: 'Layout',
+  transform: 'Layout',
+  navigation: 'Layout',
+  animation: 'Layout',
+  interaction: 'Layout',
+  view: 'Layout',
+  export: 'Insert',
+  import: 'Insert',
+  debug: 'Review',
+  test: 'Review',
+  math: 'Review',
+  utility: 'Home',
+  custom: 'Home',
 };
 
 /**

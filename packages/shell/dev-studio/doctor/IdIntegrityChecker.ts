@@ -50,7 +50,8 @@ export function checkIdIntegrity(
   const entries: IdEntry[] = [];
   patches.forEach((p, i) => {
     if (p.op === 'registerTool') entries.push({ id: p.toolId, kind: 'tool', patchIndex: i });
-    else if (p.op === 'registerComponent') entries.push({ id: p.componentId, kind: 'component', patchIndex: i });
+    else if (p.op === 'registerComponent')
+      entries.push({ id: p.componentId, kind: 'component', patchIndex: i });
     else if (p.op === 'addFile') entries.push({ id: p.path, kind: 'file', patchIndex: i });
     else if (p.op === 'decomposeFile') {
       for (const t of p.targets) entries.push({ id: t.path, kind: 'file', patchIndex: i });

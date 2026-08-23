@@ -127,12 +127,30 @@ const CALLOUT_TYPES: { type: CanvasElementType; labelAr: string; icon: string }[
 ];
 
 const PRESET_COLORS = [
-  '#ffffff', '#f8fafc', '#f1f5f9', '#e2e8f0',
-  '#eff6ff', '#dbeafe', '#bfdbfe', '#2563eb',
-  '#f0fdf4', '#dcfce7', '#bbf7d0', '#16a34a',
-  '#fefce8', '#fef08a', '#fde047', '#ca8a04',
-  '#fef2f2', '#fee2e2', '#fecaca', '#dc2626',
-  '#faf5ff', '#f3e8ff', '#e9d5ff', '#9333ea',
+  '#ffffff',
+  '#f8fafc',
+  '#f1f5f9',
+  '#e2e8f0',
+  '#eff6ff',
+  '#dbeafe',
+  '#bfdbfe',
+  '#2563eb',
+  '#f0fdf4',
+  '#dcfce7',
+  '#bbf7d0',
+  '#16a34a',
+  '#fefce8',
+  '#fef08a',
+  '#fde047',
+  '#ca8a04',
+  '#fef2f2',
+  '#fee2e2',
+  '#fecaca',
+  '#dc2626',
+  '#faf5ff',
+  '#f3e8ff',
+  '#e9d5ff',
+  '#9333ea',
 ];
 
 export const ElementPropertiesPanel: React.FC<ElementPropertiesPanelProps> = ({
@@ -191,7 +209,11 @@ export const ElementPropertiesPanel: React.FC<ElementPropertiesPanelProps> = ({
             }`}
             title={selectedElement.locked ? 'إلغاء القفل' : 'قفل العنصر'}
           >
-            {selectedElement.locked ? <Lock className="w-3.5 h-3.5" /> : <Unlock className="w-3.5 h-3.5" />}
+            {selectedElement.locked ? (
+              <Lock className="w-3.5 h-3.5" />
+            ) : (
+              <Unlock className="w-3.5 h-3.5" />
+            )}
           </button>
           <button
             type="button"
@@ -246,7 +268,9 @@ export const ElementPropertiesPanel: React.FC<ElementPropertiesPanelProps> = ({
 
           {/* Image URL Input */}
           <div className="flex flex-col gap-1">
-            <label className="text-[10px] font-bold text-slate-600">رابط الصورة (URL أو DataURL)</label>
+            <label className="text-[10px] font-bold text-slate-600">
+              رابط الصورة (URL أو DataURL)
+            </label>
             <input
               type="text"
               value={selectedElement.imageUrl || ''}
@@ -272,7 +296,9 @@ export const ElementPropertiesPanel: React.FC<ElementPropertiesPanelProps> = ({
           <div className="flex flex-col gap-1.5 pt-2 border-t border-blue-200/60">
             <label className="text-[10px] font-bold text-slate-700 flex items-center justify-between">
               <span>قناع القص المتجه (SVG Clip Mask)</span>
-              <span className="text-[9px] text-blue-600 font-semibold">{selectedElement.shapeMask || 'بدون'}</span>
+              <span className="text-[9px] text-blue-600 font-semibold">
+                {selectedElement.shapeMask || 'بدون'}
+              </span>
             </label>
             <div className="grid grid-cols-4 gap-1">
               {CLIP_PRESETS.map((preset) => (
@@ -329,7 +355,8 @@ export const ElementPropertiesPanel: React.FC<ElementPropertiesPanelProps> = ({
               if (updates.fontFamily !== undefined) patched.fontFamily = updates.fontFamily;
               if (updates.fontSize !== undefined) patched.fontSize = updates.fontSize;
               if (updates.bold !== undefined) patched.fontWeight = updates.bold ? 'bold' : 'normal';
-              if (updates.italic !== undefined) patched.fontStyle = updates.italic ? 'italic' : 'normal';
+              if (updates.italic !== undefined)
+                patched.fontStyle = updates.italic ? 'italic' : 'normal';
               if (updates.underline !== undefined) {
                 patched.textDecoration = updates.underline ? 'underline' : 'none';
               }
@@ -340,7 +367,8 @@ export const ElementPropertiesPanel: React.FC<ElementPropertiesPanelProps> = ({
                 patched.textAlign = updates.textAlign === 'justify' ? 'left' : updates.textAlign;
               }
               if (updates.textColor !== undefined) patched.textColor = updates.textColor;
-              if (updates.backgroundColor !== undefined) patched.fillColor = updates.backgroundColor;
+              if (updates.backgroundColor !== undefined)
+                patched.fillColor = updates.backgroundColor;
               if (updates.direction !== undefined) patched.direction = updates.direction;
               if (updates.lineHeight !== undefined) patched.lineHeight = updates.lineHeight;
               onUpdateElement(patched);
@@ -399,7 +427,9 @@ export const ElementPropertiesPanel: React.FC<ElementPropertiesPanelProps> = ({
                 min={1}
                 max={99}
                 value={selectedElement.stepNumber || ''}
-                onChange={(e) => onUpdateElement({ stepNumber: parseInt(e.target.value, 10) || undefined })}
+                onChange={(e) =>
+                  onUpdateElement({ stepNumber: parseInt(e.target.value, 10) || undefined })
+                }
                 placeholder="1"
                 className="w-full p-1.5 bg-white border border-slate-200 rounded-lg text-xs font-bold text-center outline-none focus:border-blue-500"
               />
@@ -422,7 +452,8 @@ export const ElementPropertiesPanel: React.FC<ElementPropertiesPanelProps> = ({
                   type="button"
                   onClick={() => onUpdateElement({ routing: r.id as any })}
                   className={`p-1.5 rounded-lg border text-[10px] font-bold transition cursor-pointer text-center ${
-                    (selectedElement.routing || (selectedElement.type === 'connector' ? 'orthogonal' : 'straight')) === r.id
+                    (selectedElement.routing ||
+                      (selectedElement.type === 'connector' ? 'orthogonal' : 'straight')) === r.id
                       ? 'bg-blue-600 text-white border-blue-600 shadow-xs'
                       : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-50'
                   }`}
@@ -454,7 +485,9 @@ export const ElementPropertiesPanel: React.FC<ElementPropertiesPanelProps> = ({
             </div>
 
             <div className="flex flex-col gap-1 pt-1">
-              <label className="text-[10px] font-bold text-slate-500">نص تسمية الموصل (Label)</label>
+              <label className="text-[10px] font-bold text-slate-500">
+                نص تسمية الموصل (Label)
+              </label>
               <input
                 type="text"
                 value={selectedElement.label || ''}
@@ -485,7 +518,9 @@ export const ElementPropertiesPanel: React.FC<ElementPropertiesPanelProps> = ({
                 onClick={() => onUpdateElement({ fillColor: c })}
                 style={{ backgroundColor: c }}
                 className={`w-5 h-5 rounded-md border transition cursor-pointer ${
-                  selectedElement.fillColor === c ? 'border-blue-600 scale-110 shadow-xs' : 'border-slate-300'
+                  selectedElement.fillColor === c
+                    ? 'border-blue-600 scale-110 shadow-xs'
+                    : 'border-slate-300'
                 }`}
               />
             ))}
@@ -494,7 +529,9 @@ export const ElementPropertiesPanel: React.FC<ElementPropertiesPanelProps> = ({
 
         {/* Soft Gradients */}
         <div className="flex flex-col gap-1 pt-1 border-t border-slate-100">
-          <label className="text-[10px] font-bold text-slate-500">تدرجات لونية ناعمة (SVG Gradients)</label>
+          <label className="text-[10px] font-bold text-slate-500">
+            تدرجات لونية ناعمة (SVG Gradients)
+          </label>
           <div className="grid grid-cols-6 gap-1">
             {LIGHT_THEME_GRADIENTS.map((grad) => {
               const c1 = grad.stops[0]?.color || '#ffffff';
@@ -508,7 +545,9 @@ export const ElementPropertiesPanel: React.FC<ElementPropertiesPanelProps> = ({
                   title={grad.id}
                   style={{ background: gradVal }}
                   className={`h-5 rounded-md border transition cursor-pointer ${
-                    selectedElement.fillColor === gradVal ? 'border-blue-600 scale-110 shadow-xs' : 'border-slate-300'
+                    selectedElement.fillColor === gradVal
+                      ? 'border-blue-600 scale-110 shadow-xs'
+                      : 'border-slate-300'
                   }`}
                 />
               );
@@ -544,7 +583,9 @@ export const ElementPropertiesPanel: React.FC<ElementPropertiesPanelProps> = ({
         {/* Border Radius & Opacity */}
         <div className="grid grid-cols-2 gap-2">
           <div className="flex flex-col gap-1">
-            <label className="text-[10px] font-bold text-slate-500">انحناء الزوايا ({selectedElement.borderRadius || 12}px)</label>
+            <label className="text-[10px] font-bold text-slate-500">
+              انحناء الزوايا ({selectedElement.borderRadius || 12}px)
+            </label>
             <input
               type="range"
               min={0}
@@ -556,7 +597,9 @@ export const ElementPropertiesPanel: React.FC<ElementPropertiesPanelProps> = ({
           </div>
 
           <div className="flex flex-col gap-1">
-            <label className="text-[10px] font-bold text-slate-500">الشفافية ({Math.round((selectedElement.opacity ?? 1) * 100)}%)</label>
+            <label className="text-[10px] font-bold text-slate-500">
+              الشفافية ({Math.round((selectedElement.opacity ?? 1) * 100)}%)
+            </label>
             <input
               type="range"
               min={0.1}
@@ -573,7 +616,9 @@ export const ElementPropertiesPanel: React.FC<ElementPropertiesPanelProps> = ({
         <div className="flex flex-col gap-1.5 pt-2 border-t border-slate-200">
           <label className="text-[10px] font-bold text-slate-700 flex items-center justify-between">
             <span>الحركة المتجهة (SVG Animation)</span>
-            <span className="text-[9px] text-indigo-600 font-semibold">{selectedElement.animation || 'بدون'}</span>
+            <span className="text-[9px] text-indigo-600 font-semibold">
+              {selectedElement.animation || 'بدون'}
+            </span>
           </label>
           <div className="grid grid-cols-2 gap-1.5">
             {SVG_ANIMATION_PRESETS.map((anim) => (
@@ -596,7 +641,9 @@ export const ElementPropertiesPanel: React.FC<ElementPropertiesPanelProps> = ({
       </div>
 
       {/* 5. Custom HTML / Template Code Editor */}
-      {(selectedElement.type === 'html-card' || selectedElement.type === 'web-frame' || selectedElement.htmlContent) && (
+      {(selectedElement.type === 'html-card' ||
+        selectedElement.type === 'web-frame' ||
+        selectedElement.htmlContent) && (
         <div className="flex flex-col gap-1.5 p-3 bg-slate-50/80 rounded-xl border border-slate-200">
           <div className="font-bold text-slate-800 text-[11px] flex items-center justify-between">
             <div className="flex items-center gap-1">

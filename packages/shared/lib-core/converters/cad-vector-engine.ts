@@ -51,7 +51,8 @@ export class CadVectorEngine {
     dxf += '0\nSECTION\n2\nHEADER\n9\n$ACADVER\n1\nAC1009\n0\nENDSEC\n';
 
     // 2. DXF Tables
-    dxf += '0\nSECTION\n2\nTABLES\n0\nTABLE\n2\nLAYER\n70\n1\n0\nLAYER\n2\n0\n70\n0\n62\n7\n6\nCONTINUOUS\n0\nENDTAB\n0\nENDSEC\n';
+    dxf +=
+      '0\nSECTION\n2\nTABLES\n0\nTABLE\n2\nLAYER\n70\n1\n0\nLAYER\n2\n0\n70\n0\n62\n7\n6\nCONTINUOUS\n0\nENDTAB\n0\nENDSEC\n';
 
     // 3. DXF Entities Section
     dxf += '0\nSECTION\n2\nENTITIES\n';
@@ -88,7 +89,12 @@ export class CadVectorEngine {
   /**
    * توليد ملف Encapsulated PostScript (EPS Level 3)
    */
-  public static generateEps(entities: CadEntity[], width = 800, height = 600, title = 'Vector Graphic'): string {
+  public static generateEps(
+    entities: CadEntity[],
+    width = 800,
+    height = 600,
+    title = 'Vector Graphic',
+  ): string {
     let ps = `%!PS-Adobe-3.0 EPSF-3.0
 %%BoundingBox: 0 0 ${width} ${height}
 %%Title: ${title}

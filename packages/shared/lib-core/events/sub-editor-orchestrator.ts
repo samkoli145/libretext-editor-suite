@@ -26,76 +26,77 @@
  * ═══════════════════════════════════════════════════════════════════════════
  */
 
-export type SubEditorKind = 'selection' | 'line' | 'bezier' | 'motionPath' | 'textInplace' | 'drawing'
+export type SubEditorKind =
+  'selection' | 'line' | 'bezier' | 'motionPath' | 'textInplace' | 'drawing';
 
 export interface CanvasPointerEvent {
-  canvasX: number
-  canvasY: number
-  screenX: number
-  screenY: number
-  button: number
-  buttons: number
-  shiftKey: boolean
-  ctrlKey: boolean
-  altKey: boolean
-  metaKey: boolean
-  rawEvent: MouseEvent | TouchEvent | PointerEvent
+  canvasX: number;
+  canvasY: number;
+  screenX: number;
+  screenY: number;
+  button: number;
+  buttons: number;
+  shiftKey: boolean;
+  ctrlKey: boolean;
+  altKey: boolean;
+  metaKey: boolean;
+  rawEvent: MouseEvent | TouchEvent | PointerEvent;
 }
 
 export interface CanvasSurface {
-  zoom: number
-  panX: number
-  panY: number
-  viewportWidth: number
-  viewportHeight: number
-  invalidate: () => void
-  setCursor: (cursor: string) => void
-  commitChange: (description: string, patch: Record<string, unknown>) => void
+  zoom: number;
+  panX: number;
+  panY: number;
+  viewportWidth: number;
+  viewportHeight: number;
+  invalidate: () => void;
+  setCursor: (cursor: string) => void;
+  commitChange: (description: string, patch: Record<string, unknown>) => void;
 }
 
 export interface SubEditor {
-  readonly kind: SubEditorKind
-  readonly isActive: boolean
-  attach(targetId: string, elementData: any, surface: CanvasSurface): void
-  detach(): void
-  handlePointerDown(e: CanvasPointerEvent): boolean
-  handlePointerMove(e: CanvasPointerEvent): boolean
-  handlePointerUp(e: CanvasPointerEvent): boolean
-  handleDoubleClick?(e: CanvasPointerEvent): boolean
-  handleKeyDown?(e: KeyboardEvent): boolean
-  renderOverlays?(ctx: CanvasRenderingContext2D, surface: CanvasSurface): void
+  readonly kind: SubEditorKind;
+  readonly isActive: boolean;
+  attach(targetId: string, elementData: any, surface: CanvasSurface): void;
+  detach(): void;
+  handlePointerDown(e: CanvasPointerEvent): boolean;
+  handlePointerMove(e: CanvasPointerEvent): boolean;
+  handlePointerUp(e: CanvasPointerEvent): boolean;
+  handleDoubleClick?(e: CanvasPointerEvent): boolean;
+  handleKeyDown?(e: KeyboardEvent): boolean;
+  renderOverlays?(ctx: CanvasRenderingContext2D, surface: CanvasSurface): void;
 }
 
 export class SubEditorOrchestrator {
-  private activeEditor: SubEditor | null = null
-  private editors: Map<SubEditorKind, SubEditor> = new Map()
-  private surface: CanvasSurface | null = null
-  private currentTargetId: string | null = null
+  private activeEditor: SubEditor | null = null;
+  private editors: Map<SubEditorKind, SubEditor> = new Map();
+  private surface: CanvasSurface | null = null;
+  private currentTargetId: string | null = null;
 
   constructor(surface?: CanvasSurface) {
     if (surface) {
-      this.surface = surface
+      this.surface = surface;
     }
   }
 
   setSurface(surface: CanvasSurface): void {
-    this.surface = surface
+    this.surface = surface;
   }
 
   registerEditor(editor: SubEditor): void {
-    this.editors.set(editor.kind, editor)
+    this.editors.set(editor.kind, editor);
   }
 
   getActiveKind(): SubEditorKind | null {
-    return this.activeEditor ? this.activeEditor.kind : null
+    return this.activeEditor ? this.activeEditor.kind : null;
   }
 
   getActiveEditor(): SubEditor | null {
-    return this.activeEditor
+    return this.activeEditor;
   }
 
   getTargetId(): string | null {
-    return this.currentTargetId
+    return this.currentTargetId;
   }
 
   /**
@@ -103,61 +104,65 @@ export class SubEditorOrchestrator {
    */
   switchForElement(elementId: string | null, elementData: any): boolean {
     if (!elementId || !elementData) {
-      this.detachCurrent()
-      return false
+      this.detachCurrent();
+      return false;
     }
 
-    let targetKind: SubEditorKind = 'selection'
+    let targetKind: SubEditorKind = 'selection';
 
     if (elementData.type === 'bezier' || elementData.points || Array.isArray(elementData.nodes)) {
-      targetKind = 'bezier'
-    } else if (elementData.type === 'line' || elementData.type === 'arrow' || elementData.type === 'connector') {
-      targetKind = 'line'
+      targetKind = 'bezier';
+    } else if (
+      elementData.type === 'line' ||
+      elementData.type === 'arrow' ||
+      elementData.type === 'connector'
+    ) {
+      targetKind = 'line';
     } else if (elementData.type === 'motionPath' || elementData.hasMotionPath) {
-      targetKind = 'motionPath'
+      targetKind = 'motionPath';
     }
 
-    return this.activate(targetKind, elementId, elementData)
+    return this.activate(targetKind, elementId, elementData);
   }
 
   activate(kind: SubEditorKind, targetId: string, elementData: any): boolean {
-    if (!this.surface) return false
+    if (!this.surface) return false;
 
     // إذا كان المحرر الحالي هو نفسه على نفس العنصر، لا داعي لإعادة التهيئة
     if (this.activeEditor && this.activeEditor.kind === kind && this.currentTargetId === targetId) {
-      return true
+      return true;
     }
 
-    this.detachCurrent()
+    this.detachCurrent();
 
-    const nextEditor = this.editors.get(kind)
-    if (!nextEditor) return false
+    const nextEditor = this.editors.get(kind);
+    if (!nextEditor) return false;
 
     try {
-      nextEditor.attach(targetId, elementData, this.surface)
-      this.activeEditor = nextEditor
-      this.currentTargetId = targetId
-      this.surface.invalidate()
-      return true
+      nextEditor.attach(targetId, elementData, this.surface);
+      this.activeEditor = nextEditor;
+      this.currentTargetId = targetId;
+      this.surface.invalidate();
+      return true;
     } catch (err) {
-      console.error(`Failed to attach sub-editor ${kind}:`, err)
-      this.detachCurrent()
-      return false
+      console.error(`Failed to attach sub-editor ${kind}:`, err);
+      this.detachCurrent();
+      return false;
     }
   }
 
   detachCurrent(): void {
     if (this.activeEditor) {
       try {
-        this.activeEditor.detach()
+        this.activeEditor.detach();
       } catch (err) {
-        console.error('Error during sub-editor detach:', err)
+        console.error('Error during sub-editor detach:', err);
       }
-      this.activeEditor = null
-      this.currentTargetId = null
+      this.activeEditor = null;
+      this.currentTargetId = null;
       if (this.surface) {
-        this.surface.setCursor('default')
-        this.surface.invalidate()
+        this.surface.setCursor('default');
+        this.surface.invalidate();
       }
     }
   }
@@ -168,45 +173,50 @@ export class SubEditorOrchestrator {
 
   dispatchPointerDown(e: CanvasPointerEvent): boolean {
     if (this.activeEditor && this.activeEditor.isActive) {
-      return this.activeEditor.handlePointerDown(e)
+      return this.activeEditor.handlePointerDown(e);
     }
-    return false
+    return false;
   }
 
   dispatchPointerMove(e: CanvasPointerEvent): boolean {
     if (this.activeEditor && this.activeEditor.isActive) {
-      return this.activeEditor.handlePointerMove(e)
+      return this.activeEditor.handlePointerMove(e);
     }
-    return false
+    return false;
   }
 
   dispatchPointerUp(e: CanvasPointerEvent): boolean {
     if (this.activeEditor && this.activeEditor.isActive) {
-      return this.activeEditor.handlePointerUp(e)
+      return this.activeEditor.handlePointerUp(e);
     }
-    return false
+    return false;
   }
 
   dispatchDoubleClick(e: CanvasPointerEvent): boolean {
     if (this.activeEditor && this.activeEditor.isActive && this.activeEditor.handleDoubleClick) {
-      return this.activeEditor.handleDoubleClick(e)
+      return this.activeEditor.handleDoubleClick(e);
     }
-    return false
+    return false;
   }
 
   dispatchKeyDown(e: KeyboardEvent): boolean {
     if (this.activeEditor && this.activeEditor.isActive && this.activeEditor.handleKeyDown) {
-      return this.activeEditor.handleKeyDown(e)
+      return this.activeEditor.handleKeyDown(e);
     }
-    return false
+    return false;
   }
 
   renderOverlays(ctx: CanvasRenderingContext2D): void {
-    if (this.activeEditor && this.activeEditor.isActive && this.surface && this.activeEditor.renderOverlays) {
+    if (
+      this.activeEditor &&
+      this.activeEditor.isActive &&
+      this.surface &&
+      this.activeEditor.renderOverlays
+    ) {
       try {
-        this.activeEditor.renderOverlays(ctx, this.surface)
+        this.activeEditor.renderOverlays(ctx, this.surface);
       } catch (err) {
-        console.error('Error rendering sub-editor overlays:', err)
+        console.error('Error rendering sub-editor overlays:', err);
       }
     }
   }

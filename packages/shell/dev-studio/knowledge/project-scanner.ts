@@ -36,10 +36,14 @@ function countFiles(dir: string, ext: string): number {
 function getGitInfo(projectRoot: string): { lastCommit: string; branch: string } {
   try {
     const lastCommit = execSync('git log --oneline -1', {
-      cwd: projectRoot, encoding: 'utf-8', timeout: GIT_TIMEOUT_MS
+      cwd: projectRoot,
+      encoding: 'utf-8',
+      timeout: GIT_TIMEOUT_MS,
     }).trim();
     const branch = execSync('git branch --show-current', {
-      cwd: projectRoot, encoding: 'utf-8', timeout: GIT_TIMEOUT_MS
+      cwd: projectRoot,
+      encoding: 'utf-8',
+      timeout: GIT_TIMEOUT_MS,
     }).trim();
     return { lastCommit, branch };
   } catch {
@@ -50,14 +54,15 @@ function getGitInfo(projectRoot: string): { lastCommit: string; branch: string }
 function countPackages(projectRoot: string): number {
   const packagesDir = path.join(projectRoot, 'packages');
   if (!fs.existsSync(packagesDir)) return 0;
-  return fs.readdirSync(packagesDir, { withFileTypes: true })
-    .filter(e => e.isDirectory()).length;
+  return fs.readdirSync(packagesDir, { withFileTypes: true }).filter((e) => e.isDirectory()).length;
 }
 
 function runTestsQuietly(projectRoot: string): { passed: number; errors: number } {
   try {
     const output = execSync('npx vitest run --reporter=json 2>/dev/null', {
-      cwd: projectRoot, encoding: 'utf-8', timeout: TEST_TIMEOUT_MS
+      cwd: projectRoot,
+      encoding: 'utf-8',
+      timeout: TEST_TIMEOUT_MS,
     });
     const json = JSON.parse(output);
     return {
@@ -73,8 +78,9 @@ export function scanProject(projectRoot: string, runTests = false): ProjectSnaps
   const { lastCommit, branch } = getGitInfo(projectRoot);
   const testResults = runTests ? runTestsQuietly(projectRoot) : { passed: 0, errors: 0 };
 
-  const sourceCount = countFiles(path.join(projectRoot, 'packages'), '.ts')
-    + countFiles(path.join(projectRoot, 'packages'), '.tsx');
+  const sourceCount =
+    countFiles(path.join(projectRoot, 'packages'), '.ts') +
+    countFiles(path.join(projectRoot, 'packages'), '.tsx');
   const testCount = countFiles(path.join(projectRoot, 'packages'), '.test.ts');
 
   const now = new Date();
@@ -121,7 +127,5 @@ export function diffSnapshots(a: ProjectSnapshot, b: ProjectSnapshot): string {
     changes.push(`  commit: ${a.lastCommit.slice(0, 12)} → ${b.lastCommit.slice(0, 12)}`);
   }
 
-  return changes.length > 0
-    ? `التغييرات منذ آخر مسح:\n${changes.join('\n')}`
-    : 'لا توجد تغييرات.';
+  return changes.length > 0 ? `التغييرات منذ آخر مسح:\n${changes.join('\n')}` : 'لا توجد تغييرات.';
 }

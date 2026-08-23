@@ -12,21 +12,74 @@ describe('ALGO-034: vector/snap', () => {
   });
 
   it('calculateSmartSnap snaps to canvas center', () => {
-    const box = { x: 480, y: 0, width: 40, height: 40, minX: 480, minY: 0, maxX: 520, maxY: 40, centerX: 500, centerY: 20 };
-    const result = calculateSmartSnap(box, [], { snapToCanvas: true, canvasWidth: 1000, canvasHeight: 600, snapThreshold: 10 });
-    expect(result.matchedTargets.some(t => t.type === 'canvas')).toBe(true);
+    const box = {
+      x: 480,
+      y: 0,
+      width: 40,
+      height: 40,
+      minX: 480,
+      minY: 0,
+      maxX: 520,
+      maxY: 40,
+      centerX: 500,
+      centerY: 20,
+    };
+    const result = calculateSmartSnap(box, [], {
+      snapToCanvas: true,
+      canvasWidth: 1000,
+      canvasHeight: 600,
+      snapThreshold: 10,
+    });
+    expect(result.matchedTargets.some((t) => t.type === 'canvas')).toBe(true);
   });
 
   it('calculateSmartSnap snaps to element edge', () => {
-    const moving = { x: 298, y: 0, width: 100, height: 50, minX: 298, minY: 0, maxX: 398, maxY: 50, centerX: 348, centerY: 25 };
-    const ref = { x: 300, y: 0, width: 100, height: 50, minX: 300, minY: 0, maxX: 400, maxY: 50, centerX: 350, centerY: 25 };
+    const moving = {
+      x: 298,
+      y: 0,
+      width: 100,
+      height: 50,
+      minX: 298,
+      minY: 0,
+      maxX: 398,
+      maxY: 50,
+      centerX: 348,
+      centerY: 25,
+    };
+    const ref = {
+      x: 300,
+      y: 0,
+      width: 100,
+      height: 50,
+      minX: 300,
+      minY: 0,
+      maxX: 400,
+      maxY: 50,
+      centerX: 350,
+      centerY: 25,
+    };
     const result = calculateSmartSnap(moving, [ref], { snapThreshold: 10 });
-    expect(result.matchedTargets.some(t => t.type === 'element')).toBe(true);
+    expect(result.matchedTargets.some((t) => t.type === 'element')).toBe(true);
   });
 
   it('calculateSmartSnap falls back to grid', () => {
-    const box = { x: 53, y: 47, width: 100, height: 50, minX: 53, minY: 47, maxX: 153, maxY: 97, centerX: 103, centerY: 72 };
-    const result = calculateSmartSnap(box, [], { snapToGrid: true, gridSize: 10, snapThreshold: 4 });
+    const box = {
+      x: 53,
+      y: 47,
+      width: 100,
+      height: 50,
+      minX: 53,
+      minY: 47,
+      maxX: 153,
+      maxY: 97,
+      centerX: 103,
+      centerY: 72,
+    };
+    const result = calculateSmartSnap(box, [], {
+      snapToGrid: true,
+      gridSize: 10,
+      snapThreshold: 4,
+    });
     expect(result.snappedPoint.x).toBe(50);
     expect(result.snappedPoint.y).toBe(50);
   });

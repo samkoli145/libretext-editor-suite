@@ -10,15 +10,15 @@
  * ═══════════════════════════════════════════════════════════════════════════
  */
 
-import React, { useState } from "react";
-import type { EditorPlugin, EditorPluginProps, DocumentModel } from "../../core/types";
+import React, { useState } from 'react';
+import type { EditorPlugin, EditorPluginProps, DocumentModel } from '../../core/types';
 import {
   HTMLComponentData,
   INITIAL_HTML_COMPONENT_DATA,
   generateHtmlFromNodes,
   generateTsxFromNodes,
   HTMLNodeItem,
-} from "./model";
+} from './model';
 import {
   Code2,
   Eye,
@@ -30,14 +30,11 @@ import {
   Type,
   Square,
   Heading,
-} from "lucide-react";
+} from 'lucide-react';
 
-export function HTMLComponentEditor({
-  document,
-  onChange,
-}: EditorPluginProps<HTMLComponentData>) {
+export function HTMLComponentEditor({ document, onChange }: EditorPluginProps<HTMLComponentData>) {
   const data = document.data || INITIAL_HTML_COMPONENT_DATA;
-  const [activeTab, setActiveTab] = useState<"visual" | "html" | "tsx">("visual");
+  const [activeTab, setActiveTab] = useState<'visual' | 'html' | 'tsx'>('visual');
   const [selectedNodeId, setSelectedNodeId] = useState<string>(data.rootId);
 
   const updateData = (newData: HTMLComponentData) => {
@@ -49,25 +46,26 @@ export function HTMLComponentEditor({
     });
   };
 
-  const handleAddNode = (type: HTMLNodeItem["type"]) => {
+  const handleAddNode = (type: HTMLNodeItem['type']) => {
     const id = `node-${Date.now()}`;
     const newNode: HTMLNodeItem = {
       id,
       type,
       name: `${type.toUpperCase()} جديد`,
       props: {
-        text: type === "button" ? "زر جديد" : type === "heading" ? "عنوان جديد" : "نص جديد",
+        text: type === 'button' ? 'زر جديد' : type === 'heading' ? 'عنوان جديد' : 'نص جديد',
         className:
-          type === "button"
-            ? "px-4 py-2 bg-blue-600 text-white rounded-md text-sm font-medium hover:bg-blue-700"
-            : type === "heading"
-            ? "text-xl font-bold text-slate-900"
-            : "text-sm text-slate-700",
+          type === 'button'
+            ? 'px-4 py-2 bg-blue-600 text-white rounded-md text-sm font-medium hover:bg-blue-700'
+            : type === 'heading'
+              ? 'text-xl font-bold text-slate-900'
+              : 'text-sm text-slate-700',
       },
       children: [],
     };
 
-    const targetParentId = selectedNodeId && data.nodes[selectedNodeId] ? selectedNodeId : data.rootId;
+    const targetParentId =
+      selectedNodeId && data.nodes[selectedNodeId] ? selectedNodeId : data.rootId;
     const parentNode = data.nodes[targetParentId] || data.nodes[data.rootId];
 
     updateData({
@@ -117,33 +115,33 @@ export function HTMLComponentEditor({
 
         <div className="flex items-center gap-1 bg-slate-100 p-0.5 rounded-lg border border-slate-200 text-xs">
           <button
-            onClick={() => setActiveTab("visual")}
+            onClick={() => setActiveTab('visual')}
             className={`flex items-center gap-1 px-3 py-1 rounded-md font-medium transition-all ${
-              activeTab === "visual"
-                ? "bg-white text-blue-700 shadow-2xs font-semibold"
-                : "text-slate-600 hover:text-slate-900"
+              activeTab === 'visual'
+                ? 'bg-white text-blue-700 shadow-2xs font-semibold'
+                : 'text-slate-600 hover:text-slate-900'
             }`}
           >
             <Eye className="w-3.5 h-3.5" />
             <span>التصميم البصري</span>
           </button>
           <button
-            onClick={() => setActiveTab("html")}
+            onClick={() => setActiveTab('html')}
             className={`flex items-center gap-1 px-3 py-1 rounded-md font-medium transition-all ${
-              activeTab === "html"
-                ? "bg-white text-blue-700 shadow-2xs font-semibold"
-                : "text-slate-600 hover:text-slate-900"
+              activeTab === 'html'
+                ? 'bg-white text-blue-700 shadow-2xs font-semibold'
+                : 'text-slate-600 hover:text-slate-900'
             }`}
           >
             <Code2 className="w-3.5 h-3.5" />
             <span>HTML كود</span>
           </button>
           <button
-            onClick={() => setActiveTab("tsx")}
+            onClick={() => setActiveTab('tsx')}
             className={`flex items-center gap-1 px-3 py-1 rounded-md font-medium transition-all ${
-              activeTab === "tsx"
-                ? "bg-white text-blue-700 shadow-2xs font-semibold"
-                : "text-slate-600 hover:text-slate-900"
+              activeTab === 'tsx'
+                ? 'bg-white text-blue-700 shadow-2xs font-semibold'
+                : 'text-slate-600 hover:text-slate-900'
             }`}
           >
             <Sparkles className="w-3.5 h-3.5" />
@@ -153,7 +151,7 @@ export function HTMLComponentEditor({
       </div>
 
       {/* Main Content View */}
-      {activeTab === "visual" ? (
+      {activeTab === 'visual' ? (
         <div className="flex-1 flex overflow-hidden">
           {/* Left Controls: Node Tree & Components Palette */}
           <div className="w-64 bg-white border-l border-slate-200 flex flex-col p-3 shrink-0 overflow-y-auto space-y-4">
@@ -164,28 +162,28 @@ export function HTMLComponentEditor({
               </div>
               <div className="grid grid-cols-2 gap-1.5 text-xs">
                 <button
-                  onClick={() => handleAddNode("heading")}
+                  onClick={() => handleAddNode('heading')}
                   className="p-2 border border-slate-200 rounded-lg hover:border-blue-400 hover:bg-blue-50 text-right flex items-center gap-1.5 transition-colors"
                 >
                   <Heading className="w-3.5 h-3.5 text-blue-600" />
                   <span>عنوان</span>
                 </button>
                 <button
-                  onClick={() => handleAddNode("paragraph")}
+                  onClick={() => handleAddNode('paragraph')}
                   className="p-2 border border-slate-200 rounded-lg hover:border-blue-400 hover:bg-blue-50 text-right flex items-center gap-1.5 transition-colors"
                 >
                   <Type className="w-3.5 h-3.5 text-emerald-600" />
                   <span>فقرة</span>
                 </button>
                 <button
-                  onClick={() => handleAddNode("button")}
+                  onClick={() => handleAddNode('button')}
                   className="p-2 border border-slate-200 rounded-lg hover:border-blue-400 hover:bg-blue-50 text-right flex items-center gap-1.5 transition-colors"
                 >
                   <Square className="w-3.5 h-3.5 text-purple-600" />
                   <span>زر</span>
                 </button>
                 <button
-                  onClick={() => handleAddNode("card")}
+                  onClick={() => handleAddNode('card')}
                   className="p-2 border border-slate-200 rounded-lg hover:border-blue-400 hover:bg-blue-50 text-right flex items-center gap-1.5 transition-colors"
                 >
                   <Layers className="w-3.5 h-3.5 text-amber-600" />
@@ -206,8 +204,8 @@ export function HTMLComponentEditor({
                     onClick={() => setSelectedNodeId(node.id)}
                     className={`flex items-center justify-between p-2 rounded-lg text-xs cursor-pointer transition-colors ${
                       node.id === selectedNodeId
-                        ? "bg-blue-50 text-blue-700 font-semibold border border-blue-200"
-                        : "hover:bg-slate-100 text-slate-700 border border-transparent"
+                        ? 'bg-blue-50 text-blue-700 font-semibold border border-blue-200'
+                        : 'hover:bg-slate-100 text-slate-700 border border-transparent'
                     }`}
                   >
                     <span className="truncate">{node.name}</span>
@@ -271,7 +269,7 @@ export function HTMLComponentEditor({
                 <label className="block font-medium text-slate-600 mb-1">فئات CSS (Tailwind)</label>
                 <textarea
                   rows={3}
-                  value={selectedNode.props.className || ""}
+                  value={selectedNode.props.className || ''}
                   onChange={(e) => {
                     updateData({
                       ...data,
@@ -292,9 +290,9 @@ export function HTMLComponentEditor({
         </div>
       ) : (
         /* Code Tab (HTML or TSX) */
-        <div className="flex-1 p-6 bg-slate-900 text-slate-100 font-mono text-xs overflow-auto">
+        <div className="flex-1 p-6 bg-slate-50 text-slate-800 font-mono text-xs overflow-auto border border-slate-200 rounded-lg">
           <pre className="whitespace-pre-wrap leading-relaxed">
-            {activeTab === "html"
+            {activeTab === 'html'
               ? generateHtmlFromNodes(data.rootId, data.nodes)
               : generateTsxFromNodes(data.rootId, data.nodes)}
           </pre>
@@ -305,23 +303,23 @@ export function HTMLComponentEditor({
 }
 
 export class HTMLComponentPlugin implements EditorPlugin<HTMLComponentData> {
-  id = "html-component-plugin";
-  name = "مكونات HTML والواجهات";
-  documentType = "html-component";
-  iconName = "FileCode";
-  fileExtensions = ["html", "tsx", "jsx", "json"] as const;
-  description = "محرر مكونات HTML والواجهات البصرية التفاعلية";
+  id = 'html-component-plugin';
+  name = 'مكونات HTML والواجهات';
+  documentType = 'html-component';
+  iconName = 'FileCode';
+  fileExtensions = ['html', 'tsx', 'jsx', 'json'] as const;
+  description = 'محرر مكونات HTML والواجهات البصرية التفاعلية';
 
   renderEditor(props: EditorPluginProps<HTMLComponentData>) {
     return <HTMLComponentEditor {...props} />;
   }
 
-  createDefaultDocument(title = "مكون HTML جديد"): DocumentModel<HTMLComponentData> {
+  createDefaultDocument(title = 'مكون HTML جديد'): DocumentModel<HTMLComponentData> {
     return {
       id: `doc-${Date.now()}`,
-      type: "html-component",
+      type: 'html-component',
       title,
-      fileExtension: "html",
+      fileExtension: 'html',
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
       version: 1,

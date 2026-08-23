@@ -88,14 +88,19 @@ export function LiveCodePanel({
     if (selectedElement?.latex) {
       activeCode = `$$ ${selectedElement.latex} $$`;
     } else {
-      activeCode = `\\documentclass{article}\n\\usepackage{amsmath}\n\\begin{document}\n\\section{صيغة رياضية}\n` +
-        elements.filter((el) => el.latex).map((el) => `\\[ ${el.latex} \\]`).join('\n') +
+      activeCode =
+        `\\documentclass{article}\n\\usepackage{amsmath}\n\\begin{document}\n\\section{صيغة رياضية}\n` +
+        elements
+          .filter((el) => el.latex)
+          .map((el) => `\\[ ${el.latex} \\]`)
+          .join('\n') +
         `\n\\end{document}`;
     }
     fileExt = 'tex';
     mimeType = 'text/x-tex';
   } else if (format === 'markdown') {
-    activeCode = `# مستند الكانفا المصدّر\n\n` +
+    activeCode =
+      `# مستند الكانفا المصدّر\n\n` +
       elements
         .map((el) => {
           if (el.latex) return `$$\n${el.latex}\n$$`;
@@ -112,8 +117,11 @@ export function LiveCodePanel({
     if (selectedElement) {
       activeCode = `/* فئات Tailwind للعنصر المحدد (${selectedElement.id}): */\n${elementToTailwindClasses(selectedElement)}\n\n/* الأنماط المخصصة (Raw CSS): */\n${selectedElement.rawCss || '/* لا توجد أنماط مضمنة مخصصة */'}`;
     } else {
-      activeCode = `/* حدد أي عنصر على الكانفا لمعاينة وتعديل فئات Tailwind الخاصة به فورياً */\n\n/* جميع فئات العناصر الحالية: */\n` +
-        elements.map((el) => `// [${el.type}] ${el.id}:\n${elementToTailwindClasses(el)}`).join('\n\n');
+      activeCode =
+        `/* حدد أي عنصر على الكانفا لمعاينة وتعديل فئات Tailwind الخاصة به فورياً */\n\n/* جميع فئات العناصر الحالية: */\n` +
+        elements
+          .map((el) => `// [${el.type}] ${el.id}:\n${elementToTailwindClasses(el)}`)
+          .join('\n\n');
     }
     fileExt = 'css';
     mimeType = 'text/css';

@@ -30,10 +30,7 @@ export type Unsubscribe = () => void;
 export class EventBus {
   private handlers: Map<string, Set<EventHandler<any>>> = new Map();
 
-  public on<TPayload = unknown>(
-    event: string,
-    handler: EventHandler<TPayload>
-  ): Unsubscribe {
+  public on<TPayload = unknown>(event: string, handler: EventHandler<TPayload>): Unsubscribe {
     if (!this.handlers.has(event)) {
       this.handlers.set(event, new Set());
     }
@@ -46,10 +43,7 @@ export class EventBus {
     };
   }
 
-  public once<TPayload = unknown>(
-    event: string,
-    handler: EventHandler<TPayload>
-  ): Unsubscribe {
+  public once<TPayload = unknown>(event: string, handler: EventHandler<TPayload>): Unsubscribe {
     const unsubscribe = this.on<TPayload>(event, (payload) => {
       unsubscribe();
       handler(payload);
@@ -58,10 +52,7 @@ export class EventBus {
     return unsubscribe;
   }
 
-  public off<TPayload = unknown>(
-    event: string,
-    handler: EventHandler<TPayload>
-  ): void {
+  public off<TPayload = unknown>(event: string, handler: EventHandler<TPayload>): void {
     const set = this.handlers.get(event);
 
     if (!set) {

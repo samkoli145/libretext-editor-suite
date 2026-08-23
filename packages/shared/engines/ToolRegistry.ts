@@ -139,7 +139,9 @@ export class ToolRegistry {
           ctx.updateSourceCode(wrapped);
           notificationEngine.success('تم التغليف', 'تم تغليف المستند في حاوية أنيقة');
         } else if (ctx.insertHtml) {
-          ctx.insertHtml('<div class="max-w-4xl mx-auto px-6 py-8 bg-white border border-slate-200 rounded-xl shadow-xs"><p>حاوية جديدة...</p></div>');
+          ctx.insertHtml(
+            '<div class="max-w-4xl mx-auto px-6 py-8 bg-white border border-slate-200 rounded-xl shadow-xs"><p>حاوية جديدة...</p></div>',
+          );
           notificationEngine.success('تم إدراج حاوية');
         }
       },

@@ -177,9 +177,7 @@ export class AdapterRegistry {
    */
   register(adapter: EditorAdapter): void {
     if (this.adapters.has(adapter.editorId)) {
-      throw new Error(
-        `[AdapterRegistry] editor "${adapter.editorId}" already has an adapter`,
-      );
+      throw new Error(`[AdapterRegistry] editor "${adapter.editorId}" already has an adapter`);
     }
     this.adapters.set(adapter.editorId, adapter);
   }
@@ -210,9 +208,7 @@ export class AdapterRegistry {
   mountToAll(toolId: string, definition: ToolDefinition): MountResult[] {
     const targets = this.resolveTargets(definition.editors);
     if (targets.length === 0) {
-      throw new Error(
-        `[AdapterRegistry] tool "${toolId}" supports no registered editor`,
-      );
+      throw new Error(`[AdapterRegistry] tool "${toolId}" supports no registered editor`);
     }
 
     const results: MountResult[] = [];

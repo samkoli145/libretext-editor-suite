@@ -124,7 +124,10 @@ export function parseComponentRegistry(md: string): ComponentEntry[] {
     if (trimmed.includes('---')) continue;
     if (/^\|\s*(id|المكون|component)/i.test(trimmed)) continue;
 
-    const cells = trimmed.split('|').map((c) => c.trim()).filter(Boolean);
+    const cells = trimmed
+      .split('|')
+      .map((c) => c.trim())
+      .filter(Boolean);
     if (cells.length < 3) continue;
 
     // الخلايا: id | name | path | ...
@@ -159,7 +162,7 @@ export function parseInventory(json: string): Record<string, unknown> {
   if (!json) return {};
   try {
     const parsed = JSON.parse(json);
-    return (parsed && typeof parsed === 'object' && !Array.isArray(parsed))
+    return parsed && typeof parsed === 'object' && !Array.isArray(parsed)
       ? (parsed as Record<string, unknown>)
       : {};
   } catch {
@@ -189,11 +192,16 @@ export function deriveComponents(project: ProjectSurface): ComponentEntry[] {
     // استبعاد محركات lib-core
     if (/\/lib-core\//.test(path)) continue;
     // نتعرف على ملفات المكونات: في مجلد components أو ملفات .tsx
-    const isComp = /\/components\//.test(path) || path.startsWith('components/') || /\.tsx$/.test(path);
+    const isComp =
+      /\/components\//.test(path) || path.startsWith('components/') || /\.tsx$/.test(path);
     if (!isComp) continue;
 
     // نستخرج اسم المكون من اسم الملف
-    const name = path.split('/').pop()?.replace(/\.(ts|tsx)$/, '') ?? '';
+    const name =
+      path
+        .split('/')
+        .pop()
+        ?.replace(/\.(ts|tsx)$/, '') ?? '';
     if (!name) continue;
     // المعرف هو اسم الملف (هوية، لا تُعاد)
     const id = name;
@@ -218,7 +226,11 @@ export function deriveAlgorithms(project: ProjectSurface): AlgorithmEntry[] {
 
   for (const path of files) {
     if (!/\.(ts|tsx)$/.test(path)) continue;
-    const name = path.split('/').pop()?.replace(/\.(ts|tsx)$/, '') ?? '';
+    const name =
+      path
+        .split('/')
+        .pop()
+        ?.replace(/\.(ts|tsx)$/, '') ?? '';
     if (!name) continue;
     // نتعرف على الخوارزميات: في lib-core، أو اسم يحمل Engine/Validator/Graph/Detector/Parser
     const isLibCore = /\/lib-core\//.test(path);
@@ -325,7 +337,10 @@ function currentEntriesOfAlgorithms(md: string): string[] {
     const trimmed = line.trim();
     if (!trimmed.startsWith('|')) continue;
     if (trimmed.includes('---')) continue;
-    const cells = trimmed.split('|').map((c) => c.trim()).filter(Boolean);
+    const cells = trimmed
+      .split('|')
+      .map((c) => c.trim())
+      .filter(Boolean);
     if (cells.length < 2) continue;
     // المعرف بين backticks في الخلية الأولى
     const m = /^`([^`]+)`$/.exec(cells[0]);
@@ -381,10 +396,7 @@ function syncInventory(project: ProjectSurface): DevStudioPatch | null {
  * السجل متسقاً. null هنا إجابة حقيقية، مثل NULL في select.ts:
  * "NULL IS THE IMPORTANT RETURN."
  */
-export function syncRegistry(
-  project: ProjectSurface,
-  kind: RegistryKind,
-): DevStudioPatch | null {
+export function syncRegistry(project: ProjectSurface, kind: RegistryKind): DevStudioPatch | null {
   const path = REGISTRY_PATHS[kind];
   const current = project.readFile(path) ?? '';
 
@@ -446,4 +458,3 @@ export const _registrySyncInternals = {
   renderAlgorithmRegistry,
   REGISTRY_PATHS,
 };
-

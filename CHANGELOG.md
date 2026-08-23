@@ -1,11 +1,12 @@
-
 ## [v1.2.0] - 2026-08-22
+
 - **Shared Context Menu (`SHARED-CMP-001`):** بناء مكون القوائم السياقية الموحد `SharedContextMenu.tsx` بالثيم الفاتح النقي والتفاعل بالماوس حصراً.
 - **Canvas Integration:** ربط `CanvasDesignerPlugin` بمحلل السمات والقوائم السياقية (`resolveContextMenuForBlock`) وتحديث عناصر الكانفا بدقة متناهية (`locked`, `z-index`, `geometry`, `duplicate`, `delete`).
 - **Type Safety & Encapsulation:** إزالة أي `as any` من مسارات القوائم، وتصحيح استيرادات الحزم لتعتمد المعرف الرسمي `@libretext/core`.
 - **Hook Enhancements:** توحيد اتساق دالة `openMenu` في `useContextMenu.ts` عبر جميع الـ Overloads.
 
 ## [v1.1.0] - 2026-08-22
+
 - مزامنة تلقائية لفهارس المكونات والسجلات عبر أداة `sync-registry.ts`.
 - تحديث مسارات النواة والمكونات ومطابقتها لشجرة الملفات الحالية (2754 رمزاً مفهرساً).
 
@@ -37,9 +38,10 @@
 التنسيق مبني على [Keep a Changelog](https://keepachangelog.com/),
 والإصدار يتبع [Semantic Versioning](https://semver.org/).
 
-
 ## [v1.3.0] - 2026-08-22
+
 ### Added
+
 - **Full Import from المعدل 4 (346 files, 85,098 lines):**
   - Core infrastructure: commands, contributions, documents, engines, events, history, plugins, services, system, storage
   - HTML blocks: 10 files (html-unified-block, types, registry, generator, layout-engine, data-engine, tailwind-editor, operations, presets, tsx-generator)
@@ -65,13 +67,13 @@
   - Data: BLOCK_REGISTRY.json, DIAGNOSTICS_REPORT.json
 
 ### Fixed
+
 - Import path corrections for cross-package references (core/src/ → shared/)
 - Added react type stub for UI feature files
 - Removed lucide-react dependency from unifiedTools.ts (zero-dependency compliance)
 - Replaced localforage with localStorage stub (zero-dependency compliance)
 - Added TraitKey type export to traits/types.ts
 - Fixed noUncheckedIndexedAccess error in capability-registry.ts
-
 
 ## [لم يُصدر بعد]
 
@@ -103,12 +105,14 @@
 ### Level 1-5 Engine Integration — تكامل محركات المستويات 1-5 (2026-08-21)
 
 #### Level 1 — Basic Interaction Engines
+
 - ✅ `core/src/engines/context-menu-engine.ts` — محرك القوائم السياقية الديناميكية [CORE-ENG-005]
 - ✅ `core/src/engines/selection-gizmo-engine.ts` — محرك م Affero التحديد والتقابض [CORE-ENG-006]
 - ✅ `core/src/engines/composable-traits-engine.ts` — نظام السمات القابلة للتركيب [CORE-ENG-007]
 - ✅ `core/src/engines/floating-gizmo-engine.ts` — محرك العناصر العائمة [CORE-ENG-008]
 
 #### Level 2 — Interaction Engines
+
 - ✅ `core/src/engines/spatial-drag-engine.ts` — محرك السحب المكاني مع التسنين والضبط [CORE-ENG-009]
 - ✅ `core/src/engines/marquee-selection-engine.ts` — محرك التحديد بالصندوق المطاطي [CORE-ENG-010]
 - ✅ `core/src/engines/multi-selection-engine.ts` — محرك التحديد المتعدد [CORE-ENG-011]
@@ -116,6 +120,7 @@
 - ✅ `core/src/engines/mouse-command-registry.ts` — سجل أوامر الماوس [CORE-ENG-013]
 
 #### Level 3 — Intelligence Engines
+
 - ✅ `algorithms/src/spatial/smart-snap-engine.ts` — التسنين الذكي مع خطوط الإرشاد [ALGO-031]
 - ✅ `algorithms/src/spatial/dynamic-guide-lines.ts` — خطوط إرشاد حية + مؤشرات قياس [ALGO-032]
 - ✅ `algorithms/src/spatial/smart-rtl-alignment.ts` — كشف اتجاه النص ومحاذاة RTL/LTR [ALGO-033]
@@ -124,6 +129,7 @@
 - ✅ `core/src/engines/z-order-manager.ts` — إدارة ترتيب الطبقات [CORE-ENG-016]
 
 #### Level 4 — Block & Tool Integration
+
 - ✅ `algorithms/src/vector/snap.ts` — محرك تسنين متعدد الأهداف [ALGO-034]
 - ✅ `algorithms/src/vector/ref-line.ts` — خطوط إرشاد ديناميكية + مؤشرات مسافات [ALGO-035]
 - ✅ `algorithms/src/vector/control-handle-manager.ts` — 8 مقابض تحجيم + تدوير [ALGO-036]
@@ -131,12 +137,14 @@
 - ✅ `core/src/engines/block-mapper.ts` — رسم خريطة البلوكات البصري [CORE-ENG-018]
 
 #### Level 5 — Medium Engines
+
 - ✅ `algorithms/src/diagram/diagram-engine.ts` — محرك رسومات SVG المتجهية [ALGO-037]
 - ✅ `core/src/registry/component-registry.ts` — سجل المكونات المركزي [CORE-REG-001]
 - ✅ `core/src/engines/smart-component-engine.ts` — تجميع المكونات الذكي [CORE-ENG-019]
 - ✅ `core/src/engines/callout-engine.ts` — صناديق التعليق التوضيحي البصرية [CORE-ENG-020]
 
 #### Backup Integration (المعدل)
+
 - ✅ `core/src/engines/mouse-tooling-engine.ts` — محرك الفأرة والأدوات [CORE-017]
 - ✅ `core/src/engines/tool-registry.ts` — سجل الأدوات الموحد [CORE-020]
 - ✅ `core/src/engines/doctor-self-healing-engine.ts` — محرك الشفاء الذاتي [CORE-021]

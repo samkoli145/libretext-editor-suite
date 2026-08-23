@@ -96,7 +96,7 @@ export class ComponentRegistry {
         c.name.toLowerCase().includes(q) ||
         c.nameAr.includes(q) ||
         c.descriptionAr.includes(q) ||
-        c.categoryAr.includes(q)
+        c.categoryAr.includes(q),
     );
   }
 
@@ -455,12 +455,12 @@ export class ComponentRegistry {
       icon: '📝',
       descriptionAr: 'مربع كود منسق مع هوامش مخصصة للشرح',
       templateHtml: `
-<div class="w-[450px] m-4 bg-slate-800 rounded-xl overflow-hidden shadow-lg border border-slate-700 text-left" dir="ltr">
-  <div class="flex items-center gap-2 px-4 py-2 bg-slate-900 border-b border-slate-700">
+<div class="w-[450px] m-4 bg-slate-50 rounded-xl overflow-hidden shadow-lg border border-slate-200 text-left" dir="ltr">
+  <div class="flex items-center gap-2 px-4 py-2 bg-slate-100 border-b border-slate-200">
     <div class="w-3 h-3 rounded-full bg-rose-500"></div>
     <div class="w-3 h-3 rounded-full bg-amber-500"></div>
     <div class="w-3 h-3 rounded-full bg-emerald-500"></div>
-    <span class="text-[10px] text-slate-400 font-mono ml-2">app.tsx</span>
+    <span class="text-[10px] text-slate-500 font-mono ml-2">app.tsx</span>
   </div>
   <div class="p-4 relative">
     <pre class="text-xs text-slate-300 font-mono leading-relaxed">
@@ -579,12 +579,12 @@ export class ComponentRegistry {
       icon: '💬',
       descriptionAr: 'تلميح تفاعلي منبثق لتسليط الضوء على العناصر الهامة',
       templateHtml: `
-<div class="w-[260px] p-3 bg-slate-900 text-white rounded-xl shadow-xl m-4 relative text-xs leading-relaxed" dir="rtl">
-  <div class="font-bold text-blue-400 mb-1 flex items-center gap-1.5">
+<div class="w-[260px] p-3 bg-slate-50 text-slate-800 rounded-xl shadow-xl border border-slate-200 m-4 relative text-xs leading-relaxed" dir="rtl">
+  <div class="font-bold text-blue-600 mb-1 flex items-center gap-1.5">
     <span>💡</span> <span>تلميح معماري هام</span>
   </div>
-  <p class="text-slate-300 m-0 text-[11px]">يمكنك النقر بزر الماوس الأيمن في أي مكان لفتح السبورة البيضاء التفاعلية.</p>
-  <div class="absolute -bottom-2 right-6 w-3 h-3 bg-slate-900 transform rotate-45"></div>
+  <p class="text-slate-600 m-0 text-[11px]">يمكنك النقر بزر الماوس الأيمن في أي مكان لفتح السبورة البيضاء التفاعلية.</p>
+  <div class="absolute -bottom-2 right-6 w-3 h-3 bg-slate-50 border-r border-b border-slate-200 transform rotate-45"></div>
 </div>`.trim(),
     });
 
@@ -787,7 +787,6 @@ export class ComponentRegistry {
   </p>
 </div>`.trim(),
     });
-
   }
 }
 

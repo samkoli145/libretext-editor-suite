@@ -50,10 +50,25 @@ export const pythonPack: LanguagePack = {
   completion: {
     languageId: 'python',
     provideCompletions: () => [
-      { label: 'def', kind: 'keyword', detail: 'Function definition', insertText: 'def main():\n    pass' },
-      { label: 'class', kind: 'keyword', detail: 'Class declaration', insertText: 'class MyClass:\n    def __init__(self):\n        pass' },
+      {
+        label: 'def',
+        kind: 'keyword',
+        detail: 'Function definition',
+        insertText: 'def main():\n    pass',
+      },
+      {
+        label: 'class',
+        kind: 'keyword',
+        detail: 'Class declaration',
+        insertText: 'class MyClass:\n    def __init__(self):\n        pass',
+      },
       { label: 'print', kind: 'function', detail: 'Print function', insertText: 'print()' },
-      { label: 'import numpy as np', kind: 'snippet', detail: 'Import numpy', insertText: 'import numpy as np' },
+      {
+        label: 'import numpy as np',
+        kind: 'snippet',
+        detail: 'Import numpy',
+        insertText: 'import numpy as np',
+      },
     ],
   },
   runner: {

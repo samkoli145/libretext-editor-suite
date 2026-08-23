@@ -79,7 +79,8 @@ export const COMMON_REGEX_PRESETS: RegexPreset[] = [
   {
     id: 'url',
     nameAr: 'روابط المواقع (URLs)',
-    pattern: 'https?:\\/\\/(?:www\\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b(?:[-a-zA-Z0-9()@:%_+.~#?&/=]*)',
+    pattern:
+      'https?:\\/\\/(?:www\\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b(?:[-a-zA-Z0-9()@:%_+.~#?&/=]*)',
     flags: 'gi',
     descriptionAr: 'استخراج وتدقيق روابط الويب HTTP و HTTPS',
     sampleText: 'زوروا موقعنا https://ai.studio أو http://example.com/docs للمزيد.',
@@ -119,7 +120,8 @@ export const COMMON_REGEX_PRESETS: RegexPreset[] = [
   {
     id: 'phone-number',
     nameAr: 'أرقام الهواتف الدولية',
-    pattern: '\\+?\\d{1,4}?[-.\\s]?\\(?\\d{1,3}?\\)?[-.\\s]?\\d{1,4}[-.\\s]?\\d{1,4}[-.\\s]?\\d{1,9}',
+    pattern:
+      '\\+?\\d{1,4}?[-.\\s]?\\(?\\d{1,3}?\\)?[-.\\s]?\\d{1,4}[-.\\s]?\\d{1,4}[-.\\s]?\\d{1,9}',
     flags: 'g',
     descriptionAr: 'مطابقة أرقام الهواتف المحمولة والأرضية بالأكواد الدولية',
     sampleText: 'الاتصال المباشر: +966-50-123-4567 أو 001 555 123 4567.',
@@ -134,7 +136,7 @@ export class RegexTesterEngine {
     pattern: string,
     flags: string,
     testText: string,
-    replacementTemplate?: string
+    replacementTemplate?: string,
   ): RegexTestResult {
     const startTime = performance.now();
 
@@ -160,7 +162,7 @@ export class RegexTesterEngine {
       const matches: RegexMatchItem[] = [];
 
       let match: RegExpExecArray | null;
-      let lastIndex = 0;
+      const lastIndex = 0;
       let safetyCounter = 0;
       const MAX_MATCHES = 1000;
 
@@ -268,7 +270,10 @@ export class RegexTesterEngine {
       }
 
       // وسم التطابق
-      const bgClass = idx % 2 === 0 ? 'bg-amber-100 border-amber-300 text-amber-900' : 'bg-emerald-100 border-emerald-300 text-emerald-900';
+      const bgClass =
+        idx % 2 === 0
+          ? 'bg-amber-100 border-amber-300 text-amber-900'
+          : 'bg-emerald-100 border-emerald-300 text-emerald-900';
       result += `<mark class="${bgClass} border px-1 py-0.5 rounded font-mono text-xs mx-0.5" title="تطابق #${m.matchIndex}">${this.escapeHtml(m.fullMatch)}</mark>`;
 
       lastIdx = m.end;

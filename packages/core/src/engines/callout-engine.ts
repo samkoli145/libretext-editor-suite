@@ -42,10 +42,14 @@ function arrowPath(pos: CalloutPosition, x: number, y: number, w: number, h: num
   const cx = x + w / 2;
   const cy = y + h / 2;
   switch (pos) {
-    case 'top': return `M ${cx - 8} ${y} L ${cx} ${y - 10} L ${cx + 8} ${y}`;
-    case 'bottom': return `M ${cx - 8} ${y + h} L ${cx} ${y + h + 10} L ${cx + 8} ${y + h}`;
-    case 'left': return `M ${x} ${cy - 8} L ${x - 10} ${cy} L ${x} ${cy + 8}`;
-    case 'right': return `M ${x + w} ${cy - 8} L ${x + w + 10} ${cy} L ${x + w} ${cy + 8}`;
+    case 'top':
+      return `M ${cx - 8} ${y} L ${cx} ${y - 10} L ${cx + 8} ${y}`;
+    case 'bottom':
+      return `M ${cx - 8} ${y + h} L ${cx} ${y + h + 10} L ${cx + 8} ${y + h}`;
+    case 'left':
+      return `M ${x} ${cy - 8} L ${x - 10} ${cy} L ${x} ${cy + 8}`;
+    case 'right':
+      return `M ${x + w} ${cy - 8} L ${x + w + 10} ${cy} L ${x + w} ${cy + 8}`;
   }
 }
 
@@ -56,24 +60,40 @@ function colorFor(c: CalloutColor): { bg: string; border: string; text: string }
 export function renderCalloutSvg(cfg: CalloutConfig): string {
   const c = colorFor(cfg.color);
   const r = SHAPE_RADIUS[cfg.shape];
-  const parts = [`<svg x="${cfg.x}" y="${cfg.y}" width="${cfg.width}" height="${cfg.height + 10}" xmlns="http://www.w3.org/2000/svg">`];
-  parts.push(`  <rect width="${cfg.width}" height="${cfg.height}" rx="${r}" fill="${c.bg}" stroke="${c.border}" stroke-width="2"/>`);
+  const parts = [
+    `<svg x="${cfg.x}" y="${cfg.y}" width="${cfg.width}" height="${cfg.height + 10}" xmlns="http://www.w3.org/2000/svg">`,
+  ];
+  parts.push(
+    `  <rect width="${cfg.width}" height="${cfg.height}" rx="${r}" fill="${c.bg}" stroke="${c.border}" stroke-width="2"/>`,
+  );
   if (cfg.hasArrow) {
-    parts.push(`  <path d="${arrowPath(cfg.position, 0, 0, cfg.width, cfg.height)}" fill="${c.bg}" stroke="${c.border}" stroke-width="2"/>`);
+    parts.push(
+      `  <path d="${arrowPath(cfg.position, 0, 0, cfg.width, cfg.height)}" fill="${c.bg}" stroke="${c.border}" stroke-width="2"/>`,
+    );
   }
   const tx = cfg.width / 2;
   const ty = cfg.height / 2 + 4;
-  parts.push(`  <text x="${tx}" y="${ty}" text-anchor="middle" font-size="14" fill="${c.text}">${cfg.text}</text>`);
+  parts.push(
+    `  <text x="${tx}" y="${ty}" text-anchor="middle" font-size="14" fill="${c.text}">${cfg.text}</text>`,
+  );
   parts.push('</svg>');
   return parts.join('\n');
 }
 
 export function createCallout(
-  id: string, text: string, x: number, y: number,
-  opts: Partial<Pick<CalloutConfig, 'shape' | 'color' | 'position' | 'width' | 'height' | 'hasArrow'>> = {},
+  id: string,
+  text: string,
+  x: number,
+  y: number,
+  opts: Partial<
+    Pick<CalloutConfig, 'shape' | 'color' | 'position' | 'width' | 'height' | 'hasArrow'>
+  > = {},
 ): CalloutConfig {
   return {
-    id, text, x, y,
+    id,
+    text,
+    x,
+    y,
     shape: opts.shape ?? 'rounded',
     color: opts.color ?? 'info',
     position: opts.position ?? 'top',

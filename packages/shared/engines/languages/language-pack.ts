@@ -45,10 +45,7 @@ export interface LanguagePack {
   runner?: RunnerProvider;
 }
 
-export function registerLanguagePack(
-  runtime: LanguageRuntime,
-  pack: LanguagePack
-): void {
+export function registerLanguagePack(runtime: LanguageRuntime, pack: LanguagePack): void {
   runtime.registry.register(pack.definition);
   if (pack.completion) runtime.registerCompletion(pack.completion);
   if (pack.diagnostics) runtime.registerDiagnostics(pack.diagnostics);

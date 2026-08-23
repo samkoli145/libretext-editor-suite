@@ -35,10 +35,7 @@ export interface RectBounds {
  */
 export function isPointInsideBounds(bounds: RectBounds, x: number, y: number): boolean {
   return (
-    x >= bounds.x &&
-    x <= bounds.x + bounds.width &&
-    y >= bounds.y &&
-    y <= bounds.y + bounds.height
+    x >= bounds.x && x <= bounds.x + bounds.width && y >= bounds.y && y <= bounds.y + bounds.height
   );
 }
 

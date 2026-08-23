@@ -44,11 +44,20 @@ import { contentsOf } from './DoctorEngine';
  * reason is just noise the next reader deletes.
  */
 const DARK_VIOLATIONS: ReadonlyArray<{ re: RegExp; why: string }> = [
-  { re: /theme-dark|dark-mode|dark-theme/i, why: 'a dark theme class — the covenant is pure light' },
+  {
+    re: /theme-dark|dark-mode|dark-theme/i,
+    why: 'a dark theme class — the covenant is pure light',
+  },
   { re: /#000(?:000)?\b(?![\da-f])/i, why: 'pure black background' },
   { re: /#1[0-2][0-9a-f]{4}\b/i, why: 'a near-black background colour' },
-  { re: /background[^;]*:\s*(?:#1[0-2][0-9a-f]{4}|black|near-black)/i, why: 'dark background declaration' },
-  { re: /theme-auto|prefers-color-scheme/i, why: 'a theme that follows the viewer — editing surfaces stay light' },
+  {
+    re: /background[^;]*:\s*(?:#1[0-2][0-9a-f]{4}|black|near-black)/i,
+    why: 'dark background declaration',
+  },
+  {
+    re: /theme-auto|prefers-color-scheme/i,
+    why: 'a theme that follows the viewer — editing surfaces stay light',
+  },
 ];
 
 /**
@@ -67,10 +76,7 @@ const LIGHT_DARK = /light-dark\s*\(/i;
  */
 const PRESENTER_MARK = /ds-overlay|present-overlay|presenter-stage/i;
 
-export function checkTheme(
-  patches: DevStudioPatch[],
-  _project?: ProjectSurface,
-): DoctorCheck[] {
+export function checkTheme(patches: DevStudioPatch[], _project?: ProjectSurface): DoctorCheck[] {
   const checks: DoctorCheck[] = [];
 
   for (const { path, content } of contentsOf(patches)) {
@@ -117,7 +123,11 @@ export function checkTheme(
     // A presenter surface is allowed dark backgrounds but must still meet
     // contrast for its text. We check the cheap, load-bearing case: light
     // text colour declared near a dark background.
-    if (isPresenter && !/color\s*:\s*#[c-f]/i.test(content) && !/color\s*:\s*var\(/i.test(content)) {
+    if (
+      isPresenter &&
+      !/color\s*:\s*#[c-f]/i.test(content) &&
+      !/color\s*:\s*var\(/i.test(content)
+    ) {
       checks.push({
         id: `theme-contrast-${path}`,
         name: 'presenter surface may lack readable text colour',
@@ -159,19 +169,22 @@ export class ThemeValidator {
         op: 'modifyFile',
         path: filePath,
         content,
-        inverse: { op: 'modifyFile', path: filePath, content }
-      }
+        inverse: { op: 'modifyFile', path: filePath, content },
+      },
     ];
     const checks = checkTheme(patches);
-    return checks.find((c) => c.status === 'fail') || checks[0] || {
-      id: `theme-check-${filePath}`,
-      name: 'Pure Light Theme Audit',
-      nameAr: 'تدقيق الثيم الفاتح النقي 100%',
-      category: 'theme',
-      categoryAr: 'نظام الألوان والثيم',
-      status: 'pass',
-      message: `File [${filePath}] is 100% compliant with pure light theme.`,
-      messageAr: `الملف [${filePath}] ملتزم بنسبة 100% بالثيم الفاتح النقي.`,
-    };
+    return (
+      checks.find((c) => c.status === 'fail') ||
+      checks[0] || {
+        id: `theme-check-${filePath}`,
+        name: 'Pure Light Theme Audit',
+        nameAr: 'تدقيق الثيم الفاتح النقي 100%',
+        category: 'theme',
+        categoryAr: 'نظام الألوان والثيم',
+        status: 'pass',
+        message: `File [${filePath}] is 100% compliant with pure light theme.`,
+        messageAr: `الملف [${filePath}] ملتزم بنسبة 100% بالثيم الفاتح النقي.`,
+      }
+    );
   }
 }

@@ -29,7 +29,7 @@ function prependToFile(filePath: string, marker: string, content: string): void 
 export function generateJournalEntry(
   projectRoot: string,
   session: SessionEntry,
-  lessons: string[]
+  lessons: string[],
 ): string {
   const lines = [
     `---`,
@@ -39,7 +39,7 @@ export function generateJournalEntry(
     `### ${session.title}`,
     ``,
     `#### المهام المنجزة`,
-    ...session.tasks.map(t => `- ${t}`),
+    ...session.tasks.map((t) => `- ${t}`),
     ``,
     `#### الإحصائيات`,
     `| المؤشر | قبل | بعد | التغيير |`,
@@ -54,7 +54,7 @@ export function generateJournalEntry(
   }
 
   if (lessons.length > 0) {
-    lines.push('', `#### الدروس المستفادة`, ...lessons.map(l => `1. ${l}`));
+    lines.push('', `#### الدروس المستفادة`, ...lessons.map((l) => `1. ${l}`));
   }
 
   const entry = lines.join('\n');
@@ -68,13 +68,13 @@ export function generateChangelogEntry(
   projectRoot: string,
   version: string,
   title: string,
-  items: string[]
+  items: string[],
 ): string {
   const lines = [
     ``,
     `## [${version}] - ${new Date().toISOString().split('T')[0]}`,
     `### Added`,
-    ...items.map(i => `- ${i}`),
+    ...items.map((i) => `- ${i}`),
   ];
 
   const entry = lines.join('\n');
@@ -95,7 +95,7 @@ export function createSession(
   errorsBefore: number,
   errorsAfter: number,
   commitHash?: string,
-  lessons: string[] = []
+  lessons: string[] = [],
 ): SessionEntry {
   return {
     id: `session-${Date.now().toString(36)}`,

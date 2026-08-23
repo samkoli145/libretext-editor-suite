@@ -42,55 +42,57 @@ import {
   lineEndpoints,
   setLineEndpoints,
   sideMidpoint,
-} from './line-connector-geometry'
-import type { Pt } from './bezier-curves'
+} from './line-connector-geometry';
+import type { Pt } from './bezier-curves';
 
-export type ConnectorSide = 'auto' | 'top' | 'right' | 'bottom' | 'left'
+export type ConnectorSide = 'auto' | 'top' | 'right' | 'bottom' | 'left';
 
 /** حارس نوع: هل القيمة جانب موصل صالح فعلاً؟ (يحمي الحدود من بيانات عشوائية) */
 export function isValidConnectorSide(side: unknown): side is ConnectorSide {
-  return side === 'auto' || side === 'top' || side === 'right' || side === 'bottom' || side === 'left'
+  return (
+    side === 'auto' || side === 'top' || side === 'right' || side === 'bottom' || side === 'left'
+  );
 }
 
 export interface ConnectorAnchorRef {
-  el: string
-  side?: string | ConnectorSide
+  el: string;
+  side?: string | ConnectorSide;
 }
 
 /** شكل قابل للربط: خط/موصِّل يحمل مرسى from/to. */
 export interface ConnectorShapeLike {
-  id: string
-  type: string
-  shape?: string
-  x: number
-  y: number
-  w: number
-  h: number
-  rotation?: number
-  from?: ConnectorAnchorRef | null
-  to?: ConnectorAnchorRef | null
+  id: string;
+  type: string;
+  shape?: string;
+  x: number;
+  y: number;
+  w: number;
+  h: number;
+  rotation?: number;
+  from?: ConnectorAnchorRef | null;
+  to?: ConnectorAnchorRef | null;
 }
 
 export interface ConnectorRerouteResult {
-  id: string
-  changed: boolean
-  deadAnchors: Array<'from' | 'to'>
-  fromPoint?: Pt
-  toPoint?: Pt
+  id: string;
+  changed: boolean;
+  deadAnchors: Array<'from' | 'to'>;
+  fromPoint?: Pt;
+  toPoint?: Pt;
 }
 
 export interface ConnectorRerouteSummary {
-  results: ConnectorRerouteResult[]
-  changedCount: number
+  results: ConnectorRerouteResult[];
+  changedCount: number;
 }
 
-const MOVE_EPSILON = 0.5
+const MOVE_EPSILON = 0.5;
 
 /** حارس نوع: هل هذا عنصر موصل فعلي (شكل line) يحمل مراسي؟ */
 export function isConnectorShape(el: unknown): el is ConnectorShapeLike {
-  if (!el || typeof el !== 'object') return false
-  const c = el as ConnectorShapeLike
-  return c.type === 'shape' && c.shape === 'line' && Boolean(c.from || c.to)
+  if (!el || typeof el !== 'object') return false;
+  const c = el as ConnectorShapeLike;
+  return c.type === 'shape' && c.shape === 'line' && Boolean(c.from || c.to);
 }
 
 /**
@@ -99,8 +101,8 @@ export function isConnectorShape(el: unknown): el is ConnectorShapeLike {
  * أي قيمة جانبية غير معروفة تُعامل كـ auto بأمان.
  */
 export function computeAnchorPoint(box: Box, side: string | undefined, toward: Pt): Pt {
-  if (side && isValidConnectorSide(side) && side !== 'auto') return sideMidpoint(box, side)
-  return borderPoint(box, toward)
+  if (side && isValidConnectorSide(side) && side !== 'auto') return sideMidpoint(box, side);
+  return borderPoint(box, toward);
 }
 
 /**
@@ -110,42 +112,42 @@ export function computeAnchorPoint(box: Box, side: string | undefined, toward: P
  */
 export function rerouteConnector(
   element: ConnectorShapeLike,
-  byId: Map<string, Box>
+  byId: Map<string, Box>,
 ): ConnectorRerouteResult {
-  const deadAnchors: Array<'from' | 'to'> = []
+  const deadAnchors: Array<'from' | 'to'> = [];
 
   if (element.from && !byId.has(element.from.el)) {
-    delete element.from
-    deadAnchors.push('from')
+    delete element.from;
+    deadAnchors.push('from');
   }
   if (element.to && !byId.has(element.to.el)) {
-    delete element.to
-    deadAnchors.push('to')
+    delete element.to;
+    deadAnchors.push('to');
   }
   if (!element.from && !element.to) {
-    return { id: element.id, changed: false, deadAnchors }
+    return { id: element.id, changed: false, deadAnchors };
   }
 
-  const [a, b] = lineEndpoints(element)
-  const fromBox = element.from ? byId.get(element.from.el) ?? null : null
-  const toBox = element.to ? byId.get(element.to.el) ?? null : null
+  const [a, b] = lineEndpoints(element);
+  const fromBox = element.from ? (byId.get(element.from.el) ?? null) : null;
+  const toBox = element.to ? (byId.get(element.to.el) ?? null) : null;
 
   const na = fromBox
     ? computeAnchorPoint(fromBox, element.from?.side, toBox ? boxCenter(toBox) : b)
-    : a
+    : a;
   const nb = toBox
     ? computeAnchorPoint(toBox, element.to?.side, fromBox ? boxCenter(fromBox) : a)
-    : b
+    : b;
 
   const changed =
     Math.hypot(na.x - a.x, na.y - a.y) > MOVE_EPSILON ||
-    Math.hypot(nb.x - b.x, nb.y - b.y) > MOVE_EPSILON
+    Math.hypot(nb.x - b.x, nb.y - b.y) > MOVE_EPSILON;
 
   if (changed) {
-    setLineEndpoints(element, na, nb)
+    setLineEndpoints(element, na, nb);
   }
 
-  return { id: element.id, changed, deadAnchors, fromPoint: na, toPoint: nb }
+  return { id: element.id, changed, deadAnchors, fromPoint: na, toPoint: nb };
 }
 
 /**
@@ -153,35 +155,32 @@ export function rerouteConnector(
  * الموصلات المتبقية فقط ويجمع النتائج وعدد التغييرات — مشتقة وبدون تحقق DOM.
  */
 export function rerouteAllConnectors(elements: ConnectorShapeLike[]): ConnectorRerouteSummary {
-  const byId = new Map<string, Box>(elements.map((e) => [e.id, e]))
-  const results: ConnectorRerouteResult[] = []
-  let changedCount = 0
+  const byId = new Map<string, Box>(elements.map((e) => [e.id, e]));
+  const results: ConnectorRerouteResult[] = [];
+  let changedCount = 0;
 
   for (const el of elements) {
-    if (!isConnectorShape(el)) continue
-    const result = rerouteConnector(el, byId)
-    results.push(result)
-    if (result.changed) changedCount++
+    if (!isConnectorShape(el)) continue;
+    const result = rerouteConnector(el, byId);
+    results.push(result);
+    if (result.changed) changedCount++;
   }
 
-  return { results, changedCount }
+  return { results, changedCount };
 }
 
 /**
  * فصل مرسى نهاية الموصل عند سحبها يدوياً بالفأرة — تُحذف المرساة فيصبح
  * الطرف حراً ولن تخضع إعادة توجيه المستقبل (Detach on Manual Drag).
  */
-export function detachConnectorAnchor(
-  element: ConnectorShapeLike,
-  end: 'from' | 'to'
-): boolean {
+export function detachConnectorAnchor(element: ConnectorShapeLike, end: 'from' | 'to'): boolean {
   if (end === 'from' && element.from) {
-    delete element.from
-    return true
+    delete element.from;
+    return true;
   }
   if (end === 'to' && element.to) {
-    delete element.to
-    return true
+    delete element.to;
+    return true;
   }
-  return false
+  return false;
 }

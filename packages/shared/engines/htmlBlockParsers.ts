@@ -66,7 +66,11 @@ export function styleAttrToBlockStyles(element: Element): Record<string, string>
 export function extractCleanAttributes(element: Element): Record<string, string> {
   const attributes: Record<string, string> = {};
   Array.from(element.attributes).forEach((attr) => {
-    if (!['style', 'class', 'data-wp-id', 'data-wp-type', 'data-wp-size', 'data-align'].includes(attr.name)) {
+    if (
+      !['style', 'class', 'data-wp-id', 'data-wp-type', 'data-wp-size', 'data-align'].includes(
+        attr.name,
+      )
+    ) {
       attributes[attr.name] = attr.value;
     }
   });
@@ -136,7 +140,9 @@ export const HTML_BLOCK_PARSERS: Record<string, HtmlBlockParser> = {
     serialize: (block) => {
       const style = stylesObjectToString(block.styles);
       const styleAttr = style ? ` style="${style}"` : '';
-      const src = block.attributes?.src || 'https://images.unsplash.com/photo-1579546929518-9e396f3cc809?w=600&auto=format&fit=crop&q=80';
+      const src =
+        block.attributes?.src ||
+        'https://images.unsplash.com/photo-1579546929518-9e396f3cc809?w=600&auto=format&fit=crop&q=80';
       const alt = block.attributes?.alt || 'صورة توضيحية';
       return `<img data-wp-type="image" src="${src}" alt="${alt}"${styleAttr} />`;
     },
@@ -293,7 +299,9 @@ export function parseHtmlElementToWebBlock(el: Element): WebBlock | null {
 
   const parser = parserKey ? HTML_BLOCK_PARSERS[parserKey] : undefined;
   const parsedTemplate = parser ? parser.parse(el) : null;
-  const id = el.getAttribute('data-wp-id') || `block-${Date.now()}-${Math.random().toString(36).substr(2, 6)}`;
+  const id =
+    el.getAttribute('data-wp-id') ||
+    `block-${Date.now()}-${Math.random().toString(36).substr(2, 6)}`;
 
   const children: WebBlock[] = [];
   if (el.children.length > 0) {

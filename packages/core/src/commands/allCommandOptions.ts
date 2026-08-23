@@ -53,7 +53,10 @@ export function getAllCommandOptions(): CommandOptionItem[] {
   }));
 }
 
-export function filterCommandOptions(query: string, options = getAllCommandOptions()): CommandOptionItem[] {
+export function filterCommandOptions(
+  query: string,
+  options = getAllCommandOptions(),
+): CommandOptionItem[] {
   const clean = query.trim().toLowerCase();
   if (!clean) return options;
 

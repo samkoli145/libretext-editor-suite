@@ -23,12 +23,9 @@
  * ═══════════════════════════════════════════════════════════════════════════
  */
 
-import type { ComponentType } from "react";
-import { useEditorServices } from "./providers";
-import type {
-  DocumentModel,
-  EditorPluginProps,
-} from "../core/types";
+import type { ComponentType } from 'react';
+import { useEditorServices } from './providers';
+import type { DocumentModel, EditorPluginProps } from '../core/types';
 
 interface DocumentEditorHostProps {
   key?: string | number | null;
@@ -36,10 +33,7 @@ interface DocumentEditorHostProps {
   onChange: (updated: DocumentModel) => void;
 }
 
-export function DocumentEditorHost({
-  document,
-  onChange,
-}: DocumentEditorHostProps) {
+export function DocumentEditorHost({ document, onChange }: DocumentEditorHostProps) {
   const services = useEditorServices();
 
   const plugin = services.plugins.getPlugin(document.type);
@@ -53,9 +47,7 @@ export function DocumentEditorHost({
     );
   }
 
-  const Editor = plugin.renderEditor as ComponentType<
-    EditorPluginProps<any>
-  >;
+  const Editor = plugin.renderEditor as ComponentType<EditorPluginProps<any>>;
 
   return <Editor document={document} onChange={onChange} />;
 }

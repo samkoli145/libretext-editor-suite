@@ -81,7 +81,10 @@ export class CoordinateSystem {
   }
 
   public snapPoint(point: Point, customGridSize?: number): Point {
-    return { x: this.snapToGrid(point.x, customGridSize), y: this.snapToGrid(point.y, customGridSize) };
+    return {
+      x: this.snapToGrid(point.x, customGridSize),
+      y: this.snapToGrid(point.y, customGridSize),
+    };
   }
 
   public calculateZoomAtPoint(
@@ -102,8 +105,12 @@ export class CoordinateSystem {
     return { zoom: newZoom, offsetX: newOffsetX, offsetY: newOffsetY };
   }
 
-  public getViewport(): Viewport { return { ...this.viewport }; }
-  public getGrid(): GridConfig { return { ...this.grid }; }
+  public getViewport(): Viewport {
+    return { ...this.viewport };
+  }
+  public getGrid(): GridConfig {
+    return { ...this.grid };
+  }
   public setViewport(vp: Partial<Viewport>): void {
     if (vp.offsetX !== undefined) this.viewport.offsetX = vp.offsetX;
     if (vp.offsetY !== undefined) this.viewport.offsetY = vp.offsetY;

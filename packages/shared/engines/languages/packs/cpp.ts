@@ -49,9 +49,21 @@ export const cppPack: LanguagePack = {
   completion: {
     languageId: 'cpp',
     provideCompletions: () => [
-      { label: '#include <iostream>', kind: 'snippet', insertText: '#include <iostream>\nusing namespace std;' },
-      { label: 'std::cout', kind: 'function', insertText: 'std::cout << "Hello World" << std::endl;' },
-      { label: 'class', kind: 'keyword', insertText: 'class Controller {\npublic:\n    Controller();\n};' },
+      {
+        label: '#include <iostream>',
+        kind: 'snippet',
+        insertText: '#include <iostream>\nusing namespace std;',
+      },
+      {
+        label: 'std::cout',
+        kind: 'function',
+        insertText: 'std::cout << "Hello World" << std::endl;',
+      },
+      {
+        label: 'class',
+        kind: 'keyword',
+        insertText: 'class Controller {\npublic:\n    Controller();\n};',
+      },
     ],
   },
 };
@@ -97,7 +109,11 @@ export const rustPack: LanguagePack = {
   completion: {
     languageId: 'rust',
     provideCompletions: () => [
-      { label: 'fn main()', kind: 'snippet', insertText: 'fn main() {\n    println!("Hello, S1!");\n}' },
+      {
+        label: 'fn main()',
+        kind: 'snippet',
+        insertText: 'fn main() {\n    println!("Hello, S1!");\n}',
+      },
       { label: 'struct', kind: 'keyword', insertText: 'struct Config {\n    id: String,\n}' },
     ],
   },

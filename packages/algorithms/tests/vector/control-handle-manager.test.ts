@@ -1,13 +1,29 @@
 import { describe, it, expect } from 'vitest';
-import { getTransformHandles, hitTestHandles, calculateResizeDelta, calculateRotationAngle } from '../../src/vector/control-handle-manager';
+import {
+  getTransformHandles,
+  hitTestHandles,
+  calculateResizeDelta,
+  calculateRotationAngle,
+} from '../../src/vector/control-handle-manager';
 
 describe('ALGO-036: control-handle-manager', () => {
-  const box = { x: 100, y: 100, width: 200, height: 100, minX: 100, minY: 100, maxX: 300, maxY: 200, centerX: 200, centerY: 150 };
+  const box = {
+    x: 100,
+    y: 100,
+    width: 200,
+    height: 100,
+    minX: 100,
+    minY: 100,
+    maxX: 300,
+    maxY: 200,
+    centerX: 200,
+    centerY: 150,
+  };
 
   it('generates 9 handles (8 + rotation)', () => {
     const handles = getTransformHandles(box, 0);
     expect(handles).toHaveLength(9);
-    expect(handles.some(h => h.type === 'rotation')).toBe(true);
+    expect(handles.some((h) => h.type === 'rotation')).toBe(true);
   });
 
   it('hitTestHandles finds handle within tolerance', () => {

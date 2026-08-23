@@ -35,58 +35,58 @@
  * معزولة قابلة لإعادة الاستخدام في كل المحررات الأربعة.
  */
 
-import type { Pt } from '../geometry/bezier-curves'
+import type { Pt } from '../geometry/bezier-curves';
 
-export type { Pt }
+export type { Pt };
 
 export interface AnchorBox {
-  x: number
-  y: number
-  w: number
-  h: number
+  x: number;
+  y: number;
+  w: number;
+  h: number;
 }
 
 /** صندوق عنصر مرتبط بالشريحة (بإحداثيات الكانفا غير المقيّسة). */
 export interface AnchorElement {
-  id: string
-  x: number
-  y: number
-  w: number
-  h: number
+  id: string;
+  x: number;
+  y: number;
+  w: number;
+  h: number;
 }
 
-export type CommentAnchorMode = 'element' | 'point' | 'slide'
+export type CommentAnchorMode = 'element' | 'point' | 'slide';
 
 /** واصف مرسى التعليق — يحدد وضع التثبيت وبياناته. */
 export interface CommentAnchorDescriptor {
-  mode: CommentAnchorMode
+  mode: CommentAnchorMode;
   /** معرف العنصر المرتبط (للوضع element). */
-  elementId?: string
+  elementId?: string;
   /** إحداثيات الكانفا للنقطة (للوضع point). */
-  point?: Pt
+  point?: Pt;
   /** فهرس الرصّ التسلسلي (للوضع slide). */
-  slideStackIndex?: number
+  slideStackIndex?: number;
 }
 
 export interface CommentAnchorOptions {
   /** مقياس الكانفا — يحوّل إحداثيات الشريحة إلى وحدات شاشة. الافتراضي 1. */
-  scale?: number
+  scale?: number;
   /** أبعاد مؤشر الدبوس. الافتراضي 18px. */
-  markerSize?: number
+  markerSize?: number;
   /** إزاحة الرصّ العمودي لكل دبوس شريحة. الافتراضي 26px. */
-  stackOffsetY?: number
+  stackOffsetY?: number;
   /** حشوة الزاوية العليا اليسرى للرصّ. الافتراضي {x:10, y:10}. */
-  stackPadding?: Pt
+  stackPadding?: Pt;
 }
 
 export interface ResolvedCommentMarker {
-  box: AnchorBox
-  mode: CommentAnchorMode
+  box: AnchorBox;
+  mode: CommentAnchorMode;
 }
 
-const MARKER_DEFAULT = 18
-const STACK_OFFSET_DEFAULT = 26
-const STACK_PAD_DEFAULT: Pt = { x: 10, y: 10 }
+const MARKER_DEFAULT = 18;
+const STACK_OFFSET_DEFAULT = 26;
+const STACK_PAD_DEFAULT: Pt = { x: 10, y: 10 };
 
 /**
  * اقتراح أفضل وضع تثبيت عند النقر في إحداثيات الشريحة:
@@ -97,31 +97,31 @@ export function suggestCommentAnchor(
   point: Pt,
   elements: AnchorElement[],
   slide: { w: number; h: number },
-  fullSlideThreshold = 0.8
+  fullSlideThreshold = 0.8,
 ): CommentAnchorDescriptor {
   const candidates = elements.filter(
-    (e) => point.x >= e.x && point.x <= e.x + e.w && point.y >= e.y && point.y <= e.y + e.h
-  )
-  const top = candidates[candidates.length - 1]
+    (e) => point.x >= e.x && point.x <= e.x + e.w && point.y >= e.y && point.y <= e.y + e.h,
+  );
+  const top = candidates[candidates.length - 1];
   if (top && !isNearFullSlideElement(top, slide, fullSlideThreshold)) {
-    return { mode: 'element', elementId: top.id }
+    return { mode: 'element', elementId: top.id };
   }
   if (point.x >= 0 && point.y >= 0 && point.x <= slide.w && point.y <= slide.h) {
-    return { mode: 'point', point: { x: point.x, y: point.y } }
+    return { mode: 'point', point: { x: point.x, y: point.y } };
   }
-  return { mode: 'slide', slideStackIndex: 0 }
+  return { mode: 'slide', slideStackIndex: 0 };
 }
 
 /** هل يغطي العنصر أكثر من عتبة مساحة الشريحة (Scenery)؟ الافتراضي 80%. */
 export function isNearFullSlideElement(
   el: AnchorElement,
   slide: { w: number; h: number },
-  threshold = 0.8
+  threshold = 0.8,
 ): boolean {
-  if (slide.w <= 0 || slide.h <= 0) return false
-  const area = el.w * el.h
-  const slideArea = slide.w * slide.h
-  return area > slideArea * threshold
+  if (slide.w <= 0 || slide.h <= 0) return false;
+  const area = el.w * el.h;
+  const slideArea = slide.w * slide.h;
+  return area > slideArea * threshold;
 }
 
 /**
@@ -133,31 +133,31 @@ export function isNearFullSlideElement(
 export function resolveCommentMarker(
   descriptor: CommentAnchorDescriptor,
   elements: AnchorElement[],
-  opts?: CommentAnchorOptions
+  opts?: CommentAnchorOptions,
 ): ResolvedCommentMarker | null {
-  const scale = opts?.scale ?? 1
-  const size = opts?.markerSize ?? MARKER_DEFAULT
-  const stackY = opts?.stackOffsetY ?? STACK_OFFSET_DEFAULT
-  const pad = opts?.stackPadding ?? STACK_PAD_DEFAULT
+  const scale = opts?.scale ?? 1;
+  const size = opts?.markerSize ?? MARKER_DEFAULT;
+  const stackY = opts?.stackOffsetY ?? STACK_OFFSET_DEFAULT;
+  const pad = opts?.stackPadding ?? STACK_PAD_DEFAULT;
 
   if (descriptor.mode === 'element' && descriptor.elementId) {
-    const el = elements.find((e) => e.id === descriptor.elementId)
-    if (!el) return null
-    const x = (el.x + el.w) * scale - size / 2
-    const y = el.y * scale - size / 2
-    return { mode: 'element', box: { x, y, w: size, h: size } }
+    const el = elements.find((e) => e.id === descriptor.elementId);
+    if (!el) return null;
+    const x = (el.x + el.w) * scale - size / 2;
+    const y = el.y * scale - size / 2;
+    return { mode: 'element', box: { x, y, w: size, h: size } };
   }
 
   if (descriptor.mode === 'point' && descriptor.point) {
-    const x = descriptor.point.x * scale - size / 2
-    const y = descriptor.point.y * scale - size
-    return { mode: 'point', box: { x, y, w: size, h: size } }
+    const x = descriptor.point.x * scale - size / 2;
+    const y = descriptor.point.y * scale - size;
+    return { mode: 'point', box: { x, y, w: size, h: size } };
   }
 
-  const index = descriptor.slideStackIndex ?? 0
-  const x = pad.x
-  const y = pad.y + index * stackY
-  return { mode: 'slide', box: { x, y, w: size, h: size } }
+  const index = descriptor.slideStackIndex ?? 0;
+  const x = pad.x;
+  const y = pad.y + index * stackY;
+  return { mode: 'slide', box: { x, y, w: size, h: size } };
 }
 
 /**
@@ -169,16 +169,16 @@ export function clampPopoverToViewport(
   anchor: AnchorBox,
   popover: { w: number; h: number },
   viewport: { w: number; h: number },
-  padding = 8
+  padding = 8,
 ): Pt {
-  const safeW = Math.max(popover.w, 1)
-  const safeH = Math.max(popover.h, 1)
-  const rightEdge = Math.min(anchor.x + anchor.w + padding, viewport.w - safeW - padding)
-  const topEdge = Math.min(anchor.y - padding, viewport.h - safeH - padding)
+  const safeW = Math.max(popover.w, 1);
+  const safeH = Math.max(popover.h, 1);
+  const rightEdge = Math.min(anchor.x + anchor.w + padding, viewport.w - safeW - padding);
+  const topEdge = Math.min(anchor.y - padding, viewport.h - safeH - padding);
   return {
     x: Math.max(padding, rightEdge),
     y: Math.max(padding, topEdge),
-  }
+  };
 }
 
 /**
@@ -188,28 +188,38 @@ export function clampPopoverToViewport(
  */
 export function formatRelativeTime(
   timestamp: number | string,
-  now: number = Date.now()
-): { kind: 'just-now' | 'minutes' | 'hours' | 'days' | 'date'; value: number | null; labelAr: string; labelEn: string } {
-  const t = typeof timestamp === 'string' ? new Date(timestamp).getTime() : timestamp
-  if (!Number.isFinite(t)) return { kind: 'date', value: null, labelAr: '—', labelEn: '—' }
+  now: number = Date.now(),
+): {
+  kind: 'just-now' | 'minutes' | 'hours' | 'days' | 'date';
+  value: number | null;
+  labelAr: string;
+  labelEn: string;
+} {
+  const t = typeof timestamp === 'string' ? new Date(timestamp).getTime() : timestamp;
+  if (!Number.isFinite(t)) return { kind: 'date', value: null, labelAr: '—', labelEn: '—' };
 
-  const seconds = (now - t) / 1000
+  const seconds = (now - t) / 1000;
   if (!Number.isFinite(seconds) || seconds < 45) {
-    return { kind: 'just-now', value: 0, labelAr: 'الآن فقط', labelEn: 'just now' }
+    return { kind: 'just-now', value: 0, labelAr: 'الآن فقط', labelEn: 'just now' };
   }
   if (seconds < 3600) {
-    const n = Math.round(seconds / 60)
-    return { kind: 'minutes', value: n, labelAr: `قبل ${n} د`, labelEn: `${n}m ago` }
+    const n = Math.round(seconds / 60);
+    return { kind: 'minutes', value: n, labelAr: `قبل ${n} د`, labelEn: `${n}m ago` };
   }
   if (seconds < 86400) {
-    const n = Math.round(seconds / 3600)
-    return { kind: 'hours', value: n, labelAr: `قبل ${n} س`, labelEn: `${n}h ago` }
+    const n = Math.round(seconds / 3600);
+    return { kind: 'hours', value: n, labelAr: `قبل ${n} س`, labelEn: `${n}h ago` };
   }
   if (seconds < 86400 * 30) {
-    const n = Math.round(seconds / 86400)
-    return { kind: 'days', value: n, labelAr: `قبل ${n} ي`, labelEn: `${n}d ago` }
+    const n = Math.round(seconds / 86400);
+    return { kind: 'days', value: n, labelAr: `قبل ${n} ي`, labelEn: `${n}d ago` };
   }
-  return { kind: 'date', value: null, labelAr: new Date(t).toLocaleDateString('ar-EG'), labelEn: new Date(t).toLocaleDateString() }
+  return {
+    kind: 'date',
+    value: null,
+    labelAr: new Date(t).toLocaleDateString('ar-EG'),
+    labelEn: new Date(t).toLocaleDateString(),
+  };
 }
 
 /**
@@ -217,14 +227,14 @@ export function formatRelativeTime(
  * غير المرتبطة (وضع الشريحة) مع الحفاظ على ترتيب المصفوفة الأصلي.
  */
 export function buildSlideStackIndexes(
-  descriptors: CommentAnchorDescriptor[]
+  descriptors: CommentAnchorDescriptor[],
 ): Map<number, number> {
-  const indexes = new Map<number, number>()
-  let stack = 0
+  const indexes = new Map<number, number>();
+  let stack = 0;
   descriptors.forEach((d, i) => {
     if (d.mode === 'slide') {
-      indexes.set(i, stack++)
+      indexes.set(i, stack++);
     }
-  })
-  return indexes
+  });
+  return indexes;
 }

@@ -27,13 +27,11 @@ export interface MarqueeElement {
   readonly height: number;
 }
 
-function rectsOverlap(a: MarqueeBox, b: { x: number; y: number; width: number; height: number }): boolean {
-  return (
-    a.minX < b.x + b.width &&
-    a.maxX > b.x &&
-    a.minY < b.y + b.height &&
-    a.maxY > b.y
-  );
+function rectsOverlap(
+  a: MarqueeBox,
+  b: { x: number; y: number; width: number; height: number },
+): boolean {
+  return a.minX < b.x + b.width && a.maxX > b.x && a.minY < b.y + b.height && a.maxY > b.y;
 }
 
 function buildBox(startX: number, startY: number, currentX: number, currentY: number): MarqueeBox {
@@ -54,19 +52,22 @@ export function createMarqueeSelectionEngine() {
 
   function start(x: number, y: number): void {
     active = true;
-    sx = x; sy = y;
-    cx = x; cy = y;
+    sx = x;
+    sy = y;
+    cx = x;
+    cy = y;
   }
 
   function update(x: number, y: number): void {
     if (!active) return;
-    cx = x; cy = y;
+    cx = x;
+    cy = y;
   }
 
   function getIntersectingIds(elements: readonly MarqueeElement[]): readonly string[] {
     if (!active) return [];
     const box = buildBox(sx, sy, cx, cy);
-    return elements.filter(el => rectsOverlap(box, el)).map(el => el.id);
+    return elements.filter((el) => rectsOverlap(box, el)).map((el) => el.id);
   }
 
   function end(): readonly string[] {
@@ -75,8 +76,12 @@ export function createMarqueeSelectionEngine() {
     return result;
   }
 
-  function isActive(): boolean { return active; }
-  function getBox(): MarqueeBox { return buildBox(sx, sy, cx, cy); }
+  function isActive(): boolean {
+    return active;
+  }
+  function getBox(): MarqueeBox {
+    return buildBox(sx, sy, cx, cy);
+  }
 
   return { start, update, getIntersectingIds, end, isActive, getBox };
 }

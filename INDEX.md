@@ -257,67 +257,67 @@ libretext-editor-suite/
 
 ### النواة - Core
 
-| المعرف ID  | المسار Path                                       | الوصف Arabic          | Description English   | الحالة Status |
-| ---------- | ------------------------------------------------- | --------------------- | --------------------- | ------------- |
-| `CORE-001` | `packages/core/src/ast/types.ts`                  | تعريفات الأنواع       | Type definitions      | تم            |
-| `CORE-002` | `packages/core/src/ast/schema.ts`                 | مخطط AST              | AST schema            | تم            |
-| `CORE-003` | `packages/core/src/ast/builder.ts`                | بناء الكتل            | Block builder         | تم            |
-| `CORE-004` | `packages/core/src/state/editor-state.ts`         | حالة المحرر           | Editor state          | تم            |
-| `CORE-005` | `packages/core/src/state/operations.ts`           | عمليات التحرير        | Edit operations       | تم            |
-| `CORE-006` | `packages/core/src/state/history.ts`              | التراجع والإعادة      | Undo/Redo history     | تم            |
-| `CORE-007` | `packages/core/src/indexer/indexer.ts`            | الفهرسة               | Indexer               | تم            |
-| `CORE-008` | `packages/core/src/indexer/search.ts`             | واجهة البحث           | Search interface      | تم            |
-| `CORE-009` | `packages/core/src/utils/id.ts`                   | توليد المعرفات        | ID generation         | تم            |
-| `CORE-010` | `packages/core/src/utils/validation.ts`           | التحقق من الصحة       | Validation            | تم            |
-| `CORE-011` | `packages/core/src/index.ts`                      | التصدير العام         | Public exports        | تم            |
-| `CORE-012` | `packages/core/src/utils/arabic-text.ts`          | أدوات النص العربي     | Arabic text utilities | تم            |
-| `CORE-012` | `packages/core/src/utils/formula-parser.ts`       | محلل صيغ Excel        | Formula parser        | تم            |
-| `CORE-013` | `packages/core/src/utils/content-validator.ts`    | validators للكتل      | Block validators      | تم            |
-| `CORE-013` | `packages/core/src/utils/document-validator.ts`   | التحقق الشامل         | Document validator    | تم            |
-| `CORE-014` | `packages/core/src/parsers/frontmatter-parser.ts` | محلل YAML FrontMatter | FrontMatter parser    | تم            |
-| `CORE-014` | `packages/core/src/parsers/markdown.ts`           | محلل Markdown         | Markdown parser       | تم            |
-| `CORE-ENG-001` | `packages/core/src/engines/html-pipeline.ts`      | محرك HTMLPipeline     | HTML pipeline engine  | تم            |
-| `CORE-ENG-002` | `packages/core/src/engines/file-type-detection.ts`| التعرف على الملفات   | File type detection   | تم            |
-| `CORE-ENG-003` | `packages/core/src/engines/unified-ingestion.ts`  | خط الاستيراد الموحد   | Unified ingestion     | تم            |
-| `CORE-ENG-004` | `packages/core/src/engines/image-pipeline.ts`     | محرك الصور            | Image pipeline        | تم            |
-| `CORE-016` | `packages/core/src/engines/validation.ts`          | محرك الفحص والتعقيم   | Validation engine     | تم            |
-| `CORE-017` | `packages/core/src/converters/universal-format-converter.ts` | محول التنسيقات الشامل | Universal format converter | تم |
-| `CORE-018` | `packages/core/src/types.ts`                       | أنواع المستندات       | Document types        | تم            |
+| المعرف ID      | المسار Path                                                  | الوصف Arabic          | Description English        | الحالة Status |
+| -------------- | ------------------------------------------------------------ | --------------------- | -------------------------- | ------------- |
+| `CORE-001`     | `packages/core/src/ast/types.ts`                             | تعريفات الأنواع       | Type definitions           | تم            |
+| `CORE-002`     | `packages/core/src/ast/schema.ts`                            | مخطط AST              | AST schema                 | تم            |
+| `CORE-003`     | `packages/core/src/ast/builder.ts`                           | بناء الكتل            | Block builder              | تم            |
+| `CORE-004`     | `packages/core/src/state/editor-state.ts`                    | حالة المحرر           | Editor state               | تم            |
+| `CORE-005`     | `packages/core/src/state/operations.ts`                      | عمليات التحرير        | Edit operations            | تم            |
+| `CORE-006`     | `packages/core/src/state/history.ts`                         | التراجع والإعادة      | Undo/Redo history          | تم            |
+| `CORE-007`     | `packages/core/src/indexer/indexer.ts`                       | الفهرسة               | Indexer                    | تم            |
+| `CORE-008`     | `packages/core/src/indexer/search.ts`                        | واجهة البحث           | Search interface           | تم            |
+| `CORE-009`     | `packages/core/src/utils/id.ts`                              | توليد المعرفات        | ID generation              | تم            |
+| `CORE-010`     | `packages/core/src/utils/validation.ts`                      | التحقق من الصحة       | Validation                 | تم            |
+| `CORE-011`     | `packages/core/src/index.ts`                                 | التصدير العام         | Public exports             | تم            |
+| `CORE-012`     | `packages/core/src/utils/arabic-text.ts`                     | أدوات النص العربي     | Arabic text utilities      | تم            |
+| `CORE-012`     | `packages/core/src/utils/formula-parser.ts`                  | محلل صيغ Excel        | Formula parser             | تم            |
+| `CORE-013`     | `packages/core/src/utils/content-validator.ts`               | validators للكتل      | Block validators           | تم            |
+| `CORE-013`     | `packages/core/src/utils/document-validator.ts`              | التحقق الشامل         | Document validator         | تم            |
+| `CORE-014`     | `packages/core/src/parsers/frontmatter-parser.ts`            | محلل YAML FrontMatter | FrontMatter parser         | تم            |
+| `CORE-014`     | `packages/core/src/parsers/markdown.ts`                      | محلل Markdown         | Markdown parser            | تم            |
+| `CORE-ENG-001` | `packages/core/src/engines/html-pipeline.ts`                 | محرك HTMLPipeline     | HTML pipeline engine       | تم            |
+| `CORE-ENG-002` | `packages/core/src/engines/file-type-detection.ts`           | التعرف على الملفات    | File type detection        | تم            |
+| `CORE-ENG-003` | `packages/core/src/engines/unified-ingestion.ts`             | خط الاستيراد الموحد   | Unified ingestion          | تم            |
+| `CORE-ENG-004` | `packages/core/src/engines/image-pipeline.ts`                | محرك الصور            | Image pipeline             | تم            |
+| `CORE-016`     | `packages/core/src/engines/validation.ts`                    | محرك الفحص والتعقيم   | Validation engine          | تم            |
+| `CORE-017`     | `packages/core/src/converters/universal-format-converter.ts` | محول التنسيقات الشامل | Universal format converter | تم            |
+| `CORE-018`     | `packages/core/src/types.ts`                                 | أنواع المستندات       | Document types             | تم            |
 
 ### الخوارزميات - Algorithms (ALGO)
 
-| المعرف ID  | المسار Path                                           | الوصف Arabic               | Description English       | الحالة Status |
-| ---------- | ----------------------------------------------------- | -------------------------- | ------------------------- | ------------- |
-| `ALGO-001` | `packages/algorithms/src/command/types.ts`            | أنواع الأوامر              | Command types             | تم            |
-| `ALGO-002` | `packages/algorithms/src/command/executor.ts`         | منفذ الأوامر               | Command executor          | تم            |
-| `ALGO-003` | `packages/algorithms/src/command/registry.ts`         | سجل الأوامر                | Command registry          | تم            |
-| `ALGO-004` | `packages/algorithms/src/formula/parser.ts`           | محلل تنازلي للصيغ          | Expression parser         | تم            |
-| `ALGO-005` | `packages/algorithms/src/formula/evaluator.ts`        | مُقيّم التعابير            | Expression evaluator      | تم            |
-| `ALGO-006` | `packages/algorithms/src/formula/functions.ts`        | دوال مدمجة                 | Built-in functions        | تم            |
-| `ALGO-007` | `packages/algorithms/src/spatial/types.ts`            | أنواع الإحداثيات المكانية  | Spatial coordinate types  | تم            |
-| `ALGO-008` | `packages/algorithms/src/spatial/mapper.ts`           | المترجم المكاني            | Spatial mapper            | تم            |
-| `ALGO-009` | `packages/algorithms/src/spatial/commands.ts`         | أوامر مكانية               | Spatial commands          | تم            |
-| `ALGO-010` | `packages/algorithms/src/index.ts`                    | Barrel Export              | Public exports            | تم            |
-| `ALGO-018` | `packages/algorithms/src/formula/functions-matrix.ts` | دوال المصفوفات والـ Lambda | Matrix & Lambda functions | تم            |
-| `ALGO-019` | `packages/algorithms/src/formula/markdown-formula.ts` | محرك الصيغ                 | Formula engine            | تم            |
-| `ALGO-020` | `packages/algorithms/src/graph/dependency.ts`       | كشف التبعيات الدائرية     | Dependency cycle detection| تم            |
-| `ALGO-021` | `packages/algorithms/src/graph/routing.ts`          | توجيه محاذاةORTH          | Orthogonal routing        | تم            |
-| `ALGO-022` | `packages/algorithms/src/graph/routing-types.ts`    | أنواع التوجيه             | Routing types             | تم            |
-| `ALGO-023` | `packages/algorithms/src/graph/orthogonal-router.ts`| مُوجّه محاذاة متقدم       | Advanced orthogonal router| تم            |
-| `ALGO-024` | `packages/algorithms/src/tree/llrb.ts`              | شجرة LLRB                | Left-Leaning Red-Black    | تم            |
-| `ALGO-025` | `packages/algorithms/src/structure/disjoint-set.ts` | مجموعة منفصلة            | Union-Find data structure | تم            |
-| `ALGO-026` | `packages/algorithms/src/sort/mergesort.ts`         | خوارزمية الدمج            | Bottom-Up MergeSort       | تم            |
-| `ALGO-027` | `packages/algorithms/src/lookup/hlookup.ts`         | بحث أفقي                  | HLOOKUP function          | تم            |
-| `ALGO-028` | `packages/algorithms/src/formula/arabic-aliases.ts` | أسماء دوال عربية          | Arabic function aliases   | تم            |
-| `ALGO-029` | `packages/algorithms/src/streets/similarity.ts`     | بحث أسماء شوارع           | Street name similarity    | تم            |
-| `ALGO-030` | `packages/algorithms/src/types.ts`                  | أنواع مشتركة              | Shared algorithm types    | تم            |
-| `ALGO-031` | `packages/algorithms/src/formula/latex-engine.ts`   | محرك LaTeX                | LaTeX equation engine    | تم            |
-| `ALGO-032` | `packages/algorithms/src/formula/markdown-engine.ts`| محرك Markdown             | Markdown engine          | تم            |
-| `ALGO-033` | `packages/algorithms/src/vector/common.ts`          | أدوات هندسية مشتركة      | Vector common utilities  | تم            |
-| `ALGO-034` | `packages/algorithms/src/vector/coordinate-system.ts`| محرك الإحداثيات          | Coordinate system        | تم            |
-| `ALGO-035` | `packages/algorithms/src/vector/mouse-algorithms.ts`| خوارزميات الفأرة         | Mouse algorithms         | تم            |
-| `ALGO-036` | `packages/algorithms/src/vector/smart-alignment.ts` | المحاذاة الذكي           | Smart alignment          | تم            |
-| `ALGO-037` | `packages/algorithms/src/vector/index.ts`            | Barrel Export             | Vector barrel export     | تم            |
+| المعرف ID  | المسار Path                                           | الوصف Arabic               | Description English        | الحالة Status |
+| ---------- | ----------------------------------------------------- | -------------------------- | -------------------------- | ------------- |
+| `ALGO-001` | `packages/algorithms/src/command/types.ts`            | أنواع الأوامر              | Command types              | تم            |
+| `ALGO-002` | `packages/algorithms/src/command/executor.ts`         | منفذ الأوامر               | Command executor           | تم            |
+| `ALGO-003` | `packages/algorithms/src/command/registry.ts`         | سجل الأوامر                | Command registry           | تم            |
+| `ALGO-004` | `packages/algorithms/src/formula/parser.ts`           | محلل تنازلي للصيغ          | Expression parser          | تم            |
+| `ALGO-005` | `packages/algorithms/src/formula/evaluator.ts`        | مُقيّم التعابير            | Expression evaluator       | تم            |
+| `ALGO-006` | `packages/algorithms/src/formula/functions.ts`        | دوال مدمجة                 | Built-in functions         | تم            |
+| `ALGO-007` | `packages/algorithms/src/spatial/types.ts`            | أنواع الإحداثيات المكانية  | Spatial coordinate types   | تم            |
+| `ALGO-008` | `packages/algorithms/src/spatial/mapper.ts`           | المترجم المكاني            | Spatial mapper             | تم            |
+| `ALGO-009` | `packages/algorithms/src/spatial/commands.ts`         | أوامر مكانية               | Spatial commands           | تم            |
+| `ALGO-010` | `packages/algorithms/src/index.ts`                    | Barrel Export              | Public exports             | تم            |
+| `ALGO-018` | `packages/algorithms/src/formula/functions-matrix.ts` | دوال المصفوفات والـ Lambda | Matrix & Lambda functions  | تم            |
+| `ALGO-019` | `packages/algorithms/src/formula/markdown-formula.ts` | محرك الصيغ                 | Formula engine             | تم            |
+| `ALGO-020` | `packages/algorithms/src/graph/dependency.ts`         | كشف التبعيات الدائرية      | Dependency cycle detection | تم            |
+| `ALGO-021` | `packages/algorithms/src/graph/routing.ts`            | توجيه محاذاةORTH           | Orthogonal routing         | تم            |
+| `ALGO-022` | `packages/algorithms/src/graph/routing-types.ts`      | أنواع التوجيه              | Routing types              | تم            |
+| `ALGO-023` | `packages/algorithms/src/graph/orthogonal-router.ts`  | مُوجّه محاذاة متقدم        | Advanced orthogonal router | تم            |
+| `ALGO-024` | `packages/algorithms/src/tree/llrb.ts`                | شجرة LLRB                  | Left-Leaning Red-Black     | تم            |
+| `ALGO-025` | `packages/algorithms/src/structure/disjoint-set.ts`   | مجموعة منفصلة              | Union-Find data structure  | تم            |
+| `ALGO-026` | `packages/algorithms/src/sort/mergesort.ts`           | خوارزمية الدمج             | Bottom-Up MergeSort        | تم            |
+| `ALGO-027` | `packages/algorithms/src/lookup/hlookup.ts`           | بحث أفقي                   | HLOOKUP function           | تم            |
+| `ALGO-028` | `packages/algorithms/src/formula/arabic-aliases.ts`   | أسماء دوال عربية           | Arabic function aliases    | تم            |
+| `ALGO-029` | `packages/algorithms/src/streets/similarity.ts`       | بحث أسماء شوارع            | Street name similarity     | تم            |
+| `ALGO-030` | `packages/algorithms/src/types.ts`                    | أنواع مشتركة               | Shared algorithm types     | تم            |
+| `ALGO-031` | `packages/algorithms/src/formula/latex-engine.ts`     | محرك LaTeX                 | LaTeX equation engine      | تم            |
+| `ALGO-032` | `packages/algorithms/src/formula/markdown-engine.ts`  | محرك Markdown              | Markdown engine            | تم            |
+| `ALGO-033` | `packages/algorithms/src/vector/common.ts`            | أدوات هندسية مشتركة        | Vector common utilities    | تم            |
+| `ALGO-034` | `packages/algorithms/src/vector/coordinate-system.ts` | محرك الإحداثيات            | Coordinate system          | تم            |
+| `ALGO-035` | `packages/algorithms/src/vector/mouse-algorithms.ts`  | خوارزميات الفأرة           | Mouse algorithms           | تم            |
+| `ALGO-036` | `packages/algorithms/src/vector/smart-alignment.ts`   | المحاذاة الذكي             | Smart alignment            | تم            |
+| `ALGO-037` | `packages/algorithms/src/vector/index.ts`             | Barrel Export              | Vector barrel export       | تم            |
 
 ### التخزين - Storage (STORE)
 
@@ -371,106 +371,104 @@ libretext-editor-suite/
 
 ### المكونات والخطافات المشتركة - Shared Components & Hooks
 
-| المعرف ID        | المسار Path                                           | الوصف Arabic                     | Description English        | الحالة Status |
-| ---------------- | ----------------------------------------------------- | -------------------------------- | -------------------------- | ------------- |
-| `SHARED-CMP-001` | `packages/shared/components/SharedContextMenu.tsx`   | المكون الموحد للقوائم السياقية    | Unified Context Menu UI    | تم            |
-| `SHARED-HOOK-001`| `packages/shared/hooks/useContextMenu.ts`            | خطاف إدارة القوائم السياقية      | Context Menu React Hook    | تم            |
-
+| المعرف ID         | المسار Path                                        | الوصف Arabic                   | Description English     | الحالة Status |
+| ----------------- | -------------------------------------------------- | ------------------------------ | ----------------------- | ------------- |
+| `SHARED-CMP-001`  | `packages/shared/components/SharedContextMenu.tsx` | المكون الموحد للقوائم السياقية | Unified Context Menu UI | تم            |
+| `SHARED-HOOK-001` | `packages/shared/hooks/useContextMenu.ts`          | خطاف إدارة القوائم السياقية    | Context Menu React Hook | تم            |
 
 ### المحركات المشتركة - Shared Engines
 
-| المعرف ID      | المسار Path                                    | الوصف Arabic              | Description English        | الحالة Status |
-| -------------- | ---------------------------------------------- | ------------------------- | -------------------------- | ------------- |
-| `SHARED-ENG-001` | `packages/shared/engines/AIEngine.ts`          | محرك الذكاء الاصطناعي     | AI Engine                  | تم            |
-| `SHARED-ENG-002` | `packages/shared/engines/codeEditorEngines.ts` | محركات محرر الكود         | Code Editor Engines        | تم            |
-| `SHARED-ENG-003` | `packages/shared/engines/ComponentRegistry.ts` | سجل المكونات              | Component Registry         | تم            |
-| `SHARED-ENG-004` | `packages/shared/engines/DiagramEngine.ts`     | محرك المخططات             | Diagram Engine             | تم            |
-| `SHARED-ENG-005` | `packages/shared/engines/LaTeXEngine.ts`       | محرك LaTeX                | LaTeX Engine               | تم            |
-| `SHARED-ENG-006` | `packages/shared/engines/MarkdownEngine.ts`    | محرك Markdown             | Markdown Engine            | تم            |
-| `SHARED-ENG-007` | `packages/shared/engines/MindMapEngine.ts`     | محرك خرائط الذهن          | Mind Map Engine            | تم            |
-| `SHARED-ENG-008` | `packages/shared/engines/PluginSystem.ts`      | نظام الإضافات             | Plugin System              | تم            |
-| `SHARED-ENG-009` | `packages/shared/engines/ToolRegistry.ts`      | سجل الأدوات               | Tool Registry              | تم            |
-| `SHARED-ENG-010` | `packages/shared/engines/ValidationEngine.ts`  | محرك التحقق               | Validation Engine          | تم            |
+| المعرف ID        | المسار Path                                    | الوصف Arabic          | Description English | الحالة Status |
+| ---------------- | ---------------------------------------------- | --------------------- | ------------------- | ------------- |
+| `SHARED-ENG-001` | `packages/shared/engines/AIEngine.ts`          | محرك الذكاء الاصطناعي | AI Engine           | تم            |
+| `SHARED-ENG-002` | `packages/shared/engines/codeEditorEngines.ts` | محركات محرر الكود     | Code Editor Engines | تم            |
+| `SHARED-ENG-003` | `packages/shared/engines/ComponentRegistry.ts` | سجل المكونات          | Component Registry  | تم            |
+| `SHARED-ENG-004` | `packages/shared/engines/DiagramEngine.ts`     | محرك المخططات         | Diagram Engine      | تم            |
+| `SHARED-ENG-005` | `packages/shared/engines/LaTeXEngine.ts`       | محرك LaTeX            | LaTeX Engine        | تم            |
+| `SHARED-ENG-006` | `packages/shared/engines/MarkdownEngine.ts`    | محرك Markdown         | Markdown Engine     | تم            |
+| `SHARED-ENG-007` | `packages/shared/engines/MindMapEngine.ts`     | محرك خرائط الذهن      | Mind Map Engine     | تم            |
+| `SHARED-ENG-008` | `packages/shared/engines/PluginSystem.ts`      | نظام الإضافات         | Plugin System       | تم            |
+| `SHARED-ENG-009` | `packages/shared/engines/ToolRegistry.ts`      | سجل الأدوات           | Tool Registry       | تم            |
+| `SHARED-ENG-010` | `packages/shared/engines/ValidationEngine.ts`  | محرك التحقق           | Validation Engine   | تم            |
 
 ### نظام اللغات - Language System
 
-| المعرف ID        | المسار Path                                              | الوصف Arabic         | Description English    | الحالة Status |
-| ---------------- | -------------------------------------------------------- | -------------------- | ---------------------- | ------------- |
-| `LANG-001`       | `packages/shared/engines/languages/language-registry.ts` | سجل اللغات          | Language Registry      | تم            |
-| `LANG-002`       | `packages/shared/engines/languages/language-runtime.ts`  | بيئة تشغيل اللغة     | Language Runtime       | تم            |
-| `LANG-003`       | `packages/shared/engines/languages/packs/typescript.ts`  | حزمة TypeScript     | TypeScript Pack        | تم            |
-| `LANG-004`       | `packages/shared/engines/languages/packs/python.ts`      | حزمة Python         | Python Pack            | تم            |
-| `LANG-005`       | `packages/shared/engines/languages/packs/cpp.ts`         | حزمة C++            | C++ Pack               | تم            |
-| `LANG-006`       | `packages/shared/engines/languages/packs/web.ts`         | حزم الويب           | Web Packs              | تم            |
+| المعرف ID  | المسار Path                                              | الوصف Arabic     | Description English | الحالة Status |
+| ---------- | -------------------------------------------------------- | ---------------- | ------------------- | ------------- |
+| `LANG-001` | `packages/shared/engines/languages/language-registry.ts` | سجل اللغات       | Language Registry   | تم            |
+| `LANG-002` | `packages/shared/engines/languages/language-runtime.ts`  | بيئة تشغيل اللغة | Language Runtime    | تم            |
+| `LANG-003` | `packages/shared/engines/languages/packs/typescript.ts`  | حزمة TypeScript  | TypeScript Pack     | تم            |
+| `LANG-004` | `packages/shared/engines/languages/packs/python.ts`      | حزمة Python      | Python Pack         | تم            |
+| `LANG-005` | `packages/shared/engines/languages/packs/cpp.ts`         | حزمة C++         | C++ Pack            | تم            |
+| `LANG-006` | `packages/shared/engines/languages/packs/web.ts`         | حزم الويب        | Web Packs           | تم            |
 
 ### مكتبة النواة المشتركة - lib-core
 
-| المعرف ID        | المسار Path                                              | الوصف Arabic              | Description English       | الحالة Status |
-| ---------------- | -------------------------------------------------------- | ------------------------- | ------------------------- | ------------- |
-| `LIBCORE-001`    | `packages/shared/lib-core/code-interpreter/`             | م interpreter الكود        | Code Interpreter          | تم            |
-| `LIBCORE-002`    | `packages/shared/lib-core/computational-notebook/`       | الدفتر الحسابي            | Computational Notebook    | تم            |
-| `LIBCORE-003`    | `packages/shared/lib-core/document-pipeline/`            | خط أنابيب المستندات       | Document Pipeline         | تم            |
-| `LIBCORE-004`    | `packages/shared/lib-core/geometry/`                     | الهندسة                   | Geometry                  | تم            |
-| `LIBCORE-005`    | `packages/shared/lib-core/grid-engine/`                  | محرك الشبكة (Calc)        | Grid Engine               | تم            |
-| `LIBCORE-006`    | `packages/shared/lib-core/latex/`                        | محرك LaTeX                | LaTeX Engine              | تم            |
-| `LIBCORE-007`    | `packages/shared/lib-core/raster/`                       | معالجة الصور النقطية      | Raster Processing         | تم            |
-| `LIBCORE-008`    | `packages/shared/lib-core/converters/`                   | المحولات المشتركة         | Shared Converters         | تم            |
-| `LIBCORE-009`    | `packages/shared/lib-core/events/`                       | أحداث مشتركة             | Shared Events             | تم            |
-| `LIBCORE-010`    | `packages/shared/lib-core/animation/`                    | محركات الحركة             | Animation Engines         | تم            |
+| المعرف ID     | المسار Path                                        | الوصف Arabic         | Description English    | الحالة Status |
+| ------------- | -------------------------------------------------- | -------------------- | ---------------------- | ------------- |
+| `LIBCORE-001` | `packages/shared/lib-core/code-interpreter/`       | م interpreter الكود  | Code Interpreter       | تم            |
+| `LIBCORE-002` | `packages/shared/lib-core/computational-notebook/` | الدفتر الحسابي       | Computational Notebook | تم            |
+| `LIBCORE-003` | `packages/shared/lib-core/document-pipeline/`      | خط أنابيب المستندات  | Document Pipeline      | تم            |
+| `LIBCORE-004` | `packages/shared/lib-core/geometry/`               | الهندسة              | Geometry               | تم            |
+| `LIBCORE-005` | `packages/shared/lib-core/grid-engine/`            | محرك الشبكة (Calc)   | Grid Engine            | تم            |
+| `LIBCORE-006` | `packages/shared/lib-core/latex/`                  | محرك LaTeX           | LaTeX Engine           | تم            |
+| `LIBCORE-007` | `packages/shared/lib-core/raster/`                 | معالجة الصور النقطية | Raster Processing      | تم            |
+| `LIBCORE-008` | `packages/shared/lib-core/converters/`             | المحولات المشتركة    | Shared Converters      | تم            |
+| `LIBCORE-009` | `packages/shared/lib-core/events/`                 | أحداث مشتركة         | Shared Events          | تم            |
+| `LIBCORE-010` | `packages/shared/lib-core/animation/`              | محركات الحركة        | Animation Engines      | تم            |
 
 ### السمات التفاعلية - Traits
 
-| المعرف ID        | المسار Path                                              | الوصف Arabic              | Description English       | الحالة Status |
-| ---------------- | -------------------------------------------------------- | ------------------------- | ------------------------- | ------------- |
-| `CORE-TRAIT-001` | `packages/core/src/traits/types.ts`                      | أنواع السمات              | Trait Types               | تم            |
-| `CORE-TRAIT-002` | `packages/core/src/traits/draggable.ts`                  | سمة السحب                 | Draggable Trait           | تم            |
-| `CORE-TRAIT-003` | `packages/core/src/traits/resizable.ts`                  | سمة التحجيم               | Resizable Trait           | تم            |
-| `CORE-TRAIT-004` | `packages/core/src/traits/styleable.ts`                  | سمة التنسيق               | Styleable Trait           | تم            |
-| `CORE-TRAIT-005` | `packages/core/src/traits/lockable.ts`                   | سمة القفل                 | Lockable Trait            | تم            |
-| `CORE-TRAIT-006` | `packages/core/src/traits/trait-context-menu-resolver.ts` | محلل القوائم السياقية     | Context Menu Resolver     | تم            |
-
+| المعرف ID        | المسار Path                                               | الوصف Arabic          | Description English   | الحالة Status |
+| ---------------- | --------------------------------------------------------- | --------------------- | --------------------- | ------------- |
+| `CORE-TRAIT-001` | `packages/core/src/traits/types.ts`                       | أنواع السمات          | Trait Types           | تم            |
+| `CORE-TRAIT-002` | `packages/core/src/traits/draggable.ts`                   | سمة السحب             | Draggable Trait       | تم            |
+| `CORE-TRAIT-003` | `packages/core/src/traits/resizable.ts`                   | سمة التحجيم           | Resizable Trait       | تم            |
+| `CORE-TRAIT-004` | `packages/core/src/traits/styleable.ts`                   | سمة التنسيق           | Styleable Trait       | تم            |
+| `CORE-TRAIT-005` | `packages/core/src/traits/lockable.ts`                    | سمة القفل             | Lockable Trait        | تم            |
+| `CORE-TRAIT-006` | `packages/core/src/traits/trait-context-menu-resolver.ts` | محلل القوائم السياقية | Context Menu Resolver | تم            |
 
 ### بيئة التطوير المتكاملة - DevStudio
 
-| المعرف ID        | المسار Path                                              | الوصف Arabic              | Description English       | الحالة Status |
-| ---------------- | -------------------------------------------------------- | ------------------------- | ------------------------- | ------------- |
-| `DEV-001`        | `packages/shell/dev-studio/core/DevStudioEngine.ts`      | الأوركسترا المركزي        | Central Orchestrator      | تم            |
-| `DEV-002`        | `packages/shell/dev-studio/core/DevStudioTypes.ts`       | الأنواع والعقود            | Types & Contracts        | تم            |
-| `DEV-003`        | `packages/shell/dev-studio/core/DevStudioEvents.ts`      | ناقل الأحداث              | Event Bus                | تم            |
-| `DEV-004`        | `packages/shell/dev-studio/doctor/DoctorEngine.ts`       | محرك الفحص المركزي        | Central Doctor Gate      | تم            |
-| `DEV-005`        | `packages/shell/dev-studio/doctor/DependencyAuditor.ts`  | فاحص الاعتماديات          | Dependency Auditor       | تم            |
-| `DEV-006`        | `packages/shell/dev-studio/doctor/GeometryValidator.ts`  | فاحص الهندسة              | Geometry Validator       | تم            |
-| `DEV-007`        | `packages/shell/dev-studio/doctor/IdIntegrityChecker.ts` | فاحص سلامة المعرفات       | ID Integrity Checker     | تم            |
-| `DEV-008`        | `packages/shell/dev-studio/doctor/StructureValidator.ts` | فاحص الهيكل              | Structure Validator      | تم            |
-| `DEV-009`        | `packages/shell/dev-studio/doctor/ThemeValidator.ts`     | حارس الثيم الفاتح          | Theme Guardian           | تم            |
-| `DEV-010`        | `packages/shell/dev-studio/checkpoint/SnapshotEngine.ts` | محرك اللقطات              | Snapshot Engine          | تم            |
-| `DEV-011`        | `packages/shell/dev-studio/checkpoint/RollbackManager.ts`| مدير التراجع              | Rollback Manager         | تم            |
-| `DEV-012`        | `packages/shell/dev-studio/pipeline/TaskPipeline.ts`     | خط أنابيب المهمات         | Task Pipeline            | تم            |
-| `DEV-013`        | `packages/shell/dev-studio/tree/ProjectTreeModel.ts`     | نموذج شجرة المشروع       | Project Tree Model       | تم            |
-| `DEV-014`        | `packages/shell/dev-studio/tree/ProjectTreeView.ts`      | عرض شجرة المشروع         | Project Tree View        | تم            |
-| `DEV-015`        | `packages/shell/dev-studio/tree/TreeNavigation.ts`       | تنقل الشجرة              | Tree Navigation          | تم            |
-| `DEV-016`        | `packages/shell/dev-studio/tree/DecompositionEngine.ts`  | محرك التفكيك              | Decomposition Engine     | تم            |
-| `DEV-017`        | `packages/shell/dev-studio/tree/DriftDetector.ts`        | كاشف الانحراف            | Drift Detector           | تم            |
-| `DEV-018`        | `packages/shell/dev-studio/tree/FileOperations.ts`       | عمليات الملفات            | File Operations          | تم            |
-| `DEV-019`        | `packages/shell/dev-studio/sync/CodeGenerator.ts`        | مولّد الكود              | Code Generator           | تم            |
-| `DEV-020`        | `packages/shell/dev-studio/sync/RegistrySync.ts`         | مزامن السجلات            | Registry Sync            | تم            |
-| `DEV-021`        | `packages/shell/dev-studio/scaffolder/ToolScaffolder.ts` | مولّد الأدوات             | Tool Scaffolder          | تم            |
-| `DEV-022`        | `packages/shell/dev-studio/workbench/DevStudioWorkbench.ts` | سطح العمل               | Workbench                | تم            |
-| `DEV-023`        | `packages/shell/dev-studio/bridge/EditorBridge.ts`       | جسر الربط                | Editor Bridge            | تم            |
-| `DEV-024`        | `packages/shell/dev-studio/adapters/CanvasAdapter.ts`    | مكيّف الكانفا             | Canvas Adapter           | تم            |
-| `DEV-025`        | `packages/shell/dev-studio/adapters/EditorAdapter.ts`    | مكيّف المحرر              | Editor Adapter           | تم            |
-| `DEV-026`        | `packages/shell/dev-studio/adapters/PdfAdapter.ts`       | مكيّف PDF                | PDF Adapter              | تم            |
-| `DEV-027`        | `packages/shell/dev-studio/adapters/RichTextAdapter.ts`  | مكيّف النص الغني          | Rich Text Adapter        | تم            |
-| `DEV-028`        | `packages/shell/dev-studio/adapters/UIAdapter.ts`        | مكيّف الواجهة             | UI Adapter               | تم            |
+| المعرف ID | المسار Path                                                 | الوصف Arabic        | Description English  | الحالة Status |
+| --------- | ----------------------------------------------------------- | ------------------- | -------------------- | ------------- |
+| `DEV-001` | `packages/shell/dev-studio/core/DevStudioEngine.ts`         | الأوركسترا المركزي  | Central Orchestrator | تم            |
+| `DEV-002` | `packages/shell/dev-studio/core/DevStudioTypes.ts`          | الأنواع والعقود     | Types & Contracts    | تم            |
+| `DEV-003` | `packages/shell/dev-studio/core/DevStudioEvents.ts`         | ناقل الأحداث        | Event Bus            | تم            |
+| `DEV-004` | `packages/shell/dev-studio/doctor/DoctorEngine.ts`          | محرك الفحص المركزي  | Central Doctor Gate  | تم            |
+| `DEV-005` | `packages/shell/dev-studio/doctor/DependencyAuditor.ts`     | فاحص الاعتماديات    | Dependency Auditor   | تم            |
+| `DEV-006` | `packages/shell/dev-studio/doctor/GeometryValidator.ts`     | فاحص الهندسة        | Geometry Validator   | تم            |
+| `DEV-007` | `packages/shell/dev-studio/doctor/IdIntegrityChecker.ts`    | فاحص سلامة المعرفات | ID Integrity Checker | تم            |
+| `DEV-008` | `packages/shell/dev-studio/doctor/StructureValidator.ts`    | فاحص الهيكل         | Structure Validator  | تم            |
+| `DEV-009` | `packages/shell/dev-studio/doctor/ThemeValidator.ts`        | حارس الثيم الفاتح   | Theme Guardian       | تم            |
+| `DEV-010` | `packages/shell/dev-studio/checkpoint/SnapshotEngine.ts`    | محرك اللقطات        | Snapshot Engine      | تم            |
+| `DEV-011` | `packages/shell/dev-studio/checkpoint/RollbackManager.ts`   | مدير التراجع        | Rollback Manager     | تم            |
+| `DEV-012` | `packages/shell/dev-studio/pipeline/TaskPipeline.ts`        | خط أنابيب المهمات   | Task Pipeline        | تم            |
+| `DEV-013` | `packages/shell/dev-studio/tree/ProjectTreeModel.ts`        | نموذج شجرة المشروع  | Project Tree Model   | تم            |
+| `DEV-014` | `packages/shell/dev-studio/tree/ProjectTreeView.ts`         | عرض شجرة المشروع    | Project Tree View    | تم            |
+| `DEV-015` | `packages/shell/dev-studio/tree/TreeNavigation.ts`          | تنقل الشجرة         | Tree Navigation      | تم            |
+| `DEV-016` | `packages/shell/dev-studio/tree/DecompositionEngine.ts`     | محرك التفكيك        | Decomposition Engine | تم            |
+| `DEV-017` | `packages/shell/dev-studio/tree/DriftDetector.ts`           | كاشف الانحراف       | Drift Detector       | تم            |
+| `DEV-018` | `packages/shell/dev-studio/tree/FileOperations.ts`          | عمليات الملفات      | File Operations      | تم            |
+| `DEV-019` | `packages/shell/dev-studio/sync/CodeGenerator.ts`           | مولّد الكود         | Code Generator       | تم            |
+| `DEV-020` | `packages/shell/dev-studio/sync/RegistrySync.ts`            | مزامن السجلات       | Registry Sync        | تم            |
+| `DEV-021` | `packages/shell/dev-studio/scaffolder/ToolScaffolder.ts`    | مولّد الأدوات       | Tool Scaffolder      | تم            |
+| `DEV-022` | `packages/shell/dev-studio/workbench/DevStudioWorkbench.ts` | سطح العمل           | Workbench            | تم            |
+| `DEV-023` | `packages/shell/dev-studio/bridge/EditorBridge.ts`          | جسر الربط           | Editor Bridge        | تم            |
+| `DEV-024` | `packages/shell/dev-studio/adapters/CanvasAdapter.ts`       | مكيّف الكانفا       | Canvas Adapter       | تم            |
+| `DEV-025` | `packages/shell/dev-studio/adapters/EditorAdapter.ts`       | مكيّف المحرر        | Editor Adapter       | تم            |
+| `DEV-026` | `packages/shell/dev-studio/adapters/PdfAdapter.ts`          | مكيّف PDF           | PDF Adapter          | تم            |
+| `DEV-027` | `packages/shell/dev-studio/adapters/RichTextAdapter.ts`     | مكيّف النص الغني    | Rich Text Adapter    | تم            |
+| `DEV-028` | `packages/shell/dev-studio/adapters/UIAdapter.ts`           | مكيّف الواجهة       | UI Adapter           | تم            |
 
 ### Shell والdevelopment studio
 
-| المعرف ID        | المسار Path                                              | الوصف Arabic              | Description English       | الحالة Status |
-| ---------------- | -------------------------------------------------------- | ------------------------- | ------------------------- | ------------- |
-| `SHELL-001`      | `packages/shell/dev-studio/core/DevStudioEngine.ts`      | محرك بيئة التطوير         | Dev Studio Engine         | تم            |
-| `SHELL-002`      | `packages/shell/dev-studio/doctor/DoctorEngine.ts`       | محرك الفحص والشفاء        | Doctor Engine             | تم            |
-| `SHELL-003`      | `packages/shell/dev-studio/tree/ProjectTreeModel.ts`     | نموذج شجرة المشروع       | Project Tree Model        | تم            |
-| `SHELL-004`      | `packages/shell/Workbench.tsx`                           | سطح العمل الرئيسي         | Main Workbench            | تم            |
+| المعرف ID   | المسار Path                                          | الوصف Arabic       | Description English | الحالة Status |
+| ----------- | ---------------------------------------------------- | ------------------ | ------------------- | ------------- |
+| `SHELL-001` | `packages/shell/dev-studio/core/DevStudioEngine.ts`  | محرك بيئة التطوير  | Dev Studio Engine   | تم            |
+| `SHELL-002` | `packages/shell/dev-studio/doctor/DoctorEngine.ts`   | محرك الفحص والشفاء | Doctor Engine       | تم            |
+| `SHELL-003` | `packages/shell/dev-studio/tree/ProjectTreeModel.ts` | نموذج شجرة المشروع | Project Tree Model  | تم            |
+| `SHELL-004` | `packages/shell/Workbench.tsx`                       | سطح العمل الرئيسي  | Main Workbench      | تم            |
 
 ### الملعب التجريبي - Playground
 

@@ -413,7 +413,9 @@ export const CanvasToolBar: React.FC<CanvasToolBarProps> = ({
             type="button"
             onClick={() => toggleDropdown('shapes')}
             className={`p-2 rounded-lg text-xs font-bold transition flex items-center gap-1 cursor-pointer ${
-              openDropdown === 'shapes' ? 'bg-slate-200 text-blue-700' : 'text-slate-700 hover:bg-slate-200/70'
+              openDropdown === 'shapes'
+                ? 'bg-slate-200 text-blue-700'
+                : 'text-slate-700 hover:bg-slate-200/70'
             }`}
             title="المزيد من الأشكال الفيكتورية"
           >
@@ -426,7 +428,13 @@ export const CanvasToolBar: React.FC<CanvasToolBarProps> = ({
               <button
                 type="button"
                 onClick={() => {
-                  onAddElement('triangle', { width: 160, height: 140, text: 'مثلث', fillColor: '#fefce8', strokeColor: '#ca8a04' });
+                  onAddElement('triangle', {
+                    width: 160,
+                    height: 140,
+                    text: 'مثلث',
+                    fillColor: '#fefce8',
+                    strokeColor: '#ca8a04',
+                  });
                   closeDropdown();
                 }}
                 className="flex items-center gap-1.5 p-2 rounded-lg hover:bg-slate-100 font-bold text-slate-700 cursor-pointer"
@@ -437,7 +445,13 @@ export const CanvasToolBar: React.FC<CanvasToolBarProps> = ({
               <button
                 type="button"
                 onClick={() => {
-                  onAddElement('star', { width: 160, height: 160, text: 'نجمة', fillColor: '#fef08a', strokeColor: '#eab308' });
+                  onAddElement('star', {
+                    width: 160,
+                    height: 160,
+                    text: 'نجمة',
+                    fillColor: '#fef08a',
+                    strokeColor: '#eab308',
+                  });
                   closeDropdown();
                 }}
                 className="flex items-center gap-1.5 p-2 rounded-lg hover:bg-slate-100 font-bold text-slate-700 cursor-pointer"
@@ -448,7 +462,13 @@ export const CanvasToolBar: React.FC<CanvasToolBarProps> = ({
               <button
                 type="button"
                 onClick={() => {
-                  onAddElement('diamond', { width: 150, height: 150, text: 'معين', fillColor: '#eff6ff', strokeColor: '#2563eb' });
+                  onAddElement('diamond', {
+                    width: 150,
+                    height: 150,
+                    text: 'معين',
+                    fillColor: '#eff6ff',
+                    strokeColor: '#2563eb',
+                  });
                   closeDropdown();
                 }}
                 className="flex items-center gap-1.5 p-2 rounded-lg hover:bg-slate-100 font-bold text-slate-700 cursor-pointer"
@@ -459,7 +479,13 @@ export const CanvasToolBar: React.FC<CanvasToolBarProps> = ({
               <button
                 type="button"
                 onClick={() => {
-                  onAddElement('hexagon', { width: 160, height: 150, text: 'سداسي', fillColor: '#faf5ff', strokeColor: '#8b5cf6' });
+                  onAddElement('hexagon', {
+                    width: 160,
+                    height: 150,
+                    text: 'سداسي',
+                    fillColor: '#faf5ff',
+                    strokeColor: '#8b5cf6',
+                  });
                   closeDropdown();
                 }}
                 className="flex items-center gap-1.5 p-2 rounded-lg hover:bg-slate-100 font-bold text-slate-700 cursor-pointer"
@@ -470,7 +496,13 @@ export const CanvasToolBar: React.FC<CanvasToolBarProps> = ({
               <button
                 type="button"
                 onClick={() => {
-                  onAddElement('octagon', { width: 160, height: 150, text: 'ثماني', fillColor: '#f0fdf4', strokeColor: '#16a34a' });
+                  onAddElement('octagon', {
+                    width: 160,
+                    height: 150,
+                    text: 'ثماني',
+                    fillColor: '#f0fdf4',
+                    strokeColor: '#16a34a',
+                  });
                   closeDropdown();
                 }}
                 className="flex items-center gap-1.5 p-2 rounded-lg hover:bg-slate-100 font-bold text-slate-700 cursor-pointer"
@@ -481,7 +513,13 @@ export const CanvasToolBar: React.FC<CanvasToolBarProps> = ({
               <button
                 type="button"
                 onClick={() => {
-                  onAddElement('pentagon', { width: 160, height: 150, text: 'خماسي', fillColor: '#fff7ed', strokeColor: '#ea580c' });
+                  onAddElement('pentagon', {
+                    width: 160,
+                    height: 150,
+                    text: 'خماسي',
+                    fillColor: '#fff7ed',
+                    strokeColor: '#ea580c',
+                  });
                   closeDropdown();
                 }}
                 className="flex items-center gap-1.5 p-2 rounded-lg hover:bg-slate-100 font-bold text-slate-700 cursor-pointer"
@@ -492,7 +530,13 @@ export const CanvasToolBar: React.FC<CanvasToolBarProps> = ({
               <button
                 type="button"
                 onClick={() => {
-                  onAddElement('shield', { width: 140, height: 160, text: 'درع', fillColor: '#fee2e2', strokeColor: '#dc2626' });
+                  onAddElement('shield', {
+                    width: 140,
+                    height: 160,
+                    text: 'درع',
+                    fillColor: '#fee2e2',
+                    strokeColor: '#dc2626',
+                  });
                   closeDropdown();
                 }}
                 className="flex items-center gap-1.5 p-2 rounded-lg hover:bg-slate-100 font-bold text-slate-700 cursor-pointer"
@@ -503,7 +547,12 @@ export const CanvasToolBar: React.FC<CanvasToolBarProps> = ({
               <button
                 type="button"
                 onClick={() => {
-                  onAddElement('arrow', { width: 200, height: 40, strokeColor: '#2563eb', strokeWidth: 3 });
+                  onAddElement('arrow', {
+                    width: 200,
+                    height: 40,
+                    strokeColor: '#2563eb',
+                    strokeWidth: 3,
+                  });
                   closeDropdown();
                 }}
                 className="flex items-center gap-1.5 p-2 rounded-lg hover:bg-slate-100 font-bold text-slate-700 cursor-pointer"
@@ -550,7 +599,11 @@ export const CanvasToolBar: React.FC<CanvasToolBarProps> = ({
                 <span>ألوان التعبئة الفاتحة</span>
                 <input
                   type="color"
-                  value={selectedElement?.fillColor && selectedElement.fillColor !== 'transparent' ? selectedElement.fillColor : '#ffffff'}
+                  value={
+                    selectedElement?.fillColor && selectedElement.fillColor !== 'transparent'
+                      ? selectedElement.fillColor
+                      : '#ffffff'
+                  }
                   onChange={(e) => onUpdateSelectedElement({ fillColor: e.target.value })}
                   className="w-6 h-6 rounded border-0 cursor-pointer p-0"
                 />
@@ -582,7 +635,9 @@ export const CanvasToolBar: React.FC<CanvasToolBarProps> = ({
               </div>
 
               <div className="pt-2 border-t border-slate-100 space-y-1.5">
-                <div className="font-bold text-slate-700 text-[11px]">تدرجات لونية ناعمة (SVG Gradients)</div>
+                <div className="font-bold text-slate-700 text-[11px]">
+                  تدرجات لونية ناعمة (SVG Gradients)
+                </div>
                 <div className="grid grid-cols-3 gap-1.5">
                   {LIGHT_THEME_GRADIENTS.map((grad) => {
                     const c1 = grad.stops[0]?.color || '#ffffff';
@@ -760,7 +815,9 @@ export const CanvasToolBar: React.FC<CanvasToolBarProps> = ({
                   <span className="font-bold text-slate-700">الحجم (px):</span>
                   <select
                     value={selectedElement?.fontSize || 16}
-                    onChange={(e) => onUpdateSelectedElement({ fontSize: parseInt(e.target.value, 10) })}
+                    onChange={(e) =>
+                      onUpdateSelectedElement({ fontSize: parseInt(e.target.value, 10) })
+                    }
                     className="w-full p-1.5 bg-slate-50 border border-slate-200 rounded-lg text-xs font-bold text-slate-800 outline-hidden"
                   >
                     {FONT_SIZES.map((s) => (
@@ -899,7 +956,9 @@ export const CanvasToolBar: React.FC<CanvasToolBarProps> = ({
           >
             <Sliders className="w-4 h-4 text-blue-600" />
             <span className="hidden sm:inline">
-              {selectedElement ? `${selectedElement.width}×${selectedElement.height}` : 'الحجم والأبعاد'}
+              {selectedElement
+                ? `${selectedElement.width}×${selectedElement.height}`
+                : 'الحجم والأبعاد'}
             </span>
             <ChevronDown className="w-3 h-3 text-slate-500" />
           </button>

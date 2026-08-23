@@ -67,13 +67,13 @@ import type { ProjectSurface } from '../core/DevStudioEngine';
  * (identityViolation) في آن — والخطر هو ما يجب أن يُرى.
  */
 export type DriftKind =
-  | 'added'              // ملف جديد من الخارج
-  | 'removed'            // ملف حُذف من الخارج
-  | 'modified'           // محتوى تغيّر
-  | 'identityViolation'  // معرف مكرر أو معاد استخدامه (RID lesson)
+  | 'added' // ملف جديد من الخارج
+  | 'removed' // ملف حُذف من الخارج
+  | 'modified' // محتوى تغيّر
+  | 'identityViolation' // معرف مكرر أو معاد استخدامه (RID lesson)
   | 'orphanResurrection' // أيتام تشير لشيء محذوف (RESURRECTION lesson)
-  | 'unknownField'       // حقل مجهول — يجب الحفاظ عليه (PLATFORM §3)
-  | 'storedDerived'      // قيمة مشتقة مخزنة (story.ts rule 2)
+  | 'unknownField' // حقل مجهول — يجب الحفاظ عليه (PLATFORM §3)
+  | 'storedDerived' // قيمة مشتقة مخزنة (story.ts rule 2)
   | 'additiveViolation'; // تخزين [] أو "" بدل الغياب
 
 /**
@@ -325,11 +325,7 @@ function classifyAdditiveViolations(path: string, content: string): DriftFinding
  * المحذوف لا يجب أن يعود، لأن تصحيحاته وملاحظاته وهوية CRDT
  * كلها تفترض أن المعرف يخص عنصراً واحداً للأبد.
  */
-function classifyIdentity(
-  path: string,
-  content: string,
-  known: KnownState,
-): DriftFinding[] {
+function classifyIdentity(path: string, content: string, known: KnownState): DriftFinding[] {
   const out: DriftFinding[] = [];
   const seenHere = new Set<string>();
 
@@ -345,7 +341,10 @@ function classifyIdentity(
         }
         const rec = obj as Record<string, unknown>;
         for (const [k, val] of Object.entries(rec)) {
-          if (['id', 'varId', 'toolId', 'componentId', 'sheetId'].includes(k) && typeof val === 'string') {
+          if (
+            ['id', 'varId', 'toolId', 'componentId', 'sheetId'].includes(k) &&
+            typeof val === 'string'
+          ) {
             if (seenHere.has(val)) {
               out.push({
                 kind: 'identityViolation',
@@ -451,10 +450,32 @@ function classifyOrphans(
  * أي شيء آخر هو unknownField (PLATFORM §3).
  */
 const KNOWN_TOP_LEVEL = new Set([
-  'id', 'name', 'kind', 'type', 'path', 'expr', 'value', 'format',
-  'description', 'category', 'editors', 'actionId', 'shortcut',
-  'created', 'updated', 'lines', 'vars', 'steps', 'filters', 'sorts',
-  'caption', 'chart', 'viz', 'camera', 'transition', 'duration',
+  'id',
+  'name',
+  'kind',
+  'type',
+  'path',
+  'expr',
+  'value',
+  'format',
+  'description',
+  'category',
+  'editors',
+  'actionId',
+  'shortcut',
+  'created',
+  'updated',
+  'lines',
+  'vars',
+  'steps',
+  'filters',
+  'sorts',
+  'caption',
+  'chart',
+  'viz',
+  'camera',
+  'transition',
+  'duration',
 ]);
 
 /**
@@ -469,10 +490,7 @@ const KNOWN_TOP_LEVEL = new Set([
  * 2. ثم للملفات الباقية، نكتشف التعديلات (محتوى)
  * 3. ثم نشغل المصنفات المتخصصة على كل ملف متغير
  */
-export function detectDrift(
-  project: ProjectSurface,
-  known: KnownState,
-): DriftReport {
+export function detectDrift(project: ProjectSurface, known: KnownState): DriftReport {
   const findings: DriftFinding[] = [];
   const current = project.listFiles();
   const currentSet = new Set(current);
@@ -549,7 +567,9 @@ export function hasDanger(report: DriftReport): boolean {
 }
 
 export function countBySeverity(report: DriftReport): {
-  info: number; warn: number; danger: number;
+  info: number;
+  warn: number;
+  danger: number;
 } {
   let info = 0;
   let warn = 0;
@@ -608,7 +628,7 @@ export function acceptDrift(report: DriftReport): DriftDecision {
   if (dangerCount > 0) {
     throw new Error(
       `[DriftDetector] لا يمكن قبول انجراف يحتوي ${dangerCount} خطر(اً) — ` +
-      `راجع الأخطار أولاً أو استخدم quarantine`,
+        `راجع الأخطار أولاً أو استخدم quarantine`,
     );
   }
   return { resolution: 'accept', covered: report.findings.length };
@@ -656,10 +676,7 @@ export function quarantineDrift(report: DriftReport, reason?: string): DriftDeci
  * القاعدة من rowcol.ts: المعرفات المحروقة تبقى محروقة.
  * حتى لو قبلنا انجرافاً، burnedIds لا تُمسح — الهوية لا تُعاد.
  */
-export function updateKnownState(
-  project: ProjectSurface,
-  previous: KnownState,
-): KnownState {
+export function updateKnownState(project: ProjectSurface, previous: KnownState): KnownState {
   const fresh = captureKnownState(project);
   // المعرفات المحروقة تنتقل — لا تُنسى أبداً
   return {
@@ -696,16 +713,13 @@ export function burnId(known: KnownState, id: string): void {
  *
  * @throws إذا كان هناك danger غير معالج
  */
-export function preflightCheck(
-  project: ProjectSurface,
-  known: KnownState,
-): DriftReport {
+export function preflightCheck(project: ProjectSurface, known: KnownState): DriftReport {
   const report = detectDrift(project, known);
   if (hasDanger(report)) {
     const d = dangers(report);
     throw new Error(
       `[DriftDetector] رفض ما قبل التنفيذ: ${d.length} خطر(اً) غير معالج. ` +
-      `أولها: ${d[0].reason}`,
+        `أولها: ${d[0].reason}`,
     );
   }
   return report;

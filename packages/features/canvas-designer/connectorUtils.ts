@@ -42,10 +42,7 @@ export interface Point {
 /**
  * حساب إحداثيات نقطة التثبيت في عنصر معين
  */
-export function getAnchorPoint(
-  el: CanvasElement,
-  anchor: AnchorPosition = 'center'
-): Point {
+export function getAnchorPoint(el: CanvasElement, anchor: AnchorPosition = 'center'): Point {
   switch (anchor) {
     case 'top':
       return { x: el.x + el.width / 2, y: el.y };
@@ -66,7 +63,7 @@ export function getAnchorPoint(
  */
 export function findClosestAnchors(
   fromEl: CanvasElement,
-  toEl: CanvasElement
+  toEl: CanvasElement,
 ): { fromAnchor: AnchorPosition; toAnchor: AnchorPosition } {
   const fromCenter = getAnchorPoint(fromEl, 'center');
   const toCenter = getAnchorPoint(toEl, 'center');
@@ -104,7 +101,7 @@ export function findClosestAnchors(
 export function generateConnectorSVGPath(
   p1: Point,
   p2: Point,
-  routing: 'straight' | 'orthogonal' | 'curved' = 'orthogonal'
+  routing: 'straight' | 'orthogonal' | 'curved' = 'orthogonal',
 ): { path: string; labelPoint: Point } {
   const midX = (p1.x + p2.x) / 2;
   const midY = (p1.y + p2.y) / 2;

@@ -33,8 +33,15 @@ import type { ToolDefinition, ComponentCategory } from '../core/DevStudioTypes';
 
 /** ترتيب الفئات في شريط أدوات الكانفا — يحدد التجميع. */
 const CATEGORY_ORDER: ComponentCategory[] = [
-  'selection', 'drawing', 'shape', 'text', 'image',
-  'align', 'transform', 'color', 'effect',
+  'selection',
+  'drawing',
+  'shape',
+  'text',
+  'image',
+  'align',
+  'transform',
+  'color',
+  'effect',
 ];
 
 /**

@@ -1,7 +1,17 @@
 import { describe, it, expect } from 'vitest';
 import { smartSnap } from '../../src/spatial/smart-snap-engine';
 
-const el = (id: string, x: number, y: number, w = 100, h = 50) => ({ id, type: 'paragraph' as const, domain: 'Writer' as const, name: id, x, y, width: w, height: h, zIndex: 0 });
+const el = (id: string, x: number, y: number, w = 100, h = 50) => ({
+  id,
+  type: 'paragraph' as const,
+  domain: 'Writer' as const,
+  name: id,
+  x,
+  y,
+  width: w,
+  height: h,
+  zIndex: 0,
+});
 
 describe('ALGO-031: smartSnap', () => {
   it('snaps to element left edge', () => {

@@ -62,31 +62,68 @@ export class AttributeCompletionEngine {
       { name: 'contenteditable', description: 'قابل للتحرير المباشر بالمستند', type: 'boolean' },
       { name: 'data-node-id', description: 'معرّف الكتلة والعنصر التفاعلي', type: 'string' },
     ],
-    'aria': [
+    aria: [
       { name: 'aria-label', description: 'وصف إمكانية الوصول لقارئات الشاشة', type: 'string' },
       { name: 'aria-hidden', description: 'إخفاء من قارئات الشاشة', type: 'boolean' },
-      { name: 'aria-expanded', description: 'حالة القائمة أو الأكورديون (مفتوح/مغلق)', type: 'boolean' },
+      {
+        name: 'aria-expanded',
+        description: 'حالة القائمة أو الأكورديون (مفتوح/مغلق)',
+        type: 'boolean',
+      },
       { name: 'aria-selected', description: 'حالة العنصر المحدد', type: 'boolean' },
       { name: 'aria-disabled', description: 'حالة العنصر المعطل', type: 'boolean' },
-      { name: 'aria-live', description: 'إشعار فوري بالتغييرات', type: 'enum', values: ['off', 'polite', 'assertive'] },
+      {
+        name: 'aria-live',
+        description: 'إشعار فوري بالتغييرات',
+        type: 'enum',
+        values: ['off', 'polite', 'assertive'],
+      },
     ],
-    'a': [
+    a: [
       { name: 'href', description: 'عنوان الرابط المستهدف (URL)', type: 'url', required: true },
-      { name: 'target', description: 'نافذة الفتح المستهدفة', type: 'enum', values: ['_blank', '_self', '_parent', '_top'] },
-      { name: 'rel', description: 'علاقة المستند والارتباط', type: 'enum', values: ['noopener', 'noreferrer', 'nofollow'] },
+      {
+        name: 'target',
+        description: 'نافذة الفتح المستهدفة',
+        type: 'enum',
+        values: ['_blank', '_self', '_parent', '_top'],
+      },
+      {
+        name: 'rel',
+        description: 'علاقة المستند والارتباط',
+        type: 'enum',
+        values: ['noopener', 'noreferrer', 'nofollow'],
+      },
       { name: 'download', description: 'تنزيل الملف المرفق تلقائياً', type: 'string' },
     ],
-    'img': [
+    img: [
       { name: 'src', description: 'مصدر وعنوان الصورة (URL)', type: 'url', required: true },
       { name: 'alt', description: 'النص البديل المعبر عن الصورة', type: 'string', required: true },
       { name: 'width', description: 'عرض الصورة بالبكسل', type: 'number' },
       { name: 'height', description: 'ارتفاع الصورة بالبكسل', type: 'number' },
       { name: 'loading', description: 'تحميل كسول ذكي', type: 'enum', values: ['lazy', 'eager'] },
     ],
-    'input': [
-      { name: 'type', description: 'نوع حقل الإدخال', type: 'enum', required: true, values: [
-        'text', 'password', 'email', 'number', 'tel', 'url', 'date', 'checkbox', 'radio', 'button', 'file', 'color', 'range'
-      ]},
+    input: [
+      {
+        name: 'type',
+        description: 'نوع حقل الإدخال',
+        type: 'enum',
+        required: true,
+        values: [
+          'text',
+          'password',
+          'email',
+          'number',
+          'tel',
+          'url',
+          'date',
+          'checkbox',
+          'radio',
+          'button',
+          'file',
+          'color',
+          'range',
+        ],
+      },
       { name: 'name', description: 'اسم الحقل للنموذج', type: 'string', required: true },
       { name: 'value', description: 'القيمة الافتراضية', type: 'string' },
       { name: 'placeholder', description: 'نص تلميحي مؤقت', type: 'string' },
@@ -94,11 +131,16 @@ export class AttributeCompletionEngine {
       { name: 'disabled', description: 'تعطيل الحقل', type: 'boolean' },
       { name: 'readonly', description: 'حقل للعرض والقراءة فقط', type: 'boolean' },
     ],
-    'button': [
-      { name: 'type', description: 'نوع الزر', type: 'enum', values: ['button', 'submit', 'reset'] },
+    button: [
+      {
+        name: 'type',
+        description: 'نوع الزر',
+        type: 'enum',
+        values: ['button', 'submit', 'reset'],
+      },
       { name: 'disabled', description: 'تعطيل التفاعل مع الزر', type: 'boolean' },
     ],
-    'table': [
+    table: [
       { name: 'border', description: 'سماكة حدود الجدول', type: 'number' },
       { name: 'cellpadding', description: 'الحشو الداخلي للخلايا', type: 'number' },
       { name: 'cellspacing', description: 'المسافة بين الخلايا', type: 'number' },
@@ -158,7 +200,9 @@ export class AttributeCompletionEngine {
     const items = this.suggestAttributes(tag, []);
     if (!query) return items;
     const q = query.toLowerCase();
-    return items.filter((item) => item.label.toLowerCase().includes(q) || item.detail.toLowerCase().includes(q));
+    return items.filter(
+      (item) => item.label.toLowerCase().includes(q) || item.detail.toLowerCase().includes(q),
+    );
   }
 
   public suggestAttributeValues(tag: string, attrName: string): AttributeCompletionItem[] {

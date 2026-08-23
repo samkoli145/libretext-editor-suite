@@ -23,7 +23,7 @@
  * ═══════════════════════════════════════════════════════════════════════════
  */
 
-import type { DocumentType, EditorPlugin } from "../types";
+import type { DocumentType, EditorPlugin } from '../types';
 
 export class PluginRegistry {
   private static instance: PluginRegistry | null = null;
@@ -47,16 +47,14 @@ export class PluginRegistry {
   public registerPlugin(plugin: EditorPlugin<any>): void {
     if (this.plugins.has(plugin.documentType)) {
       console.warn(
-        `[PluginRegistry] Plugin already registered for documentType: "${plugin.documentType}". It will be replaced.`
+        `[PluginRegistry] Plugin already registered for documentType: "${plugin.documentType}". It will be replaced.`,
       );
     }
 
     this.plugins.set(plugin.documentType, plugin);
   }
 
-  public getPlugin<TData = unknown>(
-    type: DocumentType
-  ): EditorPlugin<TData> | undefined {
+  public getPlugin<TData = unknown>(type: DocumentType): EditorPlugin<TData> | undefined {
     return this.plugins.get(type) as EditorPlugin<TData> | undefined;
   }
 

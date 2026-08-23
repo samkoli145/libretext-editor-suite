@@ -55,9 +55,16 @@ export function createSelectionManager() {
     return Array.from(selected);
   }
 
-  function clearSelection(): void { selected = new Set(); }
+  function clearSelection(): void {
+    selected = new Set();
+  }
 
-  function selectByPoint(px: number, py: number, elements: readonly SelectableElement[], additive = false): readonly string[] {
+  function selectByPoint(
+    px: number,
+    py: number,
+    elements: readonly SelectableElement[],
+    additive = false,
+  ): readonly string[] {
     if (!additive) selected = new Set();
     for (const el of elements) {
       if (!el.isLocked && pointInElement(px, py, el)) {
@@ -68,7 +75,13 @@ export function createSelectionManager() {
     return Array.from(selected);
   }
 
-  function selectByRect(minX: number, minY: number, maxX: number, maxY: number, elements: readonly SelectableElement[]): readonly string[] {
+  function selectByRect(
+    minX: number,
+    minY: number,
+    maxX: number,
+    maxY: number,
+    elements: readonly SelectableElement[],
+  ): readonly string[] {
     selected = new Set();
     for (const el of elements) {
       if (el.isLocked) continue;
@@ -79,9 +92,27 @@ export function createSelectionManager() {
     return Array.from(selected);
   }
 
-  function getSelection(): readonly string[] { return Array.from(selected); }
-  function isSelected(id: string): boolean { return selected.has(id); }
-  function count(): number { return selected.size; }
+  function getSelection(): readonly string[] {
+    return Array.from(selected);
+  }
+  function isSelected(id: string): boolean {
+    return selected.has(id);
+  }
+  function count(): number {
+    return selected.size;
+  }
 
-  return { selectById, addToSelection, removeFromSelection, toggleSelection, selectAll, clearSelection, selectByPoint, selectByRect, getSelection, isSelected, count };
+  return {
+    selectById,
+    addToSelection,
+    removeFromSelection,
+    toggleSelection,
+    selectAll,
+    clearSelection,
+    selectByPoint,
+    selectByRect,
+    getSelection,
+    isSelected,
+    count,
+  };
 }

@@ -9,7 +9,12 @@
  */
 
 import { describe, it, expect } from 'vitest';
-import { scanFile, DEBT_RULES, formatReport, type DebtReport } from '../dev-studio/pipeline/DebtGuardian';
+import {
+  scanFile,
+  DEBT_RULES,
+  formatReport,
+  type DebtReport,
+} from '../dev-studio/pipeline/DebtGuardian';
 
 describe('DebtGuardian', () => {
   it('DEBT-001 detects "as any"', () => {
@@ -72,7 +77,7 @@ describe('DebtGuardian', () => {
   it('clean code produces no violations', () => {
     const violations = scanFile(
       'const x: number = 42;\nexport function add(a: number, b: number): number { return a + b; }',
-      'clean.ts'
+      'clean.ts',
     );
     expect(violations.length).toBe(0);
   });
@@ -94,10 +99,18 @@ describe('DebtGuardian', () => {
 
   it('formatReport produces readable output', () => {
     const report: DebtReport = {
-      violations: [{
-        ruleId: 'DEBT-001', ruleName: 'Unsafe any', severity: 'error',
-        file: 'test.ts', line: 1, column: 10, match: 'as any', fix: 'fix it',
-      }],
+      violations: [
+        {
+          ruleId: 'DEBT-001',
+          ruleName: 'Unsafe any',
+          severity: 'error',
+          file: 'test.ts',
+          line: 1,
+          column: 10,
+          match: 'as any',
+          fix: 'fix it',
+        },
+      ],
       bySeverity: { error: 1, warning: 0, info: 0 },
       byRule: { 'DEBT-001': 1 },
       totalFiles: 10,
@@ -125,7 +138,7 @@ describe('DebtGuardian', () => {
 
   it('DEBT_RULES has all 8 rules defined', () => {
     expect(DEBT_RULES.length).toBe(8);
-    const ids = DEBT_RULES.map(r => r.id);
+    const ids = DEBT_RULES.map((r) => r.id);
     expect(ids).toContain('DEBT-001');
     expect(ids).toContain('DEBT-008');
   });

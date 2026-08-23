@@ -61,14 +61,19 @@ export interface IngestionOptions {
 export class UnifiedIngestionPipeline {
   public static async processInput(
     rawInput: string | File | DataTransfer,
-    options?: IngestionOptions
+    options?: IngestionOptions,
   ): Promise<IngestionResult> {
     const { content, fileName, mimeType } = await this.extractPayload(rawInput);
     const { decodedContent, encoding } = await this.smartDecode(content, mimeType);
     const detected = this.sniffContentType(decodedContent, fileName, mimeType);
     const sanitizedContent = this.sanitizeDirtyHtml(decodedContent);
     const targetEditor = options?.preferredTarget ?? detected.suggestedEditor;
-    const { cleanData, document } = this.buildAst(sanitizedContent, detected.type, targetEditor, fileName);
+    const { cleanData, document } = this.buildAst(
+      sanitizedContent,
+      detected.type,
+      targetEditor,
+      fileName,
+    );
 
     return {
       sourceType: detected.type,
@@ -85,7 +90,7 @@ export class UnifiedIngestionPipeline {
   }
 
   private static async extractPayload(
-    rawInput: string | File | DataTransfer
+    rawInput: string | File | DataTransfer,
   ): Promise<{ content: string | ArrayBuffer; fileName: string; mimeType: string }> {
     if (typeof rawInput === 'string') {
       return { content: rawInput, fileName: '', mimeType: 'text/plain' };
@@ -108,7 +113,7 @@ export class UnifiedIngestionPipeline {
 
   private static async smartDecode(
     content: string | ArrayBuffer,
-    _mimeType: string
+    _mimeType: string,
   ): Promise<{ decodedContent: string; encoding: string }> {
     if (typeof content === 'string') {
       return { decodedContent: content, encoding: 'utf-8 (string)' };
@@ -117,16 +122,23 @@ export class UnifiedIngestionPipeline {
       const decoder = new TextDecoder('utf-8', { fatal: true });
       const decoded = decoder.decode(content);
       if (!decoded.includes('\uFFFD')) return { decodedContent: decoded, encoding: 'utf-8' };
-    } catch { /* fallback */ }
+    } catch {
+      /* fallback */
+    }
     try {
       const decoder = new TextDecoder('windows-1256', { fatal: false });
       const decoded = decoder.decode(content);
-      if (this.detectArabicText(decoded)) return { decodedContent: decoded, encoding: 'windows-1256' };
-    } catch { /* fallback */ }
+      if (this.detectArabicText(decoded))
+        return { decodedContent: decoded, encoding: 'windows-1256' };
+    } catch {
+      /* fallback */
+    }
     try {
       const decoder = new TextDecoder('iso-8859-6', { fatal: false });
       return { decodedContent: decoder.decode(content), encoding: 'iso-8859-6' };
-    } catch { /* fallback */ }
+    } catch {
+      /* fallback */
+    }
     const decoder = new TextDecoder('utf-8', { fatal: false });
     return { decodedContent: decoder.decode(content), encoding: 'utf-8 (fallback)' };
   }
@@ -146,18 +158,27 @@ export class UnifiedIngestionPipeline {
   }
 
   private static sniffContentType(
-    content: string, fileName: string, mimeType: string
+    content: string,
+    fileName: string,
+    mimeType: string,
   ): { type: IngestionSourceType; suggestedEditor: IngestionTargetEditor; confidence: number } {
     const trimmed = content.trim();
-    if (mimeType.startsWith('image/') || (fileName && /\.(png|jpg|jpeg|webp|gif|bmp)$/i.test(fileName))) {
+    if (
+      mimeType.startsWith('image/') ||
+      (fileName && /\.(png|jpg|jpeg|webp|gif|bmp)$/i.test(fileName))
+    ) {
       return { type: 'image', suggestedEditor: 'canvas', confidence: 0.95 };
     }
     if (trimmed.startsWith('<svg') || trimmed.includes('<svg xmlns=')) {
       return { type: 'svg', suggestedEditor: 'canvas', confidence: 0.95 };
     }
     if (trimmed.startsWith('{') || trimmed.startsWith('[')) {
-      try { JSON.parse(trimmed); return { type: 'json-schema', suggestedEditor: 'ui-page', confidence: 0.9 }; }
-      catch { /* not valid JSON */ }
+      try {
+        JSON.parse(trimmed);
+        return { type: 'json-schema', suggestedEditor: 'ui-page', confidence: 0.9 };
+      } catch {
+        /* not valid JSON */
+      }
     }
     if (trimmed.startsWith('<!DOCTYPE html') || trimmed.startsWith('<html')) {
       return { type: 'html-document', suggestedEditor: 'rich-text', confidence: 0.9 };
@@ -172,7 +193,10 @@ export class UnifiedIngestionPipeline {
   }
 
   private static buildAst(
-    content: string, type: IngestionSourceType, _target: IngestionTargetEditor, fileName: string
+    content: string,
+    type: IngestionSourceType,
+    _target: IngestionTargetEditor,
+    fileName: string,
   ): { cleanData: unknown; document: ReturnType<typeof htmlToRichTextDocument> | null } {
     switch (type) {
       case 'image':
@@ -183,15 +207,28 @@ export class UnifiedIngestionPipeline {
       case 'html-fragment':
       case 'ms-word-bloat': {
         const title = this.extractDocumentTitle(content, fileName);
-        const doc = htmlToRichTextDocument(content, { title, stripScripts: true, stripStyles: false });
+        const doc = htmlToRichTextDocument(content, {
+          title,
+          stripScripts: true,
+          stripStyles: false,
+        });
         return { cleanData: doc.data, document: doc };
       }
       case 'json-schema': {
-        try { return { cleanData: JSON.parse(content), document: null }; }
-        catch { return { cleanData: { text: content }, document: null }; }
+        try {
+          return { cleanData: JSON.parse(content), document: null };
+        } catch {
+          return { cleanData: { text: content }, document: null };
+        }
       }
       default:
-        return { cleanData: { type: 'doc', content: [{ type: 'paragraph', content: [{ type: 'text', text: content }] }] }, document: null };
+        return {
+          cleanData: {
+            type: 'doc',
+            content: [{ type: 'paragraph', content: [{ type: 'text', text: content }] }],
+          },
+          document: null,
+        };
     }
   }
 

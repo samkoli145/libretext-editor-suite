@@ -231,8 +231,8 @@ export const AssetManager: React.FC<AssetManagerProps> = ({
               height: result.height,
               sizeKB: Math.round(result.fileSize / 1024),
             }
-          : a
-      )
+          : a,
+      ),
     );
 
     // If currently applied to the selected element, update it live
@@ -246,12 +246,17 @@ export const AssetManager: React.FC<AssetManagerProps> = ({
   // Filter Assets
   const filteredAssets = assets.filter((asset) => {
     const matchesCat = selectedCategory === 'الكل' || asset.category === selectedCategory;
-    const matchesSearch = !searchQuery || asset.name.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesSearch =
+      !searchQuery || asset.name.toLowerCase().includes(searchQuery.toLowerCase());
     return matchesCat && matchesSearch;
   });
 
   return (
-    <div id="asset-manager-panel" className="flex flex-col h-full bg-white text-slate-800 select-none overflow-hidden" dir="rtl">
+    <div
+      id="asset-manager-panel"
+      className="flex flex-col h-full bg-white text-slate-800 select-none overflow-hidden"
+      dir="rtl"
+    >
       {/* Top Upload Action Header */}
       <div className="p-3 border-b border-slate-200 bg-slate-50/70 space-y-2">
         <div className="flex items-center justify-between">
@@ -279,7 +284,9 @@ export const AssetManager: React.FC<AssetManagerProps> = ({
             className="w-full py-2.5 px-3 bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white rounded-xl text-xs font-bold transition flex items-center justify-center gap-2 shadow-xs cursor-pointer"
           >
             <Upload className="w-4 h-4" />
-            <span>{isUploading ? 'جاري قراءة ومعالجة الصورة...' : 'رفع صور من الجهاز (فأرة فقط)'}</span>
+            <span>
+              {isUploading ? 'جاري قراءة ومعالجة الصورة...' : 'رفع صور من الجهاز (فأرة فقط)'}
+            </span>
           </button>
         </div>
 
@@ -322,11 +329,7 @@ export const AssetManager: React.FC<AssetManagerProps> = ({
                 <div className="flex items-center gap-2.5">
                   {/* Thumbnail */}
                   <div className="w-14 h-14 rounded-lg bg-white border border-slate-200 overflow-hidden shrink-0 relative flex items-center justify-center">
-                    <img
-                      src={asset.url}
-                      alt={asset.name}
-                      className="w-full h-full object-cover"
-                    />
+                    <img src={asset.url} alt={asset.name} className="w-full h-full object-cover" />
                   </div>
 
                   {/* Info */}
@@ -337,7 +340,9 @@ export const AssetManager: React.FC<AssetManagerProps> = ({
                         {asset.category}
                       </span>
                       {asset.width && asset.height && (
-                        <span>{asset.width}×{asset.height}</span>
+                        <span>
+                          {asset.width}×{asset.height}
+                        </span>
                       )}
                       {asset.sizeKB && <span>{asset.sizeKB}KB</span>}
                     </div>

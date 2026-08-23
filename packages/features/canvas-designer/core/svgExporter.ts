@@ -38,7 +38,11 @@ import {
   createEllipsePath,
 } from './svgPathUtils';
 import { CLIP_PRESETS } from './svgClipping';
-import { generateSvgAnimationsCss, SVG_ANIMATION_PRESETS, type SvgAnimationType } from './svgAnimation';
+import {
+  generateSvgAnimationsCss,
+  SVG_ANIMATION_PRESETS,
+  type SvgAnimationType,
+} from './svgAnimation';
 
 export interface SvgExportOptions {
   width?: number;
@@ -61,8 +65,14 @@ export function elementToSvgNode(element: CanvasElement): string {
   const stroke = element.strokeColor || 'none';
   const strokeW = element.strokeWidth !== undefined ? element.strokeWidth : 0;
   const strokeStyle = element.strokeStyle;
-  const dashArray = strokeStyle === 'dashed' ? ' stroke-dasharray="6,4"' : strokeStyle === 'dotted' ? ' stroke-dasharray="2,4"' : '';
-  const transformAttr = rotation !== 0 ? ` transform="rotate(${rotation} ${x + w / 2} ${y + h / 2})"` : '';
+  const dashArray =
+    strokeStyle === 'dashed'
+      ? ' stroke-dasharray="6,4"'
+      : strokeStyle === 'dotted'
+        ? ' stroke-dasharray="2,4"'
+        : '';
+  const transformAttr =
+    rotation !== 0 ? ` transform="rotate(${rotation} ${x + w / 2} ${y + h / 2})"` : '';
   const animPreset = SVG_ANIMATION_PRESETS.find((p) => p.id === element.animation);
   const classAttr = animPreset && animPreset.cssClass ? ` class="${animPreset.cssClass}"` : '';
 
@@ -131,8 +141,14 @@ export function elementToSvgNode(element: CanvasElement): string {
       const fontS = element.fontSize || 16;
       const fontW = element.fontWeight || 'normal';
       const textCol = element.textColor || '#1e293b';
-      const textAnchor = element.textAlign === 'center' ? 'middle' : element.textAlign === 'left' ? 'start' : 'end';
-      const textX = element.textAlign === 'center' ? x + w / 2 : element.textAlign === 'left' ? x + 10 : x + w - 10;
+      const textAnchor =
+        element.textAlign === 'center' ? 'middle' : element.textAlign === 'left' ? 'start' : 'end';
+      const textX =
+        element.textAlign === 'center'
+          ? x + w / 2
+          : element.textAlign === 'left'
+            ? x + 10
+            : x + w - 10;
       const textY = y + fontS + (h - fontS) / 2 - 2;
 
       return `<text x="${textX}" y="${textY}" font-family="${fontF}" font-size="${fontS}" font-weight="${fontW}" fill="${textCol}" text-anchor="${textAnchor}" dominant-baseline="middle"${transformAttr}>${element.text || ''}</text>`;
@@ -164,7 +180,7 @@ export function elementToSvgNode(element: CanvasElement): string {
  */
 export function exportCanvasToSvg(
   elements: CanvasElement[],
-  options: SvgExportOptions = {}
+  options: SvgExportOptions = {},
 ): string {
   const width = options.width || 1200;
   const height = options.height || 800;

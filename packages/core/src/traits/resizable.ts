@@ -36,7 +36,7 @@ export function resizeTo<T extends SizeState>(
   state: T,
   targetWidth: number,
   targetHeight: number,
-  constraints: SizeConstraints = {}
+  constraints: SizeConstraints = {},
 ): T {
   let width = targetWidth;
   let height = targetHeight;
@@ -70,7 +70,7 @@ export function resizeBy<T extends SizeState>(
   state: T,
   dWidth: number,
   dHeight: number,
-  constraints: SizeConstraints = {}
+  constraints: SizeConstraints = {},
 ): T {
   return resizeTo(state, state.width + dWidth, state.height + dHeight, constraints);
 }

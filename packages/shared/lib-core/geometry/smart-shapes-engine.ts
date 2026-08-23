@@ -38,7 +38,7 @@ export class SmartShapesEngine {
    */
   public static calculateOrthogonalPath(start: Point, end: Point, cornerRadius = 8): string {
     const midX = (start.x + end.x) / 2;
-    
+
     // إذا كانت المسافة الأفقية كافية
     if (Math.abs(start.x - end.x) > cornerRadius * 2) {
       // مسار متدرج أفقياً
@@ -49,7 +49,7 @@ export class SmartShapesEngine {
               Q ${midX},${end.y} ${midX + Math.sign(end.x - midX) * cornerRadius},${end.y} 
               L ${end.x},${end.y}`;
     }
-    
+
     // Fallback: خط مباشر إذا كان التقارب كبيراً
     return `M ${start.x},${start.y} L ${end.x},${end.y}`;
   }
@@ -60,7 +60,7 @@ export class SmartShapesEngine {
   public static calculateBezierPath(start: Point, end: Point, controlOffset = 0.5): string {
     const dx = end.x - start.x;
     const dy = end.y - start.y;
-    
+
     const cp1 = { x: start.x + dx * controlOffset, y: start.y };
     const cp2 = { x: end.x - dx * controlOffset, y: end.y };
 
@@ -70,7 +70,13 @@ export class SmartShapesEngine {
   /**
    * إنشاء مسار نجمي مخصص (لشارات الشرح والأختام)
    */
-  public static createStarburstPath(cx: number, cy: number, points: number, outerRadius: number, innerRadius: number): string {
+  public static createStarburstPath(
+    cx: number,
+    cy: number,
+    points: number,
+    outerRadius: number,
+    innerRadius: number,
+  ): string {
     let path = '';
     const angleStep = Math.PI / points;
 
@@ -79,7 +85,7 @@ export class SmartShapesEngine {
       const angle = i * angleStep - Math.PI / 2; // يبدأ من الأعلى
       const x = cx + Math.cos(angle) * radius;
       const y = cy + Math.sin(angle) * radius;
-      
+
       if (i === 0) {
         path += `M ${x},${y} `;
       } else {
@@ -95,12 +101,12 @@ export class SmartShapesEngine {
   public static createSpeechBubblePath(bounds: Bounds, tailTip: Point, tailWidth = 20): string {
     const { x, y, width, height } = bounds;
     const r = 12; // Corner radius
-    
+
     // نبسط المسار إلى مستطيل مستدير الزوايا ومدمج مع ذيل نحو tailTip
     // سنستخدم مساراً متصلاً كاملاً
     // للتبسيط في هذا الإصدار، سنعتبر الذيل يخرج دائماً من المركز السفلي
     const bottomCenter = { x: x + width / 2, y: y + height };
-    
+
     return `
       M ${x + r}, ${y}
       L ${x + width - r}, ${y}
@@ -108,9 +114,9 @@ export class SmartShapesEngine {
       L ${x + width}, ${y + height - r}
       Q ${x + width}, ${y + height} ${x + width - r}, ${y + height}
       
-      L ${bottomCenter.x + tailWidth/2}, ${y + height}
+      L ${bottomCenter.x + tailWidth / 2}, ${y + height}
       L ${tailTip.x}, ${tailTip.y}
-      L ${bottomCenter.x - tailWidth/2}, ${y + height}
+      L ${bottomCenter.x - tailWidth / 2}, ${y + height}
       
       L ${x + r}, ${y + height}
       Q ${x}, ${y + height} ${x}, ${y + height - r}

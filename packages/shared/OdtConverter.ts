@@ -148,4 +148,3 @@ export class OdtConverter {
 export function convertToOdt(title: string, content: string): Blob {
   return OdtConverter.convertHtmlToOdtBlob(content, { title });
 }
-

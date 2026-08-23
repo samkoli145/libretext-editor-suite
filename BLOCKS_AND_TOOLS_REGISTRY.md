@@ -4,20 +4,20 @@
 
 ## Block-Serializer Matrix
 
-| Block | Domain | Category | Tools# | MD | HTML | DOCX | ODF | LaTeX | PDF | TXT |
-|-------|--------|----------|--------|----|----|------|-----|-------|-----|-----|
-| `paragraph` | Writer | Text | 9 | Y | Y | Y | Y | Y | Y | Y |
-| `heading` | Writer | Text | 3 | Y | Y | Y | Y | Y | Y | Y |
-| `table` | Universal | Data | 6 | Y | Y | Y | Y | Y | Y | Y |
-| `cell` | Calc | Data | 4 | Y | Y | Y | Y | Y | Y | Y |
-| `code_block` | Writer | Text | 3 | Y | Y | Y | Y | Y | Y | Y |
-| `math` | Universal | Plugin | 3 | Y | Y | Y | Y | Y | Y | N |
-| `mermaid` | Universal | Plugin | 3 | Y | Y | N | Y | N | Y | N |
-| `shape` | Impress | Visual | 5 | N | Y | Y | Y | N | Y | N |
-| `slide` | Impress | Layout | 4 | Y | Y | N | Y | Y | Y | Y |
-| `database_record` | Base | Data | 4 | Y | Y | Y | Y | N | Y | Y |
-| `image` | Universal | Visual | 4 | Y | Y | Y | Y | Y | Y | N |
-| `callout_box` | Writer | Layout | 3 | Y | Y | Y | Y | Y | Y | Y |
+| Block             | Domain    | Category | Tools# | MD  | HTML | DOCX | ODF | LaTeX | PDF | TXT |
+| ----------------- | --------- | -------- | ------ | --- | ---- | ---- | --- | ----- | --- | --- |
+| `paragraph`       | Writer    | Text     | 9      | Y   | Y    | Y    | Y   | Y     | Y   | Y   |
+| `heading`         | Writer    | Text     | 3      | Y   | Y    | Y    | Y   | Y     | Y   | Y   |
+| `table`           | Universal | Data     | 6      | Y   | Y    | Y    | Y   | Y     | Y   | Y   |
+| `cell`            | Calc      | Data     | 4      | Y   | Y    | Y    | Y   | Y     | Y   | Y   |
+| `code_block`      | Writer    | Text     | 3      | Y   | Y    | Y    | Y   | Y     | Y   | Y   |
+| `math`            | Universal | Plugin   | 3      | Y   | Y    | Y    | Y   | Y     | Y   | N   |
+| `mermaid`         | Universal | Plugin   | 3      | Y   | Y    | N    | Y   | N     | Y   | N   |
+| `shape`           | Impress   | Visual   | 5      | N   | Y    | Y    | Y   | N     | Y   | N   |
+| `slide`           | Impress   | Layout   | 4      | Y   | Y    | N    | Y   | Y     | Y   | Y   |
+| `database_record` | Base      | Data     | 4      | Y   | Y    | Y    | Y   | N     | Y   | Y   |
+| `image`           | Universal | Visual   | 4      | Y   | Y    | Y    | Y   | Y     | Y   | N   |
+| `callout_box`     | Writer    | Layout   | 3      | Y   | Y    | Y    | Y   | Y     | Y   | Y   |
 
 ## Block Details
 
@@ -104,4 +104,3 @@
 - Attributes: variant, icon, title, collapsible
 - Tools: CalloutVariantPicker, IconSelector, ToggleCollapsible
 - Commands: SET_CALLOUT_VARIANT, TOGGLE_CALLOUT_COLLAPSE
-

@@ -60,15 +60,15 @@ import type { HtmlBlockNode, TailwindClasses } from './html-block-types';
 
 /**
  * التحقق من أن الفئات من القائمة البيضاء وتوافق الثيم الفاتح النقي.
- * 
+ *
  * ⚠️ يمنع الفئات الداكنة الصريحة مثل 'bg-black', 'bg-gray-900'.
  * ⚠️ يُعيد فقط الفئات الصالحة.
- * 
+ *
  * // @function-index: #47/4 — validateClasses
  */
 export function validateClasses(classes: string[]): string[] {
   const forbidden = ['bg-black', 'bg-gray-900', 'bg-slate-900', 'bg-zinc-900'];
-  
+
   return classes.filter((c) => {
     if (forbidden.includes(c)) {
       console.warn('[TailwindEditor] Forbidden class:', c);
@@ -80,10 +80,10 @@ export function validateClasses(classes: string[]): string[] {
 
 /**
  * تحديث الفئات في فئة معينة.
- * 
+ *
  * ⚠️ يُعيد نسخة جديدة من العقدة (immutable).
  * ⚠️ classes يجب أن تكون من القائمة البيضاء.
- * 
+ *
  * // @function-index: #45/4 — updateStyles
  */
 export function updateStyles(
@@ -96,19 +96,19 @@ export function updateStyles(
     console.warn('[TailwindEditor] No valid classes');
     return node;
   }
-  
+
   const styles = { ...node.styles };
   styles[category] = valid;
-  
+
   return { ...node, styles };
 }
 
 /**
  * دمج الفئات المخصصة مع الافتراضيات.
- * 
+ *
  * ⚠️ الفئات المخصصة تُضاف بعد الافتراضيات.
  * ⚠️ لا تُستبدل الفئات الافتراضية.
- * 
+ *
  * // @function-index: #46/4 — mergeWithDefaults
  */
 export function mergeWithDefaults(
@@ -117,43 +117,43 @@ export function mergeWithDefaults(
 ): TailwindClasses {
   const merged: TailwindClasses = {};
   const categories = Array.from(
-    new Set([...Object.keys(defaults), ...Object.keys(custom)])
+    new Set([...Object.keys(defaults), ...Object.keys(custom)]),
   ) as Array<keyof TailwindClasses>;
-  
+
   for (const category of categories) {
     const def = defaults[category] ?? [];
     const cus = custom[category] ?? [];
     merged[category] = Array.from(new Set([...def, ...cus]));
   }
-  
+
   return merged;
 }
 
 /**
  * تسطيح الفئات إلى سلسلة واحدة.
- * 
+ *
  * ⚠️ يدمج كل الفئات من كل الفئات.
  * ⚠️ يُرجع سلسلة مفصولة بمسافات.
- * 
+ *
  * // @function-index: #48/4 — flattenStyles
  */
 export function flattenStyles(styles: TailwindClasses): string {
   const all: string[] = [];
-  
+
   for (const category of Object.keys(styles) as Array<keyof TailwindClasses>) {
     const classes = styles[category] ?? [];
     all.push(...classes);
   }
-  
+
   return all.filter(Boolean).join(' ');
 }
 
 /**
  * تحديث خصائص البلوك مع الفئات.
- * 
+ *
  * ⚠️ يُعيد نسخة جديدة من العقدة (immutable).
  * ⚠️ يحسب الفئات تلقائياً من الخصائص الجديدة.
- * 
+ *
  * // @function-index: #49/4 — updateBlockStyles
  */
 export function updateBlockStyles(
@@ -161,7 +161,7 @@ export function updateBlockStyles(
   styles: Partial<TailwindClasses>,
 ): HtmlBlockNode {
   const merged = mergeWithDefaults(styles, node.styles ?? {});
-  
+
   return {
     ...node,
     styles: merged,

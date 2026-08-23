@@ -131,10 +131,7 @@ export type ResolvedMenuItem =
     })
   | (SeparatorMenuItem & { readonly type: 'separator' });
 
-export type TargetMatcher =
-  | string
-  | readonly string[]
-  | ((ctx: ContextMenuContext) => boolean);
+export type TargetMatcher = string | readonly string[] | ((ctx: ContextMenuContext) => boolean);
 
 export interface ContextMenuRegistration {
   readonly id: string;
@@ -145,17 +142,11 @@ export interface ContextMenuRegistration {
 
 export interface ContextMenuEngine {
   register(registration: ContextMenuRegistration): () => void;
-  registerAction(
-    target: TargetMatcher,
-    item: Omit<ActionMenuItem, 'type'>
-  ): () => void;
-  registerSubmenu(
-    target: TargetMatcher,
-    item: Omit<SubmenuMenuItem, 'type'>
-  ): () => void;
+  registerAction(target: TargetMatcher, item: Omit<ActionMenuItem, 'type'>): () => void;
+  registerSubmenu(target: TargetMatcher, item: Omit<SubmenuMenuItem, 'type'>): () => void;
   registerSeparator(
     target: TargetMatcher,
-    options?: { id?: string; order?: number; group?: string }
+    options?: { id?: string; order?: number; group?: string },
   ): () => void;
   getMenuItems(context: ContextMenuContext): readonly ResolvedMenuItem[];
   executeItem(itemId: string, context: ContextMenuContext): Promise<boolean>;
@@ -166,7 +157,11 @@ export interface ContextMenuEngine {
 
 // ─── دوال مساعدة دفاعية للتقييم والتطابق ───
 
-function evaluateDynamicBool(val: DynamicValue<boolean> | undefined, ctx: ContextMenuContext, defaultVal: boolean): boolean {
+function evaluateDynamicBool(
+  val: DynamicValue<boolean> | undefined,
+  ctx: ContextMenuContext,
+  defaultVal: boolean,
+): boolean {
   if (val === undefined) return defaultVal;
   if (typeof val === 'function') {
     try {
@@ -201,7 +196,9 @@ function sortMenuItems<T extends { order?: number }>(items: T[]): T[] {
 
 // ─── تنقية الفواصل المتعاقبة والزائدة ───
 
-export function sanitizeMenuSeparators(items: readonly ResolvedMenuItem[]): readonly ResolvedMenuItem[] {
+export function sanitizeMenuSeparators(
+  items: readonly ResolvedMenuItem[],
+): readonly ResolvedMenuItem[] {
   const result: ResolvedMenuItem[] = [];
   let lastWasSeparator = true;
 
@@ -230,7 +227,7 @@ export function sanitizeMenuSeparators(items: readonly ResolvedMenuItem[]): read
 function resolveSingleMenuItem(
   rawItem: ContextMenuItem,
   ctx: ContextMenuContext,
-  actionRegistry: Map<string, ActionMenuItem>
+  actionRegistry: Map<string, ActionMenuItem>,
 ): ResolvedMenuItem | null {
   const isVisible = evaluateDynamicBool(rawItem.visible, ctx, true);
   if (!isVisible) return null;
@@ -258,7 +255,8 @@ function resolveSingleMenuItem(
     };
   }
 
-  const isChecked = rawItem.checked !== undefined ? evaluateDynamicBool(rawItem.checked, ctx, false) : undefined;
+  const isChecked =
+    rawItem.checked !== undefined ? evaluateDynamicBool(rawItem.checked, ctx, false) : undefined;
   actionRegistry.set(rawItem.id, rawItem);
 
   return {
@@ -281,7 +279,7 @@ function resolveSingleMenuItem(
 function resolveMenuItemsList(
   items: readonly ContextMenuItem[],
   ctx: ContextMenuContext,
-  actionRegistry: Map<string, ActionMenuItem>
+  actionRegistry: Map<string, ActionMenuItem>,
 ): readonly ResolvedMenuItem[] {
   const sorted = sortMenuItems(items.slice());
   const resolved: ResolvedMenuItem[] = [];
@@ -335,7 +333,7 @@ export function createContextMenuEngine(): ContextMenuEngine {
 
   function registerSeparator(
     target: TargetMatcher,
-    options?: { id?: string; order?: number; group?: string }
+    options?: { id?: string; order?: number; group?: string },
   ): () => void {
     const sepId = options?.id || `sep-${Date.now().toString(36)}-${(nextAutoId++).toString(36)}`;
     const separatorItem: SeparatorMenuItem = {
@@ -356,7 +354,7 @@ export function createContextMenuEngine(): ContextMenuEngine {
     const collectedRawItems: ContextMenuItem[] = [];
 
     const sortedRegs = Array.from(registrations.values()).sort(
-      (a, b) => (b.priority ?? 0) - (a.priority ?? 0)
+      (a, b) => (b.priority ?? 0) - (a.priority ?? 0),
     );
 
     for (const reg of sortedRegs) {
@@ -425,25 +423,74 @@ export interface CanvasMenuActions {
 export function buildCanvasMenuItems(actions: CanvasMenuActions): ContextMenuItem[] {
   const items: ContextMenuItem[] = [];
   if (actions.onDuplicate) {
-    items.push({ id: 'duplicate', type: 'action', label: 'Duplicate', labelAr: 'تكرار', iconKey: 'duplicate', order: 10, handler: actions.onDuplicate });
+    items.push({
+      id: 'duplicate',
+      type: 'action',
+      label: 'Duplicate',
+      labelAr: 'تكرار',
+      iconKey: 'duplicate',
+      order: 10,
+      handler: actions.onDuplicate,
+    });
   }
   if (actions.onBringForward) {
-    items.push({ id: 'bring-forward', type: 'action', label: 'Bring Forward', labelAr: 'إلى الأمام', iconKey: 'bring-forward', order: 20, handler: actions.onBringForward });
+    items.push({
+      id: 'bring-forward',
+      type: 'action',
+      label: 'Bring Forward',
+      labelAr: 'إلى الأمام',
+      iconKey: 'bring-forward',
+      order: 20,
+      handler: actions.onBringForward,
+    });
   }
   if (actions.onSendBackward) {
-    items.push({ id: 'send-backward', type: 'action', label: 'Send Backward', labelAr: 'إلى الخلف', iconKey: 'send-backward', order: 30, handler: actions.onSendBackward });
+    items.push({
+      id: 'send-backward',
+      type: 'action',
+      label: 'Send Backward',
+      labelAr: 'إلى الخلف',
+      iconKey: 'send-backward',
+      order: 30,
+      handler: actions.onSendBackward,
+    });
   }
   if (actions.onGroup) {
-    items.push({ id: 'group', type: 'action', label: 'Group', labelAr: 'تجميع', iconKey: 'group', order: 40, handler: actions.onGroup });
+    items.push({
+      id: 'group',
+      type: 'action',
+      label: 'Group',
+      labelAr: 'تجميع',
+      iconKey: 'group',
+      order: 40,
+      handler: actions.onGroup,
+    });
   }
   if (actions.onLock) {
-    items.push({ id: 'lock', type: 'action', label: 'Lock', labelAr: 'قفل', iconKey: 'lock', order: 50, handler: actions.onLock });
+    items.push({
+      id: 'lock',
+      type: 'action',
+      label: 'Lock',
+      labelAr: 'قفل',
+      iconKey: 'lock',
+      order: 50,
+      handler: actions.onLock,
+    });
   }
   if (actions.onDelete && items.length > 0) {
     items.push({ id: 'sep-canvas', type: 'separator', order: 90 });
   }
   if (actions.onDelete) {
-    items.push({ id: 'delete', type: 'action', label: 'Delete', labelAr: 'حذف', iconKey: 'delete', danger: true, order: 100, handler: actions.onDelete });
+    items.push({
+      id: 'delete',
+      type: 'action',
+      label: 'Delete',
+      labelAr: 'حذف',
+      iconKey: 'delete',
+      danger: true,
+      order: 100,
+      handler: actions.onDelete,
+    });
   }
   return items;
 }
@@ -459,15 +506,74 @@ export interface RichTextMenuActions {
 
 export function buildRichTextMenuItems(actions: RichTextMenuActions): ContextMenuItem[] {
   const items: ContextMenuItem[] = [];
-  if (actions.onCut) items.push({ id: 'cut', type: 'action', label: 'Cut', labelAr: 'قص', iconKey: 'cut', shortcut: 'Ctrl+X', order: 10, handler: actions.onCut });
-  if (actions.onCopy) items.push({ id: 'copy', type: 'action', label: 'Copy', labelAr: 'نسخ', iconKey: 'copy', shortcut: 'Ctrl+C', order: 20, handler: actions.onCopy });
-  if (actions.onPaste) items.push({ id: 'paste', type: 'action', label: 'Paste', labelAr: 'لصق', iconKey: 'paste', shortcut: 'Ctrl+V', order: 30, handler: actions.onPaste });
+  if (actions.onCut)
+    items.push({
+      id: 'cut',
+      type: 'action',
+      label: 'Cut',
+      labelAr: 'قص',
+      iconKey: 'cut',
+      shortcut: 'Ctrl+X',
+      order: 10,
+      handler: actions.onCut,
+    });
+  if (actions.onCopy)
+    items.push({
+      id: 'copy',
+      type: 'action',
+      label: 'Copy',
+      labelAr: 'نسخ',
+      iconKey: 'copy',
+      shortcut: 'Ctrl+C',
+      order: 20,
+      handler: actions.onCopy,
+    });
+  if (actions.onPaste)
+    items.push({
+      id: 'paste',
+      type: 'action',
+      label: 'Paste',
+      labelAr: 'لصق',
+      iconKey: 'paste',
+      shortcut: 'Ctrl+V',
+      order: 30,
+      handler: actions.onPaste,
+    });
   if (items.length > 0) items.push({ id: 'sep-rt', type: 'separator', order: 40 });
-  if (actions.onBold) items.push({ id: 'bold', type: 'action', label: 'Bold', labelAr: 'عريض', iconKey: 'bold', shortcut: 'Ctrl+B', order: 50, handler: actions.onBold });
-  if (actions.onItalic) items.push({ id: 'italic', type: 'action', label: 'Italic', labelAr: 'مائل', iconKey: 'italic', shortcut: 'Ctrl+I', order: 60, handler: actions.onItalic });
+  if (actions.onBold)
+    items.push({
+      id: 'bold',
+      type: 'action',
+      label: 'Bold',
+      labelAr: 'عريض',
+      iconKey: 'bold',
+      shortcut: 'Ctrl+B',
+      order: 50,
+      handler: actions.onBold,
+    });
+  if (actions.onItalic)
+    items.push({
+      id: 'italic',
+      type: 'action',
+      label: 'Italic',
+      labelAr: 'مائل',
+      iconKey: 'italic',
+      shortcut: 'Ctrl+I',
+      order: 60,
+      handler: actions.onItalic,
+    });
   if (actions.onDelete) {
     if (items.length > 0) items.push({ id: 'sep-rt-2', type: 'separator', order: 80 });
-    items.push({ id: 'delete', type: 'action', label: 'Delete', labelAr: 'حذف', iconKey: 'delete', danger: true, order: 100, handler: actions.onDelete });
+    items.push({
+      id: 'delete',
+      type: 'action',
+      label: 'Delete',
+      labelAr: 'حذف',
+      iconKey: 'delete',
+      danger: true,
+      order: 100,
+      handler: actions.onDelete,
+    });
   }
   return items;
 }

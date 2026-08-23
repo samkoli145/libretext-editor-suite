@@ -30,8 +30,5 @@ import type { LanguageId } from '../language-definition';
 
 export interface HoverProvider {
   languageId: LanguageId;
-  provideHover: (
-    code: string,
-    position: { line: number; column: number }
-  ) => string | null;
+  provideHover: (code: string, position: { line: number; column: number }) => string | null;
 }

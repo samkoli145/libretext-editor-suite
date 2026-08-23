@@ -63,27 +63,261 @@ export interface SupportedFormatOption {
 }
 
 export const SUPPORTED_CONVERTER_FORMATS: readonly SupportedFormatOption[] = [
-  { id: 'odt', nameAr: 'مستند نصوص حرة (ODT)', nameEn: 'OpenDocument Text', extension: 'odt', mimeType: 'application/vnd.oasis.opendocument.text', category: 'libreoffice', categoryAr: 'برمجيات حرة و ODF', iconBadge: '🐧 ODT', isLossless: true, canImport: true, canExport: true },
-  { id: 'fodt', nameAr: 'مستند ODF مسطح (FODT)', nameEn: 'Flat XML ODF Document', extension: 'fodt', mimeType: 'application/vnd.oasis.opendocument.text-flat-xml', category: 'libreoffice', categoryAr: 'برمجيات حرة و ODF', iconBadge: '🐧 FODT', isLossless: true, canImport: true, canExport: true },
-  { id: 'ods', nameAr: 'جدول حسابي حر (ODS)', nameEn: 'OpenDocument Spreadsheet', extension: 'ods', mimeType: 'application/vnd.oasis.opendocument.spreadsheet', category: 'libreoffice', categoryAr: 'برمجيات حرة و ODF', iconBadge: '🐧 ODS', canImport: true, canExport: true },
-  { id: 'odp', nameAr: 'عرض تقديمي حر (ODP)', nameEn: 'OpenDocument Presentation', extension: 'odp', mimeType: 'application/vnd.oasis.opendocument.presentation', category: 'libreoffice', categoryAr: 'برمجيات حرة و ODF', iconBadge: '🐧 ODP', canImport: true, canExport: true },
-  { id: 'odg', nameAr: 'رسم متجه حر (ODG)', nameEn: 'OpenDocument Graphics', extension: 'odg', mimeType: 'application/vnd.oasis.opendocument.graphics', category: 'libreoffice', categoryAr: 'برمجيات حرة و ODF', iconBadge: '🐧 ODG', canImport: true, canExport: true },
-  { id: 'gdoc', nameAr: 'مستند جوجل (GDOC)', nameEn: 'Google Docs Document', extension: 'gdoc', mimeType: 'application/vnd.google-apps.document', category: 'google', categoryAr: 'جوجل وسحابي', iconBadge: '🌐 GDOC', canImport: true, canExport: true },
-  { id: 'gsheet', nameAr: 'جدول بيانات جوجل (GSHEET)', nameEn: 'Google Sheets Spreadsheet', extension: 'gsheet', mimeType: 'application/vnd.google-apps.spreadsheet', category: 'google', categoryAr: 'جوجل وسحابي', iconBadge: '🌐 GSHEET', canImport: true, canExport: true },
-  { id: 'gslides', nameAr: 'عرض تقديمي جوجل (GSLIDES)', nameEn: 'Google Slides Presentation', extension: 'gslides', mimeType: 'application/vnd.google-apps.presentation', category: 'google', categoryAr: 'جوجل وسحابي', iconBadge: '🌐 GSLIDES', canImport: true, canExport: true },
-  { id: 'pdf', nameAr: 'مستند طباعة محمول (PDF)', nameEn: 'PDF Document', extension: 'pdf', mimeType: 'application/pdf', category: 'documents', categoryAr: 'مستندات مكتبية', iconBadge: '🖨️ PDF', canImport: true, canExport: true },
-  { id: 'docx', nameAr: 'مستند وورد (DOCX)', nameEn: 'Microsoft Word Document', extension: 'docx', mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', category: 'documents', categoryAr: 'مستندات مكتبية', iconBadge: '📄 DOCX', canImport: true, canExport: true },
-  { id: 'rtf', nameAr: 'نص منسق غني (RTF)', nameEn: 'Rich Text Format', extension: 'rtf', mimeType: 'application/rtf', category: 'documents', categoryAr: 'مستندات مكتبية', iconBadge: '📜 RTF', canImport: true, canExport: true },
-  { id: 'epub', nameAr: 'كتاب إلكتروني (EPUB)', nameEn: 'Electronic Publication', extension: 'epub', mimeType: 'application/epub+zip', category: 'documents', categoryAr: 'مستندات مكتبية', iconBadge: '📚 EPUB', canImport: true, canExport: true },
-  { id: 'txt', nameAr: 'نص عادي (TXT)', nameEn: 'Plain Text File', extension: 'txt', mimeType: 'text/plain;charset=utf-8', category: 'documents', categoryAr: 'مستندات مكتبية', iconBadge: '📝 TXT', canImport: true, canExport: true },
-  { id: 'tex', nameAr: 'مستند لاتخ (TeX)', nameEn: 'LaTeX Document Source', extension: 'tex', mimeType: 'application/x-tex', category: 'documents', categoryAr: 'مستندات مكتبية', iconBadge: '🔬 TEX', canImport: true, canExport: true },
-  { id: 'md', nameAr: 'ماركداون (MD)', nameEn: 'Markdown Document', extension: 'md', mimeType: 'text/markdown;charset=utf-8', category: 'interactive-components', categoryAr: 'مكونات تفاعلية وويب', iconBadge: '📑 MD', canImport: true, canExport: true },
-  { id: 'html', nameAr: 'صفحة ويب (HTML5)', nameEn: 'HyperText Markup Language', extension: 'html', mimeType: 'text/html;charset=utf-8', category: 'interactive-components', categoryAr: 'مكونات تفاعلية وويب', iconBadge: '🌐 HTML5', canImport: true, canExport: true },
-  { id: 'svg', nameAr: 'رسم متجهات (SVG)', nameEn: 'Scalable Vector Graphics', extension: 'svg', mimeType: 'image/svg+xml;charset=utf-8', category: 'cad-vector', categoryAr: 'متجهات وهندسة', iconBadge: '📐 SVG', isLossless: true, canImport: true, canExport: true },
-  { id: 'json', nameAr: 'بيانات مهيكلة (JSON)', nameEn: 'JavaScript Object Notation', extension: 'json', mimeType: 'application/json;charset=utf-8', category: 'web-code', categoryAr: 'مخططات وبيانات', iconBadge: '{ } JSON', canImport: true, canExport: true },
-  { id: 'csv', nameAr: 'قيم مفصولة بفواصل (CSV)', nameEn: 'Comma-Separated Values', extension: 'csv', mimeType: 'text/csv;charset=utf-8', category: 'spreadsheets', categoryAr: 'جداول وقواعد بيانات', iconBadge: '📊 CSV', canImport: true, canExport: true },
-  { id: 'yaml', nameAr: 'توصيف إعدادات (YAML)', nameEn: 'YAML Ain\'t Markup Language', extension: 'yaml', mimeType: 'text/yaml;charset=utf-8', category: 'web-code', categoryAr: 'مخططات وبيانات', iconBadge: '⚙️ YAML', canImport: true, canExport: true },
-  { id: 'xml', nameAr: 'لغة التوصيف القابلة للامتداد (XML)', nameEn: 'Extensible Markup Language', extension: 'xml', mimeType: 'application/xml', category: 'web-code', categoryAr: 'مخططات وبيانات', iconBadge: '🏷️ XML', canImport: true, canExport: true },
+  {
+    id: 'odt',
+    nameAr: 'مستند نصوص حرة (ODT)',
+    nameEn: 'OpenDocument Text',
+    extension: 'odt',
+    mimeType: 'application/vnd.oasis.opendocument.text',
+    category: 'libreoffice',
+    categoryAr: 'برمجيات حرة و ODF',
+    iconBadge: '🐧 ODT',
+    isLossless: true,
+    canImport: true,
+    canExport: true,
+  },
+  {
+    id: 'fodt',
+    nameAr: 'مستند ODF مسطح (FODT)',
+    nameEn: 'Flat XML ODF Document',
+    extension: 'fodt',
+    mimeType: 'application/vnd.oasis.opendocument.text-flat-xml',
+    category: 'libreoffice',
+    categoryAr: 'برمجيات حرة و ODF',
+    iconBadge: '🐧 FODT',
+    isLossless: true,
+    canImport: true,
+    canExport: true,
+  },
+  {
+    id: 'ods',
+    nameAr: 'جدول حسابي حر (ODS)',
+    nameEn: 'OpenDocument Spreadsheet',
+    extension: 'ods',
+    mimeType: 'application/vnd.oasis.opendocument.spreadsheet',
+    category: 'libreoffice',
+    categoryAr: 'برمجيات حرة و ODF',
+    iconBadge: '🐧 ODS',
+    canImport: true,
+    canExport: true,
+  },
+  {
+    id: 'odp',
+    nameAr: 'عرض تقديمي حر (ODP)',
+    nameEn: 'OpenDocument Presentation',
+    extension: 'odp',
+    mimeType: 'application/vnd.oasis.opendocument.presentation',
+    category: 'libreoffice',
+    categoryAr: 'برمجيات حرة و ODF',
+    iconBadge: '🐧 ODP',
+    canImport: true,
+    canExport: true,
+  },
+  {
+    id: 'odg',
+    nameAr: 'رسم متجه حر (ODG)',
+    nameEn: 'OpenDocument Graphics',
+    extension: 'odg',
+    mimeType: 'application/vnd.oasis.opendocument.graphics',
+    category: 'libreoffice',
+    categoryAr: 'برمجيات حرة و ODF',
+    iconBadge: '🐧 ODG',
+    canImport: true,
+    canExport: true,
+  },
+  {
+    id: 'gdoc',
+    nameAr: 'مستند جوجل (GDOC)',
+    nameEn: 'Google Docs Document',
+    extension: 'gdoc',
+    mimeType: 'application/vnd.google-apps.document',
+    category: 'google',
+    categoryAr: 'جوجل وسحابي',
+    iconBadge: '🌐 GDOC',
+    canImport: true,
+    canExport: true,
+  },
+  {
+    id: 'gsheet',
+    nameAr: 'جدول بيانات جوجل (GSHEET)',
+    nameEn: 'Google Sheets Spreadsheet',
+    extension: 'gsheet',
+    mimeType: 'application/vnd.google-apps.spreadsheet',
+    category: 'google',
+    categoryAr: 'جوجل وسحابي',
+    iconBadge: '🌐 GSHEET',
+    canImport: true,
+    canExport: true,
+  },
+  {
+    id: 'gslides',
+    nameAr: 'عرض تقديمي جوجل (GSLIDES)',
+    nameEn: 'Google Slides Presentation',
+    extension: 'gslides',
+    mimeType: 'application/vnd.google-apps.presentation',
+    category: 'google',
+    categoryAr: 'جوجل وسحابي',
+    iconBadge: '🌐 GSLIDES',
+    canImport: true,
+    canExport: true,
+  },
+  {
+    id: 'pdf',
+    nameAr: 'مستند طباعة محمول (PDF)',
+    nameEn: 'PDF Document',
+    extension: 'pdf',
+    mimeType: 'application/pdf',
+    category: 'documents',
+    categoryAr: 'مستندات مكتبية',
+    iconBadge: '🖨️ PDF',
+    canImport: true,
+    canExport: true,
+  },
+  {
+    id: 'docx',
+    nameAr: 'مستند وورد (DOCX)',
+    nameEn: 'Microsoft Word Document',
+    extension: 'docx',
+    mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    category: 'documents',
+    categoryAr: 'مستندات مكتبية',
+    iconBadge: '📄 DOCX',
+    canImport: true,
+    canExport: true,
+  },
+  {
+    id: 'rtf',
+    nameAr: 'نص منسق غني (RTF)',
+    nameEn: 'Rich Text Format',
+    extension: 'rtf',
+    mimeType: 'application/rtf',
+    category: 'documents',
+    categoryAr: 'مستندات مكتبية',
+    iconBadge: '📜 RTF',
+    canImport: true,
+    canExport: true,
+  },
+  {
+    id: 'epub',
+    nameAr: 'كتاب إلكتروني (EPUB)',
+    nameEn: 'Electronic Publication',
+    extension: 'epub',
+    mimeType: 'application/epub+zip',
+    category: 'documents',
+    categoryAr: 'مستندات مكتبية',
+    iconBadge: '📚 EPUB',
+    canImport: true,
+    canExport: true,
+  },
+  {
+    id: 'txt',
+    nameAr: 'نص عادي (TXT)',
+    nameEn: 'Plain Text File',
+    extension: 'txt',
+    mimeType: 'text/plain;charset=utf-8',
+    category: 'documents',
+    categoryAr: 'مستندات مكتبية',
+    iconBadge: '📝 TXT',
+    canImport: true,
+    canExport: true,
+  },
+  {
+    id: 'tex',
+    nameAr: 'مستند لاتخ (TeX)',
+    nameEn: 'LaTeX Document Source',
+    extension: 'tex',
+    mimeType: 'application/x-tex',
+    category: 'documents',
+    categoryAr: 'مستندات مكتبية',
+    iconBadge: '🔬 TEX',
+    canImport: true,
+    canExport: true,
+  },
+  {
+    id: 'md',
+    nameAr: 'ماركداون (MD)',
+    nameEn: 'Markdown Document',
+    extension: 'md',
+    mimeType: 'text/markdown;charset=utf-8',
+    category: 'interactive-components',
+    categoryAr: 'مكونات تفاعلية وويب',
+    iconBadge: '📑 MD',
+    canImport: true,
+    canExport: true,
+  },
+  {
+    id: 'html',
+    nameAr: 'صفحة ويب (HTML5)',
+    nameEn: 'HyperText Markup Language',
+    extension: 'html',
+    mimeType: 'text/html;charset=utf-8',
+    category: 'interactive-components',
+    categoryAr: 'مكونات تفاعلية وويب',
+    iconBadge: '🌐 HTML5',
+    canImport: true,
+    canExport: true,
+  },
+  {
+    id: 'svg',
+    nameAr: 'رسم متجهات (SVG)',
+    nameEn: 'Scalable Vector Graphics',
+    extension: 'svg',
+    mimeType: 'image/svg+xml;charset=utf-8',
+    category: 'cad-vector',
+    categoryAr: 'متجهات وهندسة',
+    iconBadge: '📐 SVG',
+    isLossless: true,
+    canImport: true,
+    canExport: true,
+  },
+  {
+    id: 'json',
+    nameAr: 'بيانات مهيكلة (JSON)',
+    nameEn: 'JavaScript Object Notation',
+    extension: 'json',
+    mimeType: 'application/json;charset=utf-8',
+    category: 'web-code',
+    categoryAr: 'مخططات وبيانات',
+    iconBadge: '{ } JSON',
+    canImport: true,
+    canExport: true,
+  },
+  {
+    id: 'csv',
+    nameAr: 'قيم مفصولة بفواصل (CSV)',
+    nameEn: 'Comma-Separated Values',
+    extension: 'csv',
+    mimeType: 'text/csv;charset=utf-8',
+    category: 'spreadsheets',
+    categoryAr: 'جداول وقواعد بيانات',
+    iconBadge: '📊 CSV',
+    canImport: true,
+    canExport: true,
+  },
+  {
+    id: 'yaml',
+    nameAr: 'توصيف إعدادات (YAML)',
+    nameEn: "YAML Ain't Markup Language",
+    extension: 'yaml',
+    mimeType: 'text/yaml;charset=utf-8',
+    category: 'web-code',
+    categoryAr: 'مخططات وبيانات',
+    iconBadge: '⚙️ YAML',
+    canImport: true,
+    canExport: true,
+  },
+  {
+    id: 'xml',
+    nameAr: 'لغة التوصيف القابلة للامتداد (XML)',
+    nameEn: 'Extensible Markup Language',
+    extension: 'xml',
+    mimeType: 'application/xml',
+    category: 'web-code',
+    categoryAr: 'مخططات وبيانات',
+    iconBadge: '🏷️ XML',
+    canImport: true,
+    canExport: true,
+  },
 ];
 
 export interface ConversionResult {
@@ -141,10 +375,32 @@ ${paragraphs}
 
   static generateDxf(elementsOrText: unknown, title = 'Drawing'): string {
     const lines: string[] = [
-      '0', 'SECTION', '2', 'HEADER', '9', '$ACADVER', '1', 'AC1015', '0', 'ENDSEC',
-      '0', 'SECTION', '2', 'TABLES', '0', 'ENDSEC',
-      '0', 'SECTION', '2', 'BLOCKS', '0', 'ENDSEC',
-      '0', 'SECTION', '2', 'ENTITIES',
+      '0',
+      'SECTION',
+      '2',
+      'HEADER',
+      '9',
+      '$ACADVER',
+      '1',
+      'AC1015',
+      '0',
+      'ENDSEC',
+      '0',
+      'SECTION',
+      '2',
+      'TABLES',
+      '0',
+      'ENDSEC',
+      '0',
+      'SECTION',
+      '2',
+      'BLOCKS',
+      '0',
+      'ENDSEC',
+      '0',
+      'SECTION',
+      '2',
+      'ENTITIES',
     ];
 
     const elements = Array.isArray(elementsOrText) ? elementsOrText : [];
@@ -156,25 +412,106 @@ ${paragraphs}
         const h = (el.height as number) || 60;
 
         if (el.type === 'circle' || el.type === 'ellipse') {
-          lines.push('0', 'CIRCLE', '8', '0', '10', String(x + w / 2), '20', String(y - h / 2), '30', '0.0', '40', String(w / 2));
+          lines.push(
+            '0',
+            'CIRCLE',
+            '8',
+            '0',
+            '10',
+            String(x + w / 2),
+            '20',
+            String(y - h / 2),
+            '30',
+            '0.0',
+            '40',
+            String(w / 2),
+          );
         } else if (el.type === 'text') {
-          lines.push('0', 'TEXT', '8', '0', '10', String(x), '20', String(y), '30', '0.0', '40', '16.0', '1', String(el.text || 'Text'));
+          lines.push(
+            '0',
+            'TEXT',
+            '8',
+            '0',
+            '10',
+            String(x),
+            '20',
+            String(y),
+            '30',
+            '0.0',
+            '40',
+            '16.0',
+            '1',
+            String(el.text || 'Text'),
+          );
         } else {
           lines.push(
-            '0', 'LWPOLYLINE', '8', '0', '90', '4', '70', '1',
-            '10', String(x), '20', String(y),
-            '10', String(x + w), '20', String(y),
-            '10', String(x + w), '20', String(y - h),
-            '10', String(x), '20', String(y - h),
+            '0',
+            'LWPOLYLINE',
+            '8',
+            '0',
+            '90',
+            '4',
+            '70',
+            '1',
+            '10',
+            String(x),
+            '20',
+            String(y),
+            '10',
+            String(x + w),
+            '20',
+            String(y),
+            '10',
+            String(x + w),
+            '20',
+            String(y - h),
+            '10',
+            String(x),
+            '20',
+            String(y - h),
           );
         }
       });
     } else {
       lines.push(
-        '0', 'TEXT', '8', '0', '10', '100.0', '20', '500.0', '30', '0.0', '40', '24.0', '1', title,
-        '0', 'LWPOLYLINE', '8', '0', '90', '4', '70', '1',
-        '10', '50.0', '20', '750.0', '10', '750.0', '20', '750.0',
-        '10', '750.0', '20', '50.0', '10', '50.0', '20', '50.0',
+        '0',
+        'TEXT',
+        '8',
+        '0',
+        '10',
+        '100.0',
+        '20',
+        '500.0',
+        '30',
+        '0.0',
+        '40',
+        '24.0',
+        '1',
+        title,
+        '0',
+        'LWPOLYLINE',
+        '8',
+        '0',
+        '90',
+        '4',
+        '70',
+        '1',
+        '10',
+        '50.0',
+        '20',
+        '750.0',
+        '10',
+        '750.0',
+        '20',
+        '750.0',
+        '10',
+        '750.0',
+        '20',
+        '50.0',
+        '10',
+        '50.0',
+        '20',
+        '50.0',
       );
     }
 
@@ -272,7 +609,10 @@ ${paragraphs}
     targetFormat: 'png' | 'jpeg' | 'webp' | 'avif' | 'svg',
     scale = 1,
   ): Promise<Blob> {
-    if (targetFormat === 'svg' && (imageSrcOrSvg.includes('<svg') || imageSrcOrSvg.startsWith('data:image/svg+xml'))) {
+    if (
+      targetFormat === 'svg' &&
+      (imageSrcOrSvg.includes('<svg') || imageSrcOrSvg.startsWith('data:image/svg+xml'))
+    ) {
       const svgText = imageSrcOrSvg.startsWith('data:')
         ? decodeURIComponent(imageSrcOrSvg.split(',')[1] || '')
         : imageSrcOrSvg;
@@ -290,9 +630,15 @@ ${paragraphs}
         canvas.width = width;
         canvas.height = height;
         const ctx = canvas.getContext('2d');
-        if (!ctx) { reject(new Error('فشل إنشاء سياق Canvas 2D')); return; }
+        if (!ctx) {
+          reject(new Error('فشل إنشاء سياق Canvas 2D'));
+          return;
+        }
 
-        if (targetFormat === 'jpeg') { ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, width, height); }
+        if (targetFormat === 'jpeg') {
+          ctx.fillStyle = '#ffffff';
+          ctx.fillRect(0, 0, width, height);
+        }
         ctx.drawImage(img, 0, 0, width, height);
 
         let mimeType = 'image/png';
@@ -300,10 +646,18 @@ ${paragraphs}
         else if (targetFormat === 'webp') mimeType = 'image/webp';
         else if (targetFormat === 'avif') mimeType = 'image/avif';
 
-        canvas.toBlob((blob) => {
-          if (blob) resolve(blob);
-          else canvas.toBlob((pngBlob) => { if (pngBlob) resolve(pngBlob); else reject(new Error('فشل تصدير الصورة')); }, 'image/png');
-        }, mimeType, 0.95);
+        canvas.toBlob(
+          (blob) => {
+            if (blob) resolve(blob);
+            else
+              canvas.toBlob((pngBlob) => {
+                if (pngBlob) resolve(pngBlob);
+                else reject(new Error('فشل تصدير الصورة'));
+              }, 'image/png');
+          },
+          mimeType,
+          0.95,
+        );
       };
 
       img.onerror = () => reject(new Error('فشل تحميل الصورة المصدرية'));
@@ -320,16 +674,30 @@ ${paragraphs}
     const baseName = fileName.replace(/\.[^/.]+$/, '');
     const extension = fileName.split('.').pop()?.toLowerCase() || '';
 
-    if (['png', 'jpg', 'jpeg', 'webp', 'avif', 'ico', 'bmp', 'gif', 'tiff', 'svg'].includes(extension)) {
+    if (
+      ['png', 'jpg', 'jpeg', 'webp', 'avif', 'ico', 'bmp', 'gif', 'tiff', 'svg'].includes(extension)
+    ) {
       if (extension === 'svg') {
         const svgText = await file.text();
-        return { title: baseName, htmlContent: svgText, plainText: svgText, imageSrc: `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svgText)}`, detectedFormat: 'svg' };
+        return {
+          title: baseName,
+          htmlContent: svgText,
+          plainText: svgText,
+          imageSrc: `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svgText)}`,
+          detectedFormat: 'svg',
+        };
       }
       return new Promise((resolve) => {
         const reader = new FileReader();
         reader.onload = () => {
           const dataUrl = reader.result as string;
-          resolve({ title: baseName, htmlContent: `<img src="${dataUrl}" alt="${baseName}" />`, plainText: `[Image: ${fileName}]`, imageSrc: dataUrl, detectedFormat: extension });
+          resolve({
+            title: baseName,
+            htmlContent: `<img src="${dataUrl}" alt="${baseName}" />`,
+            plainText: `[Image: ${fileName}]`,
+            imageSrc: dataUrl,
+            detectedFormat: extension,
+          });
         };
         reader.readAsDataURL(file);
       });
@@ -343,17 +711,33 @@ ${paragraphs}
         const elements = (parsed.elements || parsed.blocks) as unknown[];
         return {
           title: String(parsed.title || baseName),
-          htmlContent: String(parsed.htmlContent || `<pre><code>${JSON.stringify(parsed, null, 2)}</code></pre>`),
+          htmlContent: String(
+            parsed.htmlContent || `<pre><code>${JSON.stringify(parsed, null, 2)}</code></pre>`,
+          ),
           plainText: typeof parsed === 'string' ? parsed : JSON.stringify(parsed, null, 2),
           jsonData: parsed,
-          elements: Array.isArray(elements) ? elements as ParsedImportData['elements'] : undefined,
+          elements: Array.isArray(elements)
+            ? (elements as ParsedImportData['elements'])
+            : undefined,
           detectedFormat: 'json',
         };
-      } catch { return { title: baseName, htmlContent: `<pre><code>${this.escapeHtml(text)}</code></pre>`, plainText: text, detectedFormat: 'json' }; }
+      } catch {
+        return {
+          title: baseName,
+          htmlContent: `<pre><code>${this.escapeHtml(text)}</code></pre>`,
+          plainText: text,
+          detectedFormat: 'json',
+        };
+      }
     }
 
     if (extension === 'md' || extension === 'markdown' || extension === 'mdx') {
-      return { title: baseName, htmlContent: this.convertMarkdownToHtml(text), plainText: text, detectedFormat: 'markdown' };
+      return {
+        title: baseName,
+        htmlContent: this.convertMarkdownToHtml(text),
+        plainText: text,
+        detectedFormat: 'markdown',
+      };
     }
 
     if (extension === 'csv' || extension === 'tsv') {
@@ -370,14 +754,29 @@ ${paragraphs}
     }
 
     if (extension === 'yaml') {
-      return { title: baseName, htmlContent: `<pre><code>${this.escapeHtml(text)}</code></pre>`, plainText: text, detectedFormat: 'yaml' };
+      return {
+        title: baseName,
+        htmlContent: `<pre><code>${this.escapeHtml(text)}</code></pre>`,
+        plainText: text,
+        detectedFormat: 'yaml',
+      };
     }
 
     if (extension === 'xml') {
-      return { title: baseName, htmlContent: `<pre><code>${this.escapeHtml(text)}</code></pre>`, plainText: text, detectedFormat: 'xml' };
+      return {
+        title: baseName,
+        htmlContent: `<pre><code>${this.escapeHtml(text)}</code></pre>`,
+        plainText: text,
+        detectedFormat: 'xml',
+      };
     }
 
-    return { title: baseName, htmlContent: `<pre><code>${this.escapeHtml(text)}</code></pre>`, plainText: text, detectedFormat: extension || 'txt' };
+    return {
+      title: baseName,
+      htmlContent: `<pre><code>${this.escapeHtml(text)}</code></pre>`,
+      plainText: text,
+      detectedFormat: extension || 'txt',
+    };
   }
 
   static getFormatById(id: string): SupportedFormatOption | undefined {
@@ -409,6 +808,10 @@ ${paragraphs}
   }
 
   private static escapeHtml(str: string): string {
-    return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    return str
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
   }
 }

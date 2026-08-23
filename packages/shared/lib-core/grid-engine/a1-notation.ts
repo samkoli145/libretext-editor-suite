@@ -130,7 +130,7 @@ export function expandRange(range: { from: CellRef; to: CellRef }): CellRef[] | 
  */
 export function mapRefs(
   formula: string,
-  transform: (ref: { from: CellRef; to?: CellRef; raw: string }) => string
+  transform: (ref: { from: CellRef; to?: CellRef; raw: string }) => string,
 ): string {
   if (!formula) return '';
   // regex لمطابقة النطاقات A1:B10 أو الخلايا الفردية A1 مع دعم $
@@ -160,11 +160,7 @@ export function mapRefs(
 /**
  * نقل المراجع عند نسخ أو نقل الصيغة بإزاحة معينة (deltaRow, deltaCol)
  */
-export function rewriteFormulaRefs(
-  formula: string,
-  deltaRow: number,
-  deltaCol: number
-): string {
+export function rewriteFormulaRefs(formula: string, deltaRow: number, deltaCol: number): string {
   if (!formula) return '';
   return mapRefs(formula, ({ from, to, raw }) => {
     const isSingle = !to;
@@ -198,7 +194,7 @@ export function shiftRefsForInsert(
   formula: string,
   type: 'row' | 'col',
   startIndex: number,
-  count: number
+  count: number,
 ): string {
   if (!formula) return '';
   return mapRefs(formula, ({ from, to, raw }) => {

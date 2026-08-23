@@ -95,7 +95,10 @@ function mergeTraitItems(traits: readonly string[]): ContextMenuItem[] {
     if (!def) continue;
     for (const item of def.contextMenuItems) {
       if (item.separator) {
-        if (!lastSep && merged.length > 0) { merged.push(SEP); lastSep = true; }
+        if (!lastSep && merged.length > 0) {
+          merged.push(SEP);
+          lastSep = true;
+        }
       } else {
         merged.push(item);
         lastSep = false;

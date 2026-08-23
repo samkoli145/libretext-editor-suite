@@ -14,11 +14,20 @@
  */
 
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { runDoctor, isApproved, DoctorEngine, contentsOf, removedPathsOf } from '../dev-studio/doctor/DoctorEngine';
+import {
+  runDoctor,
+  isApproved,
+  DoctorEngine,
+  contentsOf,
+  removedPathsOf,
+} from '../dev-studio/doctor/DoctorEngine';
 import { DevStudioEventBus } from '../dev-studio/core/DevStudioEvents';
 import {
-  isDevStudioPatch, isValidStudioPath, isValidToolId,
-  deriveReportVerdict, type DevStudioPatch,
+  isDevStudioPatch,
+  isValidStudioPath,
+  isValidToolId,
+  deriveReportVerdict,
+  type DevStudioPatch,
 } from '../dev-studio/core/DevStudioTypes';
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -47,7 +56,6 @@ function makePatch(path = 'src/test.ts'): DevStudioPatch {
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 describe('DoctorEngine', () => {
-
   describe('runDoctor', () => {
     it('positive: تقرير نظيف بدون أخطاء', () => {
       const report = runDoctor([makePatch()]);
@@ -69,7 +77,7 @@ describe('DoctorEngine', () => {
         inverse: { op: 'removeFile', path: 'src/evil.ts' },
       };
       const report = runDoctor([dangerousPatch]);
-      const failed = report.checks.filter(c => c.status === 'fail');
+      const failed = report.checks.filter((c) => c.status === 'fail');
       expect(failed.length).toBeGreaterThan(0);
     });
 
@@ -87,10 +95,14 @@ describe('DoctorEngine', () => {
     });
 
     it('negative: تقرير بผู้_fail = غير معتمد', () => {
-      const report = runDoctor([{
-        op: 'addFile', path: 'x.ts', content: 'eval("x")',
-        inverse: { op: 'removeFile', path: 'x.ts' },
-      }]);
+      const report = runDoctor([
+        {
+          op: 'addFile',
+          path: 'x.ts',
+          content: 'eval("x")',
+          inverse: { op: 'removeFile', path: 'x.ts' },
+        },
+      ]);
       const approved = isApproved(report);
       expect(typeof approved).toBe('boolean');
     });
@@ -116,7 +128,12 @@ describe('DoctorEngine', () => {
     it('contentsOf: يستخرج محتويات addFile + modifyFile', () => {
       const patches: DevStudioPatch[] = [
         makePatch('a.ts'),
-        { op: 'modifyFile', path: 'b.ts', content: 'new', inverse: { op: 'modifyFile', path: 'b.ts', content: 'old' } },
+        {
+          op: 'modifyFile',
+          path: 'b.ts',
+          content: 'new',
+          inverse: { op: 'modifyFile', path: 'b.ts', content: 'old' },
+        },
       ];
       const contents = contentsOf(patches);
       expect(contents).toHaveLength(2);
@@ -124,7 +141,12 @@ describe('DoctorEngine', () => {
 
     it('removedPathsOf: يستخرج مسارات removeFile', () => {
       const patches: DevStudioPatch[] = [
-        { op: 'removeFile', path: 'del.ts', content: '', inverse: { op: 'addFile', path: 'del.ts', content: '' } },
+        {
+          op: 'removeFile',
+          path: 'del.ts',
+          content: '',
+          inverse: { op: 'addFile', path: 'del.ts', content: '' },
+        },
         makePatch('keep.ts'),
       ];
       const removed = removedPathsOf(patches);
@@ -232,7 +254,9 @@ describe('DevStudioEventBus', () => {
   });
 
   it('negative: مستمع يرمي خطأ لا يقتل الآخرين', () => {
-    bus.on('task:status', () => { throw new Error('bad'); });
+    bus.on('task:status', () => {
+      throw new Error('bad');
+    });
     const received: string[] = [];
     bus.on('task:status', (e) => received.push(e.status));
     bus.emit('task:status', { taskId: '1', status: 'committed' });
@@ -252,7 +276,14 @@ describe('DevStudioEventBus', () => {
     bus.on('task:status', () => events.push('task'));
     bus.on('checkpoint:created', () => events.push('ckpt'));
     bus.emit('task:status', { taskId: '1', status: 'committed' });
-    bus.emit('checkpoint:created', { id: '1', label: 't', timestamp: 0, patches: [], inverses: [], doctorReport: { timestamp: 0, checks: [] } });
+    bus.emit('checkpoint:created', {
+      id: '1',
+      label: 't',
+      timestamp: 0,
+      patches: [],
+      inverses: [],
+      doctorReport: { timestamp: 0, checks: [] },
+    });
     expect(events).toEqual(['task', 'ckpt']);
   });
 });

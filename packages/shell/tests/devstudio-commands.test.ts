@@ -34,7 +34,11 @@ afterEach(() => {
 
 function fakeCheck(pass = true): AutoVerifier.CheckFn {
   return vi.fn(async (level: VerificationLevel): Promise<VerificationResult> => ({
-    level, passed: pass, stdout: '', stderr: '', durationMs: 5,
+    level,
+    passed: pass,
+    stdout: '',
+    stderr: '',
+    durationMs: 5,
   })) as unknown as AutoVerifier.CheckFn;
 }
 
@@ -42,9 +46,7 @@ function fakeAutoVerify(ok = true): VerifyResult {
   return {
     ok,
     report: {
-      results: [
-        { level: 'tsc', passed: ok, stdout: '', stderr: '', durationMs: 5 },
-      ],
+      results: [{ level: 'tsc', passed: ok, stdout: '', stderr: '', durationMs: 5 }],
       passedCount: ok ? 1 : 0,
       totalCount: 1,
       allPassed: ok,
@@ -56,8 +58,12 @@ describe('DevStudioCommands', () => {
   it('cmdVerify prints results and exits 0 on success', async () => {
     vi.spyOn(AutoVerifier, 'runSingleCheck').mockImplementation(
       async (level: VerificationLevel) => ({
-        level, passed: true, stdout: '', stderr: '', durationMs: 5,
-      })
+        level,
+        passed: true,
+        stdout: '',
+        stderr: '',
+        durationMs: 5,
+      }),
     );
     vi.spyOn(AutoVerifier, 'autoVerify').mockResolvedValue(fakeAutoVerify(true));
 
@@ -73,8 +79,12 @@ describe('DevStudioCommands', () => {
   it('cmdVerify exits 1 on failure', async () => {
     vi.spyOn(AutoVerifier, 'runSingleCheck').mockImplementation(
       async (level: VerificationLevel) => ({
-        level, passed: level !== 'tsc', stdout: '', stderr: 'error found', durationMs: 5,
-      })
+        level,
+        passed: level !== 'tsc',
+        stdout: '',
+        stderr: 'error found',
+        durationMs: 5,
+      }),
     );
     vi.spyOn(AutoVerifier, 'autoVerify').mockResolvedValue(fakeAutoVerify(false));
 

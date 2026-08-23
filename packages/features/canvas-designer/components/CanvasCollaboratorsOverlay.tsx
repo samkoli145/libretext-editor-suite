@@ -24,15 +24,18 @@
  * ═══════════════════════════════════════════════════════════════════════════
  */
 
-import React, { useEffect, useState } from 'react'
-import { PeerAwarenessEngine, RemotePeer } from '../../../shared/lib-core/collaboration/peer-awareness-engine'
+import React, { useEffect, useState } from 'react';
+import {
+  PeerAwarenessEngine,
+  RemotePeer,
+} from '../../../shared/lib-core/collaboration/peer-awareness-engine';
 
 interface CanvasCollaboratorsOverlayProps {
-  engine: PeerAwarenessEngine
-  zoom: number
-  panX: number
-  panY: number
-  onJumpToPeer?: (peer: RemotePeer) => void
+  engine: PeerAwarenessEngine;
+  zoom: number;
+  panX: number;
+  panY: number;
+  onJumpToPeer?: (peer: RemotePeer) => void;
 }
 
 export const CanvasCollaboratorsOverlay: React.FC<CanvasCollaboratorsOverlayProps> = ({
@@ -42,16 +45,16 @@ export const CanvasCollaboratorsOverlay: React.FC<CanvasCollaboratorsOverlayProp
   panY,
   onJumpToPeer,
 }) => {
-  const [peers, setPeers] = useState<RemotePeer[]>([])
+  const [peers, setPeers] = useState<RemotePeer[]>([]);
 
   useEffect(() => {
-    const unsubscribe = engine.subscribe(updatedPeers => {
-      setPeers(updatedPeers)
-    })
-    return unsubscribe
-  }, [engine])
+    const unsubscribe = engine.subscribe((updatedPeers) => {
+      setPeers(updatedPeers);
+    });
+    return unsubscribe;
+  }, [engine]);
 
-  if (peers.length === 0) return null
+  if (peers.length === 0) return null;
 
   return (
     <div
@@ -61,12 +64,12 @@ export const CanvasCollaboratorsOverlay: React.FC<CanvasCollaboratorsOverlayProp
         transformOrigin: '0 0',
       }}
     >
-      {peers.map(peer => {
-        if (!peer.cursor) return null
+      {peers.map((peer) => {
+        if (!peer.cursor) return null;
 
         // تحويل إحداثيات الكانفا إلى موضع الشاشة
-        const screenX = peer.cursor.x * zoom + panX
-        const screenY = peer.cursor.y * zoom + panY
+        const screenX = peer.cursor.x * zoom + panX;
+        const screenY = peer.cursor.y * zoom + panY;
 
         return (
           <div
@@ -98,8 +101,8 @@ export const CanvasCollaboratorsOverlay: React.FC<CanvasCollaboratorsOverlayProp
               {peer.name}
             </div>
           </div>
-        )
+        );
       })}
     </div>
-  )
-}
+  );
+};

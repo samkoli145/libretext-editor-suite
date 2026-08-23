@@ -119,7 +119,7 @@ export function useCollapsibleTopBar({
         // ignore
       }
     },
-    [minHeight, maxHeight, storageKey]
+    [minHeight, maxHeight, storageKey],
   );
 
   const toggleCollapse = useCallback(() => {
@@ -192,7 +192,10 @@ export function useCollapsibleTopBar({
         window.removeEventListener('mouseup', handleMouseUp);
         setIsResizing(false);
         const finalDelta = upEvent.clientY - startYRef.current;
-        const finalH = Math.max(minHeight, Math.min(maxHeight, startHeightRef.current + finalDelta));
+        const finalH = Math.max(
+          minHeight,
+          Math.min(maxHeight, startHeightRef.current + finalDelta),
+        );
         try {
           localStorage.setItem(`${storageKey}.height`, finalH.toString());
         } catch {
@@ -203,7 +206,7 @@ export function useCollapsibleTopBar({
       window.addEventListener('mousemove', handleMouseMove);
       window.addEventListener('mouseup', handleMouseUp);
     },
-    [height, isCollapsed, minHeight, maxHeight, storageKey]
+    [height, isCollapsed, minHeight, maxHeight, storageKey],
   );
 
   return {

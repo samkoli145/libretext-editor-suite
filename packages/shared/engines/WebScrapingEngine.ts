@@ -85,7 +85,7 @@ export class WebScrapingEngine {
    */
   async search(
     query: string,
-    limit = 6
+    limit = 6,
   ): Promise<Array<{ title: string; url: string; snippet: string; codeRegions: CodeRegion[] }>> {
     const mockResults = [
       {
@@ -119,8 +119,14 @@ export class WebScrapingEngine {
    */
   async scrape(
     urlOrHtml: string,
-    options: { markdown?: boolean; html?: boolean; screenshot?: boolean; json?: boolean; code?: boolean } = {},
-    depth = 1
+    options: {
+      markdown?: boolean;
+      html?: boolean;
+      screenshot?: boolean;
+      json?: boolean;
+      code?: boolean;
+    } = {},
+    depth = 1,
   ): Promise<ScrapeResult[]> {
     const clampedDepth = Math.min(Math.max(depth, 1), 4);
     const results: ScrapeResult[] = [];
@@ -136,7 +142,10 @@ export class WebScrapingEngine {
       const result: ScrapeResult = {
         url: targetUrl,
         title: doc.title || 'صفحة محتوى مكشوط',
-        markdown: options.markdown !== false ? `# ${doc.title || 'صفحة'}\n\n${cleanDoc.body?.textContent?.trim() || ''}` : undefined,
+        markdown:
+          options.markdown !== false
+            ? `# ${doc.title || 'صفحة'}\n\n${cleanDoc.body?.textContent?.trim() || ''}`
+            : undefined,
         html: options.html ? bodyHtml : undefined,
         screenshotUrl: options.screenshot ? this.generateScreenshotSimulation(cleanDoc) : undefined,
         jsonTree: options.json ? this.buildJsonTree(cleanDoc, clampedDepth) : undefined,
@@ -154,7 +163,11 @@ export class WebScrapingEngine {
       inputHtml = `<div class="scraped-page"><h1>محتوى مستخرج من ${urlOrHtml}</h1><p>تم استخراج البنية الهيكلية والمحتوى بنجاح.</p><pre><code class="language-javascript">console.log("نجاح الاستخراج لـ ${urlOrHtml}");</code></pre></div>`;
     }
 
-    processSingle(inputHtml, urlOrHtml.startsWith('http') ? urlOrHtml : 'https://local-page.dev', 1);
+    processSingle(
+      inputHtml,
+      urlOrHtml.startsWith('http') ? urlOrHtml : 'https://local-page.dev',
+      1,
+    );
 
     for (let d = 2; d <= clampedDepth; d++) {
       const last = results[results.length - 1];
@@ -171,9 +184,11 @@ export class WebScrapingEngine {
    */
   async interact(
     inputHtmlOrUrl: string,
-    options: { selector?: string; smartInstruction?: string }
+    options: { selector?: string; smartInstruction?: string },
   ): Promise<unknown> {
-    const doc = parseHtmlDoc(inputHtmlOrUrl.startsWith('<') ? inputHtmlOrUrl : `<div>${inputHtmlOrUrl}</div>`);
+    const doc = parseHtmlDoc(
+      inputHtmlOrUrl.startsWith('<') ? inputHtmlOrUrl : `<div>${inputHtmlOrUrl}</div>`,
+    );
 
     if (options.selector && doc.querySelectorAll) {
       const elements = Array.from(doc.querySelectorAll(options.selector));
@@ -198,8 +213,8 @@ export class WebScrapingEngine {
     if (smart.includes('جداول') || smart.includes('tables')) {
       return Array.from(doc.querySelectorAll ? doc.querySelectorAll('table') : []).map((table) =>
         Array.from(table.querySelectorAll('tr')).map((tr) =>
-          Array.from(tr.querySelectorAll('th,td')).map((cell) => cell.textContent?.trim())
-        )
+          Array.from(tr.querySelectorAll('th,td')).map((cell) => cell.textContent?.trim()),
+        ),
       );
     }
 
@@ -217,7 +232,7 @@ export class WebScrapingEngine {
    * 4. وكيل الجمع التلقائي
    */
   async agent(
-    description: string
+    description: string,
   ): Promise<{ plan: string[]; collectedData: unknown; totalItems: number }> {
     const plan = [
       `1. تحليل طلب الجمع الذكي: "${description}"`,
@@ -229,7 +244,13 @@ export class WebScrapingEngine {
     const mockData = [
       { type: 'heading', title: 'عنوان رئيسي تم تجميعه', level: 1 },
       { type: 'code', language: 'typescript', code: 'export const agentReady = true;' },
-      { type: 'table', rows: [['المعيار', 'النتيجة'], ['الكشط الذكي', 'ناجح 100%']] },
+      {
+        type: 'table',
+        rows: [
+          ['المعيار', 'النتيجة'],
+          ['الكشط الذكي', 'ناجح 100%'],
+        ],
+      },
     ];
 
     return {
@@ -282,7 +303,7 @@ export class WebScrapingEngine {
    * 7. كشط دفعة روابط
    */
   async batchScrape(
-    urls: string[]
+    urls: string[],
   ): Promise<Array<{ url: string; success: boolean; result?: ScrapeResult }>> {
     const results = await Promise.all(
       urls.map(async (url) => {
@@ -292,7 +313,7 @@ export class WebScrapingEngine {
         } catch {
           return { url, success: false };
         }
-      })
+      }),
     );
     return results;
   }
@@ -303,7 +324,7 @@ export class WebScrapingEngine {
   async convert(
     content: string,
     title: string,
-    target: ConvertTargetFormat
+    target: ConvertTargetFormat,
   ): Promise<Blob | string> {
     switch (target) {
       case 'markdown':
@@ -329,10 +350,10 @@ export class WebScrapingEngine {
         const language = langMatch
           ? langMatch[1]
           : text.includes('function') || text.includes('const')
-          ? 'javascript'
-          : text.includes('<')
-          ? 'html'
-          : 'css';
+            ? 'javascript'
+            : text.includes('<')
+              ? 'html'
+              : 'css';
 
         return {
           id: `code-${index}-${Date.now()}`,
@@ -350,7 +371,9 @@ export class WebScrapingEngine {
     return Array.from(doc.querySelectorAll('a[href]'))
       .map((a) => a.getAttribute('href') || '')
       .filter((href) => href && !href.startsWith('#') && !href.startsWith('javascript:'))
-      .map((href) => (href.startsWith('http') ? href : `${baseUrl.replace(/\/$/, '')}/${href.replace(/^\//, '')}`));
+      .map((href) =>
+        href.startsWith('http') ? href : `${baseUrl.replace(/\/$/, '')}/${href.replace(/^\//, '')}`,
+      );
   }
 
   private generateScreenshotSimulation(doc: Document): string {
@@ -381,7 +404,8 @@ export class WebScrapingEngine {
       layer: currentLayer,
       title: doc.title || `طبقة رقم ${currentLayer}`,
       elementsCount: doc.querySelectorAll('*').length,
-      childrenLayer: currentLayer < maxLayers ? this.buildJsonTree(doc, maxLayers, currentLayer + 1) : null,
+      childrenLayer:
+        currentLayer < maxLayers ? this.buildJsonTree(doc, maxLayers, currentLayer + 1) : null,
     };
   }
 }

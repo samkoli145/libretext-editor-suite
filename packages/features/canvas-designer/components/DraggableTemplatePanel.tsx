@@ -44,7 +44,10 @@ import {
   type WebTemplateItem,
   type ComponentCategory,
 } from '../componentLibrary';
-import { SharedContextMenu, type ContextMenuItem } from '../../../shared/components/SharedContextMenu';
+import {
+  SharedContextMenu,
+  type ContextMenuItem,
+} from '../../../shared/components/SharedContextMenu';
 import { notificationEngine } from '../../../shared/engines/NotificationEngine';
 
 export interface DraggableTemplatePanelProps {
@@ -58,7 +61,9 @@ export const DraggableTemplatePanel: React.FC<DraggableTemplatePanelProps> = ({
 }) => {
   const [selectedCategory, setSelectedCategory] = useState<ComponentCategory | 'all'>('all');
   const [searchQuery, setSearchQuery] = useState('');
-  const [activeTemplateForContext, setActiveTemplateForContext] = useState<WebTemplateItem | null>(null);
+  const [activeTemplateForContext, setActiveTemplateForContext] = useState<WebTemplateItem | null>(
+    null,
+  );
 
   // Context Menu State for Templates
   const [contextMenu, setContextMenu] = useState<{
@@ -222,10 +227,13 @@ export const DraggableTemplatePanel: React.FC<DraggableTemplatePanelProps> = ({
               key={template.id}
               draggable
               onDragStart={(e) => {
-                e.dataTransfer.setData('application/json', JSON.stringify({
-                  type: 'canvas:add-template',
-                  templateId: template.id,
-                }));
+                e.dataTransfer.setData(
+                  'application/json',
+                  JSON.stringify({
+                    type: 'canvas:add-template',
+                    templateId: template.id,
+                  }),
+                );
                 e.dataTransfer.effectAllowed = 'copy';
               }}
               onClick={() => {

@@ -44,32 +44,35 @@ const CRC32_TABLE = new Uint32Array(256);
 for (let i = 0; i < 256; i++) {
   let c = i;
   for (let j = 0; j < 8; j++) {
-    c = (c & 1) ? (0xEDB88320 ^ (c >>> 1)) : (c >>> 1);
+    c = c & 1 ? 0xedb88320 ^ (c >>> 1) : c >>> 1;
   }
   CRC32_TABLE[i] = c >>> 0;
 }
 
 export function calculateCRC32(data: Uint8Array): number {
-  let crc = 0xFFFFFFFF;
+  let crc = 0xffffffff;
   for (let i = 0; i < data.length; i++) {
-    crc = CRC32_TABLE[(crc ^ data[i]) & 0xFF] ^ (crc >>> 8);
+    crc = CRC32_TABLE[(crc ^ data[i]) & 0xff] ^ (crc >>> 8);
   }
-  return (crc ^ 0xFFFFFFFF) >>> 0;
+  return (crc ^ 0xffffffff) >>> 0;
 }
 
 function dateToDosTimeDate(date: Date): { time: number; date: number } {
-  const dosTime = ((date.getHours() << 11) | (date.getMinutes() << 5) | (Math.floor(date.getSeconds() / 2))) & 0xFFFF;
-  const dosDate = (((date.getFullYear() - 1980) << 9) | ((date.getMonth() + 1) << 5) | date.getDate()) & 0xFFFF;
+  const dosTime =
+    ((date.getHours() << 11) | (date.getMinutes() << 5) | Math.floor(date.getSeconds() / 2)) &
+    0xffff;
+  const dosDate =
+    (((date.getFullYear() - 1980) << 9) | ((date.getMonth() + 1) << 5) | date.getDate()) & 0xffff;
   return { time: dosTime, date: dosDate };
 }
 
 function dosToJsDate(dosDate: number, dosTime: number): Date {
-  const year = ((dosDate >> 9) & 0x7F) + 1980;
-  const month = ((dosDate >> 5) & 0x0F) - 1;
-  const day = dosDate & 0x1F;
-  const hour = (dosTime >> 11) & 0x1F;
-  const minute = (dosTime >> 5) & 0x3F;
-  const second = (dosTime & 0x1F) * 2;
+  const year = ((dosDate >> 9) & 0x7f) + 1980;
+  const month = ((dosDate >> 5) & 0x0f) - 1;
+  const day = dosDate & 0x1f;
+  const hour = (dosTime >> 11) & 0x1f;
+  const minute = (dosTime >> 5) & 0x3f;
+  const second = (dosTime & 0x1f) * 2;
   return new Date(year, month, day, hour, minute, second);
 }
 
@@ -263,12 +266,20 @@ export class ZipArchiveReader {
       const commentLength = this.view.getUint16(currentCDOffset + 32, true);
       const localHeaderOffset = this.view.getUint32(currentCDOffset + 42, true);
 
-      const nameBytes = this.buffer.subarray(currentCDOffset + 46, currentCDOffset + 46 + nameLength);
+      const nameBytes = this.buffer.subarray(
+        currentCDOffset + 46,
+        currentCDOffset + 46 + nameLength,
+      );
       const filename = this.decoder.decode(nameBytes);
 
       // Skip directory entries
       if (!filename.endsWith('/')) {
-        const fileData = await this.extractFileData(localHeaderOffset, compressionMethod, compressedSize, uncompressedSize);
+        const fileData = await this.extractFileData(
+          localHeaderOffset,
+          compressionMethod,
+          compressedSize,
+          uncompressedSize,
+        );
         files.push({
           name: filename,
           data: fileData,
@@ -287,7 +298,7 @@ export class ZipArchiveReader {
     localOffset: number,
     compressionMethod: number,
     compressedSize: number,
-    uncompressedSize: number
+    uncompressedSize: number,
   ): Promise<Uint8Array> {
     if (localOffset + 30 > this.buffer.length) return new Uint8Array(0);
     const localSig = this.view.getUint32(localOffset, true);

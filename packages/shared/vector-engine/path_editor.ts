@@ -82,7 +82,7 @@ export function createEmptyPath(id?: string): VectorPathData {
 export function createPolygonPath(
   sides: number = 6,
   radius: number = 50,
-  center: Point2D = { x: 50, y: 50 }
+  center: Point2D = { x: 50, y: 50 },
 ): VectorPathData {
   const count = Math.max(3, sides);
   const vertices: PathVertex[] = [];
@@ -120,7 +120,7 @@ export function createStarPath(
   points: number = 5,
   innerRadius: number = 25,
   outerRadius: number = 50,
-  center: Point2D = { x: 50, y: 50 }
+  center: Point2D = { x: 50, y: 50 },
 ): VectorPathData {
   const count = Math.max(3, points);
   const vertices: PathVertex[] = [];
@@ -170,7 +170,8 @@ export function pathToSvgString(path: VectorPathData): string {
     const cp2 = curr.inHandle || curr.point;
 
     const hasCurves =
-      (prev.outHandle && (prev.outHandle.x !== prev.point.x || prev.outHandle.y !== prev.point.y)) ||
+      (prev.outHandle &&
+        (prev.outHandle.x !== prev.point.x || prev.outHandle.y !== prev.point.y)) ||
       (curr.inHandle && (curr.inHandle.x !== curr.point.x || curr.inHandle.y !== curr.point.y));
 
     if (hasCurves) {
@@ -186,8 +187,10 @@ export function pathToSvgString(path: VectorPathData): string {
     const cp2 = first.inHandle || first.point;
 
     const hasCurves =
-      (last.outHandle && (last.outHandle.x !== last.point.x || last.outHandle.y !== last.point.y)) ||
-      (first.inHandle && (first.inHandle.x !== first.point.x || first.inHandle.y !== first.point.y));
+      (last.outHandle &&
+        (last.outHandle.x !== last.point.x || last.outHandle.y !== last.point.y)) ||
+      (first.inHandle &&
+        (first.inHandle.x !== first.point.x || first.inHandle.y !== first.point.y));
 
     if (hasCurves) {
       d += ` C ${cp1.x} ${cp1.y}, ${cp2.x} ${cp2.y}, ${first.point.x} ${first.point.y} Z`;
@@ -347,7 +350,10 @@ export function simplifyPath(path: VectorPathData, tolerance: number = 2): Vecto
       const dx = pEnd.x - pStart.x;
       const dy = pEnd.y - pStart.y;
       const mag = Math.hypot(dx, dy);
-      const d = mag === 0 ? distance(p, pStart) : Math.abs(dy * p.x - dx * p.y + pEnd.x * pStart.y - pEnd.y * pStart.x) / mag;
+      const d =
+        mag === 0
+          ? distance(p, pStart)
+          : Math.abs(dy * p.x - dx * p.y + pEnd.x * pStart.y - pEnd.y * pStart.x) / mag;
 
       if (d > maxDist) {
         maxDist = d;
@@ -359,7 +365,10 @@ export function simplifyPath(path: VectorPathData, tolerance: number = 2): Vecto
       simplifySection(startIdx, maxIdx);
       simplifySection(maxIdx, endIdx);
     } else {
-      if (simplifiedPoints.length === 0 || simplifiedPoints[simplifiedPoints.length - 1] !== pStart) {
+      if (
+        simplifiedPoints.length === 0 ||
+        simplifiedPoints[simplifiedPoints.length - 1] !== pStart
+      ) {
         simplifiedPoints.push(pStart);
       }
       simplifiedPoints.push(pEnd);
@@ -414,7 +423,7 @@ export function removeVertex(path: VectorPathData, vertexId: string): VectorPath
 export function updateVertex(
   path: VectorPathData,
   vertexId: string,
-  updates: Partial<PathVertex>
+  updates: Partial<PathVertex>,
 ): VectorPathData {
   const result = deepClone(path);
   const vtx = result.vertices.find((v) => v.id === vertexId);
@@ -463,14 +472,17 @@ export function toggleVertexType(path: VectorPathData, vertexId: string): Vector
 /**
  * قلب المسار الفيكتوري أفقيًا أو عموديًا
  */
-export function flipPath(path: VectorPathData, direction: 'horizontal' | 'vertical'): VectorPathData {
+export function flipPath(
+  path: VectorPathData,
+  direction: 'horizontal' | 'vertical',
+): VectorPathData {
   const result = deepClone(path);
   const bounds = getPathBounds(path);
 
   result.vertices = result.vertices.map((v) => {
     const pt = { ...v.point };
-    let inH = v.inHandle ? { ...v.inHandle } : undefined;
-    let outH = v.outHandle ? { ...v.outHandle } : undefined;
+    const inH = v.inHandle ? { ...v.inHandle } : undefined;
+    const outH = v.outHandle ? { ...v.outHandle } : undefined;
 
     if (direction === 'horizontal') {
       pt.x = bounds.minX + (bounds.maxX - pt.x);

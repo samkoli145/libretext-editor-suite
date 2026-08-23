@@ -125,7 +125,7 @@ const MIME_TO_DOCUMENT: Readonly<Record<string, DocumentType>> = {
 export function detectDocumentType(
   fileName: string,
   mimeType?: string,
-  contentSample?: string
+  contentSample?: string,
 ): FileDetectionResult {
   if (!fileName || fileName.trim().length === 0) {
     return createDefaultResult('', mimeType);
@@ -165,7 +165,7 @@ export function detectDocumentType(
  * تحديد المحرر المناسب لملف معين.
  */
 export function resolveEditorPluginForFile(
-  file: File | { name: string; type?: string }
+  file: File | { name: string; type?: string },
 ): ReturnType<PluginRegistry['getPlugin']> | null {
   if (!file || !file.name) {
     return null;
@@ -294,7 +294,10 @@ function detectByContent(content: string, extension: string): FileDetectionResul
   return null;
 }
 
-function detectJsonDocumentType(jsonContent: string, extension: string): FileDetectionResult | null {
+function detectJsonDocumentType(
+  jsonContent: string,
+  extension: string,
+): FileDetectionResult | null {
   try {
     const parsed: unknown = JSON.parse(jsonContent);
     if (typeof parsed !== 'object' || parsed === null) return null;
@@ -439,7 +442,7 @@ async function readFileAsText(file: File): Promise<string> {
 async function transformContentByType(
   content: string,
   type: DocumentType,
-  file: File
+  file: File,
 ): Promise<Record<string, unknown> | null> {
   switch (type) {
     case 'rich-text': {

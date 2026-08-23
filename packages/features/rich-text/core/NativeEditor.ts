@@ -25,12 +25,7 @@
  * ═══════════════════════════════════════════════════════════════════════════
  */
 
-import type {
-  INativeEditor,
-  ChainCommands,
-  EditorSelection,
-  EditorEventType,
-} from "../types";
+import type { INativeEditor, ChainCommands, EditorSelection, EditorEventType } from '../types';
 
 export interface NativeEditorOptions {
   content?: string | object;
@@ -50,11 +45,11 @@ export class NativeEditor implements INativeEditor {
   private historyIndex: number = -1;
   private isExecutingCommand: boolean = false;
   private updateDebounceTimer: any = null;
-  private initialContent: string = "";
+  private initialContent: string = '';
 
-  public state: INativeEditor["state"];
-  public view: INativeEditor["view"];
-  public commands: INativeEditor["commands"];
+  public state: INativeEditor['state'];
+  public view: INativeEditor['view'];
+  public commands: INativeEditor['commands'];
 
   constructor(options: NativeEditorOptions = {}) {
     this.initialContent = this.normalizeContent(options.content);
@@ -64,7 +59,7 @@ export class NativeEditor implements INativeEditor {
       selection: { from: 0, to: 0, empty: true },
       doc: {
         descendants: (callback) => this.walkDescendants(callback),
-        textContent: "",
+        textContent: '',
       },
     };
 
@@ -78,10 +73,11 @@ export class NativeEditor implements INativeEditor {
     this.commands = this.createCommandsMap();
 
     // Hook listeners passed in options
-    if (options.onUpdate) this.on("update", () => options.onUpdate?.({ editor: this }));
-    if (options.onSelectionUpdate) this.on("selectionUpdate", () => options.onSelectionUpdate?.({ editor: this }));
-    if (options.onFocus) this.on("focus", () => options.onFocus?.({ editor: this }));
-    if (options.onBlur) this.on("blur", () => options.onBlur?.({ editor: this }));
+    if (options.onUpdate) this.on('update', () => options.onUpdate?.({ editor: this }));
+    if (options.onSelectionUpdate)
+      this.on('selectionUpdate', () => options.onSelectionUpdate?.({ editor: this }));
+    if (options.onFocus) this.on('focus', () => options.onFocus?.({ editor: this }));
+    if (options.onBlur) this.on('blur', () => options.onBlur?.({ editor: this }));
   }
 
   public mount(el: HTMLElement) {
@@ -91,7 +87,7 @@ export class NativeEditor implements INativeEditor {
     if (this.initialContent) {
       this.element.innerHTML = this.initialContent;
     } else if (!this.element.innerHTML.trim()) {
-      this.element.innerHTML = "<p><br></p>";
+      this.element.innerHTML = '<p><br></p>';
     }
 
     this.saveSnapshot();
@@ -104,117 +100,117 @@ export class NativeEditor implements INativeEditor {
   }
 
   private normalizeContent(content?: unknown): string {
-    if (!content) return "<p><br></p>";
-    if (typeof content === "string") return content;
+    if (!content) return '<p><br></p>';
+    if (typeof content === 'string') return content;
     // If legacy TipTap JSON doc
-    if (typeof content === "object" && content !== null) {
+    if (typeof content === 'object' && content !== null) {
       return this.convertJsonToHtml(content as any);
     }
-    return "<p><br></p>";
+    return '<p><br></p>';
   }
 
   private convertJsonToHtml(json: any): string {
-    if (!json || !json.content) return "<p><br></p>";
-    let html = "";
+    if (!json || !json.content) return '<p><br></p>';
+    let html = '';
 
     const parseNode = (node: any): string => {
-      if (node.type === "text") {
-        let text = node.text || "";
+      if (node.type === 'text') {
+        let text = node.text || '';
         if (node.marks) {
           for (const m of node.marks) {
-            if (m.type === "bold") text = `<strong>${text}</strong>`;
-            if (m.type === "italic") text = `<em>${text}</em>`;
-            if (m.type === "underline") text = `<u>${text}</u>`;
-            if (m.type === "strike") text = `<s>${text}</s>`;
-            if (m.type === "subscript") text = `<sub>${text}</sub>`;
-            if (m.type === "superscript") text = `<sup>${text}</sup>`;
-            if (m.type === "highlight") {
-              text = `<mark style="background-color: ${m.attrs?.color || "#fef08a"}">${text}</mark>`;
+            if (m.type === 'bold') text = `<strong>${text}</strong>`;
+            if (m.type === 'italic') text = `<em>${text}</em>`;
+            if (m.type === 'underline') text = `<u>${text}</u>`;
+            if (m.type === 'strike') text = `<s>${text}</s>`;
+            if (m.type === 'subscript') text = `<sub>${text}</sub>`;
+            if (m.type === 'superscript') text = `<sup>${text}</sup>`;
+            if (m.type === 'highlight') {
+              text = `<mark style="background-color: ${m.attrs?.color || '#fef08a'}">${text}</mark>`;
             }
-            if (m.type === "textStyle") {
+            if (m.type === 'textStyle') {
               const styles: string[] = [];
               if (m.attrs?.color) styles.push(`color: ${m.attrs.color}`);
               if (m.attrs?.fontFamily) styles.push(`font-family: ${m.attrs.fontFamily}`);
               if (m.attrs?.fontSize) styles.push(`font-size: ${m.attrs.fontSize}`);
-              if (styles.length) text = `<span style="${styles.join("; ")}">${text}</span>`;
+              if (styles.length) text = `<span style="${styles.join('; ')}">${text}</span>`;
             }
-            if (m.type === "link") {
-              text = `<a href="${m.attrs?.href || "#"}" target="${m.attrs?.target || "_self"}">${text}</a>`;
+            if (m.type === 'link') {
+              text = `<a href="${m.attrs?.href || '#'}" target="${m.attrs?.target || '_self'}">${text}</a>`;
             }
           }
         }
         return text;
       }
 
-      if (node.type === "paragraph") {
-        const inner = node.content ? node.content.map(parseNode).join("") : "<br>";
+      if (node.type === 'paragraph') {
+        const inner = node.content ? node.content.map(parseNode).join('') : '<br>';
         const align = node.attrs?.textAlign;
-        const style = align ? ` style="text-align: ${align}"` : "";
-        return `<p${style}>${inner || "<br>"}</p>`;
+        const style = align ? ` style="text-align: ${align}"` : '';
+        return `<p${style}>${inner || '<br>'}</p>`;
       }
 
-      if (node.type === "heading") {
+      if (node.type === 'heading') {
         const level = node.attrs?.level || 1;
-        const inner = node.content ? node.content.map(parseNode).join("") : "<br>";
+        const inner = node.content ? node.content.map(parseNode).join('') : '<br>';
         const align = node.attrs?.textAlign;
-        const style = align ? ` style="text-align: ${align}"` : "";
-        return `<h${level}${style}>${inner || "<br>"}</h${level}>`;
+        const style = align ? ` style="text-align: ${align}"` : '';
+        return `<h${level}${style}>${inner || '<br>'}</h${level}>`;
       }
 
-      if (node.type === "bulletList") {
-        const inner = node.content ? node.content.map(parseNode).join("") : "";
+      if (node.type === 'bulletList') {
+        const inner = node.content ? node.content.map(parseNode).join('') : '';
         return `<ul>${inner}</ul>`;
       }
 
-      if (node.type === "orderedList") {
-        const inner = node.content ? node.content.map(parseNode).join("") : "";
+      if (node.type === 'orderedList') {
+        const inner = node.content ? node.content.map(parseNode).join('') : '';
         return `<ol>${inner}</ol>`;
       }
 
-      if (node.type === "listItem") {
-        const inner = node.content ? node.content.map(parseNode).join("") : "";
+      if (node.type === 'listItem') {
+        const inner = node.content ? node.content.map(parseNode).join('') : '';
         return `<li>${inner}</li>`;
       }
 
-      if (node.type === "blockquote") {
-        const inner = node.content ? node.content.map(parseNode).join("") : "";
+      if (node.type === 'blockquote') {
+        const inner = node.content ? node.content.map(parseNode).join('') : '';
         return `<blockquote>${inner}</blockquote>`;
       }
 
-      if (node.type === "codeBlock") {
-        const inner = node.content ? node.content.map(parseNode).join("") : "";
+      if (node.type === 'codeBlock') {
+        const inner = node.content ? node.content.map(parseNode).join('') : '';
         return `<pre><code>${inner}</code></pre>`;
       }
 
-      if (node.type === "image") {
-        return `<img src="${node.attrs?.src || ""}" alt="${node.attrs?.alt || ""}" />`;
+      if (node.type === 'image') {
+        return `<img src="${node.attrs?.src || ''}" alt="${node.attrs?.alt || ''}" />`;
       }
 
-      if (node.type === "table") {
-        const inner = node.content ? node.content.map(parseNode).join("") : "";
+      if (node.type === 'table') {
+        const inner = node.content ? node.content.map(parseNode).join('') : '';
         return `<table class="rich-text-table"><tbody>${inner}</tbody></table>`;
       }
 
-      if (node.type === "tableRow") {
-        const inner = node.content ? node.content.map(parseNode).join("") : "";
+      if (node.type === 'tableRow') {
+        const inner = node.content ? node.content.map(parseNode).join('') : '';
         return `<tr>${inner}</tr>`;
       }
 
-      if (node.type === "tableCell" || node.type === "tableHeader") {
-        const tag = node.type === "tableHeader" ? "th" : "td";
-        const inner = node.content ? node.content.map(parseNode).join("") : "";
-        return `<${tag}>${inner || "<br>"}</${tag}>`;
+      if (node.type === 'tableCell' || node.type === 'tableHeader') {
+        const tag = node.type === 'tableHeader' ? 'th' : 'td';
+        const inner = node.content ? node.content.map(parseNode).join('') : '';
+        return `<${tag}>${inner || '<br>'}</${tag}>`;
       }
 
-      if (node.type === "pageBreak") {
+      if (node.type === 'pageBreak') {
         return `<div class="page-break" data-type="page-break" style="page-break-after: always; border-top: 2px dashed #cbd5e1; margin: 24px 0; text-align: center;"><span style="background: #f1f5f9; padding: 2px 8px; font-size: 11px; color: #64748b; border-radius: 4px;">فاصل صفحات</span></div>`;
       }
 
-      return "";
+      return '';
     };
 
-    html = json.content.map(parseNode).join("");
-    return html || "<p><br></p>";
+    html = json.content.map(parseNode).join('');
+    return html || '<p><br></p>';
   }
 
   public updateState() {
@@ -233,13 +229,16 @@ export class NativeEditor implements INativeEditor {
     }
 
     this.state.selection = { from, to, empty };
-    this.state.doc.textContent = this.element.textContent || "";
+    this.state.doc.textContent = this.element.textContent || '';
   }
 
   private calculateOffset(targetNode: Node, nodeOffset: number): number {
     if (!this.element) return 0;
     let offset = 0;
-    const walker = document.createTreeWalker(this.element, NodeFilter.SHOW_TEXT | NodeFilter.SHOW_ELEMENT);
+    const walker = document.createTreeWalker(
+      this.element,
+      NodeFilter.SHOW_TEXT | NodeFilter.SHOW_ELEMENT,
+    );
 
     let cur: Node | null = walker.nextNode();
     while (cur) {
@@ -259,7 +258,12 @@ export class NativeEditor implements INativeEditor {
     return offset;
   }
 
-  private getCoordsAtPos(pos: number): { top: number; left: number; right: number; bottom: number } {
+  private getCoordsAtPos(pos: number): {
+    top: number;
+    left: number;
+    right: number;
+    bottom: number;
+  } {
     if (!this.element) return { top: 0, left: 0, right: 0, bottom: 0 };
     const sel = window.getSelection();
     if (sel && sel.rangeCount > 0 && this.element.contains(sel.anchorNode)) {
@@ -285,14 +289,14 @@ export class NativeEditor implements INativeEditor {
 
   private walkDescendants(callback: (node: any, pos: number) => boolean | void) {
     if (!this.element) return;
-    const headings = Array.from(this.element.querySelectorAll("h1, h2, h3, h4, h5, h6"));
+    const headings = Array.from(this.element.querySelectorAll('h1, h2, h3, h4, h5, h6'));
     let pos = 0;
 
     for (const h of headings) {
       const level = parseInt(h.tagName[1], 10);
-      const text = h.textContent || "";
+      const text = h.textContent || '';
       const simulatedNode = {
-        type: { name: "heading" },
+        type: { name: 'heading' },
         attrs: { level },
         textContent: text,
       };
@@ -338,39 +342,39 @@ export class NativeEditor implements INativeEditor {
 
   public triggerUpdate(emitContentChange = true) {
     this.updateState();
-    this.emit("transaction");
-    this.emit("selectionUpdate");
+    this.emit('transaction');
+    this.emit('selectionUpdate');
 
     if (emitContentChange && !this.isComposing) {
       clearTimeout(this.updateDebounceTimer);
       this.updateDebounceTimer = setTimeout(() => {
         if (!this.isComposing) {
           this.saveSnapshot();
-          this.emit("update");
+          this.emit('update');
         }
       }, 100);
     }
   }
 
   public getHTML(): string {
-    return this.element?.innerHTML || "";
+    return this.element?.innerHTML || '';
   }
 
   public getJSON(): any {
     return {
-      type: "doc",
-      content: this.htmlToStructure(this.element?.innerHTML || "<p><br></p>"),
+      type: 'doc',
+      content: this.htmlToStructure(this.element?.innerHTML || '<p><br></p>'),
     };
   }
 
   private htmlToStructure(html: string): any[] {
     const parser = new DOMParser();
-    const doc = parser.parseFromString(`<div>${html}</div>`, "text/html");
+    const doc = parser.parseFromString(`<div>${html}</div>`, 'text/html');
     const container = doc.body.firstElementChild || doc.body;
 
     const convertNode = (node: Node): any => {
       if (node.nodeType === Node.TEXT_NODE) {
-        return { type: "text", text: node.textContent || "" };
+        return { type: 'text', text: node.textContent || '' };
       }
       if (node.nodeType !== Node.ELEMENT_NODE) return null;
       const el = node as HTMLElement;
@@ -378,51 +382,61 @@ export class NativeEditor implements INativeEditor {
 
       if (/^h[1-6]$/.test(tag)) {
         return {
-          type: "heading",
-          attrs: { level: parseInt(tag[1], 10), textAlign: el.style.textAlign || "right" },
+          type: 'heading',
+          attrs: { level: parseInt(tag[1], 10), textAlign: el.style.textAlign || 'right' },
           content: Array.from(el.childNodes).map(convertNode).filter(Boolean),
         };
       }
-      if (tag === "p" || tag === "div") {
+      if (tag === 'p' || tag === 'div') {
         return {
-          type: "paragraph",
-          attrs: { textAlign: el.style.textAlign || "right" },
+          type: 'paragraph',
+          attrs: { textAlign: el.style.textAlign || 'right' },
           content: Array.from(el.childNodes).map(convertNode).filter(Boolean),
         };
       }
-      if (tag === "ul") {
+      if (tag === 'ul') {
         return {
-          type: "bulletList",
+          type: 'bulletList',
           content: Array.from(el.childNodes).map(convertNode).filter(Boolean),
         };
       }
-      if (tag === "ol") {
+      if (tag === 'ol') {
         return {
-          type: "orderedList",
+          type: 'orderedList',
           content: Array.from(el.childNodes).map(convertNode).filter(Boolean),
         };
       }
-      if (tag === "li") {
+      if (tag === 'li') {
         return {
-          type: "listItem",
-          content: [{ type: "paragraph", content: Array.from(el.childNodes).map(convertNode).filter(Boolean) }],
+          type: 'listItem',
+          content: [
+            {
+              type: 'paragraph',
+              content: Array.from(el.childNodes).map(convertNode).filter(Boolean),
+            },
+          ],
         };
       }
-      if (tag === "table") {
+      if (tag === 'table') {
         return {
-          type: "table",
-          content: Array.from(el.querySelectorAll("tr")).map((tr) => ({
-            type: "tableRow",
-            content: Array.from(tr.querySelectorAll("th, td")).map((c) => ({
-              type: c.tagName.toLowerCase() === "th" ? "tableHeader" : "tableCell",
-              content: [{ type: "paragraph", content: Array.from(c.childNodes).map(convertNode).filter(Boolean) }],
+          type: 'table',
+          content: Array.from(el.querySelectorAll('tr')).map((tr) => ({
+            type: 'tableRow',
+            content: Array.from(tr.querySelectorAll('th, td')).map((c) => ({
+              type: c.tagName.toLowerCase() === 'th' ? 'tableHeader' : 'tableCell',
+              content: [
+                {
+                  type: 'paragraph',
+                  content: Array.from(c.childNodes).map(convertNode).filter(Boolean),
+                },
+              ],
             })),
           })),
         };
       }
       return {
-        type: "paragraph",
-        content: [{ type: "text", text: el.textContent || "" }],
+        type: 'paragraph',
+        content: [{ type: 'text', text: el.textContent || '' }],
       };
     };
 
@@ -430,12 +444,12 @@ export class NativeEditor implements INativeEditor {
   }
 
   public getText(): string {
-    return this.element?.innerText || this.element?.textContent || "";
+    return this.element?.innerText || this.element?.textContent || '';
   }
 
   public isEmpty(): boolean {
     const text = this.getText().trim();
-    return !text && !this.element?.querySelector("img, table");
+    return !text && !this.element?.querySelector('img, table');
   }
 
   public can() {
@@ -457,7 +471,7 @@ export class NativeEditor implements INativeEditor {
     const currentEl = targetNode as HTMLElement | null;
     if (!currentEl) return false;
 
-    if (typeof name === "object" && name !== null) {
+    if (typeof name === 'object' && name !== null) {
       // Attribute matches e.g. { textAlign: 'center' }
       if (name.textAlign) {
         const closestBlock = this.getClosestBlock(currentEl);
@@ -467,41 +481,41 @@ export class NativeEditor implements INativeEditor {
     }
 
     switch (name) {
-      case "bold":
-        return document.queryCommandState("bold") || !!currentEl.closest("strong, b");
-      case "italic":
-        return document.queryCommandState("italic") || !!currentEl.closest("em, i");
-      case "underline":
-        return document.queryCommandState("underline") || !!currentEl.closest("u");
-      case "strike":
-        return document.queryCommandState("strikeThrough") || !!currentEl.closest("s, del, strike");
-      case "subscript":
-        return document.queryCommandState("subscript") || !!currentEl.closest("sub");
-      case "superscript":
-        return document.queryCommandState("superscript") || !!currentEl.closest("sup");
-      case "heading": {
-        const h = currentEl.closest("h1, h2, h3, h4, h5, h6");
+      case 'bold':
+        return document.queryCommandState('bold') || !!currentEl.closest('strong, b');
+      case 'italic':
+        return document.queryCommandState('italic') || !!currentEl.closest('em, i');
+      case 'underline':
+        return document.queryCommandState('underline') || !!currentEl.closest('u');
+      case 'strike':
+        return document.queryCommandState('strikeThrough') || !!currentEl.closest('s, del, strike');
+      case 'subscript':
+        return document.queryCommandState('subscript') || !!currentEl.closest('sub');
+      case 'superscript':
+        return document.queryCommandState('superscript') || !!currentEl.closest('sup');
+      case 'heading': {
+        const h = currentEl.closest('h1, h2, h3, h4, h5, h6');
         if (!h) return false;
         if (attributes?.level) {
           return h.tagName.toLowerCase() === `h${attributes.level}`;
         }
         return true;
       }
-      case "bulletList":
-        return !!currentEl.closest("ul");
-      case "orderedList":
-        return !!currentEl.closest("ol");
-      case "blockquote":
-        return !!currentEl.closest("blockquote");
-      case "codeBlock":
-        return !!currentEl.closest("pre");
-      case "table":
-        return !!currentEl.closest("table");
-      case "link":
-        return !!currentEl.closest("a");
-      case "image":
-        return !!currentEl.closest("img") || currentEl.tagName.toLowerCase() === "img";
-      case "textAlign": {
+      case 'bulletList':
+        return !!currentEl.closest('ul');
+      case 'orderedList':
+        return !!currentEl.closest('ol');
+      case 'blockquote':
+        return !!currentEl.closest('blockquote');
+      case 'codeBlock':
+        return !!currentEl.closest('pre');
+      case 'table':
+        return !!currentEl.closest('table');
+      case 'link':
+        return !!currentEl.closest('a');
+      case 'image':
+        return !!currentEl.closest('img') || currentEl.tagName.toLowerCase() === 'img';
+      case 'textAlign': {
         const block = this.getClosestBlock(currentEl);
         if (!block) return false;
         if (attributes?.alignment) return block.style.textAlign === attributes.alignment;
@@ -524,32 +538,33 @@ export class NativeEditor implements INativeEditor {
     const currentEl = targetNode as HTMLElement | null;
     if (!currentEl) return {};
 
-    if (name === "textStyle") {
+    if (name === 'textStyle') {
       const computed = window.getComputedStyle(currentEl);
       return {
-        fontFamily: currentEl.style.fontFamily || computed.fontFamily.split(",")[0].replace(/['"]/g, ""),
+        fontFamily:
+          currentEl.style.fontFamily || computed.fontFamily.split(',')[0].replace(/['"]/g, ''),
         fontSize: currentEl.style.fontSize || computed.fontSize,
         color: currentEl.style.color || computed.color,
       };
     }
 
-    if (name === "highlight") {
-      const mark = currentEl.closest("mark") as HTMLElement | null;
+    if (name === 'highlight') {
+      const mark = currentEl.closest('mark') as HTMLElement | null;
       return {
-        color: mark?.style.backgroundColor || currentEl.style.backgroundColor || "#fef08a",
+        color: mark?.style.backgroundColor || currentEl.style.backgroundColor || '#fef08a',
       };
     }
 
-    if (name === "link") {
-      const a = currentEl.closest("a") as HTMLAnchorElement | null;
+    if (name === 'link') {
+      const a = currentEl.closest('a') as HTMLAnchorElement | null;
       return {
-        href: a?.getAttribute("href") || "",
-        target: a?.getAttribute("target") || "_self",
+        href: a?.getAttribute('href') || '',
+        target: a?.getAttribute('target') || '_self',
       };
     }
 
-    if (name === "heading") {
-      const h = currentEl.closest("h1, h2, h3, h4, h5, h6");
+    if (name === 'heading') {
+      const h = currentEl.closest('h1, h2, h3, h4, h5, h6');
       return {
         level: h ? parseInt(h.tagName[1], 10) : 1,
       };
@@ -561,8 +576,9 @@ export class NativeEditor implements INativeEditor {
   private getClosestBlock(el: HTMLElement | null): HTMLElement | null {
     if (!el || !this.element) return null;
     return (
-      (el.closest("p, h1, h2, h3, h4, h5, h6, blockquote, pre, li, td, th") as HTMLElement | null) ||
-      this.element
+      (el.closest(
+        'p, h1, h2, h3, h4, h5, h6, blockquote, pre, li, td, th',
+      ) as HTMLElement | null) || this.element
     );
   }
 
@@ -598,7 +614,7 @@ export class NativeEditor implements INativeEditor {
     }
 
     if (range.collapsed) {
-      wrapper.innerHTML = "&#8203;"; // Zero-width space
+      wrapper.innerHTML = '&#8203;'; // Zero-width space
       range.insertNode(wrapper);
       const newRange = document.createRange();
       newRange.setStart(wrapper.firstChild || wrapper, 1);
@@ -622,7 +638,7 @@ export class NativeEditor implements INativeEditor {
     if (node?.nodeType === Node.TEXT_NODE) node = node.parentNode;
     const block = this.getClosestBlock(node as HTMLElement);
 
-    if (block && block !== this.element && !block.closest("table")) {
+    if (block && block !== this.element && !block.closest('table')) {
       const newEl = document.createElement(newTag);
       newEl.innerHTML = block.innerHTML;
       if (block.style.textAlign) newEl.style.textAlign = block.style.textAlign;
@@ -635,12 +651,13 @@ export class NativeEditor implements INativeEditor {
       sel.removeAllRanges();
       sel.addRange(newRange);
     } else {
-      document.execCommand("formatBlock", false, `<${newTag}>`);
+      document.execCommand('formatBlock', false, `<${newTag}>`);
     }
   }
 
   // Chain Commands builder
   public chain(): ChainCommands {
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
     const self = this;
     const commands: ChainCommands = {
       focus() {
@@ -662,39 +679,39 @@ export class NativeEditor implements INativeEditor {
         return commands;
       },
       toggleBold() {
-        document.execCommand("bold", false);
+        document.execCommand('bold', false);
         return commands;
       },
       setBold() {
-        document.execCommand("bold", false);
+        document.execCommand('bold', false);
         return commands;
       },
       toggleItalic() {
-        document.execCommand("italic", false);
+        document.execCommand('italic', false);
         return commands;
       },
       setItalic() {
-        document.execCommand("italic", false);
+        document.execCommand('italic', false);
         return commands;
       },
       toggleUnderline() {
-        document.execCommand("underline", false);
+        document.execCommand('underline', false);
         return commands;
       },
       setUnderline() {
-        document.execCommand("underline", false);
+        document.execCommand('underline', false);
         return commands;
       },
       toggleStrike() {
-        document.execCommand("strikeThrough", false);
+        document.execCommand('strikeThrough', false);
         return commands;
       },
       toggleSubscript() {
-        document.execCommand("subscript", false);
+        document.execCommand('subscript', false);
         return commands;
       },
       toggleSuperscript() {
-        document.execCommand("superscript", false);
+        document.execCommand('superscript', false);
         return commands;
       },
       setTextAlign(alignment) {
@@ -710,61 +727,61 @@ export class NativeEditor implements INativeEditor {
         return commands;
       },
       toggleHeading({ level }) {
-        if (self.isActive("heading", { level })) {
-          self.formatBlockTag("p");
+        if (self.isActive('heading', { level })) {
+          self.formatBlockTag('p');
         } else {
           self.formatBlockTag(`h${level}`);
         }
         return commands;
       },
       setParagraph() {
-        self.formatBlockTag("p");
+        self.formatBlockTag('p');
         return commands;
       },
       toggleBulletList() {
-        document.execCommand("insertUnorderedList", false);
+        document.execCommand('insertUnorderedList', false);
         return commands;
       },
       toggleOrderedList() {
-        document.execCommand("insertOrderedList", false);
+        document.execCommand('insertOrderedList', false);
         return commands;
       },
       toggleBlockquote() {
-        self.formatBlockTag("blockquote");
+        self.formatBlockTag('blockquote');
         return commands;
       },
       toggleCodeBlock() {
-        self.formatBlockTag("pre");
+        self.formatBlockTag('pre');
         return commands;
       },
       setFontFamily(fontFamily) {
-        self.wrapSelectionWithTag("span", { fontFamily: `'${fontFamily}', sans-serif` });
+        self.wrapSelectionWithTag('span', { fontFamily: `'${fontFamily}', sans-serif` });
         return commands;
       },
       setFontSize(fontSize) {
-        self.wrapSelectionWithTag("span", { fontSize });
+        self.wrapSelectionWithTag('span', { fontSize });
         return commands;
       },
       setColor(color) {
-        document.execCommand("foreColor", false, color);
+        document.execCommand('foreColor', false, color);
         return commands;
       },
       unsetColor() {
-        document.execCommand("removeFormat", false);
+        document.execCommand('removeFormat', false);
         return commands;
       },
       setHighlight(attrs) {
-        const color = typeof attrs === "string" ? attrs : attrs?.color || "#fef08a";
-        self.wrapSelectionWithTag("mark", { backgroundColor: color });
+        const color = typeof attrs === 'string' ? attrs : attrs?.color || '#fef08a';
+        self.wrapSelectionWithTag('mark', { backgroundColor: color });
         return commands;
       },
       toggleHighlight(attrs) {
-        const color = typeof attrs === "string" ? attrs : attrs?.color || "#fef08a";
+        const color = typeof attrs === 'string' ? attrs : attrs?.color || '#fef08a';
         const sel = window.getSelection();
         if (sel && sel.rangeCount) {
           let node: Node | null = sel.anchorNode;
           if (node?.nodeType === Node.TEXT_NODE) node = node.parentNode;
-          const mark = (node as HTMLElement)?.closest("mark");
+          const mark = (node as HTMLElement)?.closest('mark');
           if (mark) {
             const parent = mark.parentNode;
             while (mark.firstChild) parent?.insertBefore(mark.firstChild, mark);
@@ -772,7 +789,7 @@ export class NativeEditor implements INativeEditor {
             return commands;
           }
         }
-        self.wrapSelectionWithTag("mark", { backgroundColor: color });
+        self.wrapSelectionWithTag('mark', { backgroundColor: color });
         return commands;
       },
       unsetHighlight() {
@@ -780,7 +797,7 @@ export class NativeEditor implements INativeEditor {
         if (sel && sel.rangeCount) {
           let node: Node | null = sel.anchorNode;
           if (node?.nodeType === Node.TEXT_NODE) node = node.parentNode;
-          const mark = (node as HTMLElement)?.closest("mark");
+          const mark = (node as HTMLElement)?.closest('mark');
           if (mark) {
             const parent = mark.parentNode;
             while (mark.firstChild) parent?.insertBefore(mark.firstChild, mark);
@@ -790,29 +807,31 @@ export class NativeEditor implements INativeEditor {
         return commands;
       },
       unsetAllMarks() {
-        document.execCommand("removeFormat", false);
+        document.execCommand('removeFormat', false);
         return commands;
       },
       clearNodes() {
-        self.formatBlockTag("p");
-        document.execCommand("removeFormat", false);
+        self.formatBlockTag('p');
+        document.execCommand('removeFormat', false);
         return commands;
       },
       setHorizontalRule() {
-        document.execCommand("insertHorizontalRule", false);
+        document.execCommand('insertHorizontalRule', false);
         return commands;
       },
       setLink(attrs) {
         const sel = window.getSelection();
-        const safeHref = attrs.href.trim().toLowerCase().startsWith("javascript:") ? "#" : attrs.href;
+        const safeHref = attrs.href.trim().toLowerCase().startsWith('javascript:')
+          ? '#'
+          : attrs.href;
         if (sel && sel.rangeCount) {
           const range = sel.getRangeAt(0);
-          let a = (sel.anchorNode as HTMLElement)?.closest?.("a");
+          const a = (sel.anchorNode as HTMLElement)?.closest?.('a');
           if (a) {
             a.href = safeHref;
             if (attrs.target) a.target = attrs.target;
           } else {
-            const linkEl = document.createElement("a");
+            const linkEl = document.createElement('a');
             linkEl.href = safeHref;
             if (attrs.target) linkEl.target = attrs.target;
             if (range.collapsed) {
@@ -827,26 +846,29 @@ export class NativeEditor implements INativeEditor {
         return commands;
       },
       unsetLink() {
-        document.execCommand("unlink", false);
+        document.execCommand('unlink', false);
         return commands;
       },
       extendMarkRange(type: string) {
         return commands;
       },
       setImage(attrs) {
-        const safeSrc = attrs.src.trim().toLowerCase().startsWith("javascript:") ? "" : attrs.src;
-        const safeAlt = (attrs.alt || "").replace(/"/g, "&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        const safeSrc = attrs.src.trim().toLowerCase().startsWith('javascript:') ? '' : attrs.src;
+        const safeAlt = (attrs.alt || '')
+          .replace(/"/g, '&quot;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;');
         const img = `<img src="${safeSrc}" alt="${safeAlt}" style="max-width: 100%; border-radius: 8px; margin: 12px 0;" />`;
-        document.execCommand("insertHTML", false, img);
+        document.execCommand('insertHTML', false, img);
         return commands;
       },
       insertContent(content) {
-        document.execCommand("insertHTML", false, content);
+        document.execCommand('insertHTML', false, content);
         return commands;
       },
       setPageBreak() {
         const pb = `<div class="page-break" data-type="page-break" style="page-break-after: always; border-top: 2px dashed #cbd5e1; margin: 24px 0; text-align: center;"><span style="background: #f1f5f9; padding: 2px 8px; font-size: 11px; color: #64748b; border-radius: 4px;">فاصل صفحات</span></div><p><br></p>`;
-        document.execCommand("insertHTML", false, pb);
+        document.execCommand('insertHTML', false, pb);
         return commands;
       },
       insertTable(options = {}) {
@@ -859,20 +881,20 @@ export class NativeEditor implements INativeEditor {
           tableHtml += `<tr>`;
           for (let c = 0; c < cols; c++) {
             const isH = withHeader && r === 0;
-            const tag = isH ? "th" : "td";
-            const bg = isH ? "background-color: #f1f5f9; font-weight: bold;" : "";
+            const tag = isH ? 'th' : 'td';
+            const bg = isH ? 'background-color: #f1f5f9; font-weight: bold;' : '';
             tableHtml += `<${tag} style="border: 1px solid #cbd5e1; padding: 8px 12px; min-width: 60px; text-align: right; ${bg}"><br></${tag}>`;
           }
           tableHtml += `</tr>`;
         }
         tableHtml += `</tbody></table><p><br></p>`;
-        document.execCommand("insertHTML", false, tableHtml);
+        document.execCommand('insertHTML', false, tableHtml);
         return commands;
       },
       addRowBefore() {
         self.tableOperation((table, cell, row) => {
           const newRow = row.cloneNode(true) as HTMLTableRowElement;
-          Array.from(newRow.querySelectorAll("td, th")).forEach((c) => (c.innerHTML = "<br>"));
+          Array.from(newRow.querySelectorAll('td, th')).forEach((c) => (c.innerHTML = '<br>'));
           row.parentNode?.insertBefore(newRow, row);
         });
         return commands;
@@ -880,14 +902,14 @@ export class NativeEditor implements INativeEditor {
       addRowAfter() {
         self.tableOperation((table, cell, row) => {
           const newRow = row.cloneNode(true) as HTMLTableRowElement;
-          Array.from(newRow.querySelectorAll("td, th")).forEach((c) => (c.innerHTML = "<br>"));
+          Array.from(newRow.querySelectorAll('td, th')).forEach((c) => (c.innerHTML = '<br>'));
           row.parentNode?.insertBefore(newRow, row.nextSibling);
         });
         return commands;
       },
       deleteRow() {
         self.tableOperation((table, cell, row) => {
-          if (table.querySelectorAll("tr").length <= 1) {
+          if (table.querySelectorAll('tr').length <= 1) {
             table.remove();
           } else {
             row.remove();
@@ -898,13 +920,13 @@ export class NativeEditor implements INativeEditor {
       addColumnBefore() {
         self.tableOperation((table, cell, row) => {
           const cellIndex = Array.from(row.children).indexOf(cell);
-          table.querySelectorAll("tr").forEach((r) => {
-            const isH = r.querySelector("th") !== null;
-            const newCell = document.createElement(isH ? "th" : "td");
-            newCell.style.border = "1px solid #cbd5e1";
-            newCell.style.padding = "8px 12px";
-            newCell.style.textAlign = "right";
-            newCell.innerHTML = "<br>";
+          table.querySelectorAll('tr').forEach((r) => {
+            const isH = r.querySelector('th') !== null;
+            const newCell = document.createElement(isH ? 'th' : 'td');
+            newCell.style.border = '1px solid #cbd5e1';
+            newCell.style.padding = '8px 12px';
+            newCell.style.textAlign = 'right';
+            newCell.innerHTML = '<br>';
             const target = r.children[cellIndex];
             r.insertBefore(newCell, target);
           });
@@ -914,13 +936,13 @@ export class NativeEditor implements INativeEditor {
       addColumnAfter() {
         self.tableOperation((table, cell, row) => {
           const cellIndex = Array.from(row.children).indexOf(cell);
-          table.querySelectorAll("tr").forEach((r) => {
-            const isH = r.querySelector("th") !== null;
-            const newCell = document.createElement(isH ? "th" : "td");
-            newCell.style.border = "1px solid #cbd5e1";
-            newCell.style.padding = "8px 12px";
-            newCell.style.textAlign = "right";
-            newCell.innerHTML = "<br>";
+          table.querySelectorAll('tr').forEach((r) => {
+            const isH = r.querySelector('th') !== null;
+            const newCell = document.createElement(isH ? 'th' : 'td');
+            newCell.style.border = '1px solid #cbd5e1';
+            newCell.style.padding = '8px 12px';
+            newCell.style.textAlign = 'right';
+            newCell.innerHTML = '<br>';
             const target = r.children[cellIndex];
             r.insertBefore(newCell, target ? target.nextSibling : null);
           });
@@ -934,7 +956,7 @@ export class NativeEditor implements INativeEditor {
           if (totalCols <= 1) {
             table.remove();
           } else {
-            table.querySelectorAll("tr").forEach((r) => {
+            table.querySelectorAll('tr').forEach((r) => {
               r.children[cellIndex]?.remove();
             });
           }
@@ -958,9 +980,9 @@ export class NativeEditor implements INativeEditor {
       },
       setCellAttribute(attribute, value) {
         self.tableOperation((table, cell) => {
-          if (attribute === "backgroundColor" || attribute === "background") {
+          if (attribute === 'backgroundColor' || attribute === 'background') {
             cell.style.backgroundColor = value;
-          } else if (attribute === "textAlign") {
+          } else if (attribute === 'textAlign') {
             cell.style.textAlign = value;
           }
         });
@@ -968,20 +990,20 @@ export class NativeEditor implements INativeEditor {
       },
       toggleHeaderRow() {
         self.tableOperation((table) => {
-          const firstRow = table.querySelector("tr");
+          const firstRow = table.querySelector('tr');
           if (!firstRow) return;
-          const isCurrentlyHeader = firstRow.querySelector("th") !== null;
+          const isCurrentlyHeader = firstRow.querySelector('th') !== null;
           const cells = Array.from(firstRow.children);
           cells.forEach((c) => {
-            const newCell = document.createElement(isCurrentlyHeader ? "td" : "th");
+            const newCell = document.createElement(isCurrentlyHeader ? 'td' : 'th');
             newCell.innerHTML = c.innerHTML;
             newCell.style.cssText = (c as HTMLElement).style.cssText;
             if (!isCurrentlyHeader) {
-              newCell.style.backgroundColor = "#f1f5f9";
-              newCell.style.fontWeight = "bold";
+              newCell.style.backgroundColor = '#f1f5f9';
+              newCell.style.fontWeight = 'bold';
             } else {
-              newCell.style.backgroundColor = "";
-              newCell.style.fontWeight = "normal";
+              newCell.style.backgroundColor = '';
+              newCell.style.fontWeight = 'normal';
             }
             firstRow.replaceChild(newCell, c);
           });
@@ -1014,7 +1036,7 @@ export class NativeEditor implements INativeEditor {
         if (!self.element) return commands;
         const sel = window.getSelection();
         const range = document.createRange();
-        const headings = Array.from(self.element.querySelectorAll("h1, h2, h3, h4, h5, h6"));
+        const headings = Array.from(self.element.querySelectorAll('h1, h2, h3, h4, h5, h6'));
         let targetEl: Element | null = null;
         let curPos = 0;
 
@@ -1027,7 +1049,7 @@ export class NativeEditor implements INativeEditor {
         }
 
         if (targetEl) {
-          targetEl.scrollIntoView({ behavior: "smooth", block: "center" });
+          targetEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
           range.selectNodeContents(targetEl);
           sel?.removeAllRanges();
           sel?.addRange(range);
@@ -1044,15 +1066,19 @@ export class NativeEditor implements INativeEditor {
   }
 
   private tableOperation(
-    callback: (table: HTMLTableElement, cell: HTMLTableCellElement, row: HTMLTableRowElement) => void
+    callback: (
+      table: HTMLTableElement,
+      cell: HTMLTableCellElement,
+      row: HTMLTableRowElement,
+    ) => void,
   ) {
     const sel = window.getSelection();
     if (!sel || !sel.rangeCount || !this.element) return;
     let node: Node | null = sel.anchorNode;
     if (node?.nodeType === Node.TEXT_NODE) node = node.parentNode;
-    const cell = (node as HTMLElement)?.closest("td, th") as HTMLTableCellElement | null;
-    const row = (node as HTMLElement)?.closest("tr") as HTMLTableRowElement | null;
-    const table = (node as HTMLElement)?.closest("table") as HTMLTableElement | null;
+    const cell = (node as HTMLElement)?.closest('td, th') as HTMLTableCellElement | null;
+    const row = (node as HTMLElement)?.closest('tr') as HTMLTableRowElement | null;
+    const table = (node as HTMLElement)?.closest('table') as HTMLTableElement | null;
 
     if (table && cell && row) {
       callback(table, cell, row);
@@ -1060,7 +1086,8 @@ export class NativeEditor implements INativeEditor {
     }
   }
 
-  private createCommandsMap(): INativeEditor["commands"] {
+  private createCommandsMap(): INativeEditor['commands'] {
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
     const self = this;
     return {
       setContent(content: any, options?: { emitUpdate?: boolean }) {
@@ -1077,7 +1104,7 @@ export class NativeEditor implements INativeEditor {
       },
       clearContent(emitUpdate?: boolean) {
         if (self.element) {
-          self.element.innerHTML = "<p><br></p>";
+          self.element.innerHTML = '<p><br></p>';
           self.saveSnapshot();
           if (emitUpdate !== false) self.triggerUpdate(true);
         }

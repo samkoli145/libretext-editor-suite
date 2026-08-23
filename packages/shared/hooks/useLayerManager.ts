@@ -63,7 +63,7 @@ export function useLayerManager(initialLayers?: DocumentLayer[]) {
       const found = layers.find((l) => l.id === layerId);
       return found ? found.visible : true;
     },
-    [layers]
+    [layers],
   );
 
   return {

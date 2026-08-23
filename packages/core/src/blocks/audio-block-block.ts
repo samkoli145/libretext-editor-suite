@@ -43,7 +43,7 @@ export const AudioBlockToolingProfile: ElementToolingProfile = {
 
 export function createAudioBlockNode(
   id: string,
-  data: Partial<AudioBlockData> = {}
+  data: Partial<AudioBlockData> = {},
 ): AudioBlockNode {
   return {
     id,

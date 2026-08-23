@@ -74,7 +74,7 @@ export function generateRefLinesFromSnapTargets(targets: SnapTarget[]): Referenc
 export function calculateAlignmentRefLines(
   activeBox: BoundingBox,
   otherBoxes: BoundingBox[],
-  tolerance: number = 4
+  tolerance: number = 4,
 ): ReferenceLine[] {
   const lines: ReferenceLine[] = [];
 
@@ -148,13 +148,16 @@ export function calculateAlignmentRefLines(
  */
 export function calculateDistanceBadges(
   activeBox: BoundingBox,
-  otherBoxes: BoundingBox[]
+  otherBoxes: BoundingBox[],
 ): DistanceBadge[] {
   const badges: DistanceBadge[] = [];
 
   for (const other of otherBoxes) {
     // المسافة الأفقية بين عنصرين على نفس الارتفاع
-    const yOverlap = Math.max(0, Math.min(activeBox.maxY, other.maxY) - Math.max(activeBox.minY, other.minY));
+    const yOverlap = Math.max(
+      0,
+      Math.min(activeBox.maxY, other.maxY) - Math.max(activeBox.minY, other.minY),
+    );
     if (yOverlap > 20) {
       if (activeBox.minX > other.maxX) {
         const gap = Math.round(activeBox.minX - other.maxX);
@@ -178,7 +181,10 @@ export function calculateDistanceBadges(
     }
 
     // المسافة العمودية بين عنصرين في نفس العمود
-    const xOverlap = Math.max(0, Math.min(activeBox.maxX, other.maxX) - Math.max(activeBox.minX, other.minX));
+    const xOverlap = Math.max(
+      0,
+      Math.min(activeBox.maxX, other.maxX) - Math.max(activeBox.minX, other.minX),
+    );
     if (xOverlap > 20) {
       if (activeBox.minY > other.maxY) {
         const gap = Math.round(activeBox.minY - other.maxY);

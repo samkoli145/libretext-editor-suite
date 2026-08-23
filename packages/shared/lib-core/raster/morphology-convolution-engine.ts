@@ -35,7 +35,8 @@ export interface ConvolutionKernel {
   offset?: number;
 }
 
-export type MorphologyOp = 'dilate' | 'erode' | 'open' | 'close' | 'gradient' | 'tophat' | 'blackhat';
+export type MorphologyOp =
+  'dilate' | 'erode' | 'open' | 'close' | 'gradient' | 'tophat' | 'blackhat';
 
 export const STANDARD_KERNELS: Record<string, ConvolutionKernel> = {
   gaussianBlur3x3: {
@@ -48,13 +49,7 @@ export const STANDARD_KERNELS: Record<string, ConvolutionKernel> = {
   gaussianBlur5x5: {
     name: 'Gaussian Blur 5x5',
     size: 5,
-    weights: [
-      1, 4, 6, 4, 1,
-      4, 16, 24, 16, 4,
-      6, 24, 36, 24, 6,
-      4, 16, 24, 16, 4,
-      1, 4, 6, 4, 1,
-    ],
+    weights: [1, 4, 6, 4, 1, 4, 16, 24, 16, 4, 6, 24, 36, 24, 6, 4, 16, 24, 16, 4, 1, 4, 6, 4, 1],
     divisor: 256,
     offset: 0,
   },
@@ -106,10 +101,7 @@ export class MorphologyConvolutionEngine {
   /**
    * تطبيق مصفوفة الالتفاف الرياضي 2D Convolution على صورة ImageData
    */
-  public static applyConvolution(
-    srcImageData: ImageData,
-    kernel: ConvolutionKernel
-  ): ImageData {
+  public static applyConvolution(srcImageData: ImageData, kernel: ConvolutionKernel): ImageData {
     const width = srcImageData.width;
     const height = srcImageData.height;
     const canvas = document.createElement('canvas');
@@ -201,7 +193,8 @@ export class MorphologyConvolutionEngine {
           for (let kx = -1; kx <= 1; kx++) {
             const px = clampCoord(x + kx, width);
             const srcIdx = (py * width + px) * 4;
-            const lum = 0.299 * srcData[srcIdx] + 0.587 * srcData[srcIdx + 1] + 0.114 * srcData[srcIdx + 2];
+            const lum =
+              0.299 * srcData[srcIdx] + 0.587 * srcData[srcIdx + 1] + 0.114 * srcData[srcIdx + 2];
 
             gx += lum * gxWeights[kIdx];
             gy += lum * gyWeights[kIdx];
@@ -326,7 +319,7 @@ export class MorphologyConvolutionEngine {
   public static applyMorphology(
     srcImageData: ImageData,
     operation: MorphologyOp,
-    radius: number = 1
+    radius: number = 1,
   ): ImageData {
     switch (operation) {
       case 'dilate':

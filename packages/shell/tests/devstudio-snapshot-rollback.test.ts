@@ -58,19 +58,16 @@ describe('SnapshotEngine', () => {
     });
 
     it('negative: يجب رفض لقطة بلا تسمية', () => {
-      expect(() => engine.capture({ label: '  ', patches: [makePatch()] }))
-        .toThrow('بلا تسمية');
+      expect(() => engine.capture({ label: '  ', patches: [makePatch()] })).toThrow('بلا تسمية');
     });
 
     it('negative: يجب رفض لقطة بلا تصحيحات', () => {
-      expect(() => engine.capture({ label: 'Empty', patches: [] }))
-        .toThrow('لا تصحيحات');
+      expect(() => engine.capture({ label: 'Empty', patches: [] })).toThrow('لا تصحيحات');
     });
 
     it('negative: يجب رفض تصحيح بدون inverse', () => {
       const badPatch = { op: 'addFile', path: 'x.ts', content: '' } as DevStudioPatch;
-      expect(() => engine.capture({ label: 'Bad', patches: [badPatch] }))
-        .toThrow('بلا inverse');
+      expect(() => engine.capture({ label: 'Bad', patches: [badPatch] })).toThrow('بلا inverse');
     });
 
     it('edge: يجب أن تُخزّن اللقطة', () => {
@@ -140,7 +137,10 @@ describe('SnapshotEngine', () => {
       const ckpt = engine.capture({
         label: 'Clean',
         patches: [makePatch()],
-        doctorReport: { timestamp: Date.now(), checks: [{ id: '1', name: 't', category: 'structure', status: 'pass', message: 'ok' }] },
+        doctorReport: {
+          timestamp: Date.now(),
+          checks: [{ id: '1', name: 't', category: 'structure', status: 'pass', message: 'ok' }],
+        },
       });
       expect(ckpt.clean).toBe(true);
     });
@@ -192,8 +192,11 @@ describe('RollbackManager', () => {
 
     it('negative: لقطة بدون inverses', () => {
       const ckpt: Checkpoint = {
-        id: 'empty', label: 'e', timestamp: Date.now(),
-        patches: [], inverses: [],
+        id: 'empty',
+        label: 'e',
+        timestamp: Date.now(),
+        patches: [],
+        inverses: [],
         doctorReport: { timestamp: Date.now(), checks: [] },
       };
       expect(manager.canRollback(ckpt).ok).toBe(false);

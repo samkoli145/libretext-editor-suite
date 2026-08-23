@@ -62,19 +62,16 @@ import type { HtmlBlockNode, TailwindClasses } from './html-block-types';
 
 /**
  * حساب فئات Grid من الخصائص.
- * 
+ *
  * ⚠️ columns يجب أن يكون بين 1 و 12.
  * ⚠️ gap يجب أن يكون رقم موجب.
- * 
+ *
  * // @function-index: #33/4 — computeGridStyles
  */
-export function computeGridStyles(
-  columns = 12,
-  gap = 4,
-): TailwindClasses {
+export function computeGridStyles(columns = 12, gap = 4): TailwindClasses {
   const cols = Math.max(1, Math.min(12, Math.floor(columns)));
   const g = Math.max(0, Math.floor(gap));
-  
+
   return {
     layout: ['grid', `grid-cols-${cols}`],
     spacing: g > 0 ? [`gap-${g}`] : [],
@@ -83,11 +80,11 @@ export function computeGridStyles(
 
 /**
  * حساب فئات Flexbox من الخصائص.
- * 
+ *
  * ⚠️ direction يجب أن يكون 'row' أو 'column'.
  * ⚠️ justify يجب أن يكون 'start', 'center', 'end', 'between', 'around'.
  * ⚠️ align يجب أن يكون 'start', 'center', 'end', 'stretch'.
- * 
+ *
  * // @function-index: #34/4 — computeFlexboxStyles
  */
 export function computeFlexboxStyles(
@@ -100,7 +97,7 @@ export function computeFlexboxStyles(
   const just = justify === 'start' ? 'justify-start' : `justify-${justify}`;
   const al = align === 'start' ? 'items-start' : `items-${align}`;
   const g = Math.max(0, Math.floor(gap));
-  
+
   return {
     layout: ['flex', dir, just, al],
     spacing: g > 0 ? [`gap-${g}`] : [],
@@ -113,10 +110,10 @@ export function computeFlexboxStyles(
 
 /**
  * إضافة طفل للحاوية.
- * 
+ *
  * ⚠️ يُعيد نسخة جديدة من العقدة (immutable).
  * ⚠️ index اختياري - إن لم يُحدد، يُضاف في النهاية.
- * 
+ *
  * // @function-index: #35/4 — addChildToLayout
  */
 export function addChildToLayout(
@@ -127,39 +124,36 @@ export function addChildToLayout(
   const children = [...(node.children ?? [])];
   const idx = index ?? children.length;
   children.splice(idx, 0, child);
-  
+
   return { ...node, children };
 }
 
 /**
  * إزالة طفل من الحاوية.
- * 
+ *
  * ⚠️ يُعيد نسخة جديدة من العقدة (immutable).
  * ⚠️ childId يجب أن يكون موجوداً.
- * 
+ *
  * // @function-index: #36/4 — removeChildFromLayout
  */
-export function removeChildFromLayout(
-  node: HtmlBlockNode,
-  childId: string,
-): HtmlBlockNode {
+export function removeChildFromLayout(node: HtmlBlockNode, childId: string): HtmlBlockNode {
   if (!node.children) return node;
-  
+
   const children = node.children.filter((c) => c.id !== childId);
   if (children.length === node.children.length) {
     console.warn('[LayoutEngine] Child not found:', childId);
     return node;
   }
-  
+
   return { ...node, children };
 }
 
 /**
  * نقل طفل في الحاوية.
- * 
+ *
  * ⚠️ يُعيد نسخة جديدة من العقدة (immutable).
  * ⚠️ newIndex يجب أن يكون ضمن الحدود.
- * 
+ *
  * // @function-index: #37/4 — moveChildInLayout
  */
 export function moveChildInLayout(
@@ -168,28 +162,28 @@ export function moveChildInLayout(
   newIndex: number,
 ): HtmlBlockNode {
   if (!node.children) return node;
-  
+
   const children = [...node.children];
   const oldIndex = children.findIndex((c) => c.id === childId);
   if (oldIndex === -1) {
     console.warn('[LayoutEngine] Child not found:', childId);
     return node;
   }
-  
+
   const [child] = children.splice(oldIndex, 1);
   if (!child) return node;
   const idx = Math.max(0, Math.min(children.length, newIndex));
   children.splice(idx, 0, child);
-  
+
   return { ...node, children };
 }
 
 /**
  * تحديث خصائص الحاوية.
- * 
+ *
  * ⚠️ يُعيد نسخة جديدة من العقدة (immutable).
  * ⚠️ يحسب الفئات تلقائياً من الخصائص الجديدة.
- * 
+ *
  * // @function-index: #38/4 — updateLayoutProps
  */
 export function updateLayoutProps(
@@ -197,12 +191,9 @@ export function updateLayoutProps(
   props: Record<string, unknown>,
 ): HtmlBlockNode {
   let styles: TailwindClasses = {};
-  
+
   if (node.type === 'grid') {
-    styles = computeGridStyles(
-      (props.columns as number) ?? 12,
-      (props.gap as number) ?? 4,
-    );
+    styles = computeGridStyles((props.columns as number) ?? 12, (props.gap as number) ?? 4);
   } else if (node.type === 'flexbox') {
     styles = computeFlexboxStyles(
       (props.direction as 'row' | 'column') ?? 'row',
@@ -211,7 +202,7 @@ export function updateLayoutProps(
       (props.gap as number) ?? 4,
     );
   }
-  
+
   return {
     ...node,
     props: { ...node.props, ...props },

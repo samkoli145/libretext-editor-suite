@@ -195,7 +195,7 @@ export function sanitizeSvgString(svgString: string): string {
   }
 
   // تنظيف أولي سريع للنصوص الخبيثة الشائعة
-  let cleaned = svgString
+  const cleaned = svgString
     .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
     .replace(/on\w+\s*=\s*(["'][^"']*["']|[^\s>]+)/gi, '');
 

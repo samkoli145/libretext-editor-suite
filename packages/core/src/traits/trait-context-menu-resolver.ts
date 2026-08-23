@@ -49,7 +49,10 @@ export interface TraitMenuCallbacks {
 /**
  * يولد عناصر القائمة السياقية المرتبطة بالسمة lockable
  */
-function resolveLockableActions(target: TraitAwareBlockTarget, cbs?: TraitMenuCallbacks): ContextMenuItem[] {
+function resolveLockableActions(
+  target: TraitAwareBlockTarget,
+  cbs?: TraitMenuCallbacks,
+): ContextMenuItem[] {
   if (!target.traits.includes('lockable')) return [];
   const isLocked = target.state?.lock?.locked ?? false;
   return [
@@ -68,7 +71,10 @@ function resolveLockableActions(target: TraitAwareBlockTarget, cbs?: TraitMenuCa
 /**
  * يولد عناصر القائمة السياقية المرتبطة بالسمة draggable
  */
-function resolveDraggableActions(target: TraitAwareBlockTarget, cbs?: TraitMenuCallbacks): ContextMenuItem[] {
+function resolveDraggableActions(
+  target: TraitAwareBlockTarget,
+  cbs?: TraitMenuCallbacks,
+): ContextMenuItem[] {
   if (!target.traits.includes('draggable')) return [];
   const isLocked = target.state?.lock?.locked ?? false;
   return [
@@ -96,7 +102,10 @@ function resolveDraggableActions(target: TraitAwareBlockTarget, cbs?: TraitMenuC
 /**
  * يولد عناصر القائمة السياقية المرتبطة بالسمة resizable
  */
-function resolveResizableActions(target: TraitAwareBlockTarget, cbs?: TraitMenuCallbacks): ContextMenuItem[] {
+function resolveResizableActions(
+  target: TraitAwareBlockTarget,
+  cbs?: TraitMenuCallbacks,
+): ContextMenuItem[] {
   if (!target.traits.includes('resizable')) return [];
   const isLocked = target.state?.lock?.locked ?? false;
   return [
@@ -115,7 +124,10 @@ function resolveResizableActions(target: TraitAwareBlockTarget, cbs?: TraitMenuC
 /**
  * يولد عناصر القائمة السياقية المرتبطة بالسمة styleable
  */
-function resolveStyleableActions(target: TraitAwareBlockTarget, cbs?: TraitMenuCallbacks): ContextMenuItem[] {
+function resolveStyleableActions(
+  target: TraitAwareBlockTarget,
+  cbs?: TraitMenuCallbacks,
+): ContextMenuItem[] {
   if (!target.traits.includes('styleable')) return [];
   const isLocked = target.state?.lock?.locked ?? false;
   return [
@@ -134,7 +146,10 @@ function resolveStyleableActions(target: TraitAwareBlockTarget, cbs?: TraitMenuC
 /**
  * يولد العمليات العامة لجميع البلوكات (نسخ، مضاعفة، حذف)
  */
-function resolveGenericActions(target: TraitAwareBlockTarget, cbs?: TraitMenuCallbacks): ContextMenuItem[] {
+function resolveGenericActions(
+  target: TraitAwareBlockTarget,
+  cbs?: TraitMenuCallbacks,
+): ContextMenuItem[] {
   const isLocked = target.state?.lock?.locked ?? false;
   return [
     {
@@ -164,7 +179,7 @@ function resolveGenericActions(target: TraitAwareBlockTarget, cbs?: TraitMenuCal
  */
 export function resolveContextMenuForBlock(
   target: TraitAwareBlockTarget,
-  cbs?: TraitMenuCallbacks
+  cbs?: TraitMenuCallbacks,
 ): readonly ContextMenuItem[] {
   const groups: ContextMenuItem[][] = [
     resolveDraggableActions(target, cbs),
@@ -172,7 +187,7 @@ export function resolveContextMenuForBlock(
     resolveStyleableActions(target, cbs),
     resolveLockableActions(target, cbs),
     resolveGenericActions(target, cbs),
-  ].filter(group => group.length > 0);
+  ].filter((group) => group.length > 0);
 
   const result: ContextMenuItem[] = [];
   groups.forEach((group, index) => {

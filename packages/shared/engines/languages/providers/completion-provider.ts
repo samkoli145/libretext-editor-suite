@@ -40,6 +40,6 @@ export interface CompletionProvider {
   languageId: LanguageId;
   provideCompletions: (
     code: string,
-    position: { line: number; column: number }
+    position: { line: number; column: number },
   ) => CompletionItem[];
 }

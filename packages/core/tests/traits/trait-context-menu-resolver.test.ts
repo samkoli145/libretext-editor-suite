@@ -27,7 +27,7 @@ describe('Trait Context Menu Resolver', () => {
     };
 
     const items = resolveContextMenuForBlock(target);
-    const itemIds = items.map(i => i.id);
+    const itemIds = items.map((i) => i.id);
 
     expect(itemIds).toContain('bring_to_front');
     expect(itemIds).toContain('send_to_back');
@@ -43,7 +43,7 @@ describe('Trait Context Menu Resolver', () => {
     };
 
     const unlockedItems = resolveContextMenuForBlock(unlockedTarget);
-    const lockAction = unlockedItems.find(i => i.id === 'lock_block');
+    const lockAction = unlockedItems.find((i) => i.id === 'lock_block');
     expect(lockAction).toBeDefined();
     expect(lockAction?.checked).toBe(false);
 
@@ -55,7 +55,7 @@ describe('Trait Context Menu Resolver', () => {
     };
 
     const lockedItems = resolveContextMenuForBlock(lockedTarget);
-    const unlockAction = lockedItems.find(i => i.id === 'unlock_block');
+    const unlockAction = lockedItems.find((i) => i.id === 'unlock_block');
     expect(unlockAction).toBeDefined();
     expect(unlockAction?.checked).toBe(true);
   });
@@ -69,10 +69,10 @@ describe('Trait Context Menu Resolver', () => {
     };
 
     const items = resolveContextMenuForBlock(lockedTarget);
-    const bringToFront = items.find(i => i.id === 'bring_to_front');
-    const resetSize = items.find(i => i.id === 'reset_size');
-    const deleteBlock = items.find(i => i.id === 'delete_block');
-    const unlockBlock = items.find(i => i.id === 'unlock_block');
+    const bringToFront = items.find((i) => i.id === 'bring_to_front');
+    const resetSize = items.find((i) => i.id === 'reset_size');
+    const deleteBlock = items.find((i) => i.id === 'delete_block');
+    const unlockBlock = items.find((i) => i.id === 'unlock_block');
 
     expect(bringToFront?.disabled).toBe(true);
     expect(resetSize?.disabled).toBe(true);
@@ -91,8 +91,8 @@ describe('Trait Context Menu Resolver', () => {
     };
 
     const items = resolveContextMenuForBlock(target, { onBringToFront, onDelete });
-    const btf = items.find(i => i.id === 'bring_to_front');
-    const del = items.find(i => i.id === 'delete_block');
+    const btf = items.find((i) => i.id === 'bring_to_front');
+    const del = items.find((i) => i.id === 'delete_block');
 
     btf?.action?.();
     expect(onBringToFront).toHaveBeenCalledWith('audio-99');

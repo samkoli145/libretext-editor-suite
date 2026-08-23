@@ -32,9 +32,7 @@ import type { ToolDefinition, ComponentCategory } from '../core/DevStudioTypes';
  * الفئات النادرة — مطوية افتراضياً، لكن قابلة للاكتشاف.
  * نفس مبدأ CLOSED_BY_DEFAULT في panels.ts.
  */
-const RARE_CATEGORIES = new Set<ComponentCategory>([
-  'debug', 'test', 'math', 'custom',
-]);
+const RARE_CATEGORIES = new Set<ComponentCategory>(['debug', 'test', 'math', 'custom']);
 
 /**
  * محول الواجهات.

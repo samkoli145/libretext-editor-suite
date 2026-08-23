@@ -24,7 +24,10 @@
  */
 
 import { useState, useRef, useCallback, useEffect } from 'react';
-import { ViewportPanZoomEngine, ViewportTransform } from '../../../shared/lib-core/events/viewport-pan-zoom';
+import {
+  ViewportPanZoomEngine,
+  ViewportTransform,
+} from '../../../shared/lib-core/events/viewport-pan-zoom';
 
 export interface UseCanvasTransformOptions {
   initialTransform?: ViewportTransform;
@@ -49,7 +52,11 @@ export function useCanvasTransform({
   // Handle Spacebar for Pan/Hand Tool
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.code === 'Space' && !e.repeat && !(e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement)) {
+      if (
+        e.code === 'Space' &&
+        !e.repeat &&
+        !(e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement)
+      ) {
         setIsSpacePressed(true);
       }
     };
@@ -72,13 +79,15 @@ export function useCanvasTransform({
   const handleWheel = useCallback((e: React.WheelEvent<HTMLDivElement>) => {
     if (!containerRef.current) return;
     const rect = containerRef.current.getBoundingClientRect();
-    
+
     // Zoom if Ctrl/Meta is pressed or if on touchpad pinch, otherwise pan vertically/horizontally
     if (e.ctrlKey || e.metaKey) {
       e.preventDefault();
-      setTransform(prev => engineRef.current.calculateZoomAtPoint(prev, e.deltaY, e.clientX, e.clientY, rect));
+      setTransform((prev) =>
+        engineRef.current.calculateZoomAtPoint(prev, e.deltaY, e.clientX, e.clientY, rect),
+      );
     } else {
-      setTransform(prev => engineRef.current.calculatePan(prev, -e.deltaX, -e.deltaY));
+      setTransform((prev) => engineRef.current.calculatePan(prev, -e.deltaX, -e.deltaY));
     }
   }, []);
 
@@ -93,7 +102,7 @@ export function useCanvasTransform({
     const dx = clientX - lastMousePosRef.current.x;
     const dy = clientY - lastMousePosRef.current.y;
     lastMousePosRef.current = { x: clientX, y: clientY };
-    setTransform(prev => engineRef.current.calculatePan(prev, dx, dy));
+    setTransform((prev) => engineRef.current.calculatePan(prev, dx, dy));
   }, []);
 
   const endPan = useCallback(() => {
@@ -108,17 +117,17 @@ export function useCanvasTransform({
       canvasWidth,
       canvasHeight,
       rect.width,
-      rect.height
+      rect.height,
     );
     setTransform(centered);
   }, [canvasWidth, canvasHeight]);
 
   const zoomIn = useCallback(() => {
-    setTransform(prev => ({ ...prev, scale: Math.min(prev.scale * 1.2, 5.0) }));
+    setTransform((prev) => ({ ...prev, scale: Math.min(prev.scale * 1.2, 5.0) }));
   }, []);
 
   const zoomOut = useCallback(() => {
-    setTransform(prev => ({ ...prev, scale: Math.max(prev.scale / 1.2, 0.1) }));
+    setTransform((prev) => ({ ...prev, scale: Math.max(prev.scale / 1.2, 0.1) }));
   }, []);
 
   return {

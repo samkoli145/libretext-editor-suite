@@ -201,7 +201,10 @@ function renderSelectTsx(
 ): string {
   const options = (node.props.options as Array<{ value: string; label: string }>) ?? [];
   const opts = options
-    .map((o) => `${pad}  <option value="${escapeHtml(String(o.value))}">${escapeHtml(String(o.label))}</option>`)
+    .map(
+      (o) =>
+        `${pad}  <option value="${escapeHtml(String(o.value))}">${escapeHtml(String(o.label))}</option>`,
+    )
     .join('\n');
   return `${pad}<select${classAttr}${dataAttr}>\n${opts}\n${pad}</select>`;
 }
@@ -219,7 +222,10 @@ function renderRadioGroupTsx(
   const options = (node.props.options as Array<{ value: string; label: string }>) ?? [];
   const name = String(node.props.name ?? 'radio');
   const radios = options
-    .map((o) => `${pad}  <label><input type="radio" name="${name}" value="${escapeHtml(String(o.value))}" /> ${escapeHtml(String(o.label))}</label>`)
+    .map(
+      (o) =>
+        `${pad}  <label><input type="radio" name="${name}" value="${escapeHtml(String(o.value))}" /> ${escapeHtml(String(o.label))}</label>`,
+    )
     .join('\n');
   return `${pad}<div${classAttr}${dataAttr}>\n${radios}\n${pad}</div>`;
 }
@@ -279,9 +285,7 @@ function renderTableTsx(node: HtmlBlockNode, indent: number): string {
   const headers = (node.props.headers as string[]) ?? [];
   const rows = (node.props.rows as string[][]) ?? [];
 
-  const thead = headers
-    .map((h) => `${pad}    <th>${escapeHtml(h)}</th>`)
-    .join('\n');
+  const thead = headers.map((h) => `${pad}    <th>${escapeHtml(h)}</th>`).join('\n');
 
   const tbody = rows
     .map(

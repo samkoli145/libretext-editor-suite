@@ -37,7 +37,7 @@ export function mapBlocksToGrid(
   blocks: readonly SpatialBlock[],
   cellSize = 100,
 ): readonly MappedBlock[] {
-  return blocks.map(b => ({
+  return blocks.map((b) => ({
     id: b.id,
     blockType: b.type,
     gridRow: snapToGrid(b.y, cellSize),
@@ -53,7 +53,12 @@ export function findOverlappingBlocks(blocks: readonly SpatialBlock[]): readonly
     for (let j = i + 1; j < blocks.length; j++) {
       const a = blocks[i]!;
       const b = blocks[j]!;
-      if (a.x < b.x + b.width && a.x + a.width > b.x && a.y < b.y + b.height && a.y + a.height > b.y) {
+      if (
+        a.x < b.x + b.width &&
+        a.x + a.width > b.x &&
+        a.y < b.y + b.height &&
+        a.y + a.height > b.y
+      ) {
         overlaps.push(a.id, b.id);
       }
     }
