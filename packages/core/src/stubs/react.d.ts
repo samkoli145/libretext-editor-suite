@@ -1,3 +1,17 @@
+/**
+ * ═══════════════════════════════════════════════════════════════════════════
+ * 📌 ملخص توجيهي | Guiding Summary
+ * ═══════════════════════════════════════════════════════════════════════════
+ * 📄 الملف: react.d.ts
+ * 📂 المسار: packages/core/src/stubs/react.d.ts
+ * 🎯 الهدف: تعريف نوع React لㅂعدم وجود react كBrowser
+ * 🏷️ المعرف: CORE-STUB-01
+ * 📅 تاريخ الإنشاء: 2026-08-23
+ * ═══════════════════════════════════════════════════════════════════════════
+ * 👤 المالك: Hossam El-Din Abdel-Moaty El-Khouly - All rights reserved
+ * ⚖️ الترخيص: MIT License
+ * ═══════════════════════════════════════════════════════════════════════════
+ */
 declare module 'react' {
   // eslint-disable-next-line @typescript-eslint/no-empty-object-type
   export type ComponentType<P = Record<string, never>> = any;

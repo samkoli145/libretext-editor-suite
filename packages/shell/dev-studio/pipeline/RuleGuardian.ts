@@ -53,7 +53,7 @@ const DARK_THEME_PATTERNS: readonly RegExp[] = [
 ];
 
 const SECRET_PATTERNS: readonly RegExp[] = [
-  /(?:api[_-]?key|secret[_-]?key|password|token)\s*[:=]\s*['"][A-Za-z0-9+/=_-]{16,}['"]/i,
+  /(?:\bapi[_-]?key\b|\bsecret[_-]?key\b|\bpassword\b|\btoken\b)\s*[:=]\s*['"][A-Za-z0-9+/=_-]{16,}['"]/i,
   /-----BEGIN\s+(RSA\s+)?PRIVATE\s+KEY-----/,
 ];
 
