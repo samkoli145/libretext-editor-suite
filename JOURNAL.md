@@ -657,3 +657,72 @@
 - المرحلة 4 (قريب): git تلقائي
 - المرحلة 5 (متوسط): ذكاء معماري
 - المرحلة 6 (بعيد): MCP + dashboard
+
+---
+
+## 2026-08-23 — يوم الاختبارات الشاملة وحارس القواعد
+
+### المنجزات
+
+#### اختبارات الوحدات السبع غير المفحوصة (7 ملفات اختبار جديدة)
+
+| الملف                                    | الوحدة                          | عدد الاختبارات | المعرف |
+| ---------------------------------------- | ------------------------------- | -------------- | ------ |
+| `tests/tree/llrb.test.ts`                | LLRB Tree                       | 14             | ALGO   |
+| `tests/structure/disjoint-set.test.ts`   | Union-Find                      | 14             | ALGO   |
+| `tests/graph/dependency.test.ts`         | كشف الحلقات + الطوبولوجي        | 9              | ALGO   |
+| `tests/sort/mergesort.test.ts`           | فرز مدمج مستقر                  | 9              | ALGO   |
+| `tests/simulation/simulation.test.ts`    | المحاكاة النقية                 | 10             | ALGO   |
+| `tests/lookup/hlookup.test.ts`           | HLOOKUP + binary search          | 14             | ALGO   |
+| `tests/streets/streets.test.ts`          | بحث الأسماء + التشابه + الفرز   | 13             | ALGO   |
+
+**النتيجة:** من 1273 اختبار → 1392 اختبار (88 ملف اختبار)، جميعها ناجحة.
+
+#### المرحلة 5 — Rule Guardian (حارس القواعد)
+
+بناء نظام فحص ورفض تلقائي للتعديلات التي تكسر القواعد الصارمة في AGENTS.md:
+
+| الملف                                      | الوصف                                           | المعرف         |
+| ------------------------------------------ | ----------------------------------------------- | -------------- |
+| `dev-studio/pipeline/RuleGuardian.ts`      | محرك القواعد التوضيحي مع 7 قواعد               | PLUG-RULE-GUARDIAN |
+| `dev-studio/cli/RuleGuardianCommands.ts`   | أوامر CLI: `devstudio guard [files..]`          | PLUG-RULE-GUARDIAN |
+| `tests/rule-guardian.test.ts`              | 23 اختبار شامل لكل قاعدة                       | TEST           |
+
+**القواعد السبع المُ FINED:**
+
+| المعرف | القاعدة                           | الخطورة  |
+| ------ | --------------------------------- | -------- |
+| R-001  | الترويسة الثنائية الإلزامية       | error    |
+| R-002  | ممنوع ألوان الثيم الداكن          | error    |
+| R-003  | ممنوع اعتماديات خارجية في النواة | error    |
+| R-004  | ممنوع أسرار/مفاتيح في الكود      | error    |
+| R-005  | تجنب `as any`                     | warning  |
+| R-006  | دوال ≤ 50 سطر                    | warning  |
+| R-007  | الثيم الفاتح النقي حصراً          | error    |
+
+#### إصلاحات حرجة سابقة (نفس اليوم)
+
+- إصلاح `pnpm-workspace.yaml` — تسجيل 7 حزم workspace
+- حذف `UiPreferencesService.ts` المكرر + تصحيح الاستيراد
+- إصلاح اصطدام `scanProject` في CLI (renamed → `scanProjectDebt`)
+- إضافة `packageManager: "pnpm@11.18.0"` لـ `package.json`
+- إصلاح 22 انتهاك ثيم داكن (Workbench, DevStudio, ComponentRegistry, HTMLComponentPlugin)
+- إصلاح 16 خطأ lint (Function type → specific, {} → Record, let → const)
+- إنشاء `vite.config.ts` لـ `@libretext/algorithms` (lib mode, ESM)
+- تنسيق 440 ملف عبر `pnpm format`
+- **البناء:** 7/7 حزم ناجحة (12.8s)
+- **Lint:** 0 أخطاء، 851 تحذير (no-console في السكربتات فقط)
+
+### الإحصائيات النهائية لل يوم
+
+| المقياس                     | القيمة     |
+| --------------------------- | ---------- |
+| ملفات الاختبار              | 89 ملف     |
+| إجمالي الاختبارات           | 1415 اختبار|
+| اختبارات Rule Guardian      | 23 اختبار  |
+| قواعد Rule Guardian         | 7 قواعد    |
+| بناء الحزم                  | 7/7 ناجح   |
+| أخطاء lint                  | 0          |
+| تحذيرات lint                | 851        |
+| Git commits اليوم            | 3          |
+| Git push                     | 3          |

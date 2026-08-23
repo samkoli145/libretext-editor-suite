@@ -38,6 +38,43 @@
 التنسيق مبني على [Keep a Changelog](https://keepachangelog.com/),
 والإصدار يتبع [Semantic Versioning](https://semver.org/).
 
+## [v1.4.0] - 2026-08-23
+
+### Added
+
+- **Algorithm Unit Tests (7 files, 83 tests):** اختبارات شاملة لـ 7 وحدات غير مفحوصة:
+  - LLRB Tree (put, get, floor, ceiling, clear, root color)
+  - DisjointSet / Union-Find (makeSet, find, union, mergeRange, unmerge)
+  - Dependency graph (detectCycle, topologicalSort, getRecalculationOrder)
+  - Bottom-up merge sort (stability, multi-column comparator)
+  - Simulation (createContext, moveCursor, selectRange, setFormula, simulate)
+  - HLOOKUP (exact + approximate, compareValues, binarySearch)
+  - Streets search engine (query, sort, branching tree, similarity analysis)
+- **Rule Guardian (`PLUG-RULE-GUARDIAN`):** محرك فحص ورفض تلقائي للتعديلات المخالفة:
+  - R-001: Mandatory bilingual file header
+  - R-002: No dark theme colors
+  - R-003: No external dependencies in core packages
+  - R-004: No secrets in code
+  - R-005: No `as any` cast (warning)
+  - R-006: Function length ≤ 50 lines (warning)
+  - R-007: Light theme only
+  - CLI: `devstudio guard [files..]`
+  - 23 tests covering all rules
+
+### Fixed
+
+- Fixed `scanProject` name collision in CLI (renamed to `scanProjectDebt`)
+- Added `packageManager: "pnpm@11.18.0"` to `package.json`
+- Fixed dark theme violations in Workbench, DevStudio, ComponentRegistry, HTMLComponentPlugin
+- Fixed 16 lint errors (Function types, empty objects, let→const)
+- Fixed duplicate `UiPreferencesService.ts` import path
+- Added `vite.config.ts` for `@libretext/algorithms` (lib mode, ESM)
+
+### Changed
+
+- Formatted 440 files via `pnpm format`
+- Total test count: 1273 → 1415 (89 test files)
+
 ## [v1.3.0] - 2026-08-22
 
 ### Added
