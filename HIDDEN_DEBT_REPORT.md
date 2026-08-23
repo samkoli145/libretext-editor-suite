@@ -116,4 +116,41 @@ if (result.isErr) return createEmptyMemory();
 
 ---
 
-*آخر تحديث: Phase 0.5 — 2026-08-23*
+## 6. أخطاء البناء والتنسيق (NEW — Phase 0.5 diagnostic)
+
+| الفئة | العدد | الوصف |
+|-------|-------|-------|
+| **pnpm build يفشل** | 1 | ينقص `packageManager` في `package.json` ( Turbo 2.10.11) |
+| **أخطاء Lint** | 35 | `prefer-const` (21), `no-unsafe-function-type` (5), `no-unused-expressions` (5), `no-empty-object-type` (2), `no-this-alias` (2) |
+| **تنبيهات Lint** | 853 | معظمها `no-console` في scripts/ وshared/ |
+| **ملف مكرر** | 1 | `core/services/UiPreferencesService.ts` مكرر + استيراد خاطئ |
+| **انتهاكات الثيم الداكن** | 22 | `bg-slate-900`, `bg-gray-900`, `bg-black`, `dark:` في 11 ملفاً |
+| **Prettier** | 440 ملف | لا يطابق معايير التنسيق |
+
+---
+
+## 7. DIAGNOSTICS_REPORT.json (151 مشكلة موثقة)
+
+| النوع | العدد | الوصف |
+|-------|-------|-------|
+| `long_function` | 95 | دوال تتجاوز 50 سطراً (مخالفة 5.1) |
+| `missing_header` | 34 | ملفات بلا ترويسة إلزامية |
+| `dark_theme_violation` | 22 | انتهاك للقاعدة 7 (ثيم داكن) |
+
+---
+
+## الأولوية للإصلاح
+
+1. **🔴 URGENT:** إضافة `packageManager` في `package.json` (يفتح البناء)
+2. **🔴 URGENT:** حذف الملف المكرر `core/services/UiPreferencesService.ts`
+3. **🔴 URGENT:** علاج انتهاكات الثيم الداكن (22 مخالفة — قاعدة غير قابلة للتفاوض)
+4. **🟡 HIGH:** إصلاح 35 خطأ lint (19 قابلة بـ `--fix`)
+5. **🟡 HIGH:** تشغيل `pnpm format` لإصلاح 440 ملف
+6. **🟡 MEDIUM:** استبدال `as any` بـ typed pattern (104 مخالفة)
+7. **🟡 MEDIUM:** إضافة try/catch حول JSON.parse (89 مخالفة)
+8. **🟢 LOW:** دمج DevStudioEvents مع EventBus من shared/
+9. **🟢 LOW:** توحيد Debouncer و Scheduler
+
+---
+
+*آخر تحديث: Phase 0.5 + Diagnostic Report — 2026-08-23*
