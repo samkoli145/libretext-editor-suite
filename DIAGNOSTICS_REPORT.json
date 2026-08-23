@@ -1,0 +1,874 @@
+[
+  {
+    "file": "packages/adapters/vite.config.ts",
+    "type": "missing_header",
+    "message": "الملف يفتقر إلى الترويسة التوجيهية الإلزامية باللغة العربية."
+  },
+  {
+    "file": "packages/adapters/vitest.config.ts",
+    "type": "missing_header",
+    "message": "الملف يفتقر إلى الترويسة التوجيهية الإلزامية باللغة العربية."
+  },
+  {
+    "file": "packages/algorithms/src/computation/unit-calc-engine.ts",
+    "line": 188,
+    "type": "long_function",
+    "message": "الدالة 'lex' تتجاوز 50 سطرًا (51 سطرًا)."
+  },
+  {
+    "file": "packages/algorithms/src/formula/functions-financial.ts",
+    "line": 139,
+    "type": "long_function",
+    "message": "الدالة 'IRR' تتجاوز 50 سطرًا (65 سطرًا)."
+  },
+  {
+    "file": "packages/algorithms/src/formula/functions-matrix.ts",
+    "line": 789,
+    "type": "long_function",
+    "message": "الدالة 'LIBRETEXT_INFO' تتجاوز 50 سطرًا (57 سطرًا)."
+  },
+  {
+    "file": "packages/algorithms/src/graph/dependency.ts",
+    "line": 145,
+    "type": "long_function",
+    "message": "الدالة 'topologicalSort' تتجاوز 50 سطرًا (51 سطرًا)."
+  },
+  {
+    "file": "packages/algorithms/src/spatial/spatial-drag-algorithms.ts",
+    "line": 545,
+    "type": "long_function",
+    "message": "الدالة 'createInitialArtboardElements' تتجاوز 50 سطرًا (75 سطرًا)."
+  },
+  {
+    "file": "packages/algorithms/src/spatial/vector-path.ts",
+    "line": 243,
+    "type": "long_function",
+    "message": "الدالة 'simplifyPath' تتجاوز 50 سطرًا (51 سطرًا)."
+  },
+  {
+    "file": "packages/algorithms/src/spatial/vector-path.ts",
+    "line": 335,
+    "type": "long_function",
+    "message": "الدالة 'svgDToVectorPath' تتجاوز 50 سطرًا (68 سطرًا)."
+  },
+  {
+    "file": "packages/algorithms/tests/computation/unit-calc-engine.test.ts",
+    "type": "missing_header",
+    "message": "الملف يفتقر إلى الترويسة التوجيهية الإلزامية باللغة العربية."
+  },
+  {
+    "file": "packages/algorithms/tests/diagram/diagram-engine.test.ts",
+    "type": "missing_header",
+    "message": "الملف يفتقر إلى الترويسة التوجيهية الإلزامية باللغة العربية."
+  },
+  {
+    "file": "packages/algorithms/tests/spatial/alignment.test.ts",
+    "type": "missing_header",
+    "message": "الملف يفتقر إلى الترويسة التوجيهية الإلزامية باللغة العربية."
+  },
+  {
+    "file": "packages/algorithms/tests/spatial/dynamic-guide-lines.test.ts",
+    "type": "missing_header",
+    "message": "الملف يفتقر إلى الترويسة التوجيهية الإلزامية باللغة العربية."
+  },
+  {
+    "file": "packages/algorithms/tests/spatial/smart-rtl-alignment.test.ts",
+    "type": "missing_header",
+    "message": "الملف يفتقر إلى الترويسة التوجيهية الإلزامية باللغة العربية."
+  },
+  {
+    "file": "packages/algorithms/tests/spatial/smart-snap-engine.test.ts",
+    "type": "missing_header",
+    "message": "الملف يفتقر إلى الترويسة التوجيهية الإلزامية باللغة العربية."
+  },
+  {
+    "file": "packages/algorithms/tests/vector/control-handle-manager.test.ts",
+    "type": "missing_header",
+    "message": "الملف يفتقر إلى الترويسة التوجيهية الإلزامية باللغة العربية."
+  },
+  {
+    "file": "packages/algorithms/tests/vector/ref-line.test.ts",
+    "type": "missing_header",
+    "message": "الملف يفتقر إلى الترويسة التوجيهية الإلزامية باللغة العربية."
+  },
+  {
+    "file": "packages/algorithms/tests/vector/snap.test.ts",
+    "type": "missing_header",
+    "message": "الملف يفتقر إلى الترويسة التوجيهية الإلزامية باللغة العربية."
+  },
+  {
+    "file": "packages/app/providers/DockableLayoutProvider.tsx",
+    "line": 126,
+    "type": "long_function",
+    "message": "الدالة 'DockableLayoutProvider' تتجاوز 50 سطرًا (295 سطرًا)."
+  },
+  {
+    "file": "packages/app/providers.tsx",
+    "line": 102,
+    "type": "long_function",
+    "message": "الدالة 'TabsProvider' تتجاوز 50 سطرًا (168 سطرًا)."
+  },
+  {
+    "file": "packages/app/providers.tsx",
+    "line": 284,
+    "type": "long_function",
+    "message": "الدالة 'AppProviders' تتجاوز 50 سطرًا (95 سطرًا)."
+  },
+  {
+    "file": "packages/components/SettingsPanel.tsx",
+    "line": 214,
+    "type": "dark_theme_violation",
+    "message": "مخالفة لشرط الثيم الفاتح النقي: تم رصد الكلاس 'bg-slate-900'."
+  },
+  {
+    "file": "packages/components/SettingsPanel.tsx",
+    "line": 73,
+    "type": "long_function",
+    "message": "الدالة 'SettingsPanel' تتجاوز 50 سطرًا (584 سطرًا)."
+  },
+  {
+    "file": "packages/components/canvas/Canvas.tsx",
+    "line": 909,
+    "type": "dark_theme_violation",
+    "message": "مخالفة لشرط الثيم الفاتح النقي: تم رصد الكلاس 'bg-slate-900'."
+  },
+  {
+    "file": "packages/components/canvas/Canvas.tsx",
+    "line": 259,
+    "type": "long_function",
+    "message": "الدالة 'handleStageMouseDown' تتجاوز 50 سطرًا (104 سطرًا)."
+  },
+  {
+    "file": "packages/core/engines/HtmlPipelineEngine.ts",
+    "line": 97,
+    "type": "long_function",
+    "message": "الدالة 'htmlToCanvasBlocks' تتجاوز 50 سطرًا (186 سطرًا)."
+  },
+  {
+    "file": "packages/core/engines/HtmlPipelineEngine.ts",
+    "line": 288,
+    "type": "long_function",
+    "message": "الدالة 'exportDocumentToCleanHtml' تتجاوز 50 سطرًا (65 سطرًا)."
+  },
+  {
+    "file": "packages/core/engines/HtmlPipelineEngine.ts",
+    "line": 374,
+    "type": "long_function",
+    "message": "الدالة 'parseHtmlToCanvasBlocksFallback' تتجاوز 50 سطرًا (145 سطرًا)."
+  },
+  {
+    "file": "packages/core/engines/ImagePipelineEngine.ts",
+    "line": 90,
+    "type": "long_function",
+    "message": "الدالة 'readJpegOrientation' تتجاوز 50 سطرًا (64 سطرًا)."
+  },
+  {
+    "file": "packages/core/src/blocks/html-block-tailwind-editor.ts",
+    "line": 42,
+    "type": "dark_theme_violation",
+    "message": "مخالفة لشرط الثيم الفاتح النقي: تم رصد الكلاس 'bg-black'."
+  },
+  {
+    "file": "packages/core/src/blocks/html-block-tailwind-editor.ts",
+    "line": 64,
+    "type": "dark_theme_violation",
+    "message": "مخالفة لشرط الثيم الفاتح النقي: تم رصد الكلاس 'bg-black'."
+  },
+  {
+    "file": "packages/core/src/blocks/html-block-tailwind-editor.ts",
+    "line": 64,
+    "type": "dark_theme_violation",
+    "message": "مخالفة لشرط الثيم الفاتح النقي: تم رصد الكلاس 'bg-gray-900'."
+  },
+  {
+    "file": "packages/core/src/blocks/html-block-tailwind-editor.ts",
+    "line": 70,
+    "type": "dark_theme_violation",
+    "message": "مخالفة لشرط الثيم الفاتح النقي: تم رصد الكلاس 'bg-black'."
+  },
+  {
+    "file": "packages/core/src/blocks/html-block-tailwind-editor.ts",
+    "line": 70,
+    "type": "dark_theme_violation",
+    "message": "مخالفة لشرط الثيم الفاتح النقي: تم رصد الكلاس 'bg-slate-900'."
+  },
+  {
+    "file": "packages/core/src/blocks/html-block-tailwind-editor.ts",
+    "line": 70,
+    "type": "dark_theme_violation",
+    "message": "مخالفة لشرط الثيم الفاتح النقي: تم رصد الكلاس 'bg-gray-900'."
+  },
+  {
+    "file": "packages/core/src/blocks/html-block-tsx-generator.ts",
+    "line": 84,
+    "type": "long_function",
+    "message": "الدالة 'renderNodeTsx' تتجاوز 50 سطرًا (94 سطرًا)."
+  },
+  {
+    "file": "packages/core/src/contextMenuEngine.ts",
+    "line": 299,
+    "type": "long_function",
+    "message": "الدالة 'createContextMenuEngine' تتجاوز 50 سطرًا (113 سطرًا)."
+  },
+  {
+    "file": "packages/core/src/engines/context-menu-css.ts",
+    "line": 132,
+    "type": "long_function",
+    "message": "الدالة 'generateContextMenuCss' تتجاوز 50 سطرًا (82 سطرًا)."
+  },
+  {
+    "file": "packages/core/src/engines/multi-selection-engine.ts",
+    "line": 15,
+    "type": "long_function",
+    "message": "الدالة 'createMultiSelectionEngine' تتجاوز 50 سطرًا (63 سطرًا)."
+  },
+  {
+    "file": "packages/core/src/engines/selection-manager.ts",
+    "line": 29,
+    "type": "long_function",
+    "message": "الدالة 'createSelectionManager' تتجاوز 50 سطرًا (58 سطرًا)."
+  },
+  {
+    "file": "packages/core/src/indexer/indexer.ts",
+    "line": 45,
+    "type": "long_function",
+    "message": "الدالة 'buildIndexer' تتجاوز 50 سطرًا (76 سطرًا)."
+  },
+  {
+    "file": "packages/core/src/state/operations.ts",
+    "line": 140,
+    "type": "long_function",
+    "message": "الدالة 'applyOperation' تتجاوز 50 سطرًا (90 سطرًا)."
+  },
+  {
+    "file": "packages/core/src/stubs/react.d.ts",
+    "type": "missing_header",
+    "message": "الملف يفتقر إلى الترويسة التوجيهية الإلزامية باللغة العربية."
+  },
+  {
+    "file": "packages/core/src/utils/formula-parser.ts",
+    "line": 249,
+    "type": "long_function",
+    "message": "الدالة 'parseFormula' تتجاوز 50 سطرًا (55 سطرًا)."
+  },
+  {
+    "file": "packages/core/tests/engines/block-mapper.test.ts",
+    "type": "missing_header",
+    "message": "الملف يفتقر إلى الترويسة التوجيهية الإلزامية باللغة العربية."
+  },
+  {
+    "file": "packages/core/tests/engines/bounding-clamping-engine.test.ts",
+    "type": "missing_header",
+    "message": "الملف يفتقر إلى الترويسة التوجيهية الإلزامية باللغة العربية."
+  },
+  {
+    "file": "packages/core/tests/engines/callout-engine.test.ts",
+    "type": "missing_header",
+    "message": "الملف يفتقر إلى الترويسة التوجيهية الإلزامية باللغة العربية."
+  },
+  {
+    "file": "packages/core/tests/engines/canvas-profile-engine.test.ts",
+    "type": "missing_header",
+    "message": "الملف يفتقر إلى الترويسة التوجيهية الإلزامية باللغة العربية."
+  },
+  {
+    "file": "packages/core/tests/engines/component-registry.test.ts",
+    "type": "missing_header",
+    "message": "الملف يفتقر إلى الترويسة التوجيهية الإلزامية باللغة العربية."
+  },
+  {
+    "file": "packages/core/tests/engines/marquee-selection-engine.test.ts",
+    "type": "missing_header",
+    "message": "الملف يفتقر إلى الترويسة التوجيهية الإلزامية باللغة العربية."
+  },
+  {
+    "file": "packages/core/tests/engines/mouse-command-registry.test.ts",
+    "type": "missing_header",
+    "message": "الملف يفتقر إلى الترويسة التوجيهية الإلزامية باللغة العربية."
+  },
+  {
+    "file": "packages/core/tests/engines/multi-selection-engine.test.ts",
+    "type": "missing_header",
+    "message": "الملف يفتقر إلى الترويسة التوجيهية الإلزامية باللغة العربية."
+  },
+  {
+    "file": "packages/core/tests/engines/screen-edge-detector.test.ts",
+    "type": "missing_header",
+    "message": "الملف يفتقر إلى الترويسة التوجيهية الإلزامية باللغة العربية."
+  },
+  {
+    "file": "packages/core/tests/engines/selection-manager.test.ts",
+    "type": "missing_header",
+    "message": "الملف يفتقر إلى الترويسة التوجيهية الإلزامية باللغة العربية."
+  },
+  {
+    "file": "packages/core/tests/engines/smart-component-engine.test.ts",
+    "type": "missing_header",
+    "message": "الملف يفتقر إلى الترويسة التوجيهية الإلزامية باللغة العربية."
+  },
+  {
+    "file": "packages/core/tests/engines/spatial-drag-engine.test.ts",
+    "type": "missing_header",
+    "message": "الملف يفتقر إلى الترويسة التوجيهية الإلزامية باللغة العربية."
+  },
+  {
+    "file": "packages/core/tests/engines/undo-redo-engine.test.ts",
+    "type": "missing_header",
+    "message": "الملف يفتقر إلى الترويسة التوجيهية الإلزامية باللغة العربية."
+  },
+  {
+    "file": "packages/core/tests/engines/z-order-manager.test.ts",
+    "type": "missing_header",
+    "message": "الملف يفتقر إلى الترويسة التوجيهية الإلزامية باللغة العربية."
+  },
+  {
+    "file": "packages/core/vite.config.ts",
+    "type": "missing_header",
+    "message": "الملف يفتقر إلى الترويسة التوجيهية الإلزامية باللغة العربية."
+  },
+  {
+    "file": "packages/features/canvas-designer/CanvasDesignerPlugin.tsx",
+    "line": 31,
+    "type": "long_function",
+    "message": "الدالة 'CanvasDesignerEditor' تتجاوز 50 سطرًا (270 سطرًا)."
+  },
+  {
+    "file": "packages/features/canvas-designer/codeGenerator.ts",
+    "line": 38,
+    "type": "long_function",
+    "message": "الدالة 'elementToTailwindClasses' تتجاوز 50 سطرًا (52 سطرًا)."
+  },
+  {
+    "file": "packages/features/canvas-designer/codeGenerator.ts",
+    "line": 146,
+    "type": "long_function",
+    "message": "الدالة 'generateHtml5Code' تتجاوز 50 سطرًا (58 سطرًا)."
+  },
+  {
+    "file": "packages/features/canvas-designer/components/BezierPenToolOverlay.tsx",
+    "line": 189,
+    "type": "long_function",
+    "message": "الدالة 'handleCommit' تتجاوز 50 سطرًا (51 سطرًا)."
+  },
+  {
+    "file": "packages/features/canvas-designer/components/CanvasBezierShapeEditor.tsx",
+    "line": 51,
+    "type": "long_function",
+    "message": "الدالة 'CanvasBezierShapeEditor' تتجاوز 50 سطرًا (317 سطرًا)."
+  },
+  {
+    "file": "packages/features/canvas-designer/components/CanvasHeader.tsx",
+    "line": 62,
+    "type": "long_function",
+    "message": "الدالة 'CanvasHeader' تتجاوز 50 سطرًا (209 سطرًا)."
+  },
+  {
+    "file": "packages/features/canvas-designer/components/CanvasMotionPathEditor.tsx",
+    "line": 392,
+    "type": "dark_theme_violation",
+    "message": "مخالفة لشرط الثيم الفاتح النقي: تم رصد الكلاس 'bg-slate-900'."
+  },
+  {
+    "file": "packages/features/canvas-designer/components/CanvasMotionPathEditor.tsx",
+    "line": 51,
+    "type": "long_function",
+    "message": "الدالة 'CanvasMotionPathEditor' تتجاوز 50 سطرًا (348 سطرًا)."
+  },
+  {
+    "file": "packages/features/canvas-designer/components/CanvasSidebar.tsx",
+    "line": 105,
+    "type": "long_function",
+    "message": "الدالة 'CanvasSidebar' تتجاوز 50 سطرًا (343 سطرًا)."
+  },
+  {
+    "file": "packages/features/canvas-designer/components/CanvasViewport.tsx",
+    "line": 83,
+    "type": "long_function",
+    "message": "الدالة 'CanvasViewport' تتجاوز 50 سطرًا (288 سطرًا)."
+  },
+  {
+    "file": "packages/features/canvas-designer/components/ColorManagementPanel.tsx",
+    "line": 489,
+    "type": "dark_theme_violation",
+    "message": "مخالفة لشرط الثيم الفاتح النقي: تم رصد الكلاس 'bg-slate-900'."
+  },
+  {
+    "file": "packages/features/canvas-designer/components/ElementRenderer.tsx",
+    "line": 214,
+    "type": "long_function",
+    "message": "الدالة 'renderContent' تتجاوز 50 سطرًا (1236 سطرًا)."
+  },
+  {
+    "file": "packages/features/canvas-designer/components/InfiniteLayerTree.tsx",
+    "line": 81,
+    "type": "long_function",
+    "message": "الدالة 'InfiniteLayerTree' تتجاوز 50 سطرًا (609 سطرًا)."
+  },
+  {
+    "file": "packages/features/canvas-designer/components/LiveCodePanel.tsx",
+    "line": 58,
+    "type": "long_function",
+    "message": "الدالة 'LiveCodePanel' تتجاوز 50 سطرًا (208 سطرًا)."
+  },
+  {
+    "file": "packages/features/canvas-designer/components/LivePreview.tsx",
+    "line": 127,
+    "type": "dark_theme_violation",
+    "message": "مخالفة لشرط الثيم الفاتح النقي: تم رصد الكلاس 'bg-slate-900'."
+  },
+  {
+    "file": "packages/features/canvas-designer/components/TransformHandles.tsx",
+    "line": 38,
+    "type": "long_function",
+    "message": "الدالة 'TransformHandles' تتجاوز 50 سطرًا (81 سطرًا)."
+  },
+  {
+    "file": "packages/features/canvas-designer/components/WebDropInspector.tsx",
+    "line": 51,
+    "type": "long_function",
+    "message": "الدالة 'WebDropInspector' تتجاوز 50 سطرًا (237 سطرًا)."
+  },
+  {
+    "file": "packages/features/canvas-designer/core/interactionEngine.ts",
+    "line": 51,
+    "type": "long_function",
+    "message": "الدالة 'playSyntheticAudioFeedback' تتجاوز 50 سطرًا (69 سطرًا)."
+  },
+  {
+    "file": "packages/features/canvas-designer/core/interactionEngine.ts",
+    "line": 228,
+    "type": "long_function",
+    "message": "الدالة 'runAction' تتجاوز 50 سطرًا (93 سطرًا)."
+  },
+  {
+    "file": "packages/features/canvas-designer/core/svgExporter.ts",
+    "line": 54,
+    "type": "long_function",
+    "message": "الدالة 'elementToSvgNode' تتجاوز 50 سطرًا (106 سطرًا)."
+  },
+  {
+    "file": "packages/features/canvas-designer/hooks/useCanvasShortcuts.ts",
+    "line": 41,
+    "type": "long_function",
+    "message": "الدالة 'useCanvasShortcuts' تتجاوز 50 سطرًا (117 سطرًا)."
+  },
+  {
+    "file": "packages/features/canvas-designer/hooks/useCanvasTransform.ts",
+    "line": 35,
+    "type": "long_function",
+    "message": "الدالة 'useCanvasTransform' تتجاوز 50 سطرًا (104 سطرًا)."
+  },
+  {
+    "file": "packages/features/canvas-designer/model.ts",
+    "line": 404,
+    "type": "long_function",
+    "message": "الدالة 'createDefaultCanvasData' تتجاوز 50 سطرًا (86 سطرًا)."
+  },
+  {
+    "file": "packages/features/canvas-designer/webParser.ts",
+    "line": 61,
+    "type": "long_function",
+    "message": "الدالة 'traverseNode' تتجاوز 50 سطرًا (144 سطرًا)."
+  },
+  {
+    "file": "packages/features/html-component/HTMLComponentPlugin.tsx",
+    "line": 295,
+    "type": "dark_theme_violation",
+    "message": "مخالفة لشرط الثيم الفاتح النقي: تم رصد الكلاس 'bg-slate-900'."
+  },
+  {
+    "file": "packages/features/html-component/HTMLComponentPlugin.tsx",
+    "line": 35,
+    "type": "long_function",
+    "message": "الدالة 'HTMLComponentEditor' تتجاوز 50 سطرًا (270 سطرًا)."
+  },
+  {
+    "file": "packages/features/html-component/index.ts",
+    "type": "missing_header",
+    "message": "الملف يفتقر إلى الترويسة التوجيهية الإلزامية باللغة العربية."
+  },
+  {
+    "file": "packages/features/pdf/PdfPlugin.tsx",
+    "line": 43,
+    "type": "long_function",
+    "message": "الدالة 'PdfEditor' تتجاوز 50 سطرًا (114 سطرًا)."
+  },
+  {
+    "file": "packages/features/pdf/hooks/usePdfAnnotations.ts",
+    "line": 34,
+    "type": "long_function",
+    "message": "الدالة 'usePdfAnnotations' تتجاوز 50 سطرًا (67 سطرًا)."
+  },
+  {
+    "file": "packages/features/pdf/hooks/usePdfPagination.ts",
+    "line": 34,
+    "type": "long_function",
+    "message": "الدالة 'usePdfPagination' تتجاوز 50 سطرًا (76 سطرًا)."
+  },
+  {
+    "file": "packages/features/rich-text/RichTextEditor.tsx",
+    "line": 37,
+    "type": "long_function",
+    "message": "الدالة 'RichTextEditor' تتجاوز 50 سطرًا (187 سطرًا)."
+  },
+  {
+    "file": "packages/features/rich-text/core/NativeEditor.ts",
+    "line": 120,
+    "type": "long_function",
+    "message": "الدالة 'parseNode' تتجاوز 50 سطرًا (94 سطرًا)."
+  },
+  {
+    "file": "packages/features/rich-text/core/NativeEditor.ts",
+    "line": 371,
+    "type": "long_function",
+    "message": "الدالة 'convertNode' تتجاوز 50 سطرًا (56 سطرًا)."
+  },
+  {
+    "file": "packages/features/rich-text/services/docxUtils.ts",
+    "line": 81,
+    "type": "long_function",
+    "message": "الدالة 'processNode' تتجاوز 50 سطرًا (136 سطرًا)."
+  },
+  {
+    "file": "packages/features/rich-text/services/docxUtils.ts",
+    "line": 294,
+    "type": "long_function",
+    "message": "الدالة 'extractRuns' تتجاوز 50 سطرًا (65 سطرًا)."
+  },
+  {
+    "file": "packages/features/rich-text/services/docxUtils.ts",
+    "line": 407,
+    "type": "long_function",
+    "message": "الدالة 'parseDocxToHtml' تتجاوز 50 سطرًا (112 سطرًا)."
+  },
+  {
+    "file": "packages/features/ui-designer/UIDesignerPlugin.tsx",
+    "line": 29,
+    "type": "long_function",
+    "message": "الدالة 'UIDesignerEditor' تتجاوز 50 سطرًا (292 سطرًا)."
+  },
+  {
+    "file": "packages/features/ui-designer/hooks/useUIDesignerShortcuts.ts",
+    "line": 37,
+    "type": "long_function",
+    "message": "الدالة 'useUIDesignerShortcuts' تتجاوز 50 سطرًا (63 سطرًا)."
+  },
+  {
+    "file": "packages/features/ui-designer/model.ts",
+    "line": 100,
+    "type": "long_function",
+    "message": "الدالة 'createDefaultUIDesignerData' تتجاوز 50 سطرًا (89 سطرًا)."
+  },
+  {
+    "file": "packages/main.tsx",
+    "type": "missing_header",
+    "message": "الملف يفتقر إلى الترويسة التوجيهية الإلزامية باللغة العربية."
+  },
+  {
+    "file": "packages/pdf/model.ts",
+    "line": 196,
+    "type": "long_function",
+    "message": "الدالة 'createInitialPdfDocument' تتجاوز 50 سطرًا (57 سطرًا)."
+  },
+  {
+    "file": "packages/plugins/tests/unified-tools.test.ts",
+    "type": "missing_header",
+    "message": "الملف يفتقر إلى الترويسة التوجيهية الإلزامية باللغة العربية."
+  },
+  {
+    "file": "packages/plugins/vite.config.ts",
+    "type": "missing_header",
+    "message": "الملف يفتقر إلى الترويسة التوجيهية الإلزامية باللغة العربية."
+  },
+  {
+    "file": "packages/serializers/vite.config.ts",
+    "type": "missing_header",
+    "message": "الملف يفتقر إلى الترويسة التوجيهية الإلزامية باللغة العربية."
+  },
+  {
+    "file": "packages/shared/engines/ComponentRegistry.ts",
+    "line": 459,
+    "type": "dark_theme_violation",
+    "message": "مخالفة لشرط الثيم الفاتح النقي: تم رصد الكلاس 'bg-slate-900'."
+  },
+  {
+    "file": "packages/shared/engines/ComponentRegistry.ts",
+    "line": 582,
+    "type": "dark_theme_violation",
+    "message": "مخالفة لشرط الثيم الفاتح النقي: تم رصد الكلاس 'bg-slate-900'."
+  },
+  {
+    "file": "packages/shared/engines/ComponentRegistry.ts",
+    "line": 587,
+    "type": "dark_theme_violation",
+    "message": "مخالفة لشرط الثيم الفاتح النقي: تم رصد الكلاس 'bg-slate-900'."
+  },
+  {
+    "file": "packages/shared/engines/DoctorSelfHealingEngine.ts",
+    "line": 386,
+    "type": "dark_theme_violation",
+    "message": "مخالفة لشرط الثيم الفاتح النقي: تم رصد الكلاس 'bg-slate-900'."
+  },
+  {
+    "file": "packages/shared/engines/DoctorSelfHealingEngine.ts",
+    "line": 387,
+    "type": "dark_theme_violation",
+    "message": "مخالفة لشرط الثيم الفاتح النقي: تم رصد الكلاس 'bg-gray-900'."
+  },
+  {
+    "file": "packages/shared/engines/DoctorSelfHealingEngine.ts",
+    "line": 388,
+    "type": "dark_theme_violation",
+    "message": "مخالفة لشرط الثيم الفاتح النقي: تم رصد الكلاس 'bg-black'."
+  },
+  {
+    "file": "packages/shared/engines/DoctorSelfHealingEngine.ts",
+    "line": 389,
+    "type": "dark_theme_violation",
+    "message": "مخالفة لشرط الثيم الفاتح النقي: تم رصد الكلاس 'dark:'."
+  },
+  {
+    "file": "packages/shared/engines/MindMapEngine.ts",
+    "line": 205,
+    "type": "long_function",
+    "message": "الدالة 'layoutSide' تتجاوز 50 سطرًا (74 سطرًا)."
+  },
+  {
+    "file": "packages/shared/engines/PresentationNotebookEngine.ts",
+    "line": 190,
+    "type": "dark_theme_violation",
+    "message": "مخالفة لشرط الثيم الفاتح النقي: تم رصد الكلاس 'bg-slate-900'."
+  },
+  {
+    "file": "packages/shared/engines/htmlBlockParsers.ts",
+    "line": 274,
+    "type": "long_function",
+    "message": "الدالة 'parseHtmlElementToWebBlock' تتجاوز 50 سطرًا (52 سطرًا)."
+  },
+  {
+    "file": "packages/shared/hooks/useCollapsibleTopBar.ts",
+    "line": 55,
+    "type": "long_function",
+    "message": "الدالة 'useCollapsibleTopBar' تتجاوز 50 سطرًا (168 سطرًا)."
+  },
+  {
+    "file": "packages/shared/hooks/useContextMenu.ts",
+    "line": 90,
+    "type": "long_function",
+    "message": "الدالة 'useContextMenu' تتجاوز 50 سطرًا (203 سطرًا)."
+  },
+  {
+    "file": "packages/shared/hooks/useDockablePanel.ts",
+    "line": 45,
+    "type": "long_function",
+    "message": "الدالة 'useDockablePanel' تتجاوز 50 سطرًا (194 سطرًا)."
+  },
+  {
+    "file": "packages/shared/hooks/useIngestionDropZone.ts",
+    "line": 37,
+    "type": "long_function",
+    "message": "الدالة 'useIngestionDropZone' تتجاوز 50 سطرًا (71 سطرًا)."
+  },
+  {
+    "file": "packages/shared/hooks/useMagicNotesEvaluator.ts",
+    "line": 43,
+    "type": "long_function",
+    "message": "الدالة 'useMagicNotesEvaluator' تتجاوز 50 سطرًا (59 سطرًا)."
+  },
+  {
+    "file": "packages/shared/hooks/useMultiSelection.ts",
+    "line": 35,
+    "type": "long_function",
+    "message": "الدالة 'useMultiSelection' تتجاوز 50 سطرًا (73 سطرًا)."
+  },
+  {
+    "file": "packages/shared/hooks/useRasterCanvas.ts",
+    "line": 39,
+    "type": "long_function",
+    "message": "الدالة 'useRasterCanvas' تتجاوز 50 سطرًا (124 سطرًا)."
+  },
+  {
+    "file": "packages/shared/hooks/useTabDragReorder.ts",
+    "line": 33,
+    "type": "long_function",
+    "message": "الدالة 'useTabDragReorder' تتجاوز 50 سطرًا (64 سطرًا)."
+  },
+  {
+    "file": "packages/shared/hooks/useToolRegistry.ts",
+    "line": 53,
+    "type": "long_function",
+    "message": "الدالة 'useToolRegistry' تتجاوز 50 سطرًا (153 سطرًا)."
+  },
+  {
+    "file": "packages/shared/lib-core/computational-notebook/ScratchpadParser.ts",
+    "line": 69,
+    "type": "long_function",
+    "message": "الدالة 'tokenize' تتجاوز 50 سطرًا (101 سطرًا)."
+  },
+  {
+    "file": "packages/shared/lib-core/computational-notebook/ScratchpadParser.ts",
+    "line": 183,
+    "type": "long_function",
+    "message": "الدالة 'parse' تتجاوز 50 سطرًا (153 سطرًا)."
+  },
+  {
+    "file": "packages/shared/lib-core/computational-notebook/negative-control-tests.ts",
+    "line": 51,
+    "type": "long_function",
+    "message": "الدالة 'runNegativeControlTests' تتجاوز 50 سطرًا (296 سطرًا)."
+  },
+  {
+    "file": "packages/shared/lib-core/computational-notebook/types.ts",
+    "line": 271,
+    "type": "long_function",
+    "message": "الدالة 'normalizeNotebook' تتجاوز 50 سطرًا (53 سطرًا)."
+  },
+  {
+    "file": "packages/shared/lib-core/computational-notebook/unit-calc-engine.ts",
+    "line": 164,
+    "type": "long_function",
+    "message": "الدالة 'lex' تتجاوز 50 سطرًا (51 سطرًا)."
+  },
+  {
+    "file": "packages/shared/lib-core/converters/obsidian-vault-import-engine.ts",
+    "line": 89,
+    "type": "long_function",
+    "message": "الدالة 'inlineHtml' تتجاوز 50 سطرًا (65 سطرًا)."
+  },
+  {
+    "file": "packages/shared/lib-core/converters/obsidian-vault-import-engine.ts",
+    "line": 220,
+    "type": "long_function",
+    "message": "الدالة 'parseNote' تتجاوز 50 سطرًا (179 سطرًا)."
+  },
+  {
+    "file": "packages/shared/lib-core/document-pipeline/block-document-model.ts",
+    "line": 189,
+    "type": "long_function",
+    "message": "الدالة 'parseDoc' تتجاوز 50 سطرًا (79 سطرًا)."
+  },
+  {
+    "file": "packages/shared/lib-core/document-pipeline/html-sanitizer.ts",
+    "line": 43,
+    "type": "long_function",
+    "message": "الدالة 'sanitizeHtml' تتجاوز 50 سطرًا (65 سطرًا)."
+  },
+  {
+    "file": "packages/shared/lib-core/document-pipeline/latex-math-tokenizer.ts",
+    "line": 85,
+    "type": "long_function",
+    "message": "الدالة 'parseLatexToSemanticHtml' تتجاوز 50 سطرًا (101 سطرًا)."
+  },
+  {
+    "file": "packages/shared/lib-core/document-pipeline/layer-document-compositor.ts",
+    "line": 70,
+    "type": "long_function",
+    "message": "الدالة 'createDefaultEducationalLayers' تتجاوز 50 سطرًا (54 سطرًا)."
+  },
+  {
+    "file": "packages/shared/lib-core/document-pipeline/plan-apply-agent-engine.ts",
+    "line": 262,
+    "type": "long_function",
+    "message": "الدالة 'validateDoc' تتجاوز 50 سطرًا (244 سطرًا)."
+  },
+  {
+    "file": "packages/shared/lib-core/document-pipeline/plan-apply-agent-engine.ts",
+    "line": 545,
+    "type": "long_function",
+    "message": "الدالة 'outlineDoc' تتجاوز 50 سطرًا (54 سطرًا)."
+  },
+  {
+    "file": "packages/shared/lib-core/document-pipeline/plan-apply-agent-engine.ts",
+    "line": 628,
+    "type": "long_function",
+    "message": "الدالة 'statsDoc' تتجاوز 50 سطرًا (59 سطرًا)."
+  },
+  {
+    "file": "packages/shared/lib-core/grid-engine/cell-formula-engine.ts",
+    "line": 214,
+    "type": "long_function",
+    "message": "الدالة 'recalcCells' تتجاوز 50 سطرًا (88 سطرًا)."
+  },
+  {
+    "file": "packages/shared/lib-core/grid-engine/formula-evaluator.ts",
+    "line": 235,
+    "type": "long_function",
+    "message": "الدالة 'evaluateExpression' تتجاوز 50 سطرًا (202 سطرًا)."
+  },
+  {
+    "file": "packages/shared/vector-engine/path_editor.ts",
+    "line": 207,
+    "type": "long_function",
+    "message": "الدالة 'parseSvgPathD' تتجاوز 50 سطرًا (79 سطرًا)."
+  },
+  {
+    "file": "packages/shell/Workbench.tsx",
+    "line": 258,
+    "type": "dark_theme_violation",
+    "message": "مخالفة لشرط الثيم الفاتح النقي: تم رصد الكلاس 'bg-slate-900'."
+  },
+  {
+    "file": "packages/shell/Workbench.tsx",
+    "line": 363,
+    "type": "dark_theme_violation",
+    "message": "مخالفة لشرط الثيم الفاتح النقي: تم رصد الكلاس 'bg-slate-900'."
+  },
+  {
+    "file": "packages/shell/Workbench.tsx",
+    "line": 54,
+    "type": "long_function",
+    "message": "الدالة 'Workbench' تتجاوز 50 سطرًا (374 سطرًا)."
+  },
+  {
+    "file": "packages/shell/dev-studio/scratchpad/scratchpad.ts",
+    "line": 194,
+    "type": "long_function",
+    "message": "الدالة 'recomputeAll' تتجاوز 50 سطرًا (109 سطرًا)."
+  },
+  {
+    "file": "packages/shell/dev-studio/sync/CodeGenerator.ts",
+    "line": 199,
+    "type": "long_function",
+    "message": "الدالة 'componentTemplate' تتجاوز 50 سطرًا (57 سطرًا)."
+  },
+  {
+    "file": "packages/shell/dev-studio/sync/CodeGenerator.ts",
+    "line": 261,
+    "type": "long_function",
+    "message": "الدالة 'engineTemplate' تتجاوز 50 سطرًا (51 سطرًا)."
+  },
+  {
+    "file": "packages/storage/vite.config.ts",
+    "type": "missing_header",
+    "message": "الملف يفتقر إلى الترويسة التوجيهية الإلزامية باللغة العربية."
+  },
+  {
+    "file": "packages/templates/src/writer/writer-templates.ts",
+    "line": 77,
+    "type": "long_function",
+    "message": "الدالة 'createLetterTemplate' تتجاوز 50 سطرًا (94 سطرًا)."
+  },
+  {
+    "file": "packages/templates/src/writer/writer-templates.ts",
+    "line": 178,
+    "type": "long_function",
+    "message": "الدالة 'createReportTemplate' تتجاوز 50 سطرًا (105 سطرًا)."
+  },
+  {
+    "file": "packages/templates/src/writer/writer-templates.ts",
+    "line": 290,
+    "type": "long_function",
+    "message": "الدالة 'createEssayTemplate' تتجاوز 50 سطرًا (101 سطرًا)."
+  },
+  {
+    "file": "packages/templates/src/writer/writer-templates.ts",
+    "line": 398,
+    "type": "long_function",
+    "message": "الدالة 'createResumeTemplate' تتجاوز 50 سطرًا (122 سطرًا)."
+  },
+  {
+    "file": "packages/templates/vite.config.ts",
+    "type": "missing_header",
+    "message": "الملف يفتقر إلى الترويسة التوجيهية الإلزامية باللغة العربية."
+  }
+]

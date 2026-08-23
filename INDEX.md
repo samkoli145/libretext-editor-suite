@@ -369,6 +369,13 @@ libretext-editor-suite/
 | `PLUG-001` | `packages/plugins/mermaid/` | رسوم بيانية   | Diagram plugin      | تم            |
 | `PLUG-002` | `packages/plugins/math/`    | معادلات LaTeX | Math/LaTeX plugin   | تم            |
 
+### المكونات والخطافات المشتركة - Shared Components & Hooks
+
+| المعرف ID        | المسار Path                                           | الوصف Arabic                     | Description English        | الحالة Status |
+| ---------------- | ----------------------------------------------------- | -------------------------------- | -------------------------- | ------------- |
+| `SHARED-CMP-001` | `packages/shared/components/SharedContextMenu.tsx`   | المكون الموحد للقوائم السياقية    | Unified Context Menu UI    | تم            |
+| `SHARED-HOOK-001`| `packages/shared/hooks/useContextMenu.ts`            | خطاف إدارة القوائم السياقية      | Context Menu React Hook    | تم            |
+
 ### الملعب التجريبي - Playground
 
 | المعرف ID  | المسار Path                       | الوصف Arabic    | Description English  | الحالة Status |

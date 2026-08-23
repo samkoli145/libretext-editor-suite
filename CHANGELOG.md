@@ -1,3 +1,14 @@
+
+## [v1.2.0] - 2026-08-22
+- **Shared Context Menu (`SHARED-CMP-001`):** بناء مكون القوائم السياقية الموحد `SharedContextMenu.tsx` بالثيم الفاتح النقي والتفاعل بالماوس حصراً.
+- **Canvas Integration:** ربط `CanvasDesignerPlugin` بمحلل السمات والقوائم السياقية (`resolveContextMenuForBlock`) وتحديث عناصر الكانفا بدقة متناهية (`locked`, `z-index`, `geometry`, `duplicate`, `delete`).
+- **Type Safety & Encapsulation:** إزالة أي `as any` من مسارات القوائم، وتصحيح استيرادات الحزم لتعتمد المعرف الرسمي `@libretext/core`.
+- **Hook Enhancements:** توحيد اتساق دالة `openMenu` في `useContextMenu.ts` عبر جميع الـ Overloads.
+
+## [v1.1.0] - 2026-08-22
+- مزامنة تلقائية لفهارس المكونات والسجلات عبر أداة `sync-registry.ts`.
+- تحديث مسارات النواة والمكونات ومطابقتها لشجرة الملفات الحالية (2754 رمزاً مفهرساً).
+
 /**
 
 - ============================================================
