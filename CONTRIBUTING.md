@@ -109,3 +109,39 @@ pnpm lint
 ## الترخيص
 
 بالمساهمة في هذا المشروع، أنت توافق على أن عملك سيُنشر تحت ترخيص MIT.
+
+---
+
+## 🤖 DevStudio — الشريك الذكي
+
+**DevStudio** هو المساعد التلقائي للمشروع. ينفذ المهام الروتينية ويوفر وقتك.
+
+### أوامر DevStudio
+
+```bash
+pnpm devstudio scan          # مسح المشروع + حفظ لقطة
+pnpm devstudio scan --test   # مسح + اختبارات
+pnpm devstudio status        # عرض حالة المشروع
+pnpm devstudio help          # جميع الأوامر
+```
+
+### سير العمل المقترح
+
+```bash
+# 1. قبل البدء
+pnpm devstudio scan
+
+# 2. نفّذ التعديلات
+
+# 3. بعد التعديلات
+pnpm devstudio scan
+pnpm test
+pnpm devstudio status
+```
+
+### القاعدة
+
+> **أي مهمة تتكرر مرتين → DevStudio يتولاها.**
+> **المطور يركز على القرارات المعمارية فقط.**
+
+详细 في `DEVSTUDIO_PLAN.md`.
