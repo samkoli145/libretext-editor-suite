@@ -139,19 +139,88 @@ TemplateRegistry (templates) ──→ EditorState (core) ──→ Serializer (
 
 ---
 
-## 6. إحصائيات المشروع الحالية
+## 6. بيئة التطوير المتكاملة (DevStudio) — 6,711 سطر
+
+### 6.1 الرؤية
+**DevStudio** هي أوركسترا مركزي لإدارة دورة حياة التعديلات على المشروع — لا يُسمح بتعديل مباشر دون فحص مسبق، ولقطة احتياطية، وبوابة أمان.
+
+### 6.2 دورة حياة المهمة
+
+```
+┌──────────┐     ┌──────────────┐     ┌────────────┐     ┌──────────┐     ┌───────────┐     ┌──────────┐
+│ Created  │────▶│  Validating  │────▶│Checkpointed│────▶│Executing │────▶│  Testing  │────▶│ Committed│
+└──────────┘     │  (DoctorGate)│     │ (Snapshot) │     │ (Patch)  │     │(DoctorGate│     └──────────┘
+                 └──────┬───────┘     └──────┬─────┘     └────┬─────┘     └─────┬─────┘
+                        │ فشل                 │ خطأ            │ خطأ             │ فشل
+                        ▼                     ▼                ▼                 ▼
+                   ┌─────────┐          ┌───────────┐    ┌───────────┐    ┌─────────┐
+                   │ Rejected│          │ Rollback  │    │ Rollback  │    │ Rollback│
+                   └─────────┘          └───────────┘    └───────────┘    └─────────┘
+```
+
+### 6.3 المكونات التفصيلية
+
+| المكون | الملفات | الأسطر | الدور |
+|--------|---------|--------|-------|
+| **DevStudioEngine** | 3 | 576 | الأوركسترا المركزي — ينسق دورة حياة المهمة |
+| **DoctorEngine** | 6 | 1,140 | بوابة الفحص — 6 فاحصات قبل أي تعديل |
+| **SnapshotEngine + RollbackManager** | 2 | 499 | لقطة + تراجع — حماية Byte-Identical |
+| **TaskPipeline** | 1 | 430 | خط أنابيب المراحل المتعددة |
+| **Tree (Model + View + Navigation)** | 6 | 2,115 | شجرة المشروع + كشف الانحراف + عمليات الملفات |
+| **Sync (CodeGenerator + RegistrySync)** | 2 | 784 | توليد كود + مزامنة السجلات |
+| **ToolScaffolder** | 1 | 235 | توليد هيكل ملفات جديد |
+| **Workbench + Panels** | 6 | 672 | واجهة سطح العمل + 4 لوحات |
+| **Adapters (5)** | 5 | 690 | مكيّفات: Canvas, Editor, PDF, RichText, UI |
+| **EditorBridge** | 1 | 305 | جسر الربط بين المحرر والاستوديو |
+
+### 6.4 الفاحصات الستة (Doctor Gate)
+
+| الفاحص | الملف | ماذا يتحقق |
+|--------|-------|------------|
+| **DependencyAuditor** | `doctor/DependencyAuditor.ts` | صحة الاعتماديات وتجنب الدورات |
+| **GeometryValidator** | `doctor/GeometryValidator.ts` | صحة الإحداثيات والحدود المكانية |
+| **IdIntegrityChecker** | `doctor/IdIntegrityChecker.ts` | عدم تكرار المعرفات وسلامتها |
+| **StructureValidator** | `doctor/StructureValidator.ts` | سلامة هيكل المجلدات والملفات |
+| **ThemeValidator** | `doctor/ThemeValidator.ts` | حماية الثيم الفاتح النقي (منع أي لون داكن) |
+| **DoctorEngine** | `doctor/DoctorEngine.ts` | منسّق الفاحصات — يجمع النتائج ويصدر verdict |
+
+### 6.5 القواعد الأربعة (The Four Rules Contract)
+
+1. **EVERY EDIT IS A PATCH:** كل تعديل يحمل معكوسه الصارم (`inverse`) — تراجع Byte-Identical
+2. **ADDITIVE FIELDS:** غياب الحقل = "لا" — منع `error: null`
+3. **DERIVED STATE IS NEVER STORED:** الإحصاءات تُشتق لحظياً فقط
+4. **VIEW STATE ≠ DOCUMENT STATE:** حالة الواجهة مستقلة عن حالة الوثيقة
+
+### 6.6 مسار التكامل مع باقي الحزم
+
+```
+packages/shell/dev-studio/
+        │
+        ├── imports from ──▶ @libretext/core (AST, State, Operations)
+        ├── imports from ──▶ @libretext/algorithms (Commands, Validation)
+        ├── imports from ──▶ @libretext/storage (Snapshots, IndexedDB)
+        │
+        ├── consumed by ──▶ packages/app/ (DocumentEditorHost, Workbench)
+        ├── consumed by ──▶ packages/features/* (all plugin UIs)
+        └── consumed by ──▶ packages/components/ (SettingsPanel, Canvas)
+```
+
+---
+
+## 7. إحصائيات المشروع الحالية
 
 | المؤشر | القيمة |
 |--------|--------|
-| إجمالي الملفات المصدراً | 274 ملف TypeScript |
-| ملفات الاختبار | 71 ملف |
-| الاختبارات الناجحة | 1122 اختبار |
+| إجمالي الملفات المصدراً | 538 ملف TypeScript |
+| ملفات الاختبار | 74 ملف |
+| الاختبارات الناجحة | 1142 اختبار |
 | أخطاء TypeScript | 0 |
-| حزم Monorepo | 7 حزم |
+| حزم Monorepo | 18 حزمة |
 | محركات التفاعل | 28 محركاً |
+| محركات DevStudio | 10 مكونات (6,711 سطر) |
 | الأيقونات الدلالية | 47 أيقونة |
 | الملفات الجذرية التوثيقية | 20 ملف |
 
 ---
 
-*تم تحديث هذه الخريطة في 2026-08-22 لتعكس البنية الحالية للمشروع بعد تكامل تحسينات القوائم السياقية.*
+*تم تحديث هذه الخريطة في 2026-08-23 لتعكس بنية DevStudio الكاملة بعد تكامل المعدل 4 و 5.*

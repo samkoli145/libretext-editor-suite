@@ -429,6 +429,40 @@ libretext-editor-suite/
 | `CORE-TRAIT-005` | `packages/core/src/traits/lockable.ts`                   | سمة القفل                 | Lockable Trait            | تم            |
 | `CORE-TRAIT-006` | `packages/core/src/traits/trait-context-menu-resolver.ts` | محلل القوائم السياقية     | Context Menu Resolver     | تم            |
 
+
+### بيئة التطوير المتكاملة - DevStudio
+
+| المعرف ID        | المسار Path                                              | الوصف Arabic              | Description English       | الحالة Status |
+| ---------------- | -------------------------------------------------------- | ------------------------- | ------------------------- | ------------- |
+| `DEV-001`        | `packages/shell/dev-studio/core/DevStudioEngine.ts`      | الأوركسترا المركزي        | Central Orchestrator      | تم            |
+| `DEV-002`        | `packages/shell/dev-studio/core/DevStudioTypes.ts`       | الأنواع والعقود            | Types & Contracts        | تم            |
+| `DEV-003`        | `packages/shell/dev-studio/core/DevStudioEvents.ts`      | ناقل الأحداث              | Event Bus                | تم            |
+| `DEV-004`        | `packages/shell/dev-studio/doctor/DoctorEngine.ts`       | محرك الفحص المركزي        | Central Doctor Gate      | تم            |
+| `DEV-005`        | `packages/shell/dev-studio/doctor/DependencyAuditor.ts`  | فاحص الاعتماديات          | Dependency Auditor       | تم            |
+| `DEV-006`        | `packages/shell/dev-studio/doctor/GeometryValidator.ts`  | فاحص الهندسة              | Geometry Validator       | تم            |
+| `DEV-007`        | `packages/shell/dev-studio/doctor/IdIntegrityChecker.ts` | فاحص سلامة المعرفات       | ID Integrity Checker     | تم            |
+| `DEV-008`        | `packages/shell/dev-studio/doctor/StructureValidator.ts` | فاحص الهيكل              | Structure Validator      | تم            |
+| `DEV-009`        | `packages/shell/dev-studio/doctor/ThemeValidator.ts`     | حارس الثيم الفاتح          | Theme Guardian           | تم            |
+| `DEV-010`        | `packages/shell/dev-studio/checkpoint/SnapshotEngine.ts` | محرك اللقطات              | Snapshot Engine          | تم            |
+| `DEV-011`        | `packages/shell/dev-studio/checkpoint/RollbackManager.ts`| مدير التراجع              | Rollback Manager         | تم            |
+| `DEV-012`        | `packages/shell/dev-studio/pipeline/TaskPipeline.ts`     | خط أنابيب المهمات         | Task Pipeline            | تم            |
+| `DEV-013`        | `packages/shell/dev-studio/tree/ProjectTreeModel.ts`     | نموذج شجرة المشروع       | Project Tree Model       | تم            |
+| `DEV-014`        | `packages/shell/dev-studio/tree/ProjectTreeView.ts`      | عرض شجرة المشروع         | Project Tree View        | تم            |
+| `DEV-015`        | `packages/shell/dev-studio/tree/TreeNavigation.ts`       | تنقل الشجرة              | Tree Navigation          | تم            |
+| `DEV-016`        | `packages/shell/dev-studio/tree/DecompositionEngine.ts`  | محرك التفكيك              | Decomposition Engine     | تم            |
+| `DEV-017`        | `packages/shell/dev-studio/tree/DriftDetector.ts`        | كاشف الانحراف            | Drift Detector           | تم            |
+| `DEV-018`        | `packages/shell/dev-studio/tree/FileOperations.ts`       | عمليات الملفات            | File Operations          | تم            |
+| `DEV-019`        | `packages/shell/dev-studio/sync/CodeGenerator.ts`        | مولّد الكود              | Code Generator           | تم            |
+| `DEV-020`        | `packages/shell/dev-studio/sync/RegistrySync.ts`         | مزامن السجلات            | Registry Sync            | تم            |
+| `DEV-021`        | `packages/shell/dev-studio/scaffolder/ToolScaffolder.ts` | مولّد الأدوات             | Tool Scaffolder          | تم            |
+| `DEV-022`        | `packages/shell/dev-studio/workbench/DevStudioWorkbench.ts` | سطح العمل               | Workbench                | تم            |
+| `DEV-023`        | `packages/shell/dev-studio/bridge/EditorBridge.ts`       | جسر الربط                | Editor Bridge            | تم            |
+| `DEV-024`        | `packages/shell/dev-studio/adapters/CanvasAdapter.ts`    | مكيّف الكانفا             | Canvas Adapter           | تم            |
+| `DEV-025`        | `packages/shell/dev-studio/adapters/EditorAdapter.ts`    | مكيّف المحرر              | Editor Adapter           | تم            |
+| `DEV-026`        | `packages/shell/dev-studio/adapters/PdfAdapter.ts`       | مكيّف PDF                | PDF Adapter              | تم            |
+| `DEV-027`        | `packages/shell/dev-studio/adapters/RichTextAdapter.ts`  | مكيّف النص الغني          | Rich Text Adapter        | تم            |
+| `DEV-028`        | `packages/shell/dev-studio/adapters/UIAdapter.ts`        | مكيّف الواجهة             | UI Adapter               | تم            |
+
 ### Shell والdevelopment studio
 
 | المعرف ID        | المسار Path                                              | الوصف Arabic              | Description English       | الحالة Status |
