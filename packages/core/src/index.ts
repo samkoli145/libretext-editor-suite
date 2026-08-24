@@ -286,11 +286,178 @@ export type {
   CanvasProfileConfig,
 } from './engines/canvas-profile-engine';
 
-// ─── كتل المحتوى ───
-export { createCodeEditorBlock } from './blocks/code-editor';
-export type { CodeEditorData, CodeEditorBlock } from './blocks/code-editor';
-export { createAudioBlockNode } from './blocks/audio-block-block';
-export type { AudioBlockData, AudioBlockNode } from './blocks/audio-block-block';
+// ─── كتل المحتوى (Maghrib Blocks) ───
+export {
+  createParagraphBlock,
+  isParagraphBlock,
+  formatParagraphMarkdown,
+} from './blocks/paragraph-block';
+export type { ParagraphBlockNode, ParagraphBlockData } from './blocks/paragraph-block';
+
+export {
+  createHeadingBlock,
+  isHeadingBlock,
+  formatHeadingMarkdown,
+} from './blocks/heading-block';
+export type { HeadingBlockNode, HeadingBlockData } from './blocks/heading-block';
+
+export {
+  createTableBlock,
+  createTableRow,
+  createTableCell,
+  isTableBlock,
+  formatTableMarkdown,
+} from './blocks/table-block';
+export type { TableBlockNode, TableBlockData, TableRowData, TableCellData } from './blocks/table-block';
+
+export {
+  createImageBlock,
+  isImageBlock,
+  formatImageMarkdown,
+} from './blocks/image-block';
+export type { ImageBlockNode, ImageBlockData } from './blocks/image-block';
+
+export {
+  createListBlock,
+  createListItem,
+  isListBlock,
+  formatListMarkdown,
+} from './blocks/list-block';
+export type { ListBlockNode, ListBlockData } from './blocks/list-block';
+
+export {
+  createCodeBlock,
+  isCodeBlock,
+  formatCodeBlockMarkdown,
+} from './blocks/code-block';
+export type { CodeBlockData } from './blocks/code-block';
+
+export {
+  createHorizontalRuleBlock,
+  isHorizontalRuleBlock,
+  formatHorizontalRuleMarkdown,
+} from './blocks/horizontal-rule-block';
+export type { HorizontalRuleBlockNode, HorizontalRuleData } from './blocks/horizontal-rule-block';
+
+export {
+  createBlockquoteBlock,
+  isBlockquoteBlock,
+  formatBlockquoteMarkdown,
+} from './blocks/blockquote-block';
+export type { BlockquoteBlockNode, BlockquoteData } from './blocks/blockquote-block';
+
+export {
+  createCellBlock,
+  isCellBlock,
+  formatCellValue,
+} from './blocks/cell-block';
+export type { CellBlockNode, CellBlockData } from './blocks/cell-block';
+
+export {
+  createShapeBlock,
+  isShapeBlock,
+  getShapePresetPath,
+} from './blocks/shape-block';
+export type { ShapeBlockNode, ShapeBlockData } from './blocks/shape-block';
+
+export {
+  createSlideBlock,
+  isSlideBlock,
+  formatSlideSummary,
+} from './blocks/slide-block';
+export type { SlideBlockNode, SlideBlockData } from './blocks/slide-block';
+
+export {
+  createDatabaseRecordBlock,
+  isDatabaseRecordBlock,
+  formatRecordCardText,
+} from './blocks/database-record-block';
+export type { DatabaseRecordBlockNode, DatabaseRecordData } from './blocks/database-record-block';
+
+export {
+  createEmbedBlock,
+  isEmbedBlock,
+  formatEmbedMarkdown,
+} from './blocks/embed-block';
+export type { EmbedBlockNode, EmbedBlockData } from './blocks/embed-block';
+
+export {
+  createColorPickerBlock,
+  isColorPickerBlock,
+  formatColorPickerMarkdown,
+} from './blocks/color-picker-block';
+export type { ColorPickerBlockNode, ColorPickerBlockData } from './blocks/color-picker-block';
+
+export {
+  createIconPickerBlock,
+  isIconPickerBlock,
+  formatIconPickerMarkdown,
+} from './blocks/icon-picker-block';
+export type { IconPickerBlockNode, IconPickerBlockData } from './blocks/icon-picker-block';
+
+export {
+  createFontPickerBlock,
+  isFontPickerBlock,
+  formatFontPickerMarkdown,
+} from './blocks/font-picker-block';
+export type { FontPickerBlockNode, FontPickerBlockData } from './blocks/font-picker-block';
+
+export {
+  createTextStylerBlock,
+  isTextStylerBlock,
+  formatTextStylerMarkdown,
+} from './blocks/text-styler-block';
+export type { TextStylerBlockNode, TextStylerBlockData } from './blocks/text-styler-block';
+
+export {
+  createBgColorBlock,
+  isBgColorBlock,
+  formatBgColorMarkdown,
+} from './blocks/bg-color-block';
+export type { BgColorBlockNode, BgColorBlockData } from './blocks/bg-color-block';
+
+export {
+  createBgImageBlock,
+  isBgImageBlock,
+  formatBgImageMarkdown,
+} from './blocks/bg-image-block';
+export type { BgImageBlockNode, BgImageBlockData } from './blocks/bg-image-block';
+
+export {
+  createGradientBlock,
+  isGradientBlock,
+  formatGradientMarkdown,
+} from './blocks/gradient-block';
+export type { GradientBlockNode, GradientBlockData } from './blocks/gradient-block';
+
+export {
+  createTemplateCardBlock,
+  isTemplateCardBlock,
+  formatTemplateCardMarkdown,
+} from './blocks/template-card-block';
+export type { TemplateCardBlockNode, TemplateCardBlockData } from './blocks/template-card-block';
+
+export {
+  createTemplateGalleryBlock,
+  isTemplateGalleryBlock,
+  formatTemplateGalleryMarkdown,
+} from './blocks/template-gallery-block';
+export type { TemplateGalleryBlockNode, TemplateGalleryBlockData } from './blocks/template-gallery-block';
+
+export {
+  createPdfBlock,
+  isPdfBlock,
+  formatPdfMarkdown,
+} from './blocks/pdf-block';
+export type { PdfBlockNode, PdfBlockData } from './blocks/pdf-block';
+
+export {
+  getBlockManifest,
+  createDefaultBlockNode,
+  serializeBlockToMarkdown,
+  BLOCK_MANIFESTS,
+} from './blocks/block-registry';
+export type { BlockManifest, BlockType, AnyBlockNode } from './blocks/block-registry';
 
 // ─── أنواع المستندات الأساسية ───
 export {

@@ -273,3 +273,34 @@ export interface ValidationError {
   readonly message: string;
   readonly severity: 'error' | 'warning';
 }
+
+// ─── أنواع المجالات (Domain Types) ───
+export type DomainType = 'writer' | 'calc' | 'impress' | 'base' | 'universal';
+
+// ─── مفاتيح السمات (Trait Keys) ───
+export type TraitKey = 'draggable' | 'resizable' | 'styleable' | 'lockable';
+
+// ─── علامات النص (Text Marks) ───
+export type TextMark = 'bold' | 'italic' | 'underline' | 'strike' | 'code' | 'highlight';
+
+// ─── الكتلة الأساسية (Base Block Node) ───
+export interface BaseBlockNode<TData = Record<string, unknown>> {
+  readonly id: string;
+  readonly type: string;
+  readonly domain: DomainType;
+  readonly data: TData;
+  readonly traits: readonly TraitKey[];
+  readonly locked?: boolean;
+}
+
+// ─── فاحص الكتلة الأساسية ───
+export function isBaseBlockNode(node: unknown): node is BaseBlockNode {
+  if (typeof node !== 'object' || node === null) return false;
+  const candidate = node as BaseBlockNode;
+  return (
+    typeof candidate.id === 'string' &&
+    typeof candidate.type === 'string' &&
+    typeof candidate.domain === 'string' &&
+    Array.isArray(candidate.traits)
+  );
+}

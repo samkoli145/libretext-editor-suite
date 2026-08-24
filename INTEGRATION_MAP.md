@@ -224,17 +224,94 @@ packages/shell/dev-studio/
 
 | المؤشر                    | القيمة                  |
 | ------------------------- | ----------------------- |
-| إجمالي الملفات المصدراً   | 538 ملف TypeScript      |
-| ملفات الاختبار            | 89 ملف                  |
-| الاختبارات الناجحة        | 1415 اختبار             |
+| إجمالي الملفات المصدراً   | 563 ملف TypeScript      |
+| ملفات الاختبار            | 92 ملف                  |
+| الاختبارات الناجحة        | 1447 اختبار             |
 | أخطاء TypeScript          | 0                       |
 | أخطاء lint                | 0                       |
 | حزم Monorepo              | 18 حزمة                 |
 | محركات التفاعل            | 28 محركاً               |
 | محركات DevStudio          | 13 مكون (CLI + Guard)   |
 | قواعد Rule Guardian       | 7 قواعد                 |
+| **البلوكات**              | **25 بلوك + 1 سجل**    |
 | الأيقونات الدلالية        | 47 أيقونة               |
 | الملفات الجذرية التوثيقية | 20 ملف                  |
+
+---
+
+## 8. البلوكات — Block System
+
+### 8.1 البنية الأساسية
+
+```
+BaseBlockNode<TData>  ← النوع الجذر لجميع البلوكات
+├── id: string
+├── type: string
+├── domain: 'writer' | 'calc' | 'impress' | 'base' | 'universal'
+├── data: TData (generic)
+├── traits: ('draggable' | 'resizable' | 'styleable' | 'lockable')[]
+└── locked?: boolean
+```
+
+### 8.2 جدول البلوكات
+
+| # | البلوك | الملف | Domain | الأسطر | الوظائف |
+|---|--------|-------|--------|--------|---------|
+| 1 | paragraph | `paragraph-block.ts` | writer | 104 | create, is, formatMarkdown |
+| 2 | heading | `heading-block.ts` | writer | 106 | create, is, formatMarkdown |
+| 3 | table | `table-block.ts` | universal | 147 | createCell, createRow, create, is, formatMarkdown |
+| 4 | image | `image-block.ts` | universal | 111 | create, is, formatMarkdown, formatHtml |
+| 5 | list | `list-block.ts` | writer | 121 | create, createItem, is, formatMarkdown |
+| 6 | code | `code-block.ts` | writer | 92 | create, is, formatMarkdown |
+| 7 | horizontal-rule | `horizontal-rule-block.ts` | writer | 89 | create, is, formatMarkdown |
+| 8 | blockquote | `blockquote-block.ts` | writer | 92 | create, is, formatMarkdown |
+| 9 | cell | `cell-block.ts` | calc | 124 | create, is, formatCellValue |
+| 10 | shape | `shape-block.ts` | impress | 110 | create, is, getShapePresetPath |
+| 11 | slide | `slide-block.ts` | impress | 95 | create, is, formatSlideSummary |
+| 12 | database-record | `database-record-block.ts` | base | 117 | createField, create, is, formatRecordCardText |
+| 13 | embed | `embed-block.ts` | universal | 91 | create, is, formatMarkdown |
+| 14 | pdf | `pdf-block.ts` | universal | 238 | create, is, formatMarkdown, annotate, stamp |
+| 15 | color-picker | `color-picker-block.ts` | universal | 62 | create, is, formatMarkdown, formatHtml |
+| 16 | icon-picker | `icon-picker-block.ts` | universal | 62 | create, is, formatMarkdown, formatHtml |
+| 17 | font-picker | `font-picker-block.ts` | universal | 60 | create, is, formatMarkdown, formatHtml |
+| 18 | text-styler | `text-styler-block.ts` | universal | 60 | create, is, formatMarkdown, formatHtml |
+| 19 | bg-color | `bg-color-block.ts` | universal | 55 | create, is, formatMarkdown, formatHtml |
+| 20 | bg-image | `bg-image-block.ts` | universal | 63 | create, is, formatMarkdown, formatHtml |
+| 21 | gradient | `gradient-block.ts` | universal | 75 | create, is, formatMarkdown, formatHtml |
+| 22 | template-card | `template-card-block.ts` | universal | 64 | create, is, formatMarkdown, formatHtml |
+| 23 | template-gallery | `template-gallery-block.ts` | universal | 75 | create, is, formatMarkdown, formatHtml |
+| 24 | block-registry | `block-registry.ts` | — | 638 | getBlockManifest, createDefault, serializeToMarkdown |
+
+### 8.3 النمط المعماري لكل بلوك
+
+```typescript
+// 1. الواجهة (Interface)
+export interface XBlockData { readonly ... }
+export interface XBlockNode extends BaseBlockNode<XBlockData> {
+  readonly type: 'x';
+  readonly domain: DomainType;
+}
+
+// 2. دالة الإنشاء (Factory)
+export function createXBlock(id: string, ...): XBlockNode { ... }
+
+// 3. فاحص النوع (Type Guard)
+export function isXBlock(node: unknown): node is XBlockNode { ... }
+
+// 4. دوال التصدير (Serializer)
+export function formatXMarkdown(node: XBlockNode): string { ... }
+export function formatXHtml(node: XBlockNode): string { ... }
+```
+
+### 8.4 البلوكات المؤرشفة (قديمة但仍可 الرجوع)
+
+| الملف الأصلي                 | السبب                                  |
+| ---------------------------- | -------------------------------------- |
+| `AudioBlock.ts`              | تم استبداله بـ `embed-block.ts`       |
+| `audio-block-block.ts`       | مكرر مع AudioBlock.ts                 |
+| `code-editor.ts`             | تم استبداله بـ `code-block.ts`        |
+| `html-block-*.ts` (10 ملفات) | تم استبدالها بـ `block-registry.ts`   |
+| `html-unified-block.ts`      | تم دمجها في البلوكات الجديدة         |
 
 ---
 

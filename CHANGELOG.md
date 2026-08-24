@@ -38,6 +38,36 @@
 التنسيق مبني على [Keep a Changelog](https://keepachangelog.com/),
 والإصدار يتبع [Semantic Versioning](https://semver.org/).
 
+## [v1.5.0] - 2026-08-24
+
+### Added
+
+- **Block System (25 blocks, ~2800 lines):** نظام بلوكات شامل مستورد من المرجع النظري (`معدل 5/24082026`):
+  - **Writer blocks:** paragraph, heading, list, code, horizontal-rule, blockquote
+  - **Universal blocks:** table, image, embed, pdf, color-picker, icon-picker, font-picker, text-styler, bg-color, bg-image, gradient, template-card, template-gallery
+  - **Calc blocks:** cell
+  - **Impress blocks:** shape, slide
+  - **Base blocks:** database-record
+  - **Central registry:** `block-registry.ts` (638 lines) — IoC block registry with polymorphic serializers
+- **BaseBlockNode<T> Generic Type:** نوع جذر generic لجميع البلوكات مع domain-driven design
+- **DomainType:** 5 مجالات (writer, calc, impress, base, universal)
+- **TraitKey:** 4 سمات (draggable, resizable, styleable, lockable)
+- **Performance Report:** `DEVSTUDIO_PERFORMANCE_REPORT.md` — تقرير أداء شامل مع مقارنة Nawat Kernel
+- **Archive system:** مجلد `blocks/archive/` لأرشفة البلوكات القديمة بدون حذف
+
+### Fixed
+
+- **R-001 Header:** Added bilingual header to `react.d.ts` stub
+- **R-004 Regex:** Added word boundaries to `SECRET_PATTERNS` to fix false positive on "tokens" substring
+- **tsconfig:** Excluded `**/archive/**` from TypeScript compilation
+
+### Changed
+
+- **Block Architecture:** Replaced ad-hoc block types with unified `BaseBlockNode<T>` pattern
+- **Core exports:** Updated `packages/core/src/index.ts` to export all 25 blocks with proper types
+
+---
+
 ## [v1.4.0] - 2026-08-23
 
 ### Added

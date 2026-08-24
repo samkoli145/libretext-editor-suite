@@ -37,7 +37,7 @@ function collectTsFiles(dir: string, root: string): Array<{ path: string; conten
 
 export function cmdGuard(targets: string[]): void {
   const root = process.cwd();
-  let files: Array<{ path: string; content: string }> = [];
+  const files: Array<{ path: string; content: string }> = [];
 
   if (targets.length === 0) {
     console.log('🛡️  جاري فحص جميع ملفات TypeScript...\n');

@@ -777,3 +777,98 @@
 | أوامر DevStudio             | 11 أمر     |
 | مكونات النواة               | 8 ملفات    |
 | Git commits (إجمالي اليوم)  | 6          |
+
+---
+
+## 2026-08-24
+
+### المنجزات
+
+#### جلسة صباحية: DevStudio Agent Test + Performance Report
+
+- تشغيل DevStudio كوكيل تنفيذي (A to Z) — بنجاح.
+- كتابة `DEVSTUDIO_PERFORMANCE_REPORT.md` — تقرير أداء شامل مع مقارنة Nawat Kernel.
+- إصلاح R-001 — إضافة ترويسة ثنائية لـ `react.d.ts`.
+- إصلاح R-004 regex — إضافة word boundaries لمنع false positives على كلمة "tokens".
+- تحليل البلوكات — تحديد 50+ بلوك محتمل (ألوان، أيقونات، خلفيات، قوالب، تنسيق، مكونات جاهزة).
+- اكتشاف المرجع النظري `معدل 5/24082026` — يحتوي 25 بلوك جاهز ببنية `BaseBlockNode<T>`.
+
+#### جلسة مسائية: استيراد البلوكات من المرجع
+
+- إنشاء مجلد `packages/core/src/blocks/archive/` — أرشفة 15 ملف بلوك قديم.
+- استيراد 25 بلوك من المرجع (`معدل 5/24082026`):
+  - **أساسي:** paragraph, heading, table, image, list, code, horizontal-rule, blockquote
+  - **مكتبية:** cell, shape, slide, database-record, embed, pdf
+  - **تصميم:** color-picker, icon-picker, font-picker, text-styler, bg-color, bg-image, gradient
+  - **قوالب:** template-card, template-gallery
+  - **سجل:** block-registry.ts (638 سطر — السجل المركزي لجميع البلوكات)
+- تحديث `ast/types.ts` — إضافة `BaseBlockNode<T>`, `DomainType`, `TraitKey`, `TextMark`.
+- تحديث `packages/core/src/index.ts` — تصدير جميع البلوكات الجديدة (25 بلوك).
+- تحديث `tsconfig.json` — استثناء `**/archive/**` من الـ compilation.
+- تصحيح مسارات الاستيراد في جميع ملفات البلوكات.
+
+### ما تم أرشفته (غير محذوف)
+
+| الملف الأصلي                 | المسار الجديد                              |
+| ---------------------------- | ------------------------------------------ |
+| `audio-block-block.ts`       | `blocks/archive/audio-block-block.ts`      |
+| `AudioBlock.ts`              | `blocks/archive/AudioBlock.ts`             |
+| `code-editor.ts`             | `blocks/archive/code-editor.ts`            |
+| `code-editor.registry.ts`    | `blocks/archive/code-editor.registry.ts`   |
+| `code-editor.styles.ts`      | `blocks/archive/code-editor.styles.ts`     |
+| `html-block-data-engine.ts`  | `blocks/archive/html-block-data-engine.ts` |
+| `html-block-generator.ts`    | `blocks/archive/html-block-generator.ts`   |
+| `html-block-layout-engine.ts`| `blocks/archive/html-block-layout-engine.ts`|
+| `html-block-operations.ts`   | `blocks/archive/html-block-operations.ts`  |
+| `html-block-presets.ts`      | `blocks/archive/html-block-presets.ts`     |
+| `html-block-registry.ts`     | `blocks/archive/html-block-registry.ts`    |
+| `html-block-tailwind-editor.ts`| `blocks/archive/html-block-tailwind-editor.ts`|
+| `html-block-tsx-generator.ts`| `blocks/archive/html-block-tsx-generator.ts`|
+| `html-block-types.ts`        | `blocks/archive/html-block-types.ts`       |
+| `html-unified-block.ts`      | `blocks/archive/html-unified-block.ts`     |
+
+### البنية الجديدة للبلوكات
+
+```
+packages/core/src/blocks/
+├── paragraph-block.ts      # BLK-WRITER-PARA (104 سطر)
+├── heading-block.ts        # BLK-WRITER-HEAD (106 سطر)
+├── table-block.ts          # BLK-UNIV-TABLE (147 سطر)
+├── image-block.ts          # BLK-UNIV-IMAGE (111 سطر)
+├── list-block.ts           # BLK-WRITER-LIST (121 سطر)
+├── code-block.ts           # BLK-WRITER-CODE (92 سطر)
+├── horizontal-rule-block.ts# BLK-WRITER-HR (89 سطر)
+├── blockquote-block.ts     # BLK-WRITER-QUOTE (92 سطر)
+├── cell-block.ts           # BLK-CALC-CELL (124 سطر)
+├── shape-block.ts          # BLK-IMPRESS-SHAPE (110 سطر)
+├── slide-block.ts          # BLK-IMPRESS-SLIDE (95 سطر)
+├── database-record-block.ts# BLK-BASE-RECORD (117 سطر)
+├── embed-block.ts          # BLK-UNIV-EMBED (91 سطر)
+├── pdf-block.ts            # BLK-UNIV-PDF (238 سطر)
+├── color-picker-block.ts   # BLK-UNIV-COLOR (62 سطر)
+├── icon-picker-block.ts    # BLK-UNIV-ICON (62 سطر)
+├── font-picker-block.ts    # BLK-UNIV-FONT (60 سطر)
+├── text-styler-block.ts    # BLK-UNIV-STYLER (60 سطر)
+├── bg-color-block.ts       # BLK-UNIV-BG-COLOR (55 سطر)
+├── bg-image-block.ts       # BLK-UNIV-BG-IMAGE (63 سطر)
+├── gradient-block.ts       # BLK-UNIV-GRADIENT (75 سطر)
+├── template-card-block.ts  # BLK-UNIV-TPL-CARD (64 سطر)
+├── template-gallery-block.ts# BLK-UNIV-TPL-GALLERY (75 سطر)
+├── block-registry.ts       # BLK-REGISTRY-001 (638 سطر)
+├── block-manifest.ts       # BLK-MANIFEST (134 سطر — قديم)
+├── types.ts                # مشترك (50 سطر — قديم)
+└── index.ts                # Barrel Export (59 سطر)
+```
+
+### الإحصائيات النهائية
+
+| المقياس                     | القيمة                      |
+| --------------------------- | --------------------------- |
+| ملفات البلوكات (جديد)       | 25 ملف + 1 سجل + 1 manifest|
+| إجمالي أسطر البلوكات        | ~2800 سطر                  |
+| المجالات المدعومة           | 5 (writer, calc, impress, base, universal) |
+| بلوكات التصميم              | 7 (color, icon, font, styler, bg-color, bg-image, gradient) |
+| بلوكات المكتبية            | 4 (cell, shape, slide, database-record) |
+| بلوكات القوالب              | 2 (template-card, template-gallery) |
+| ملفات مؤرشفة               | 15 ملف                     |
+| Git commits (إجمالي اليوم)  | 3                          |
