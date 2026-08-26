@@ -38,6 +38,16 @@
 التنسيق مبني على [Keep a Changelog](https://keepachangelog.com/),
 والإصدار يتبع [Semantic Versioning](https://semver.org/).
 
+## [v1.12.0] - 2026-08-26
+
+### Added
+
+- **Playground Shell [PLAY-SHELL-001] — بدء PHASE-09:** آلة حالة نقية للقشرة متعددة المحررات بنمط ليبرا أوفيس: تبويبات النطاقات الأربعة، لوحات بحالات (ظاهرة/مخفية/مثبتة)، إعدادات وثيم وخلفية. تخطيط مفاهيمي مستوحى من ONLYOFFICE (AGPL — نمط قياسي فقط بلا نسخ كود).
+- **Symbolic Icon Set [PLAY-SHELL-ICONS-001]:** 18 أيقونة SVG مضمنة 16px بألوان النطاقات القياسية.
+- **Menu Model [PLAY-SHELL-MENU-001]:** قوائم تعريفية لكل محرر مع أدوات مشتركة موحدة وإدراج سياقي.
+- **Engine-Bound Views [PLAY-VIEWS-001]:** مشاهد المحررات الأربعة تغلف المحركات الحقيقية خلف عقد handleCommand واحد.
+- **Settings Page Model [PLAY-PANELS-SETTINGS-001]:** معرض 14 ثيمة (6 رسمية + 8 مولدة) + 6 خلفيات فاتحة.
+
 ## [v1.11.0] - 2026-08-26
 
 ### Added

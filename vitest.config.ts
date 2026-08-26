@@ -36,7 +36,7 @@ export default defineConfig({
           globals: true,
           environment: 'node',
           include: [
-            'packages/{core,algorithms,storage,templates,serializers,plugins,shared,shell}/tests/**/*.test.ts',
+            'packages/{core,algorithms,storage,templates,serializers,plugins,shared,shell,playground}/tests/**/*.test.ts',
           ],
         },
       },
