@@ -28,3 +28,4 @@ export * from './writer';
 export * from './calc';
 export * from './impress';
 export * from './base';
+export * from './code-stamps/code-stamps';

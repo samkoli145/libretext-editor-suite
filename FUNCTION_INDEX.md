@@ -4,7 +4,7 @@
 
 > **تاريخ آخر Update:** 2026-08-26
 > **عدد الحزم:** 7
-> **Total العناصر المفهرسة:** 1228 عنصر
+> **Total العناصر المفهرسة:** 1234 عنصر
 
 ---
 
@@ -1132,6 +1132,17 @@
 | 3/5 | `createRegexTesterBlock` | ⚙️ function | `regex-tester-block.ts:84` | `id, data?`  |
 | 4/5 | `runRegexTest`          | ⚙️ function  | `regex-tester-block.ts:111` | `node`      |
 | 5/5 | `applyRegexPreset`      | ⚙️ function  | `regex-tester-block.ts:124` | `node, id`  |
+
+### 📁 theme-engine.ts
+
+| #   | الName                    | الType      | File:سطر              | Parameters           |
+| --- | ------------------------- | ----------- | --------------------- | -------------------- |
+| 1/6 | `hexToHsl`                | ⚙️ function | `theme-engine.ts:74`  | `hex: string`        |
+| 2/6 | `hslToHex`                | ⚙️ function | `theme-engine.ts:92`  | `h, s, l`            |
+| 3/6 | `createThemeFromColor`    | ⚙️ function | `theme-engine.ts:118` | `baseHex, name?`     |
+| 4/6 | `generateThemeSpectrum`   | ⚙️ function | `theme-engine.ts:146` | `baseHex, count`     |
+| 5/6 | `hueNameAr`               | ⚙️ function | `theme-engine.ts:110` | `h: number`          |
+| 6/6 | `clamp`                   | ⚙️ function | `theme-engine.ts:44`  | `value, min, max`    |
 
 ### 📁 audio-block-block.ts
 

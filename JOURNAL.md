@@ -20,6 +20,28 @@
 
 # يوميات مشروع LibreText Editor Suite
 
+## 2026-08-26 (Part 5) — مترجم TS/TSX + اسطمبات الكود + الثيمات اللانهائية
+
+### المنجزات
+
+**1. مترجم TypeScript/TSX حقيقي [SHARED-CODE-TSX-001]:**
+- `ts-transpiler.ts` عبر `ts.transpileModule` من حزمة typescript الرسمية (Apache-2.0 — نفس محرك VS Code)
+- كشف TSX تلقائي + shim مصغّر `React.createElement` (بلا React الحقيقي — صفر اعتماديات تنفيذ)
+- ربط في live-interpreter-engine: typescript/tsx تُترجَم أولاً ثم تُنفَّذ — كانت تُنفَّذ كـ JS خام وتفشل!
+
+**2. مكتبة اسطمبات الكود [TPL-CODE-STAMPS-001]:**
+- 5 أختام جاهزة: صفحة هبوط عربية RTL، لوحة مؤشرات، مكوّن TSX مطبوع، Electron main (contextIsolation آمن)، Electron preload bridge
+- بنية Electron مستوحاة من CodeEngineer/src/electron (مشروعنا، MIT) وجمالية Bento_Slides
+- تسجيل عبر TemplateRegistry الرسمي بنطاق 'code' مع contentGuard مخصص للنصوص
+
+**3. محرك الثيمات اللانهائية [CORE-ENG-THEME-001]:**
+- `createThemeFromColor(hex)` — ثيم كامل من لون واحد بمعادلات HSL: secondary = -15° دورة لونية، خلفية = نفس الصبغة عند S10%/L97% (فاتح نقي مضمون رياضياً)
+- `generateThemeSpectrum(base, n)` — حتى 360 ثيماً متمايزة حول العجلة
+- أسماء عربية تلقائية للصبغات (قرمزي/ذهبي/فيروزي...) + hex صالح فقط (رفض صريح)
+
+### التحقق
+- ✅ typecheck صفر | ✅ 1628 اختباراً (+14) | ✅ lint صفر
+
 ## 2026-08-26 (Part 4) — بلوكات الكود التفاعلية من المصادر الجاهزة
 
 ### المنجزات

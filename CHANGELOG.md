@@ -38,6 +38,17 @@
 التنسيق مبني على [Keep a Changelog](https://keepachangelog.com/),
 والإصدار يتبع [Semantic Versioning](https://semver.org/).
 
+## [v1.10.0] - 2026-08-26
+
+### Added
+
+- **TS/TSX Transpiler [SHARED-CODE-TSX-001]:** ترجمة فورية عبر `ts.transpileModule` (حزمة typescript الرسمية Apache-2.0 — محرك VS Code نفسه): إزالة أنواع/interfaces/enums + كشف TSX تلقائي + shim `React.createElement` مصغّر. المحرك كان ينفذ TS كـ JS خام ويفشل على أي نوع!
+- **Code Stamps Library [TPL-CODE-STAMPS-001]:** 5 اسطمبات جاهزة للملعب التجريبي (HTML landing/dashboard عربي، TSX component، Electron main/preload ببنية CodeEngineer الآمنة) مسجلة في TemplateRegistry بنطاق `code`.
+- **Infinite Theme Engine [CORE-ENG-THEME-001]:** توليد ثيمات غير محدودة من أي لون: `createThemeFromColor()` (HSL math، خلفية فاتحة مضمونة L>=95%) + `generateThemeSpectrum()` حتى 360 ثيماً + أسماء عربية تلقائية.
+
+### Fixed
+- live-interpreter-engine: typescript لم يكن يُترجَم (كان renderJsSandboxLive مباشرة).
+
 ## [v1.9.0] - 2026-08-26
 
 ### Added

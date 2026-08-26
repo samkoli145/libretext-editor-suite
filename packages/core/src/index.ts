@@ -159,6 +159,13 @@ export type {
   PresentationMetadata,
 } from './engines/impress-engine';
 
+export {
+  createThemeFromColor,
+  generateThemeSpectrum,
+  hexToHsl,
+  hslToHex,
+} from './engines/theme-engine';
+
 export { BaseEngine } from './engines/base-engine';
 export type {
   Database,

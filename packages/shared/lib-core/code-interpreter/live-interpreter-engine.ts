@@ -34,6 +34,7 @@ export type SupportedLanguage =
   | 'css'
   | 'javascript'
   | 'typescript'
+  | 'tsx'
   | 'json'
   | 'markdown'
   | 'latex'
@@ -85,6 +86,8 @@ export interface SnippetTemplate {
   category: string;
 }
 
+import { transpileTypeScript } from './ts-transpiler';
+
 export class LiveInterpreterEngine {
   /**
    * ترجمة وتفسير الكود إلى مخرجات بصرية فورية وفق لغة المصدر
@@ -127,9 +130,27 @@ export class LiveInterpreterEngine {
           htmlOutput = this.renderCssPreviewLive(code);
           break;
         }
-        case 'javascript':
-        case 'typescript': {
+        case 'javascript': {
           htmlOutput = this.renderJsSandboxLive(code);
+          break;
+        }
+        case 'typescript':
+        case 'tsx': {
+          // ترجمة الأنواع أولاً عبر محرك TypeScript الرسمي ثم تنفيذ الناتج
+          const transpiled = transpileTypeScript(code, { forceJsx: language === 'tsx' });
+          if (!transpiled.ok) {
+            htmlOutput = `<div class="p-4 bg-rose-50 border border-rose-200 rounded-lg text-rose-800 text-xs font-mono">
+              <div class="font-bold mb-1">فشل الترجمة:</div>
+              <div>${this.escapeHtml(transpiled.error ?? 'unknown')}</div>
+            </div>`;
+            break;
+          }
+          const diagNote =
+            transpiled.diagnostics.length > 0
+              ? `<div class="px-4 py-1 bg-amber-50 text-amber-800 text-[10px] font-mono border-b border-amber-100">⚠️ ${transpiled.diagnostics.length} تنبيهات ترجمة</div>`
+              : '';
+          htmlOutput =
+            diagNote + this.renderJsSandboxLive(transpiled.js).replace('JS Output', `${language.toUpperCase()} → JS Output`);
           break;
         }
         default:
