@@ -185,6 +185,18 @@ import {
   formatHtmlEmbedMarkdown,
   isHtmlEmbedBlock,
 } from './html-embed-block';
+import {
+  CodeRunnerBlockNode,
+  createCodeRunnerBlock,
+  formatCodeRunnerMarkdown,
+  isCodeRunnerBlock,
+} from './code-runner-block';
+import {
+  RegexTesterBlockNode,
+  createRegexTesterBlock,
+  isRegexTesterBlock,
+  runRegexTest,
+} from './regex-tester-block';
 
 export type BlockType =
   | 'paragraph'
@@ -214,7 +226,9 @@ export type BlockType =
   | 'details'
   | 'toc'
   | 'svg_icon'
-  | 'html_embed';
+  | 'html_embed'
+  | 'code_runner'
+  | 'regex_tester';
 
 export type AnyBlockNode =
   | ParagraphBlockNode
@@ -244,7 +258,9 @@ export type AnyBlockNode =
   | DetailsBlockNode
   | TocBlockNode
   | SvgIconBlockNode
-  | HtmlEmbedBlockNode;
+  | HtmlEmbedBlockNode
+  | CodeRunnerBlockNode
+  | RegexTesterBlockNode;
 
 export interface BlockManifest {
   readonly type: BlockType;
@@ -567,6 +583,28 @@ export const BLOCK_MANIFESTS: readonly BlockManifest[] = [
     priority: 'Medium',
     supportedSerializers: ['Markdown', 'HTML5'],
   },
+  {
+    type: 'code_runner',
+    nameAr: 'كود تفاعلي',
+    nameEn: 'Interactive Code Runner',
+    domain: 'writer',
+    category: 'Plugin',
+    descriptionAr: 'كود حي قابل للتنفيذ مع أدوات تحكم ديناميكية من تعليقات @prop',
+    traits: ['draggable', 'styleable', 'lockable'],
+    priority: 'High',
+    supportedSerializers: ['Markdown', 'HTML5'],
+  },
+  {
+    type: 'regex_tester',
+    nameAr: 'اختبار تعبير نمطي',
+    nameEn: 'Regex Tester',
+    domain: 'writer',
+    category: 'Plugin',
+    descriptionAr: 'اختبار حي للتعبيرات النمطية مع تمييز التطابقات وقوالب جاهزة',
+    traits: ['draggable', 'styleable'],
+    priority: 'Medium',
+    supportedSerializers: ['Markdown', 'HTML5'],
+  },
 ];
 
 export function getBlockManifest(type: BlockType): BlockManifest | undefined {
@@ -688,6 +726,15 @@ function createDefaultUniversalBlock(type: BlockType, id: string): AnyBlockNode 
   if (type === 'html_embed') {
     return createHtmlEmbedBlock(id, { html: '<div class="note">ملاحظة مضمّنة</div>' });
   }
+  if (type === 'code_runner') {
+    return createCodeRunnerBlock(id, {
+      code: '/* @prop {range} [10,100,5] 40 - الحجم */\n<div style="font-size:${size}px">مرحباً</div>',
+      language: 'html',
+    });
+  }
+  if (type === 'regex_tester') {
+    return createRegexTesterBlock(id, { pattern: '\\d+', flags: 'g', testText: 'عام 2026 شهر 08' });
+  }
   return createDefaultWriterBlock(type, id);
 }
 
@@ -753,5 +800,10 @@ export function serializeBlockToMarkdown(block: AnyBlockNode): string {
   if (isTocBlock(block)) return formatTocMarkdown(block);
   if (isSvgIconBlock(block)) return formatSvgIconMarkdown(block);
   if (isHtmlEmbedBlock(block)) return formatHtmlEmbedMarkdown(block);
+  if (isCodeRunnerBlock(block)) return formatCodeRunnerMarkdown(block);
+  if (isRegexTesterBlock(block)) {
+    const result = runRegexTest(block);
+    return `\`\`\`regex\n/${block.data.pattern}/${block.data.flags}\n\`\`\`\n> تطابقات: ${result.matchesCount}`;
+  }
   return '';
 }

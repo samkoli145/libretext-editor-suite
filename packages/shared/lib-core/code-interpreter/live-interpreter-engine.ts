@@ -276,7 +276,7 @@ export class LiveInterpreterEngine {
     let inList = false;
 
     for (let i = 0; i < lines.length; i++) {
-      const line = lines[i];
+      const line = lines[i]!;
 
       // Headings
       if (line.startsWith('# ')) {
@@ -476,7 +476,7 @@ export class LiveInterpreterEngine {
     lines.forEach((line, idx) => {
       let match: RegExpExecArray | null;
       while ((match = tagRegex.exec(line)) !== null) {
-        const tagName = match[1];
+        const tagName = match[1]!;
         if (tagName.startsWith('/')) continue;
         nodes.push({
           id: `node-${nodes.length + 1}`,

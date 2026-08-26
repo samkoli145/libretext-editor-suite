@@ -298,6 +298,8 @@ libretext-editor-suite/
 | `CORE-025`     | `packages/core/src/blocks/toc-block.ts`                      | بلوك جدول محتويات     | Table of contents block    | تم            |
 | `CORE-026`     | `packages/core/src/blocks/svg-icon-block.ts`                 | بلوك أيقونة SVG       | SVG icon block             | تم            |
 | `CORE-027`     | `packages/core/src/blocks/html-embed-block.ts`               | بلوك HTML معقّم       | Sanitized HTML embed block | تم            |
+| `CORE-028`     | `packages/core/src/blocks/code-runner-block.ts`              | بلوك كود تفاعلي       | Interactive code runner    | تم            |
+| `CORE-029`     | `packages/core/src/blocks/regex-tester-block.ts`             | بلوك اختبار Regex     | Live regex tester block    | تم            |
 
 ### الخوارزميات - Algorithms (ALGO)
 

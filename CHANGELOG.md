@@ -38,6 +38,19 @@
 التنسيق مبني على [Keep a Changelog](https://keepachangelog.com/),
 والإصدار يتبع [Semantic Versioning](https://semver.org/).
 
+## [v1.9.0] - 2026-08-26
+
+### Added
+
+- **Interactive Code Runner Block [BLK-WRITER-CODE-RUNNER]:** كود حي قابل للتنفيذ عبر liveInterpreterEngine (10 لغات) مع أدوات تحكم ديناميكية تُستخرج من تعليقات `@prop` وتُحقن قيمها قبل التنفيذ.
+- **Regex Tester Block [BLK-WRITER-REGEX-TESTER]:** اختبار حي للتعبيرات النمطية عبر RegexTesterEngine الجاهز — نتائج مشتقة لا مخزنة + قوالب شائعة جاهزة.
+- **Syntax Highlighting في code-block:** `tokenizeCodeBlock()` يرجع رموزاً لكل سطر عبر المحرك الجاهز + `tokensToHtml()` بأصناف CSS قياسية وتهريب آمن.
+
+### Enhanced (المصادر الجاهزة)
+
+- **code-sandbox-runner:** إصلاح regex @prop ليطابق الصيغة الموثقة `{type}` + دعم اسم متغير اختياري `$var` + استبدال عام لـ `${var}` في injectControlValues (كان hardcoded لحالتين فقط).
+- إصلاح 26 خطأ typecheck كامناً في code-interpreter وcharts (أول استيراد فعلي).
+
 ## [v1.8.0] - 2026-08-26
 
 ### Added

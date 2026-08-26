@@ -61,4 +61,6 @@ export * from './details-block';
 export * from './toc-block';
 export * from './svg-icon-block';
 export * from './html-embed-block';
+export * from './code-runner-block';
+export * from './regex-tester-block';
 export * from './block-registry';

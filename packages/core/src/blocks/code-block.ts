@@ -90,3 +90,61 @@ export function formatCodeBlockMarkdown(node: CodeBlockNode): string {
   const code = node.data.code || '';
   return `\`\`\`${lang}\n${code}\n\`\`\``;
 }
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// SYNTAX HIGHLIGHTING — تظليل نحوي عبر liveInterpreterEngine الجاهز
+// ━━━━━━━━━━━═════════════════════════════════════════════════
+
+import { liveInterpreterEngine } from '../../../shared/lib-core/code-interpreter/live-interpreter-engine';
+import type { CodeToken, SupportedLanguage } from '../../../shared/lib-core/code-interpreter/live-interpreter-engine';
+
+/** اللغات المدعومة للتظليل النحوي الفوري. */
+export const HIGHLIGHTABLE_LANGUAGES: readonly SupportedLanguage[] = [
+  'html',
+  'css',
+  'javascript',
+  'typescript',
+  'json',
+  'markdown',
+  'latex',
+  'svg',
+  'xml',
+  'yaml',
+];
+
+/** هل يمكن تظليل هذه اللغة؟ */
+export function isHighlightable(language: string): boolean {
+  return HIGHLIGHTABLE_LANGUAGES.includes(
+    language.toLowerCase().trim() as SupportedLanguage,
+  );
+}
+
+/**
+ * تظليل نحوي للكتلة — يرجع رموزاً لكل سطر عبر المحرك الجاهز.
+ * لغة غير مدعومة → null (تُعرض كنص عادي).
+ */
+export function tokenizeCodeBlock(node: CodeBlockNode): CodeToken[][] | null {
+  if (!isHighlightable(node.data.language)) return null;
+  return liveInterpreterEngine.tokenize(
+    node.data.code,
+    node.data.language as SupportedLanguage,
+  );
+}
+
+/** تحويل الرموز إلى HTML spans بأصناف CSS قياسية. */
+export function tokensToHtml(lines: readonly CodeToken[][]): string {
+  return lines
+    .map(line =>
+      line
+        .map(token => `<span class="tok-${token.type}">${escapeCodeHtml(token.value)}</span>`)
+        .join(''),
+    )
+    .join('\n');
+}
+
+function escapeCodeHtml(text: string): string {
+  return text
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+}

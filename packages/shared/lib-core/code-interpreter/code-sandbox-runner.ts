@@ -31,6 +31,8 @@ export interface SandboxControlProp {
   id: string;
   nameAr: string;
   nameEn: string;
+  /** اسم المتغير في الكود (${name}) عند تحديده بصيغة $name في التعليق. */
+  varName?: string;
   type: 'range' | 'color' | 'text' | 'boolean' | 'select';
   value: any;
   min?: number;
@@ -56,14 +58,15 @@ export class CodeSandboxRunner {
   public static extractDynamicControls(code: string): SandboxControlProp[] {
     const controls: SandboxControlProp[] = [];
     const propRegex =
-      /\/\*\s*@prop\s+(\w+)\s*(?:\[([\d.,\s-]+)\])?\s*([^*]+?)\s*-\s*([^*]+?)\*\//gi;
+      /\/\*\s*@prop\s+\{?(\w+)\}?\s*(?:\[([\d.,\s-]+)\])?\s*(?:\$(\w+)\s+)?([^*]+?)\s*-\s*([^*]+?)\*\//gi;
     let match: RegExpExecArray | null;
 
     while ((match = propRegex.exec(code)) !== null) {
-      const type = match[1].toLowerCase() as 'range' | 'color' | 'text' | 'boolean' | 'select';
+      const type = match[1]!.toLowerCase() as 'range' | 'color' | 'text' | 'boolean' | 'select';
       const rangeStr = match[2];
-      const defaultValueRaw = match[3].trim();
-      const labelAr = match[4].trim();
+      const varName = match[3];
+      const defaultValueRaw = match[4]!.trim();
+      const labelAr = match[5]!.trim();
 
       const id = `prop_${controls.length + 1}`;
       let value: any = defaultValueRaw;
@@ -75,9 +78,9 @@ export class CodeSandboxRunner {
         value = parseFloat(defaultValueRaw) || 0;
         if (rangeStr) {
           const parts = rangeStr.split(',').map((p) => parseFloat(p.trim()));
-          if (!isNaN(parts[0])) min = parts[0];
-          if (!isNaN(parts[1])) max = parts[1];
-          if (!isNaN(parts[2])) step = parts[2];
+          if (!isNaN(parts[0]!)) min = parts[0]!;
+          if (!isNaN(parts[1]!)) max = parts[1]!;
+          if (!isNaN(parts[2]!)) step = parts[2]!;
         }
       } else if (type === 'boolean') {
         value = defaultValueRaw === 'true' || defaultValueRaw === '1';
@@ -92,6 +95,7 @@ export class CodeSandboxRunner {
         min,
         max,
         step,
+        ...(varName ? { varName } : {}),
       });
     }
 
@@ -149,6 +153,10 @@ export class CodeSandboxRunner {
     let result = code;
 
     controls.forEach((c) => {
+      // استبدال عام للمتغيرات المسماة ${name}
+      if (c.varName) {
+        result = result.split('${' + c.varName + '}').join(String(c.value));
+      }
       if (c.id === 'auto_radius' && c.type === 'range') {
         result = result.replace(/border-radius:\s*[^;]+;/g, `border-radius: ${c.value}px;`);
       } else if (c.id === 'auto_padding' && c.type === 'range') {

@@ -470,15 +470,15 @@ export class ZeroDependencyChartEngine {
     // Build SVG Path
     let pathD = '';
     if (isStep) {
-      pathD = `M ${points[0].x} ${points[0].y}`;
+      pathD = `M ${points[0]!.x} ${points[0]!.y}`;
       for (let i = 1; i < points.length; i++) {
-        pathD += ` H ${points[i].x} V ${points[i].y}`;
+        pathD += ` H ${points[i]!.x} V ${points[i]!.y}`;
       }
     } else {
-      pathD = `M ${points[0].x} ${points[0].y}`;
+      pathD = `M ${points[0]!.x} ${points[0]!.y}`;
       for (let i = 1; i < points.length; i++) {
-        const prev = points[i - 1];
-        const curr = points[i];
+        const prev = points[i - 1]!;
+        const curr = points[i]!;
         const cx1 = prev.x + (curr.x - prev.x) / 2;
         const cy1 = prev.y;
         const cx2 = prev.x + (curr.x - prev.x) / 2;
@@ -1188,7 +1188,7 @@ export class ZeroDependencyChartEngine {
     const range = maxVal - minVal || 1;
     const stepX = data.length > 1 ? (w - 20) / (data.length - 1) : w;
 
-    let pathD = `M 10 ${h - 10 - ((data[0].value - minVal) / range) * (h - 20)}`;
+    let pathD = `M 10 ${h - 10 - ((data[0]!.value - minVal) / range) * (h - 20)}`;
     data.forEach((d, i) => {
       const x = 10 + i * stepX;
       const y = h - 10 - ((d.value - minVal) / range) * (h - 20);

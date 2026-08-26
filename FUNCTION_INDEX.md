@@ -4,7 +4,7 @@
 
 > **تاريخ آخر Update:** 2026-08-26
 > **عدد الحزم:** 7
-> **Total العناصر المفهرسة:** 1216 عنصر
+> **Total العناصر المفهرسة:** 1228 عنصر
 
 ---
 
@@ -1110,6 +1110,28 @@
 | 3/5 | `createHtmlEmbedBlock`     | ⚙️ function  | `html-embed-block.ts:80` | `id, data?`    |
 | 4/5 | `sanitizeEmbedContent`     | ⚙️ function  | `html-embed-block.ts:107` | `node`        |
 | 5/5 | `formatHtmlEmbedMarkdown`  | ⚙️ function  | `html-embed-block.ts:114` | `node`        |
+
+### 📁 code-runner-block.ts
+
+| #   | الName                    | الType       | File:سطر                 | Parameters        |
+| --- | ------------------------- | ------------ | ------------------------ | ----------------- |
+| 1/7 | `CodeRunnerBlockData`     | 📐 interface | `code-runner-block.ts:66` | `—`              |
+| 2/7 | `CodeRunnerBlockNode`     | 📐 interface | `code-runner-block.ts:71` | `—`              |
+| 3/7 | `createCodeRunnerBlock`   | ⚙️ function  | `code-runner-block.ts:96` | `id, data?`      |
+| 4/7 | `getInteractiveControls`  | ⚙️ function  | `code-runner-block.ts:125` | `node`          |
+| 5/7 | `setControlValue`         | ⚙️ function  | `code-runner-block.ts:140` | `node, id, val` |
+| 6/7 | `runCodeBlock`            | ⚙️ function  | `code-runner-block.ts:158` | `node`          |
+| 7/7 | `formatCodeRunnerMarkdown` | ⚙️ function | `code-runner-block.ts:173` | `node`          |
+
+### 📁 regex-tester-block.ts
+
+| #   | الاسم                   | الType       | File:سطر                  | Parameters    |
+| --- | ----------------------- | ------------ | ------------------------- | ------------- |
+| 1/5 | `RegexTesterBlockData`  | 📐 interface | `regex-tester-block.ts:52` | `—`          |
+| 2/5 | `RegexTesterBlockNode`  | 📐 interface | `regex-tester-block.ts:56` | `—`          |
+| 3/5 | `createRegexTesterBlock` | ⚙️ function | `regex-tester-block.ts:84` | `id, data?`  |
+| 4/5 | `runRegexTest`          | ⚙️ function  | `regex-tester-block.ts:111` | `node`      |
+| 5/5 | `applyRegexPreset`      | ⚙️ function  | `regex-tester-block.ts:124` | `node, id`  |
 
 ### 📁 audio-block-block.ts
 

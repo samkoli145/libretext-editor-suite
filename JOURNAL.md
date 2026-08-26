@@ -20,6 +20,30 @@
 
 # يوميات مشروع LibreText Editor Suite
 
+## 2026-08-26 (Part 4) — بلوكات الكود التفاعلية من المصادر الجاهزة
+
+### المنجزات
+
+**1. code-runner-block [BLK-WRITER-CODE-RUNNER] — التفاعلية الكاملة:**
+- تنفيذ حي عبر liveInterpreterEngine (html/css/js/ts/json/md/latex/svg/xml/yaml)
+- أدوات تحكم ديناميكية من تعليقات `@prop {type} [range] $var default - وصف`
+- حقن القيم قبل التنفيذ + حفظ حالة المستخدم في controlValues
+
+**2. regex-tester-block [BLK-WRITER-REGEX-TESTER]:**
+- نتائج DERIVED NEVER STORED عبر RegexTesterEngine + قوالب جاهزة (بريد/رابط/هاتف)
+
+**3. ترقية code-block بالتظليل النحوي:**
+- tokenizeCodeBlock + tokensToHtml بتهريب آمن — لغة غير مدعومة → null (نص عادي)
+
+**4. تطوير المصدر الجاهز نفسه (اكتشافات):**
+- regex @prop لم يطابق صيغته الموثقة `{type}` — أُصلح
+- injectControlValues كان hardcoded لحالتين — أضيف استبدال عام `${var}`
+- إصلاح 26 خطأ typecheck كامناً (code-interpreter + charts)
+
+### التحقق
+- ✅ typecheck صفر | ✅ 1614 اختباراً (+16) | ✅ lint صفر
+- ✅ FUNCTION_INDEX: 1228 عنصراً | INDEX: CORE-028/029 | البلوكات: 30 → 32
+
 ## 2026-08-26 (Part 3) — بلوكات التحويل المتخصصة من المصادر الجاهزة
 
 ### المنجزات

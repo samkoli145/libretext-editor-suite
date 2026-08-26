@@ -154,6 +154,26 @@ const TOOLBAR_CONFIG: Record<BlockType, readonly ToolbarActionConfig[]> = {
     { id: 'set-depth', label: 'Depth' },
     { id: 'refresh', label: 'Refresh' },
   ],
+  svg_icon: [
+    { id: 'pick-icon', label: 'Icon' },
+    { id: 'set-color', label: 'Color' },
+    { id: 'set-size', label: 'Size' },
+  ],
+  html_embed: [
+    { id: 'edit-html', label: 'HTML' },
+    { id: 'sanitize', label: 'Sanitize' },
+  ],
+  code_runner: [
+    { id: 'run', label: '▶ Run' },
+    { id: 'edit-code', label: 'Edit' },
+    { id: 'set-language', label: 'Language' },
+    { id: 'toggle-auto-run', label: 'Auto' },
+  ],
+  regex_tester: [
+    { id: 'test', label: 'Test' },
+    { id: 'edit-pattern', label: 'Pattern' },
+    { id: 'pick-preset', label: 'Presets' },
+  ],
 };
 
 export function getToolbarActions(blockType: BlockType): readonly ToolbarActionConfig[] {
