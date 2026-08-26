@@ -56,4 +56,7 @@ export * from './font-picker-block';
 export * from './text-styler-block';
 export * from './template-card-block';
 export * from './template-gallery-block';
+export * from './math-block';
+export * from './details-block';
+export * from './toc-block';
 export * from './block-registry';

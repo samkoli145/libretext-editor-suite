@@ -81,7 +81,7 @@ export function createCellBlock(
   row: number,
   col: number,
   rawInput: string = '',
-  data?: Partial<CellBlockData>
+  data?: Partial<CellBlockData>,
 ): CellBlockNode {
   const address = `${indexToColumnName(col)}${row}`;
   const isFormula = rawInput.startsWith('=');

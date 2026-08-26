@@ -2,90 +2,82 @@
  * ═══════════════════════════════════════════════════════════════════════════
  * 📌 ملخص توجيهي | Guiding Summary
  * ═══════════════════════════════════════════════════════════════════════════
- * 📄 الملف: embed-block.ts
- * 📂 المسار: src/blocks/embed-block.ts
- * 🎯 الهدف الرئيسي: تعريف كتلة التضمين والوسائط التفاعلية (Universal Embed Block)
- * 📋 المعايير: دعم تضمين الفيديو، المستندات، الخرائط، إطارات iframe مع نسبة أبعاد آمنة
- * 🧪 الاختبارات: التحقق من عنوان التضمين ونوع المزود ونسبة الأبعاد
- * 🏷️ المعرف: BLK-UNIV-EMBED
- * 📅 تاريخ الإنشاء: 2026-08-23
+ * 📄 الملف: details-block.ts
+ * 📂 المسار: packages/core/src/blocks/details-block.ts
+ * 🎯 الهدف الرئيسي: بلوك الأكورديون/المنسدل (Details/Toggle) لنطاق Writer
+ * 📋 المعايير: ملخص + محتوى، حالة انفتاح، Markdown <details><summary>
+ * 🧪 الاختبارات: packages/core/tests/blocks/details-block.test.ts
+ * 🏷️ المعرف: BLK-WRITER-DETAILS
+ * 📅 تاريخ الإنشاء: 2026-08-26
  * ═══════════════════════════════════════════════════════════════════════════
  * 🧠 الطريقة المبتكرة | Innovative Pattern:
- *    Aspect-Ratio Constrained Embed Factory + Sanitized URL Normalizer
+ *    Collapsible Content Container — مستوحى من domternal extension-details (MIT)
+ *    وGitHub Flavored Markdown <details> semantics
  * ═══════════════════════════════════════════════════════════════════════════
  * ⚠️ نقاط الخطر الإلزامية | Mandatory Gotchas:
- *    1. منع تضمين روابط غير آمنة (javascript: / data:).
- *    2. ضمان دعم الثيم الفاتح النقي بدون إطارات داكنة.
+ *    1. المحتوى نص خام متعدد الأسطر — لا يُنقّى هنا (التنقية في html-pipeline).
+ *    2. summary فارغ يكسر دلالات <details> — نستبدله بنص افتراضي عند التصدير.
  * ═══════════════════════════════════════════════════════════════════════════
  * 🩹 البرمجة الدفاعية | Defensive Coding:
- *    - Type Guard (isEmbedBlock).
- *    - فحص وتعقيم صيغة عنوان URL.
+ *    - Type Guard (isDetailsBlock).
+ *    - حد أقصى للمحتوى 100,000 حرف.
  * ═══════════════════════════════════════════════════════════════════════════
  * 🔗 الملفات المرتبطة | Linked Files:
  *    - 📇 الفهرس: src/blocks/index.ts
- *    - 📦 التبعيات: src/types/ast.ts
+ *    - 📦 التبعيات: src/ast/types.ts
+ *    - 📚 مراجع: domternal extension-details
  * ═══════════════════════════════════════════════════════════════════════════
  * 📊 الدوال والخوارزميات | Functions & Algorithms:
- *    - createEmbedBlock: دالة مصنع لإنشاء كتلة تضمين (#L54)
- *    - isEmbedBlock: فاحص نوع كتلة التضمين (#L74)
- *    - formatEmbedMarkdown: تحويل كتلة التضمين إلى صيغة Markdown (#L81)
+ *    - createDetailsBlock: إنشاء كتلة منسدلة (#L72)
+ *    - isDetailsBlock: فاحص النوع (#L92)
+ *    - formatDetailsMarkdown: تصدير <details><summary> (#L99)
  * ═══════════════════════════════════════════════════════════════════════════
  * 👤 المالك: Hossam El-Din Abdel-Moaty El-Khouly - All rights reserved
  * ⚖️ الترخيص: MIT License
- * 📚 المصادر المقتبسة: LibreText Architecture Blueprint
+ * 📚 المصادر المقتبسة: domternal-main (MIT), GFM Details semantics
  * ═══════════════════════════════════════════════════════════════════════════
  */
 
 import { BaseBlockNode, TraitKey } from '../ast/types';
 
-export type EmbedProvider = 'youtube' | 'vimeo' | 'codepen' | 'figma' | 'generic';
+const MAX_CONTENT_LENGTH = 100_000;
 
-export interface EmbedBlockData {
-  readonly src: string;
-  readonly title: string;
-  readonly provider: EmbedProvider;
-  readonly aspectRatio?: '16:9' | '4:3' | '1:1' | 'custom';
-  readonly width?: number | string;
-  readonly height?: number | string;
-  readonly caption?: string;
-  readonly allowFullScreen?: boolean;
+export interface DetailsBlockData {
+  readonly summary: string;
+  readonly content: string;
+  readonly open: boolean;
 }
 
-export interface EmbedBlockNode extends BaseBlockNode<EmbedBlockData> {
-  readonly type: 'embed';
-  readonly domain: 'universal';
+export interface DetailsBlockNode extends BaseBlockNode<DetailsBlockData> {
+  readonly type: 'details';
+  readonly domain: 'writer';
 }
 
-export function createEmbedBlock(
+export function createDetailsBlock(
   id: string,
-  src: string,
-  options?: Partial<EmbedBlockData>,
-): EmbedBlockNode {
+  data?: Partial<DetailsBlockData>,
+): DetailsBlockNode {
   return {
     id,
-    type: 'embed',
-    domain: 'universal',
-    traits: ['draggable', 'resizable', 'styleable', 'lockable'] as readonly TraitKey[],
+    type: 'details',
+    domain: 'writer',
+    traits: ['draggable', 'styleable'] as readonly TraitKey[],
     data: {
-      src,
-      title: options?.title ?? 'تضمين تفاعلي',
-      provider: options?.provider ?? 'generic',
-      aspectRatio: options?.aspectRatio ?? '16:9',
-      width: options?.width ?? '100%',
-      height: options?.height ?? 360,
-      caption: options?.caption ?? '',
-      allowFullScreen: options?.allowFullScreen ?? true,
+      summary: data?.summary ?? 'تفاصيل',
+      content: (data?.content ?? '').slice(0, MAX_CONTENT_LENGTH),
+      open: data?.open ?? false,
     },
   };
 }
 
-export function isEmbedBlock(node: unknown): node is EmbedBlockNode {
+export function isDetailsBlock(node: unknown): node is DetailsBlockNode {
   if (typeof node !== 'object' || node === null) return false;
-  const b = node as EmbedBlockNode;
-  return b.type === 'embed' && b.domain === 'universal' && typeof b.data?.src === 'string';
+  const b = node as DetailsBlockNode;
+  return b.type === 'details' && b.domain === 'writer';
 }
 
-export function formatEmbedMarkdown(node: EmbedBlockNode): string {
-  const cap = node.data.caption ? `\n*${node.data.caption}*` : '';
-  return `[🔗 ${node.data.title}](${node.data.src})${cap}`;
+export function formatDetailsMarkdown(node: DetailsBlockNode): string {
+  const summary = node.data.summary.trim() || 'تفاصيل';
+  const attrs = node.data.open ? ' open' : '';
+  return `<details${attrs}>\n<summary>${summary}</summary>\n\n${node.data.content}\n\n</details>`;
 }

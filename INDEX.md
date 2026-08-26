@@ -293,6 +293,9 @@ libretext-editor-suite/
 | `CORE-020`     | `packages/core/src/engines/calc-engine.ts`                   | محرك جداول البيانات   | Calc engine                | تم            |
 | `CORE-021`     | `packages/core/src/engines/writer-engine.ts`                 | محرك المستندات        | Writer engine              | تم            |
 | `CORE-022`     | `packages/core/src/engines/impress-engine.ts`                | محرك العروض           | Impress engine             | تم            |
+| `CORE-023`     | `packages/core/src/blocks/math-block.ts`                     | بلوك معادلات LaTeX    | Math equation block        | تم            |
+| `CORE-024`     | `packages/core/src/blocks/details-block.ts`                  | بلوك منسدل تفاصيل     | Details accordion block    | تم            |
+| `CORE-025`     | `packages/core/src/blocks/toc-block.ts`                      | بلوك جدول محتويات     | Table of contents block    | تم            |
 
 ### الخوارزميات - Algorithms (ALGO)
 

@@ -15,29 +15,78 @@
 
 import { describe, expect, it } from 'vitest';
 import {
-  createParagraphBlock, isParagraphBlock, formatParagraphMarkdown,
-  createHeadingBlock, isHeadingBlock, formatHeadingMarkdown,
-  createTableBlock, createTableRow, createTableCell, isTableBlock, formatTableMarkdown,
-  createImageBlock, isImageBlock, formatImageMarkdown,
-  createListBlock, createListItem, isListBlock, formatListMarkdown,
-  createCodeBlock, isCodeBlock, formatCodeBlockMarkdown,
-  createHorizontalRuleBlock, isHorizontalRuleBlock, formatHorizontalRuleMarkdown,
-  createBlockquoteBlock, isBlockquoteBlock, formatBlockquoteMarkdown,
-  createCellBlock, isCellBlock, formatCellValue,
-  createShapeBlock, isShapeBlock, getShapePresetPath,
-  createSlideBlock, isSlideBlock, formatSlideSummary,
-  createDatabaseRecordBlock, isDatabaseRecordBlock, formatRecordCardText,
-  createEmbedBlock, isEmbedBlock, formatEmbedMarkdown,
-  createColorPickerBlock, isColorPickerBlock, formatColorPickerMarkdown,
-  createIconPickerBlock, isIconPickerBlock, formatIconPickerMarkdown,
-  createFontPickerBlock, isFontPickerBlock, formatFontPickerMarkdown,
-  createTextStylerBlock, isTextStylerBlock, formatTextStylerMarkdown,
-  createBgColorBlock, isBgColorBlock, formatBgColorMarkdown,
-  createBgImageBlock, isBgImageBlock, formatBgImageMarkdown,
-  createGradientBlock, isGradientBlock, formatGradientMarkdown,
-  createTemplateCardBlock, isTemplateCardBlock, formatTemplateCardMarkdown,
-  createTemplateGalleryBlock, isTemplateGalleryBlock, formatTemplateGalleryMarkdown,
-  createPdfBlock, isPdfBlock, formatPdfMarkdown,
+  createParagraphBlock,
+  isParagraphBlock,
+  formatParagraphMarkdown,
+  createHeadingBlock,
+  isHeadingBlock,
+  formatHeadingMarkdown,
+  createTableBlock,
+  createTableRow,
+  createTableCell,
+  isTableBlock,
+  formatTableMarkdown,
+  createImageBlock,
+  isImageBlock,
+  formatImageMarkdown,
+  createListBlock,
+  createListItem,
+  isListBlock,
+  formatListMarkdown,
+  createCodeBlock,
+  isCodeBlock,
+  formatCodeBlockMarkdown,
+  createHorizontalRuleBlock,
+  isHorizontalRuleBlock,
+  formatHorizontalRuleMarkdown,
+  createBlockquoteBlock,
+  isBlockquoteBlock,
+  formatBlockquoteMarkdown,
+  createCellBlock,
+  isCellBlock,
+  formatCellValue,
+  createShapeBlock,
+  isShapeBlock,
+  getShapePresetPath,
+  createSlideBlock,
+  isSlideBlock,
+  formatSlideSummary,
+  createDatabaseRecordBlock,
+  isDatabaseRecordBlock,
+  formatRecordCardText,
+  createEmbedBlock,
+  isEmbedBlock,
+  formatEmbedMarkdown,
+  createColorPickerBlock,
+  isColorPickerBlock,
+  formatColorPickerMarkdown,
+  createIconPickerBlock,
+  isIconPickerBlock,
+  formatIconPickerMarkdown,
+  createFontPickerBlock,
+  isFontPickerBlock,
+  formatFontPickerMarkdown,
+  createTextStylerBlock,
+  isTextStylerBlock,
+  formatTextStylerMarkdown,
+  createBgColorBlock,
+  isBgColorBlock,
+  formatBgColorMarkdown,
+  createBgImageBlock,
+  isBgImageBlock,
+  formatBgImageMarkdown,
+  createGradientBlock,
+  isGradientBlock,
+  formatGradientMarkdown,
+  createTemplateCardBlock,
+  isTemplateCardBlock,
+  formatTemplateCardMarkdown,
+  createTemplateGalleryBlock,
+  isTemplateGalleryBlock,
+  formatTemplateGalleryMarkdown,
+  createPdfBlock,
+  isPdfBlock,
+  formatPdfMarkdown,
 } from '../../src/index';
 import { NodeId } from '../../src/ast/types';
 
@@ -60,9 +109,7 @@ describe('Paragraph Block', () => {
   });
 
   it('formats to markdown', () => {
-    const block = createParagraphBlock('p1', [
-      { id: 't1' as NodeId, type: 'text', text: 'مرحبا' },
-    ]);
+    const block = createParagraphBlock('p1', [{ id: 't1' as NodeId, type: 'text', text: 'مرحبا' }]);
     expect(formatParagraphMarkdown(block)).toBe('مرحبا');
   });
 });
@@ -75,9 +122,11 @@ describe('Heading Block', () => {
   });
 
   it('formats to markdown', () => {
-    const block = createHeadingBlock('h1', [
-      { id: 't1' as NodeId, type: 'text', text: 'عنوان' },
-    ], 3);
+    const block = createHeadingBlock(
+      'h1',
+      [{ id: 't1' as NodeId, type: 'text', text: 'عنوان' }],
+      3,
+    );
     expect(formatHeadingMarkdown(block)).toBe('### عنوان');
   });
 });
@@ -145,7 +194,10 @@ describe('Cell Block', () => {
   });
 
   it('formats value', () => {
-    const block = createCellBlock('cl1', 1, 1, '1234.5', { dataType: 'number', numberFormat: 'decimal' });
+    const block = createCellBlock('cl1', 1, 1, '1234.5', {
+      dataType: 'number',
+      numberFormat: 'decimal',
+    });
     expect(block.data.numberFormat).toBe('decimal');
   });
 });
@@ -182,9 +234,11 @@ describe('Slide Block', () => {
 
 describe('Database Record Block', () => {
   it('creates record', () => {
-    const block = createDatabaseRecordBlock('db1', [
-      { id: 'f1', name: 'الاسم', type: 'string', value: 'أحمد' },
-    ], 'جدول المستخدمين');
+    const block = createDatabaseRecordBlock(
+      'db1',
+      [{ id: 'f1', name: 'الاسم', type: 'string', value: 'أحمد' }],
+      'جدول المستخدمين',
+    );
     expect(block.type).toBe('database_record');
   });
 });
@@ -201,7 +255,9 @@ describe('Image Block', () => {
 
 describe('Embed Block', () => {
   it('creates youtube embed', () => {
-    const block = createEmbedBlock('em1', 'https://youtube.com/watch?v=123', { provider: 'youtube' });
+    const block = createEmbedBlock('em1', 'https://youtube.com/watch?v=123', {
+      provider: 'youtube',
+    });
     expect(block.type).toBe('embed');
     expect(block.data.provider).toBe('youtube');
   });
@@ -266,10 +322,14 @@ describe('Background Image Block', () => {
 
 describe('Gradient Block', () => {
   it('creates linear gradient', () => {
-    const block = createGradientBlock('gr1', [
-      { color: '#FF0000', position: 0 },
-      { color: '#0000FF', position: 100 },
-    ], { type: 'linear', angle: 90 });
+    const block = createGradientBlock(
+      'gr1',
+      [
+        { color: '#FF0000', position: 0 },
+        { color: '#0000FF', position: 100 },
+      ],
+      { type: 'linear', angle: 90 },
+    );
     expect(block.type).toBe('gradient');
     expect(block.data.stops).toHaveLength(2);
   });

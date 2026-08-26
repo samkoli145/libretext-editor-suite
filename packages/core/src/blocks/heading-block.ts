@@ -72,7 +72,7 @@ export function createHeadingBlock(
   id: string,
   content: readonly InlineNode[],
   level: number = 1,
-  data?: Partial<HeadingBlockData>
+  data?: Partial<HeadingBlockData>,
 ): HeadingBlockNode {
   const safeLevel = clampHeadingLevel(level);
   const plainText = content.map((c) => (c.type === 'text' ? c.text : '')).join('');
@@ -89,7 +89,10 @@ export function createHeadingBlock(
       numbered: data?.numbered ?? false,
       anchorId: data?.anchorId ?? fallbackAnchor,
     },
-    content: content.length > 0 ? content : [{ id: `${id}-txt-1` as NodeId, type: 'text', text: 'عنوان جديد' }],
+    content:
+      content.length > 0
+        ? content
+        : [{ id: `${id}-txt-1` as NodeId, type: 'text', text: 'عنوان جديد' }],
   };
 }
 
@@ -101,6 +104,8 @@ export function isHeadingBlock(node: unknown): node is HeadingBlockNode {
 
 export function formatHeadingMarkdown(node: HeadingBlockNode): string {
   const hashes = '#'.repeat(node.data.level);
-  const textParts = node.content.map((inline) => (inline.type === 'text' ? inline.text : '')).join('');
+  const textParts = node.content
+    .map((inline) => (inline.type === 'text' ? inline.text : ''))
+    .join('');
   return `${hashes} ${textParts}`;
 }

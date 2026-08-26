@@ -29,7 +29,7 @@ export interface TextStylerBlockNode extends BaseBlockNode<TextStylerBlockData> 
 
 export function createTextStylerBlock(
   id: string,
-  traits: readonly TraitKey[] = ['draggable', 'lockable']
+  traits: readonly TraitKey[] = ['draggable', 'lockable'],
 ): TextStylerBlockNode {
   return {
     id,
@@ -40,8 +40,8 @@ export function createTextStylerBlock(
       shadow: '0 1px 3px rgba(0,0,0,0.1)',
       border: '1px solid #e2e8f0',
       borderRadius: 8,
-      opacity: 100
-    }
+      opacity: 100,
+    },
   };
 }
 
@@ -56,5 +56,5 @@ export function formatTextStylerMarkdown(node: TextStylerBlockNode): string {
 }
 
 export function formatTextStylerHtml(node: TextStylerBlockNode): string {
-  return `<div class="text-styler-block" style="box-shadow: ${node.data.shadow || 'none'}; border: ${node.data.border || 'none'}; border-radius: ${node.data.borderRadius || 0}px; opacity: ${((node.data.opacity ?? 100) / 100)};"></div>\n`;
+  return `<div class="text-styler-block" style="box-shadow: ${node.data.shadow || 'none'}; border: ${node.data.border || 'none'}; border-radius: ${node.data.borderRadius || 0}px; opacity: ${(node.data.opacity ?? 100) / 100};"></div>\n`;
 }

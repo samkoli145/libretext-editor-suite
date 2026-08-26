@@ -4,7 +4,7 @@
 
 > **تاريخ آخر Update:** 2026-08-26
 > **عدد الحزم:** 7
-> **Total العناصر المفهرسة:** 1182 عنصر
+> **Total العناصر المفهرسة:** 1204 عنصر
 
 ---
 
@@ -1058,6 +1058,37 @@
 | 41/42 | `EditorPlugin`          | 📐 interface | `types.ts:73`  | `—`        |
 | 42/42 | `SharedFormattingState` | 📐 interface | `types.ts:86`  | `—`        |
 
+### 📁 math-block.ts
+
+| #   | الاسم                   | الType       | File:سطر           | Parameters             |
+| --- | ----------------------- | ------------ | ------------------ | ---------------------- |
+| 1/6 | `MathBlockData`         | 📐 interface | `math-block.ts:52` | `—`                    |
+| 2/6 | `MathBlockNode`         | 📐 interface | `math-block.ts:56` | `—`                    |
+| 3/6 | `createMathBlock`       | ⚙️ function  | `math-block.ts:66` | `id, data?`            |
+| 4/6 | `isMathBlock`           | ⚙️ function  | `math-block.ts:82` | `node: unknown`        |
+| 5/6 | `formatMathMarkdown`    | ⚙️ function  | `math-block.ts:89` | `node: MathBlockNode`  |
+| 6/6 | `hasBalancedDelimiters` | ⚙️ function  | `math-block.ts:96` | `latex: string`        |
+
+### 📁 details-block.ts
+
+| #   | الاسم                   | الType       | File:سطر              | Parameters |
+| --- | ----------------------- | ------------ | --------------------- | ---------- |
+| 1/4 | `DetailsBlockData`      | 📐 interface | `details-block.ts:55` | `—`        |
+| 2/4 | `DetailsBlockNode`      | 📐 interface | `details-block.ts:59` | `—`        |
+| 3/4 | `createDetailsBlock`    | ⚙️ function  | `details-block.ts:68` | `id, data?` |
+| 4/4 | `formatDetailsMarkdown` | ⚙️ function  | `details-block.ts:92` | `node`     |
+
+### 📁 toc-block.ts
+
+| #   | الاسم               | الType       | File:سطر          | Parameters         |
+| --- | ------------------- | ------------ | ----------------- | ------------------ |
+| 1/6 | `TocBlockData`      | 📐 interface | `toc-block.ts:53` | `—`                |
+| 2/6 | `TocBlockNode`      | 📐 interface | `toc-block.ts:57` | `—`                |
+| 3/6 | `TocEntry`          | 📐 interface | `toc-block.ts:61` | `—`                |
+| 4/6 | `createTocBlock`    | ⚙️ function  | `toc-block.ts:65` | `id, data?`        |
+| 5/6 | `formatTocMarkdown` | ⚙️ function  | `toc-block.ts:90` | `node`             |
+| 6/6 | `buildTocEntries`   | ⚙️ function  | `toc-block.ts:97` | `blocks, maxDepth` |
+
 ### 📁 audio-block-block.ts
 
 | #   | الاسم                      | الType       | File:سطر                  | Parameters |
@@ -1255,17 +1286,20 @@
 
 ### 📁 impress-engine.ts
 
-| #   | الاسم                   | الType       | File:سطر                | Parameters |
-| --- | ----------------------- | ------------ | ----------------------- | ---------- |
-| 1/9 | `Presentation`          | 📐 interface | `impress-engine.ts:37`  | `—`        |
-| 2/9 | `SlideData`             | 📐 interface | `impress-engine.ts:45`  | `—`        |
-| 3/9 | `SlideLayout`           | 🏷️ type      | `impress-engine.ts:55`  | `—`        |
-| 4/9 | `SlideBackground`       | 📐 interface | `impress-engine.ts:64`  | `—`        |
-| 5/9 | `SlideTransition`       | 📐 interface | `impress-engine.ts:69`  | `—`        |
-| 6/9 | `PresentationTheme`     | 📐 interface | `impress-engine.ts:74`  | `—`        |
-| 7/9 | `PresentationMetadata`  | 📐 interface | `impress-engine.ts:84`  | `—`        |
-| 8/9 | `DEFAULT_THEMES`        | 📌 constant  | `impress-engine.ts:96`  | `—`        |
-| 9/9 | `ImpressEngine`         | 🏗️ class     | `impress-engine.ts:140` | `—`        |
+| #     | الاسم                   | الType       | File:سطر                | Parameters |
+| ----- | ----------------------- | ------------ | ----------------------- | ---------- |
+| 1/12 | `Presentation`          | 📐 interface | `impress-engine.ts:37`  | `—`        |
+| 2/12 | `SlideData`             | 📐 interface | `impress-engine.ts:45`  | `—`        |
+| 3/12 | `SlideLayout`           | 🏷️ type      | `impress-engine.ts:55`  | `—`        |
+| 4/12 | `SlideBackground`       | 📐 interface | `impress-engine.ts:64`  | `—`        |
+| 5/12 | `SlideTransition`       | 📐 interface | `impress-engine.ts:69`  | `—`        |
+| 6/12 | `PresentationTheme`     | 📐 interface | `impress-engine.ts:74`  | `—`        |
+| 7/12 | `PresentationMetadata`  | 📐 interface | `impress-engine.ts:86`  | `—`        |
+| 8/12 | `DEFAULT_THEMES`        | 📌 constant  | `impress-engine.ts:102` | `—`        |
+| 9/12 | `THEME_KEYS`            | 📌 constant  | `impress-engine.ts:172` | `—`        |
+| 10/12 | `SLIDE_GRADIENT_PRESETS` | 📌 constant | `impress-engine.ts:178` | `—`       |
+| 11/12 | `ImpressEngine`         | 🏗️ class     | `impress-engine.ts:205` | `—`       |
+| 12/12 | `mintSlideId`           | ⚙️ function  | `impress-engine.ts:196` | `—` (private) |
 
 ### 📁 image-pipeline.ts
 

@@ -29,7 +29,7 @@ export interface FontPickerBlockNode extends BaseBlockNode<FontPickerBlockData> 
 
 export function createFontPickerBlock(
   id: string,
-  traits: readonly TraitKey[] = ['draggable', 'lockable']
+  traits: readonly TraitKey[] = ['draggable', 'lockable'],
 ): FontPickerBlockNode {
   return {
     id,
@@ -40,8 +40,8 @@ export function createFontPickerBlock(
       fontFamily: 'Inter, sans-serif',
       fontSize: 16,
       fontWeight: 'normal',
-      letterSpacing: 0
-    }
+      letterSpacing: 0,
+    },
   };
 }
 

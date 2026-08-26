@@ -48,7 +48,10 @@
 export interface ScrollCloseOptions {
   readonly onClose: () => void;
   readonly debounceMs?: number;
-  readonly target?: { addEventListener: (...args: unknown[]) => void; removeEventListener: (...args: unknown[]) => void };
+  readonly target?: {
+    addEventListener: (...args: unknown[]) => void;
+    removeEventListener: (...args: unknown[]) => void;
+  };
 }
 
 export function createScrollCloseHandler(opts: ScrollCloseOptions): () => void {

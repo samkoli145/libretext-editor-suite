@@ -72,7 +72,7 @@ export function createImageBlock(
   id: string,
   src: string,
   alt: string = '',
-  data?: Partial<ImageBlockData>
+  data?: Partial<ImageBlockData>,
 ): ImageBlockNode {
   const width = Math.max(30, data?.width ?? 400);
   const height = Math.max(30, data?.height ?? 300);

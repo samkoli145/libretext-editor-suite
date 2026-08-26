@@ -65,7 +65,7 @@ export function createSlideBlock(
   id: string,
   slideIndex: number = 1,
   title: string = 'عنوان الشريحة',
-  data?: Partial<SlideBlockData>
+  data?: Partial<SlideBlockData>,
 ): SlideBlockNode {
   return {
     id,

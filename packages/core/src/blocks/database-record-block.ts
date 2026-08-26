@@ -73,7 +73,7 @@ export function createDatabaseField(
   key: string,
   label: string,
   type: FieldType,
-  value: unknown
+  value: unknown,
 ): DatabaseField {
   return { key, label, type, value };
 }
@@ -84,7 +84,7 @@ export function createDatabaseRecordBlock(
   recordId: string,
   title: string,
   fields: Record<string, DatabaseField> = {},
-  data?: Partial<DatabaseRecordData>
+  data?: Partial<DatabaseRecordData>,
 ): DatabaseRecordBlockNode {
   const now = new Date().toISOString();
   return {
@@ -106,7 +106,9 @@ export function createDatabaseRecordBlock(
 export function isDatabaseRecordBlock(node: unknown): node is DatabaseRecordBlockNode {
   if (typeof node !== 'object' || node === null) return false;
   const b = node as DatabaseRecordBlockNode;
-  return b.type === 'database_record' && b.domain === 'base' && typeof b.data?.recordId === 'string';
+  return (
+    b.type === 'database_record' && b.domain === 'base' && typeof b.data?.recordId === 'string'
+  );
 }
 
 export function formatRecordCardText(node: DatabaseRecordBlockNode): string {

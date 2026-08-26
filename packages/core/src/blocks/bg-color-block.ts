@@ -29,14 +29,14 @@ export function createBgColorBlock(
   id: string,
   color: string = '#f8fafc',
   opacity: number = 100,
-  traits: readonly TraitKey[] = ['draggable', 'resizable', 'styleable']
+  traits: readonly TraitKey[] = ['draggable', 'resizable', 'styleable'],
 ): BgColorBlockNode {
   return {
     id,
     type: 'bg-color',
     domain: 'universal',
     traits,
-    data: { color, opacity }
+    data: { color, opacity },
   };
 }
 

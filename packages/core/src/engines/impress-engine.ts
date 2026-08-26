@@ -73,12 +73,14 @@ export interface SlideTransition {
 
 export interface PresentationTheme {
   name: string;
+  nameAr: string;
   primaryColor: string;
   secondaryColor: string;
   backgroundColor: string;
   textColor: string;
   headingFont: string;
   bodyFont: string;
+  desc?: string;
 }
 
 export interface PresentationMetadata {
@@ -93,35 +95,98 @@ export interface PresentationMetadata {
 // 2. BUILT-IN THEMES
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
+/**
+ * الثيمات النهارية الستة المعتمدة — منقولة من DaylightThemes
+ * (المصدر: محرر-html-الذكي-wysiwyg/src/core/DaylightThemes.ts — MIT)
+ */
 export const DEFAULT_THEMES: Record<string, PresentationTheme> = {
   'crisp-white': {
-    name: 'Crisp White',
-    primaryColor: '#2563EB',
+    name: 'Crisp Studio White',
+    nameAr: 'أبيض الاستوديو النقي',
+    primaryColor: '#3B82F6',
     secondaryColor: '#1E40AF',
     backgroundColor: '#FFFFFF',
     textColor: '#0F172A',
     headingFont: 'system-ui',
     bodyFont: 'system-ui',
+    desc: 'مظهر عصري فائق النقاء والوضوح للأعمال الدقيقة',
   },
   'nordic-sky': {
-    name: 'Nordic Sky',
+    name: 'Nordic Sky Light',
+    nameAr: 'سماء الشمال الهادئة',
     primaryColor: '#0284C7',
     secondaryColor: '#0369A1',
     backgroundColor: '#F0F4F8',
-    textColor: '#102A43',
+    textColor: '#1E293B',
     headingFont: 'system-ui',
     bodyFont: 'system-ui',
+    desc: 'أزرق سماوي خفيف جداً يمنح شعوراً بالانتعاش والتركيز',
+  },
+  'soft-ivory': {
+    name: 'Soft Ivory',
+    nameAr: 'عاجي ناعم دافئ',
+    primaryColor: '#D97706',
+    secondaryColor: '#B45309',
+    backgroundColor: '#FDFBF7',
+    textColor: '#292524',
+    headingFont: 'system-ui',
+    bodyFont: 'system-ui',
+    desc: 'دفء الأوراق الكلاسيكية لتقليل الإجهاد في الجلسات الطويلة',
   },
   'warm-sand': {
-    name: 'Warm Sand',
-    primaryColor: '#C2410C',
-    secondaryColor: '#9A3412',
-    backgroundColor: '#FBF9F5',
-    textColor: '#38332E',
+    name: 'Warm Dune Sand',
+    nameAr: 'رمال شاطئية دافئة',
+    primaryColor: '#EA580C',
+    secondaryColor: '#C2410C',
+    backgroundColor: '#FBF8F2',
+    textColor: '#44403C',
     headingFont: 'system-ui',
     bodyFont: 'system-ui',
+    desc: 'درجات رملية طبيعية ناعمة تريح شبكية العين أثناء النهار',
+  },
+  'fresh-linen': {
+    name: 'Fresh Pure Linen',
+    nameAr: 'كتان طبيعي منعش',
+    primaryColor: '#059669',
+    secondaryColor: '#047857',
+    backgroundColor: '#F5F7F6',
+    textColor: '#132E22',
+    headingFont: 'system-ui',
+    bodyFont: 'system-ui',
+    desc: 'لمسات عشبية خافتة جداً مستوحاة من الطبيعة والكتان',
+  },
+  'mist-pearl': {
+    name: 'Morning Mist Pearl',
+    nameAr: 'لؤلؤي ضباب الصباح',
+    primaryColor: '#7C3AED',
+    secondaryColor: '#6D28D9',
+    backgroundColor: '#F9F9FB',
+    textColor: '#18181B',
+    headingFont: 'system-ui',
+    bodyFont: 'system-ui',
+    desc: 'تناغم رمادي لؤلؤي فائق الأناقة بتدرجات ضوئية صباحية',
   },
 };
+
+/** أسماء الثيمات المتاحة (للفحص الخارجي). */
+export const THEME_KEYS = Object.keys(DEFAULT_THEMES);
+
+/**
+ * تدرجات خلفيات الشرائح الجاهزة — منقولة من GRADIENT_PRESETS
+ * (المصدر: DaylightThemes.ts — MIT)
+ */
+export const SLIDE_GRADIENT_PRESETS: ReadonlyArray<{
+  key: string;
+  nameAr: string;
+  css: string;
+}> = [
+  { key: 'pure-cloud', nameAr: 'سحاب ناصع', css: 'linear-gradient(180deg, #ffffff, #f8fafc)' },
+  { key: 'morning-glow', nameAr: 'وهج الصباح المشرق', css: 'linear-gradient(135deg, #fffbeb, #fef3c7, #fef9c3)' },
+  { key: 'serene-breeze', nameAr: 'نسيم أزرق هادئ', css: 'linear-gradient(120deg, #f0f9ff, #e0f2fe, #f8fafc)' },
+  { key: 'blush-velvet', nameAr: 'مخمل وردي فاتح', css: 'linear-gradient(145deg, #fff1f2, #fdf2f8, #f5f3ff)' },
+  { key: 'mint-meadow', nameAr: 'نعناع وريحان نقي', css: 'linear-gradient(160deg, #ecfdf5, #f0fdf4, #f8fafc)' },
+  { key: 'soft-lilac', nameAr: 'ليلكي هادئ مريح', css: 'linear-gradient(135deg, #faf5ff, #f3e8ff, #f8fafc)' },
+];
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // 3. IMPRESS ENGINE
@@ -142,7 +207,7 @@ export class ImpressEngine {
 
   /** إنشاء عرض تقديمي فارغ. */
   createPresentation(title: string, themeName: string = 'crisp-white'): Presentation {
-    const theme = DEFAULT_THEMES[themeName] ?? DEFAULT_THEMES['crisp-white'] as PresentationTheme;
+    const theme = DEFAULT_THEMES[themeName] ?? DEFAULT_THEMES['crisp-white']!;
 
     return {
       id: mintPresId(),
@@ -298,6 +363,33 @@ export class ImpressEngine {
     }));
   }
 
+  /** تطبيق تدرج جاهز كخلفية شريحة (من SLIDE_GRADIENT_PRESETS). */
+  setSlideGradientPreset(
+    pres: Presentation,
+    slideId: string,
+    presetKey: string,
+  ): Presentation {
+    const preset = SLIDE_GRADIENT_PRESETS.find(p => p.key === presetKey);
+    if (!preset) return pres;
+    return this.setSlideBackground(pres, slideId, {
+      type: 'gradient',
+      value: preset.css,
+    });
+  }
+
+  /** تعيين انتقال شريحة. */
+  setSlideTransition(
+    pres: Presentation,
+    slideId: string,
+    transition: SlideTransition,
+  ): Presentation {
+    const duration = Math.min(3000, Math.max(100, Math.round(transition.duration)));
+    return this.updateSlide(pres, slideId, (slide) => ({
+      ...slide,
+      transition: { ...transition, duration },
+    }));
+  }
+
   // ── Layout ──
 
   /** تغيير تخطيط شريحة. */
@@ -376,27 +468,63 @@ export class ImpressEngine {
 
   // ── Templates ──
 
-  /** إنشاء عرض من قالب. */
+  /** إنشاء عرض من قالب — يرفض خطأً صريحاً للاسم غير المعروف. */
   createFromTemplate(templateName: string): Presentation {
-    switch (templateName) {
-      case 'business-pitch': {
-        const pres = this.createPresentation('عرض تقديمي', 'crisp-white');
-        const slides: SlideData[] = [
-          this.createDefaultSlide('title', 1),
-          this.createDefaultSlide('title-content', 2),
-          this.createDefaultSlide('two-column', 3),
-          this.createDefaultSlide('conclusion', 4),
-        ];
-        return { ...pres, slides };
-      }
-      default:
-        return this.createPresentation('عرض تقديمي');
+    const recipes: Record<string, { title: string; theme: string; layouts: SlideLayout[] }> = {
+      'business-pitch': {
+        title: 'عرض تقديمي تجاري',
+        theme: 'crisp-white',
+        layouts: ['title', 'title-content', 'two-column', 'conclusion'],
+      },
+      'academic-lecture': {
+        title: 'محاضرة أكاديمية',
+        theme: 'soft-ivory',
+        layouts: ['title', 'section-header', 'title-content', 'title-content', 'image-text', 'conclusion'],
+      },
+      'product-launch': {
+        title: 'إطلاق منتج',
+        theme: 'nordic-sky',
+        layouts: ['title', 'image-text', 'title-content', 'two-column', 'conclusion'],
+      },
+      'quarterly-report': {
+        title: 'تقرير ربع سنوي',
+        theme: 'mist-pearl',
+        layouts: ['title', 'title-content', 'two-column', 'two-column', 'conclusion'],
+      },
+      'nature-portfolio': {
+        title: 'ملف أعمال',
+        theme: 'fresh-linen',
+        layouts: ['title', 'image-text', 'image-text', 'blank', 'conclusion'],
+      },
+      'warm-workshop': {
+        title: 'ورشة عمل',
+        theme: 'warm-sand',
+        layouts: ['title', 'section-header', 'title-content', 'section-header', 'title-content', 'conclusion'],
+      },
+    };
+
+    const recipe = recipes[templateName];
+    if (!recipe) {
+      throw new Error(
+        `Unknown template "${templateName}". Available: ${Object.keys(recipes).join(', ')}`,
+      );
     }
+
+    const pres = this.createPresentation(recipe.title, recipe.theme);
+    const slides = recipe.layouts.map((layout, i) => this.createDefaultSlide(layout, i + 1));
+    return { ...pres, slides };
   }
 
   /** القوالب المتاحة. */
   getAvailableTemplates(): string[] {
-    return ['business-pitch', 'academic-lecture', 'product-launch'];
+    return [
+      'business-pitch',
+      'academic-lecture',
+      'product-launch',
+      'quarterly-report',
+      'nature-portfolio',
+      'warm-workshop',
+    ];
   }
 
   // ── Private Helpers ──

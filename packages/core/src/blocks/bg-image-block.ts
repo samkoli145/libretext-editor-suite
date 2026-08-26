@@ -31,7 +31,7 @@ export interface BgImageBlockNode extends BaseBlockNode<BgImageBlockData> {
 export function createBgImageBlock(
   id: string,
   url: string = 'https://images.unsplash.com/photo-1557683316-973673baf926?w=800',
-  traits: readonly TraitKey[] = ['draggable', 'resizable', 'styleable']
+  traits: readonly TraitKey[] = ['draggable', 'resizable', 'styleable'],
 ): BgImageBlockNode {
   return {
     id,
@@ -43,8 +43,8 @@ export function createBgImageBlock(
       size: 'cover',
       position: 'center',
       repeat: 'no-repeat',
-      opacity: 100
-    }
+      opacity: 100,
+    },
   };
 }
 

@@ -20,6 +20,40 @@
 
 # يوميات مشروع LibreText Editor Suite
 
+## 2026-08-26 (Part 2) — بلوكات متخصصة من المصادر الجاهزة + ثيمات Impress الست
+
+### المنجزات
+
+**1. ثيمات Impress النهارية الست (منقولة جاهزة من DaylightThemes — MIT):**
+- توسيع `PresentationTheme` بحقلَي `nameAr` و`desc`
+- الثيمات: crisp-white، nordic-sky، soft-ivory، warm-sand، fresh-linen، mist-pearl
+- إضافة `THEME_KEYS` + `SLIDE_GRADIENT_PRESETS` (6 تدرجات خلفية جاهزة)
+- طرق جديدة: `setSlideTransition()` (مع قص المدة 100-3000ms)، `setSlideGradientPreset()`
+
+**2. القوالب: من 1 إلى 6 مع رفض صريح:**
+- business-pitch، academic-lecture، product-launch، quarterly-report، nature-portfolio، warm-workshop
+- كل قالب بثيم مناسب — `createFromTemplate('غير معروف')` يرمي خطأً بدل السقوط الصامت
+
+**3. ثلاثة بلوكات متخصصة جديدة (مستوحاة من domternal — MIT):**
+- `math-block.ts` [BLK-WRITER-MATH]: LaTeX سطري/مستقل + فحص توازن $ + حد 10K حرف
+- `details-block.ts` [BLK-WRITER-DETAILS]: أكورديون GFM `<details><summary>` مع حالة انفتاح
+- `toc-block.ts` [BLK-WRITER-TOC]: فهرس مشتق (DERIVED NEVER STORED) عبر `buildTocEntries()`
+- تسجيلها في block-registry (manifests + factories + serializers) وBlockToolbar
+
+### التحقق
+
+- ✅ `pnpm typecheck` — صفر أخطاء
+- ✅ `pnpm test` — **1575 اختباراً** (+23 جديد: 14 بلوكات + 9 impress)
+- ✅ `pnpm lint` — 0 أخطاء
+- ✅ FUNCTION_INDEX: 1182 → 1204 عنصراً
+
+### المصادر المقتبسة
+
+| المصدر | الترخيص | الاستخدام |
+|--------|---------|-----------|
+| محرر-html-الذكي-wysiwyg / DaylightThemes.ts | MIT | الثيمات الست + التدرجات |
+| معدل 5/domternal-main (extension-math/details/toc) | MIT | مفاهيم البلوكات المتخصصة |
+
 ## 2026-08-26 — إصلاح Typecheck الشامل + محركات المكتب الأربعة
 
 ### المنجزات

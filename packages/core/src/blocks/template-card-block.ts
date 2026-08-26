@@ -29,7 +29,7 @@ export interface TemplateCardBlockNode extends BaseBlockNode<TemplateCardBlockDa
 
 export function createTemplateCardBlock(
   id: string,
-  traits: readonly TraitKey[] = ['draggable', 'resizable', 'styleable']
+  traits: readonly TraitKey[] = ['draggable', 'resizable', 'styleable'],
 ): TemplateCardBlockNode {
   return {
     id,
@@ -39,8 +39,8 @@ export function createTemplateCardBlock(
     data: {
       title: 'عنوان البطاقة',
       description: 'وصف قصير لهذه البطاقة لتوضيح المحتوى.',
-      buttonText: 'المزيد'
-    }
+      buttonText: 'المزيد',
+    },
   };
 }
 

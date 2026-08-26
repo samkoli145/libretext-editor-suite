@@ -60,7 +60,7 @@ export interface HorizontalRuleBlockNode extends BaseBlockNode<HorizontalRuleDat
 
 export function createHorizontalRuleBlock(
   id: string,
-  data?: Partial<HorizontalRuleData>
+  data?: Partial<HorizontalRuleData>,
 ): HorizontalRuleBlockNode {
   const rawThickness = data?.thickness ?? 1;
   const thickness = Math.min(6, Math.max(1, rawThickness));

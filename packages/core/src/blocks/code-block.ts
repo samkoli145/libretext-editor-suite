@@ -62,7 +62,7 @@ export function createCodeBlock(
   id: string,
   code: string,
   language: string = 'typescript',
-  data?: Partial<CodeBlockData>
+  data?: Partial<CodeBlockData>,
 ): CodeBlockNode {
   return {
     id,

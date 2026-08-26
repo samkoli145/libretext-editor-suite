@@ -38,6 +38,23 @@
 التنسيق مبني على [Keep a Changelog](https://keepachangelog.com/),
 والإصدار يتبع [Semantic Versioning](https://semver.org/).
 
+## [v1.7.0] - 2026-08-26
+
+### Added
+
+- **Impress Daylight Themes (6):** الثيمات النهارية الست كاملة بأسمائها العربية منقولة من DaylightThemes (MIT): crisp-white، nordic-sky، soft-ivory، warm-sand، fresh-linen، mist-pearl + `SLIDE_GRADIENT_PRESETS` (6 تدرجات خلفية) + `setSlideTransition()` و`setSlideGradientPreset()`.
+- **Impress Templates (6):** قوالب جاهزة بثيمات مناسبة (business-pitch، academic-lecture، product-launch، quarterly-report، nature-portfolio، warm-workshop) مع رفض صريح للأسماء غير المعروفة بدل السقوط الصامت.
+- **Specialized Blocks (3):** بلوكات متخصصة جديدة مستوحاة من domternal (MIT):
+  - `math-block` [BLK-WRITER-MATH]: معادلات LaTeX سطرية/مستقلة مع فحص توازن المحددات
+  - `details-block` [BLK-WRITER-DETAILS]: أكورديون قابل للطي بنمط GFM
+  - `toc-block` [BLK-WRITER-TOC]: جدول محتويات مشتق تلقائياً من العناوين
+- **Tests (+23):** 14 اختبار بلوكات متخصصة + 9 اختبارات ثيمات وقوالب impress.
+
+### Changed
+
+- `PresentationTheme` يضيف `nameAr` و`desc` اختياري.
+- إجمالي البلوكات: 25 → 28. إجمالي الاختبارات: 1552 → 1575.
+
 ## [v1.6.0] - 2026-08-26
 
 ### Added

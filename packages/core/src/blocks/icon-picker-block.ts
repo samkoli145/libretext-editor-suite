@@ -31,7 +31,7 @@ export interface IconPickerBlockNode extends BaseBlockNode<IconPickerBlockData> 
 export function createIconPickerBlock(
   id: string,
   iconName: string = 'star',
-  traits: readonly TraitKey[] = ['draggable', 'resizable', 'styleable']
+  traits: readonly TraitKey[] = ['draggable', 'resizable', 'styleable'],
 ): IconPickerBlockNode {
   return {
     id,
@@ -42,8 +42,8 @@ export function createIconPickerBlock(
       iconName,
       library: 'lucide',
       size: 24,
-      color: '#000000'
-    }
+      color: '#000000',
+    },
   };
 }
 

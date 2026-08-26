@@ -64,12 +64,7 @@ import {
   formatTableMarkdown,
   isTableBlock,
 } from './table-block';
-import {
-  ImageBlockNode,
-  createImageBlock,
-  formatImageMarkdown,
-  isImageBlock,
-} from './image-block';
+import { ImageBlockNode, createImageBlock, formatImageMarkdown, isImageBlock } from './image-block';
 import {
   ListBlockNode,
   createListBlock,
@@ -77,12 +72,7 @@ import {
   formatListMarkdown,
   isListBlock,
 } from './list-block';
-import {
-  CodeBlockNode,
-  createCodeBlock,
-  formatCodeBlockMarkdown,
-  isCodeBlock,
-} from './code-block';
+import { CodeBlockNode, createCodeBlock, formatCodeBlockMarkdown, isCodeBlock } from './code-block';
 import {
   HorizontalRuleBlockNode,
   createHorizontalRuleBlock,
@@ -95,23 +85,9 @@ import {
   formatBlockquoteMarkdown,
   isBlockquoteBlock,
 } from './blockquote-block';
-import {
-  CellBlockNode,
-  createCellBlock,
-  formatCellValue,
-  isCellBlock,
-} from './cell-block';
-import {
-  ShapeBlockNode,
-  createShapeBlock,
-  isShapeBlock,
-} from './shape-block';
-import {
-  SlideBlockNode,
-  createSlideBlock,
-  formatSlideSummary,
-  isSlideBlock,
-} from './slide-block';
+import { CellBlockNode, createCellBlock, formatCellValue, isCellBlock } from './cell-block';
+import { ShapeBlockNode, createShapeBlock, isShapeBlock } from './shape-block';
+import { SlideBlockNode, createSlideBlock, formatSlideSummary, isSlideBlock } from './slide-block';
 import {
   DatabaseRecordBlockNode,
   createDatabaseRecordBlock,
@@ -119,18 +95,8 @@ import {
   formatRecordCardText,
   isDatabaseRecordBlock,
 } from './database-record-block';
-import {
-  EmbedBlockNode,
-  createEmbedBlock,
-  formatEmbedMarkdown,
-  isEmbedBlock,
-} from './embed-block';
-import {
-  PdfBlockNode,
-  createPdfBlock,
-  formatPdfMarkdown,
-  isPdfBlock,
-} from './pdf-block';
+import { EmbedBlockNode, createEmbedBlock, formatEmbedMarkdown, isEmbedBlock } from './embed-block';
+import { PdfBlockNode, createPdfBlock, formatPdfMarkdown, isPdfBlock } from './pdf-block';
 import {
   ColorPickerBlockNode,
   createColorPickerBlock,
@@ -194,6 +160,19 @@ import {
   formatTemplateGalleryHtml,
   isTemplateGalleryBlock,
 } from './template-gallery-block';
+import {
+  MathBlockNode,
+  createMathBlock,
+  formatMathMarkdown,
+  isMathBlock,
+} from './math-block';
+import {
+  DetailsBlockNode,
+  createDetailsBlock,
+  formatDetailsMarkdown,
+  isDetailsBlock,
+} from './details-block';
+import { TocBlockNode, createTocBlock, formatTocMarkdown, isTocBlock } from './toc-block';
 
 export type BlockType =
   | 'paragraph'
@@ -218,7 +197,10 @@ export type BlockType =
   | 'font-picker'
   | 'text-styler'
   | 'template-card'
-  | 'template-gallery';
+  | 'template-gallery'
+  | 'math'
+  | 'details'
+  | 'toc';
 
 export type AnyBlockNode =
   | ParagraphBlockNode
@@ -243,7 +225,10 @@ export type AnyBlockNode =
   | FontPickerBlockNode
   | TextStylerBlockNode
   | TemplateCardBlockNode
-  | TemplateGalleryBlockNode;
+  | TemplateGalleryBlockNode
+  | MathBlockNode
+  | DetailsBlockNode
+  | TocBlockNode;
 
 export interface BlockManifest {
   readonly type: BlockType;
@@ -511,6 +496,39 @@ export const BLOCK_MANIFESTS: readonly BlockManifest[] = [
     priority: 'Medium',
     supportedSerializers: ['HTML5', 'Markdown'],
   },
+  {
+    type: 'math',
+    nameAr: 'معادلة رياضية',
+    nameEn: 'Math Equation',
+    domain: 'writer',
+    category: 'Plugin',
+    descriptionAr: 'معادلات LaTeX بوضع سطري أو مستقل مع فحص توازن المحددات',
+    traits: ['draggable', 'styleable'],
+    priority: 'Medium',
+    supportedSerializers: ['Markdown', 'HTML5', 'LaTeX', 'PDF'],
+  },
+  {
+    type: 'details',
+    nameAr: 'منسدل تفاصيل',
+    nameEn: 'Details Accordion',
+    domain: 'writer',
+    category: 'Layout',
+    descriptionAr: 'قسم قابل للطي بملخص ومحتوى مخفي بنمط GFM details',
+    traits: ['draggable', 'styleable'],
+    priority: 'Medium',
+    supportedSerializers: ['Markdown', 'HTML5'],
+  },
+  {
+    type: 'toc',
+    nameAr: 'جدول محتويات',
+    nameEn: 'Table of Contents',
+    domain: 'writer',
+    category: 'Layout',
+    descriptionAr: 'فهرس مشتق تلقائياً من عناوين المستند حتى عمق محدد',
+    traits: ['draggable', 'styleable'],
+    priority: 'Medium',
+    supportedSerializers: ['Markdown', 'HTML5'],
+  },
 ];
 
 export function getBlockManifest(type: BlockType): BlockManifest | undefined {
@@ -519,7 +537,11 @@ export function getBlockManifest(type: BlockType): BlockManifest | undefined {
 
 function createDefaultWriterBlock(type: BlockType, id: string): AnyBlockNode {
   if (type === 'heading') {
-    return createHeadingBlock(id, [{ id: `${id}-t` as NodeId, type: 'text', text: 'عنوان جديد رئيسي' }], 2);
+    return createHeadingBlock(
+      id,
+      [{ id: `${id}-t` as NodeId, type: 'text', text: 'عنوان جديد رئيسي' }],
+      2,
+    );
   }
   if (type === 'list') {
     return createListBlock(id, [
@@ -529,33 +551,62 @@ function createDefaultWriterBlock(type: BlockType, id: string): AnyBlockNode {
     ]);
   }
   if (type === 'code_block') {
-    return createCodeBlock(id, 'const greeting = "مرحباً بكم في LibreText";\nconsole.log(greeting);', 'typescript');
+    return createCodeBlock(
+      id,
+      'const greeting = "مرحباً بكم في LibreText";\nconsole.log(greeting);',
+      'typescript',
+    );
   }
   if (type === 'horizontal_rule') {
     return createHorizontalRuleBlock(id);
   }
   if (type === 'blockquote') {
-    return createBlockquoteBlock(id, 'الحكمة ضالة المؤمن، أنى وجدها فهو أحق بها.', { author: 'ابن القيم' });
+    return createBlockquoteBlock(id, 'الحكمة ضالة المؤمن، أنى وجدها فهو أحق بها.', {
+      author: 'ابن القيم',
+    });
   }
   return createParagraphBlock(id, [
-    { id: `${id}-t` as NodeId, type: 'text', text: 'هذه فقرة نصية تجريبية مصممة بنقاء عالي ونظام خطوط عربي سلس.' },
+    {
+      id: `${id}-t` as NodeId,
+      type: 'text',
+      text: 'هذه فقرة نصية تجريبية مصممة بنقاء عالي ونظام خطوط عربي سلس.',
+    },
   ]);
 }
 
 function createDefaultUniversalBlock(type: BlockType, id: string): AnyBlockNode {
   if (type === 'embed') {
-    return createEmbedBlock(id, 'https://www.youtube.com/embed/dQw4w9WgXcQ', { title: 'فيديو توضيحي تفاعلي' });
+    return createEmbedBlock(id, 'https://www.youtube.com/embed/dQw4w9WgXcQ', {
+      title: 'فيديو توضيحي تفاعلي',
+    });
   }
   if (type === 'pdf') {
     return createPdfBlock(id, 'مستند المواصفات القياسية لنواة LibreText');
   }
   if (type === 'table') {
-    const row1 = createTableRow(`${id}-r1`, [createTableCell(`${id}-c11`, 'العنصر'), createTableCell(`${id}-c12`, 'الكمية'), createTableCell(`${id}-c13`, 'السعر')], true);
-    const row2 = createTableRow(`${id}-r2`, [createTableCell(`${id}-c21`, 'حزمة النواة Core'), createTableCell(`${id}-c22`, '1'), createTableCell(`${id}-c23`, '150 ر.س')]);
+    const row1 = createTableRow(
+      `${id}-r1`,
+      [
+        createTableCell(`${id}-c11`, 'العنصر'),
+        createTableCell(`${id}-c12`, 'الكمية'),
+        createTableCell(`${id}-c13`, 'السعر'),
+      ],
+      true,
+    );
+    const row2 = createTableRow(`${id}-r2`, [
+      createTableCell(`${id}-c21`, 'حزمة النواة Core'),
+      createTableCell(`${id}-c22`, '1'),
+      createTableCell(`${id}-c23`, '150 ر.س'),
+    ]);
     return createTableBlock(id, [row1, row2]);
   }
   if (type === 'image') {
-    return createImageBlock(id, 'https://images.unsplash.com/photo-1579546929518-9e396f3cc809?w=800', 'تدرج نهاري فاتح', { caption: 'صورة توضيحية بنمط daylight' });
+    return createImageBlock(
+      id,
+      'https://images.unsplash.com/photo-1579546929518-9e396f3cc809?w=800',
+      'تدرج نهاري فاتح',
+      { caption: 'صورة توضيحية بنمط daylight' },
+    );
   }
   if (type === 'color-picker') {
     return createColorPickerBlock(id, '#3b82f6');
@@ -584,24 +635,42 @@ function createDefaultUniversalBlock(type: BlockType, id: string): AnyBlockNode 
   if (type === 'template-gallery') {
     return createTemplateGalleryBlock(id);
   }
+  if (type === 'math') {
+    return createMathBlock(id, { latex: 'E = mc^2', displayMode: true });
+  }
+  if (type === 'details') {
+    return createDetailsBlock(id, { summary: 'تفاصيل إضافية', content: 'المحتوى المخفي هنا.' });
+  }
+  if (type === 'toc') {
+    return createTocBlock(id, { maxDepth: 3 });
+  }
   return createDefaultWriterBlock(type, id);
 }
 
 function createDefaultDataOrVisualBlock(type: BlockType, id: string): AnyBlockNode {
   if (type === 'cell') {
-    return createCellBlock(id, 1, 1, '=SUM(B2:B10)', { computedValue: 2450, numberFormat: 'currency' });
+    return createCellBlock(id, 1, 1, '=SUM(B2:B10)', {
+      computedValue: 2450,
+      numberFormat: 'currency',
+    });
   }
   if (type === 'shape') {
     return createShapeBlock(id, 'circle', { label: 'نواة النظام' });
   }
   if (type === 'slide') {
-    return createSlideBlock(id, 1, 'مقدمة في منظومة LibreText Suite', { subtitle: 'محرر مكتبي متعدد الصيغ' });
+    return createSlideBlock(id, 1, 'مقدمة في منظومة LibreText Suite', {
+      subtitle: 'محرر مكتبي متعدد الصيغ',
+    });
   }
   if (type === 'database_record') {
     const f1 = createDatabaseField('name', 'الاسم', 'string', 'حسام الخولي');
     const f2 = createDatabaseField('role', 'الدور', 'string', 'مهندس برمجيات رئيسي');
     const f3 = createDatabaseField('active', 'نشط', 'boolean', true);
-    return createDatabaseRecordBlock(id, 'tbl-users', 'rec-001', 'ملف المهندس المسؤول', { name: f1, role: f2, active: f3 });
+    return createDatabaseRecordBlock(id, 'tbl-users', 'rec-001', 'ملف المهندس المسؤول', {
+      name: f1,
+      role: f2,
+      active: f3,
+    });
   }
   return createDefaultUniversalBlock(type, id);
 }
@@ -622,7 +691,8 @@ export function serializeBlockToMarkdown(block: AnyBlockNode): string {
   if (isCellBlock(block)) return `[Cell ${block.data.address}: ${formatCellValue(block)}]`;
   if (isSlideBlock(block)) return formatSlideSummary(block);
   if (isDatabaseRecordBlock(block)) return formatRecordCardText(block);
-  if (isShapeBlock(block)) return `[Shape: ${block.data.shapeType} (${block.data.width}x${block.data.height})]`;
+  if (isShapeBlock(block))
+    return `[Shape: ${block.data.shapeType} (${block.data.width}x${block.data.height})]`;
   if (isEmbedBlock(block)) return formatEmbedMarkdown(block);
   if (isPdfBlock(block)) return formatPdfMarkdown(block);
   if (isColorPickerBlock(block)) return formatColorPickerMarkdown(block);
@@ -634,5 +704,8 @@ export function serializeBlockToMarkdown(block: AnyBlockNode): string {
   if (isTextStylerBlock(block)) return formatTextStylerMarkdown(block);
   if (isTemplateCardBlock(block)) return formatTemplateCardMarkdown(block);
   if (isTemplateGalleryBlock(block)) return formatTemplateGalleryMarkdown(block);
+  if (isMathBlock(block)) return formatMathMarkdown(block);
+  if (isDetailsBlock(block)) return formatDetailsMarkdown(block);
+  if (isTocBlock(block)) return formatTocMarkdown(block);
   return '';
 }

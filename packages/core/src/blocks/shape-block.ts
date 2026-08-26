@@ -68,7 +68,7 @@ export interface ShapeBlockNode extends BaseBlockNode<ShapeBlockData> {
 export function createShapeBlock(
   id: string,
   shapeType: ShapeType = 'rectangle',
-  data?: Partial<ShapeBlockData>
+  data?: Partial<ShapeBlockData>,
 ): ShapeBlockNode {
   const width = Math.max(10, data?.width ?? 120);
   const height = Math.max(10, data?.height ?? 80);
@@ -102,9 +102,11 @@ export function isShapeBlock(node: unknown): node is ShapeBlockNode {
 }
 
 export function getShapePresetPath(shapeType: ShapeType, w: number, h: number): string {
-  if (shapeType === 'circle') return `M ${w / 2},0 A ${w / 2},${h / 2} 0 1,0 ${w / 2},${h} A ${w / 2},${h / 2} 0 1,0 ${w / 2},0 Z`;
+  if (shapeType === 'circle')
+    return `M ${w / 2},0 A ${w / 2},${h / 2} 0 1,0 ${w / 2},${h} A ${w / 2},${h / 2} 0 1,0 ${w / 2},0 Z`;
   if (shapeType === 'triangle') return `M ${w / 2},0 L ${w},${h} L 0,${h} Z`;
   if (shapeType === 'diamond') return `M ${w / 2},0 L ${w},${h / 2} L ${w / 2},${h} L 0,${h / 2} Z`;
-  if (shapeType === 'arrow') return `M 0,${h * 0.3} L ${w * 0.6},${h * 0.3} L ${w * 0.6},0 L ${w},${h / 2} L ${w * 0.6},${h} L ${w * 0.6},${h * 0.7} L 0,${h * 0.7} Z`;
+  if (shapeType === 'arrow')
+    return `M 0,${h * 0.3} L ${w * 0.6},${h * 0.3} L ${w * 0.6},0 L ${w},${h / 2} L ${w * 0.6},${h} L ${w * 0.6},${h * 0.7} L 0,${h * 0.7} Z`;
   return `M 0,0 L ${w},0 L ${w},${h} L 0,${h} Z`;
 }

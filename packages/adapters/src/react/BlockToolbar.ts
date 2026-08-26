@@ -142,6 +142,18 @@ const TOOLBAR_CONFIG: Record<BlockType, readonly ToolbarActionConfig[]> = {
     { id: 'remove-template', label: '-' },
     { id: 'reorder', label: 'Reorder' },
   ],
+  math: [
+    { id: 'edit-latex', label: 'LaTeX' },
+    { id: 'toggle-display', label: 'Inline/Display' },
+  ],
+  details: [
+    { id: 'edit-summary', label: 'Summary' },
+    { id: 'toggle-open', label: 'Open' },
+  ],
+  toc: [
+    { id: 'set-depth', label: 'Depth' },
+    { id: 'refresh', label: 'Refresh' },
+  ],
 };
 
 export function getToolbarActions(blockType: BlockType): readonly ToolbarActionConfig[] {

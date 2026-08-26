@@ -39,21 +39,10 @@
 import { BaseBlockNode, TraitKey } from '../ast/types';
 
 export type PdfAnnotationType =
-  | 'highlight'
-  | 'comment'
-  | 'stamp'
-  | 'drawing'
-  | 'text_callout'
-  | 'signature'
-  | 'redaction';
+  'highlight' | 'comment' | 'stamp' | 'drawing' | 'text_callout' | 'signature' | 'redaction';
 
 export type PdfStampType =
-  | 'approved'
-  | 'draft'
-  | 'confidential'
-  | 'completed'
-  | 'urgent'
-  | 'reviewed';
+  'approved' | 'draft' | 'confidential' | 'completed' | 'urgent' | 'reviewed';
 
 export interface PdfAnnotation {
   readonly id: string;
@@ -200,7 +189,7 @@ function getDefaultAnnotations(): readonly PdfAnnotation[] {
 export function createPdfBlock(
   id: string,
   title = 'مستند المواصفات القياسية لنواة LibreText',
-  options?: Partial<PdfBlockData>
+  options?: Partial<PdfBlockData>,
 ): PdfBlockNode {
   return {
     id,

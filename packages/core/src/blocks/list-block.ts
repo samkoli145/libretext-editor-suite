@@ -66,11 +66,7 @@ export interface ListBlockNode extends BaseBlockNode<ListBlockData> {
   readonly items: readonly ListItemData[];
 }
 
-export function createListItem(
-  id: string,
-  text: string,
-  checked?: boolean
-): ListItemData {
+export function createListItem(id: string, text: string, checked?: boolean): ListItemData {
   return {
     id,
     text,
@@ -82,7 +78,7 @@ export function createListBlock(
   id: string,
   items: readonly ListItemData[],
   listType: ListType = 'bullet',
-  startNumber: number = 1
+  startNumber: number = 1,
 ): ListBlockNode {
   return {
     id,

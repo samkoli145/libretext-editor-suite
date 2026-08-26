@@ -33,7 +33,7 @@ export interface GradientBlockNode extends BaseBlockNode<GradientBlockData> {
 
 export function createGradientBlock(
   id: string,
-  traits: readonly TraitKey[] = ['draggable', 'resizable', 'styleable']
+  traits: readonly TraitKey[] = ['draggable', 'resizable', 'styleable'],
 ): GradientBlockNode {
   return {
     id,
@@ -45,9 +45,9 @@ export function createGradientBlock(
       angle: 90,
       stops: [
         { color: '#f8fafc', position: 0 },
-        { color: '#e2e8f0', position: 100 }
-      ]
-    }
+        { color: '#e2e8f0', position: 100 },
+      ],
+    },
   };
 }
 
@@ -62,7 +62,7 @@ export function formatGradientMarkdown(node: GradientBlockNode): string {
 }
 
 export function formatGradientHtml(node: GradientBlockNode): string {
-  const stopsStr = node.data.stops.map(s => `${s.color} ${s.position}%`).join(', ');
+  const stopsStr = node.data.stops.map((s) => `${s.color} ${s.position}%`).join(', ');
   let bgStr = '';
   if (node.data.gradientType === 'linear') {
     bgStr = `linear-gradient(${node.data.angle}deg, ${stopsStr})`;

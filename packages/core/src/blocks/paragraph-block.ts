@@ -61,7 +61,7 @@ export interface ParagraphBlockNode extends BaseBlockNode<ParagraphBlockData> {
 export function createParagraphBlock(
   id: string,
   content: readonly InlineNode[],
-  data?: Partial<ParagraphBlockData>
+  data?: Partial<ParagraphBlockData>,
 ): ParagraphBlockNode {
   return {
     id,
@@ -74,7 +74,8 @@ export function createParagraphBlock(
       indent: data?.indent ?? 0,
       dir: data?.dir ?? 'rtl',
     },
-    content: content.length > 0 ? content : [{ id: `${id}-txt-1` as NodeId, type: 'text', text: '' }],
+    content:
+      content.length > 0 ? content : [{ id: `${id}-txt-1` as NodeId, type: 'text', text: '' }],
   };
 }
 

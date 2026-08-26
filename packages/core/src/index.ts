@@ -294,11 +294,7 @@ export {
 } from './blocks/paragraph-block';
 export type { ParagraphBlockNode, ParagraphBlockData } from './blocks/paragraph-block';
 
-export {
-  createHeadingBlock,
-  isHeadingBlock,
-  formatHeadingMarkdown,
-} from './blocks/heading-block';
+export { createHeadingBlock, isHeadingBlock, formatHeadingMarkdown } from './blocks/heading-block';
 export type { HeadingBlockNode, HeadingBlockData } from './blocks/heading-block';
 
 export {
@@ -308,13 +304,14 @@ export {
   isTableBlock,
   formatTableMarkdown,
 } from './blocks/table-block';
-export type { TableBlockNode, TableBlockData, TableRowData, TableCellData } from './blocks/table-block';
+export type {
+  TableBlockNode,
+  TableBlockData,
+  TableRowData,
+  TableCellData,
+} from './blocks/table-block';
 
-export {
-  createImageBlock,
-  isImageBlock,
-  formatImageMarkdown,
-} from './blocks/image-block';
+export { createImageBlock, isImageBlock, formatImageMarkdown } from './blocks/image-block';
 export type { ImageBlockNode, ImageBlockData } from './blocks/image-block';
 
 export {
@@ -325,11 +322,7 @@ export {
 } from './blocks/list-block';
 export type { ListBlockNode, ListBlockData } from './blocks/list-block';
 
-export {
-  createCodeBlock,
-  isCodeBlock,
-  formatCodeBlockMarkdown,
-} from './blocks/code-block';
+export { createCodeBlock, isCodeBlock, formatCodeBlockMarkdown } from './blocks/code-block';
 export type { CodeBlockData } from './blocks/code-block';
 
 export {
@@ -346,25 +339,13 @@ export {
 } from './blocks/blockquote-block';
 export type { BlockquoteBlockNode, BlockquoteData } from './blocks/blockquote-block';
 
-export {
-  createCellBlock,
-  isCellBlock,
-  formatCellValue,
-} from './blocks/cell-block';
+export { createCellBlock, isCellBlock, formatCellValue } from './blocks/cell-block';
 export type { CellBlockNode, CellBlockData } from './blocks/cell-block';
 
-export {
-  createShapeBlock,
-  isShapeBlock,
-  getShapePresetPath,
-} from './blocks/shape-block';
+export { createShapeBlock, isShapeBlock, getShapePresetPath } from './blocks/shape-block';
 export type { ShapeBlockNode, ShapeBlockData } from './blocks/shape-block';
 
-export {
-  createSlideBlock,
-  isSlideBlock,
-  formatSlideSummary,
-} from './blocks/slide-block';
+export { createSlideBlock, isSlideBlock, formatSlideSummary } from './blocks/slide-block';
 export type { SlideBlockNode, SlideBlockData } from './blocks/slide-block';
 
 export {
@@ -374,11 +355,7 @@ export {
 } from './blocks/database-record-block';
 export type { DatabaseRecordBlockNode, DatabaseRecordData } from './blocks/database-record-block';
 
-export {
-  createEmbedBlock,
-  isEmbedBlock,
-  formatEmbedMarkdown,
-} from './blocks/embed-block';
+export { createEmbedBlock, isEmbedBlock, formatEmbedMarkdown } from './blocks/embed-block';
 export type { EmbedBlockNode, EmbedBlockData } from './blocks/embed-block';
 
 export {
@@ -409,18 +386,10 @@ export {
 } from './blocks/text-styler-block';
 export type { TextStylerBlockNode, TextStylerBlockData } from './blocks/text-styler-block';
 
-export {
-  createBgColorBlock,
-  isBgColorBlock,
-  formatBgColorMarkdown,
-} from './blocks/bg-color-block';
+export { createBgColorBlock, isBgColorBlock, formatBgColorMarkdown } from './blocks/bg-color-block';
 export type { BgColorBlockNode, BgColorBlockData } from './blocks/bg-color-block';
 
-export {
-  createBgImageBlock,
-  isBgImageBlock,
-  formatBgImageMarkdown,
-} from './blocks/bg-image-block';
+export { createBgImageBlock, isBgImageBlock, formatBgImageMarkdown } from './blocks/bg-image-block';
 export type { BgImageBlockNode, BgImageBlockData } from './blocks/bg-image-block';
 
 export {
@@ -442,13 +411,12 @@ export {
   isTemplateGalleryBlock,
   formatTemplateGalleryMarkdown,
 } from './blocks/template-gallery-block';
-export type { TemplateGalleryBlockNode, TemplateGalleryBlockData } from './blocks/template-gallery-block';
+export type {
+  TemplateGalleryBlockNode,
+  TemplateGalleryBlockData,
+} from './blocks/template-gallery-block';
 
-export {
-  createPdfBlock,
-  isPdfBlock,
-  formatPdfMarkdown,
-} from './blocks/pdf-block';
+export { createPdfBlock, isPdfBlock, formatPdfMarkdown } from './blocks/pdf-block';
 export type { PdfBlockNode, PdfBlockData } from './blocks/pdf-block';
 
 export {

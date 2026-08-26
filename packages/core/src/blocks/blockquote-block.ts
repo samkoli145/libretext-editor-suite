@@ -60,7 +60,7 @@ export interface BlockquoteBlockNode extends BaseBlockNode<BlockquoteData> {
 export function createBlockquoteBlock(
   id: string,
   text: string,
-  data?: Partial<BlockquoteData>
+  data?: Partial<BlockquoteData>,
 ): BlockquoteBlockNode {
   return {
     id,

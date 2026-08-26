@@ -31,7 +31,7 @@ export interface ColorPickerBlockNode extends BaseBlockNode<ColorPickerBlockData
 export function createColorPickerBlock(
   id: string,
   color: string = '#000000',
-  traits: readonly TraitKey[] = ['draggable', 'lockable']
+  traits: readonly TraitKey[] = ['draggable', 'lockable'],
 ): ColorPickerBlockNode {
   return {
     id,
@@ -42,8 +42,8 @@ export function createColorPickerBlock(
       color,
       format: 'hex',
       allowAlpha: false,
-      recentColors: []
-    }
+      recentColors: [],
+    },
   };
 }
 
