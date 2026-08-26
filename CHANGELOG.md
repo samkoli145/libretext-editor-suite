@@ -38,6 +38,17 @@
 التنسيق مبني على [Keep a Changelog](https://keepachangelog.com/),
 والإصدار يتبع [Semantic Versioning](https://semver.org/).
 
+## [v1.13.1] - 2026-08-26
+
+### Fixed
+
+- **حرج — تجميد الواجهة:** طبقتا palette/settings كانتا تظهران دائماً (`display:flex` يتجاوز `hidden`) تغطيان الشاشة وتخطفان كل النقرات. أضيفت قاعدة `[hidden]{display:none!important}`.
+- render انتقائي: إعادة بناء المناطق المتغيرة فقط (dirty flags) بدل الكامل عند كل نقرة.
+
+### Documented
+- FUNCTION_INDEX: قسم tool-registry (إجمالي 1247 عنصراً).
+- INDEX.md: معرفات PLAY-001..007 لحزمة الملعب.
+
 ## [v1.13.0] - 2026-08-26
 
 ### Added

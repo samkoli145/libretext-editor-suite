@@ -1144,6 +1144,17 @@
 | 5/6 | `hueNameAr`               | ⚙️ function | `theme-engine.ts:110` | `h: number`          |
 | 6/6 | `clamp`                   | ⚙️ function | `theme-engine.ts:44`  | `value, min, max`    |
 
+### 📁 tool-registry.ts
+
+| #    | الName               | الType       | File:سطر                | Parameters       |
+| ---- | -------------------- | ------------ | ----------------------- | ---------------- |
+| 1/6 | `ToolEntry`           | 📐 interface | `tool-registry.ts:52`   | `—`              |
+| 2/6 | `TOOL_REGISTRY`       | 📌 constant  | `tool-registry.ts:80`   | `—`              |
+| 3/6 | `getToolbarLayout`    | ⚙️ function  | `tool-registry.ts:196`  | `domain`         |
+| 4/6 | `getContextTools`     | ⚙️ function  | `tool-registry.ts:216`  | `domain`         |
+| 5/6 | `searchTools`         | ⚙️ function  | `tool-registry.ts:223`  | `query: string`  |
+| 6/6 | `getRegistryStats`    | ⚙️ function  | `tool-registry.ts:236`  | `—`              |
+
 ### 📁 audio-block-block.ts
 
 | #   | الاسم                      | الType       | File:سطر                  | Parameters |

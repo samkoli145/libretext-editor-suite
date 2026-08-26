@@ -300,6 +300,13 @@ libretext-editor-suite/
 | `CORE-027`     | `packages/core/src/blocks/html-embed-block.ts`               | بلوك HTML معقّم       | Sanitized HTML embed block | تم            |
 | `CORE-028`     | `packages/core/src/blocks/code-runner-block.ts`              | بلوك كود تفاعلي       | Interactive code runner    | تم            |
 | `CORE-029`     | `packages/core/src/blocks/regex-tester-block.ts`             | بلوك اختبار Regex     | Live regex tester block    | تم            |
+| `PLAY-001`     | `packages/playground/src/shell/playground-shell.ts`          | قشرة الملعب           | Playground shell state     | تم            |
+| `PLAY-002`     | `packages/playground/src/shell/tool-registry.ts`             | حصر الأدوات           | Tool inventory registry    | تم            |
+| `PLAY-003`     | `packages/playground/src/shell/menu-model.ts`                | نموذج القوائم         | Menu model                 | تم            |
+| `PLAY-004`     | `packages/playground/src/shell/icon-set.ts`                  | الأيقونات الرمزية     | Symbolic icon set          | تم            |
+| `PLAY-005`     | `packages/playground/src/views/editor-views.ts`              | مشاهد المحررات        | Engine-bound views         | تم            |
+| `PLAY-006`     | `packages/playground/src/panels/settings-page.ts`            | صفحة الإعدادات        | Settings page model        | تم            |
+| `PLAY-007`     | `packages/playground/src/playground-app.ts`                  | الواجهة البصرية       | Visual DOM app             | تم            |
 
 ### الخوارزميات - Algorithms (ALGO)
 

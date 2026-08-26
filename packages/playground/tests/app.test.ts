@@ -89,8 +89,6 @@ describe('playground visual app', () => {
   });
 
   it('صفحة الإعدادات تعرض 14 ثيمة وتفعّل الاختيار', () => {
-    (host.querySelector('[data-zone=menubar] .lt-menu-btn:last-of-type') as HTMLElement) ??
-      null;
     // افتح الإعدادات من زر الترس في القائمة العلوية
     const settingsBtns = [...host.querySelectorAll('[data-zone=menubar] .lt-menu-btn')];
     (settingsBtns[settingsBtns.length - 1] as HTMLElement).click();

@@ -517,6 +517,8 @@ const PLAYGROUND_CSS = `
 .lt-slide-thumb{width:110px;height:70px;border:1px solid #e2e8f0;border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#fff;font-size:11px;color:#64748b}
 .lt-slide-thumb strong{color:#c05a11;font-size:18px}
 .lt-palette-overlay,.lt-settings-overlay{position:fixed;inset:0;background:rgba(15,23,42,.25);z-index:100;display:flex;align-items:flex-start;justify-content:center;padding-top:80px}
+/* إصلاح الجمود: hidden يجب أن يتغلب على display:flex — وإلا تغطي الطبقات الشاشة وتخطف النقرات */
+.lt-palette-overlay[hidden],.lt-settings-overlay[hidden]{display:none!important}
 .lt-palette-box{width:min(520px,92vw);background:#fff;border-radius:14px;box-shadow:0 16px 48px rgba(15,23,42,.2);overflow:hidden}
 .lt-palette-input{width:100%;border:none;border-bottom:1px solid #f1f5f9;padding:14px 16px;font-size:15px;outline:none;font-family:inherit}
 .lt-palette-results{max-height:320px;overflow:auto;padding:6px}
