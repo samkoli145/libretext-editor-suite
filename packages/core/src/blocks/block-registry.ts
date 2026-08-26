@@ -173,6 +173,18 @@ import {
   isDetailsBlock,
 } from './details-block';
 import { TocBlockNode, createTocBlock, formatTocMarkdown, isTocBlock } from './toc-block';
+import {
+  SvgIconBlockNode,
+  createSvgIconBlock,
+  formatSvgIconMarkdown,
+  isSvgIconBlock,
+} from './svg-icon-block';
+import {
+  HtmlEmbedBlockNode,
+  createHtmlEmbedBlock,
+  formatHtmlEmbedMarkdown,
+  isHtmlEmbedBlock,
+} from './html-embed-block';
 
 export type BlockType =
   | 'paragraph'
@@ -200,7 +212,9 @@ export type BlockType =
   | 'template-gallery'
   | 'math'
   | 'details'
-  | 'toc';
+  | 'toc'
+  | 'svg_icon'
+  | 'html_embed';
 
 export type AnyBlockNode =
   | ParagraphBlockNode
@@ -228,7 +242,9 @@ export type AnyBlockNode =
   | TemplateGalleryBlockNode
   | MathBlockNode
   | DetailsBlockNode
-  | TocBlockNode;
+  | TocBlockNode
+  | SvgIconBlockNode
+  | HtmlEmbedBlockNode;
 
 export interface BlockManifest {
   readonly type: BlockType;
@@ -529,6 +545,28 @@ export const BLOCK_MANIFESTS: readonly BlockManifest[] = [
     priority: 'Medium',
     supportedSerializers: ['Markdown', 'HTML5'],
   },
+  {
+    type: 'svg_icon',
+    nameAr: 'أيقونة SVG',
+    nameEn: 'SVG Icon',
+    domain: 'writer',
+    category: 'Visual',
+    descriptionAr: 'أيقونة مرجعية بالمعرف من مكتبة SVG مع تحويل فوري إلى صورة',
+    traits: ['draggable', 'styleable'],
+    priority: 'Medium',
+    supportedSerializers: ['Markdown', 'HTML5', 'SVG'],
+  },
+  {
+    type: 'html_embed',
+    nameAr: 'HTML مضمّن',
+    nameEn: 'HTML Embed',
+    domain: 'writer',
+    category: 'Plugin',
+    descriptionAr: 'كتلة HTML معقّمة عند التخزين والتصدير ضد XSS',
+    traits: ['draggable', 'styleable', 'lockable'],
+    priority: 'Medium',
+    supportedSerializers: ['Markdown', 'HTML5'],
+  },
 ];
 
 export function getBlockManifest(type: BlockType): BlockManifest | undefined {
@@ -644,6 +682,12 @@ function createDefaultUniversalBlock(type: BlockType, id: string): AnyBlockNode 
   if (type === 'toc') {
     return createTocBlock(id, { maxDepth: 3 });
   }
+  if (type === 'svg_icon') {
+    return createSvgIconBlock(id, { iconId: 'arrow-right', size: 24 });
+  }
+  if (type === 'html_embed') {
+    return createHtmlEmbedBlock(id, { html: '<div class="note">ملاحظة مضمّنة</div>' });
+  }
   return createDefaultWriterBlock(type, id);
 }
 
@@ -707,5 +751,7 @@ export function serializeBlockToMarkdown(block: AnyBlockNode): string {
   if (isMathBlock(block)) return formatMathMarkdown(block);
   if (isDetailsBlock(block)) return formatDetailsMarkdown(block);
   if (isTocBlock(block)) return formatTocMarkdown(block);
+  if (isSvgIconBlock(block)) return formatSvgIconMarkdown(block);
+  if (isHtmlEmbedBlock(block)) return formatHtmlEmbedMarkdown(block);
   return '';
 }

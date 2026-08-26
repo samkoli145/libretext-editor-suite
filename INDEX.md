@@ -296,6 +296,8 @@ libretext-editor-suite/
 | `CORE-023`     | `packages/core/src/blocks/math-block.ts`                     | بلوك معادلات LaTeX    | Math equation block        | تم            |
 | `CORE-024`     | `packages/core/src/blocks/details-block.ts`                  | بلوك منسدل تفاصيل     | Details accordion block    | تم            |
 | `CORE-025`     | `packages/core/src/blocks/toc-block.ts`                      | بلوك جدول محتويات     | Table of contents block    | تم            |
+| `CORE-026`     | `packages/core/src/blocks/svg-icon-block.ts`                 | بلوك أيقونة SVG       | SVG icon block             | تم            |
+| `CORE-027`     | `packages/core/src/blocks/html-embed-block.ts`               | بلوك HTML معقّم       | Sanitized HTML embed block | تم            |
 
 ### الخوارزميات - Algorithms (ALGO)
 

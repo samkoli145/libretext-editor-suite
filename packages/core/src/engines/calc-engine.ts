@@ -1274,6 +1274,23 @@ export class CalcEngine {
   private parser = new FormulaParser();
   private formatter = new CellFormatter();
   private namedRanges = new Map<string, string>();
+  /** سجل الأوراق المسمّاة لدعم المراجع عبر الأوراق (نموذج libresheets). */
+  private workbook = new Map<string, TableBlockNode>();
+
+  /** تسجيل ورقة باسم لتمكين المراجع مثل Sheet2!B3. */
+  registerSheet(name: string, sheet: TableBlockNode): void {
+    this.workbook.set(name, sheet);
+  }
+
+  /** إزالة ورقة من السجل. */
+  unregisterSheet(name: string): boolean {
+    return this.workbook.delete(name);
+  }
+
+  /** أسماء الأوراق المسجلة. */
+  getSheetNames(): string[] {
+    return Array.from(this.workbook.keys());
+  }
 
   // ── Core Evaluation ──
 
@@ -1300,7 +1317,7 @@ export class CalcEngine {
   }
 
   /** تقييم خلية واحدة (تحديث قيمتها المحسوبة). */
-  evaluateCell(cellKey: string, sheet: TableBlockNode): CellBlockNode {
+  evaluateCell(cellKey: string, sheet: TableBlockNode, allSheets?: TableBlockNode[]): CellBlockNode {
     const cell = this.findCell(sheet, cellKey);
     if (!cell) {
       return createCellBlock(cellKey, 0, 0, '', { error: ERRORS.REF });
@@ -1319,7 +1336,7 @@ export class CalcEngine {
     const ctx: EvalContext = {
       cellKey,
       sheet,
-      allSheets: [sheet],
+      allSheets: allSheets ?? Array.from(this.workbook.values()),
       namedRanges: Object.fromEntries(this.namedRanges),
       visitedCells: new Set([cellKey]),
     };
@@ -1328,8 +1345,20 @@ export class CalcEngine {
     return this.updateCellComputed(cell, result);
   }
 
+  /**
+   * إعادة حساب مصنف كامل (عدة أوراق مسمّاة) — نموذج libresheets.
+   * تسجل الأوراق أولاً ثم يُحسب كلٌّ بالترتيب.
+   */
+  recalculateWorkbook(namedSheets: ReadonlyArray<{ name: string; sheet: TableBlockNode }>): TableBlockNode[] {
+    for (const { name, sheet } of namedSheets) this.registerSheet(name, sheet);
+
+    const sheets = namedSheets.map(ns => ns.sheet);
+    return namedSheets.map(ns => this.recalculateAll(ns.sheet, sheets));
+  }
+
   /** إعادة حساب الورقة كاملة — بالترتيب التوبولوجي. */
-  recalculateAll(sheet: TableBlockNode): TableBlockNode {
+  recalculateAll(sheet: TableBlockNode, allSheets?: TableBlockNode[]): TableBlockNode {
+    const sheets = allSheets ?? [sheet];
     // إعادة بناء الـ DAG
     this.graph.rebuild(sheet, (f) => this.parser.extractReferences(f));
 
@@ -1346,7 +1375,7 @@ export class CalcEngine {
     let result = sheet;
 
     for (const cellKey of order) {
-      const evaluated = this.evaluateCell(cellKey, result);
+      const evaluated = this.evaluateCell(cellKey, result, sheets);
       result = this.updateCellInSheet(result, cellKey, evaluated);
     }
 
@@ -1550,6 +1579,15 @@ export class CalcEngine {
   }
 
   private findCellInContext(address: string, ctx: EvalContext): CellBlockNode | null {
+    // مرجع عبر الأوراق: Sheet1!A1 — يُحل من سجل الأوراق المسمّاة
+    const bangIdx = address.indexOf('!');
+    if (bangIdx > 0) {
+      const sheetName = address.slice(0, bangIdx).replace(/^'|'$/g, '');
+      const localAddr = address.slice(bangIdx + 1);
+      const target = this.workbook.get(sheetName);
+      return target ? this.findCell(target, localAddr) : null;
+    }
+
     // البحث في الورقة الحالية أولاً
     let cell = this.findCell(ctx.sheet, address) as CellBlockNode | null;
     if (cell) return cell;
@@ -1589,6 +1627,7 @@ export class CalcEngine {
     return {
       ...cell,
       computedValue: isError_ ? null : (value as number | string | boolean | null),
+      error: isError_ ? (value as string) : undefined,
     } as T;
   }
 

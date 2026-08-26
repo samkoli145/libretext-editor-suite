@@ -31,8 +31,8 @@ export class LatexParser {
         ok: this.errors.length === 0,
         ast,
         ...(this.errors.length > 0 && {
-          error: this.errors[0].message,
-          position: this.errors[0].position,
+          error: this.errors[0]!.message,
+          position: this.errors[0]!.position,
         }),
       };
     } catch (e) {
@@ -91,14 +91,14 @@ export class LatexParser {
     this.pos++;
 
     let command = '';
-    while (this.pos < this.input.length && /[a-zA-Z]/.test(this.input[this.pos])) {
-      command += this.input[this.pos];
+    while (this.pos < this.input.length && /[a-zA-Z]/.test(this.input[this.pos]!)) {
+      command += this.input[this.pos]!;
       this.pos++;
     }
 
     if (!command) {
       if (this.pos < this.input.length) {
-        command = this.input[this.pos];
+        command = this.input[this.pos]!;
         this.pos++;
       }
     }
@@ -221,7 +221,7 @@ export class LatexParser {
         if (node.type === 'text' && node.value === '&') {
           cols.push([]);
         } else {
-          cols[cols.length - 1].push(node);
+          cols[cols.length - 1]!.push(node);
         }
       }
       return cols;

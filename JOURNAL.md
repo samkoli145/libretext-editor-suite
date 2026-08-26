@@ -20,6 +20,32 @@
 
 # يوميات مشروع LibreText Editor Suite
 
+## 2026-08-26 (Part 3) — بلوكات التحويل المتخصصة من المصادر الجاهزة
+
+### المنجزات
+
+**1. تحويل الصيغ (LaTeX → SVG):**
+- `renderMathToSvg()` في math-block يستدعي المحرك الجاهز `parseLatex + renderLatex`
+- إصلاح 10 أخطاء typecheck كامنة في LatexParser/LatexRenderer (أول استيراد فعلي لهما)
+
+**2. الأيقونات — svg-icon-block [BLK-WRITER-SVG-ICON]:**
+- تخزين بالمعرف لا بالـ SVG (حجم مستند أدنى) + تحويل وقت القراءة من ICON_LIBRARY
+- حماية ألوان hex-only + قص الحجم 8-256 + DataURL جاهز للتصدير
+
+**3. HTML — html-embed-block [BLK-WRITER-HTML-EMBED]:**
+- تعقيم مزدوج: regex layer (تعمل في Node أيضاً) + sanitizeHtml (DOM في المتصفح)
+- اكتشاف أن sanitizeHtml الحالي no-op خارج المتصفح → بناء طبقة stripDangerousHtml
+
+**4. الصور — أدوات تحويل في image-block:**
+- detectImageMime / isEmbeddedImage / estimateEmbeddedSizeBytes / svgTextToDataUri
+
+**5. تصدير المحركات الأربعة من @libretext/core:**
+- حل تعارض الأسماء الثلاثة بأسماء مستعارة: CalcASTNode, WriterSearchResult, BaseValidationResult
+
+### التحقق
+- ✅ typecheck صفر أخطاء | ✅ 1598 اختباراً (+15) | ✅ lint صفر أخطاء
+- ✅ FUNCTION_INDEX: 1216 عنصراً | INDEX: CORE-026/027
+
 ## 2026-08-26 (Part 2) — بلوكات متخصصة من المصادر الجاهزة + ثيمات Impress الست
 
 ### المنجزات

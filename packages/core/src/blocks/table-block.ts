@@ -57,6 +57,7 @@ export interface TableCellData {
   readonly rawInput?: string;
   readonly computedValue?: number | string | boolean | null;
   readonly address?: string;
+  readonly error?: string;
 }
 
 export interface TableRowData {

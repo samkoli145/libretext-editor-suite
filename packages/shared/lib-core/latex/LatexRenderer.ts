@@ -122,9 +122,9 @@ export class LatexRenderer {
       this.options.fontSize = savedFontSize;
     } else {
       this.elements.push(
-        `<text x="${this.x}" y="${this.y}" fill="${this.options.color}" font-size="${this.options.fontSize}">\\${node.command}</text>`,
+        `<text x="${this.x}" y="${this.y}" fill="${this.options.color}" font-size="${this.options.fontSize}">\\${node.command!}</text>`,
       );
-      this.x += (node.command.length + 1) * this.options.fontSize * 0.5;
+      this.x += ((node.command?.length ?? 0) + 1) * this.options.fontSize * 0.5;
     }
   }
 
@@ -219,9 +219,9 @@ export class LatexRenderer {
     }
 
     for (let i = 0; i < node.rows.length; i++) {
-      const row = node.rows[i];
+      const row = node.rows[i]!;
       for (let j = 0; j < row.length; j++) {
-        const cell = row[j];
+        const cell = row[j]!;
         for (const child of cell) this.renderNode(child);
         if (j < row.length - 1) this.x += this.options.fontSize * 1.5;
       }

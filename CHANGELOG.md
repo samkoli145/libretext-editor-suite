@@ -38,6 +38,21 @@
 التنسيق مبني على [Keep a Changelog](https://keepachangelog.com/),
 والإصدار يتبع [Semantic Versioning](https://semver.org/).
 
+## [v1.8.0] - 2026-08-26
+
+### Added
+
+- **Formula Conversion (تحويل الصيغ):** `renderMathToSvg()` في math-block يحوّل LaTeX إلى SVG عبر المحرك الجاهز `parseLatex + renderLatex` (shared/lib-core/latex — صفر اعتماديات، بلا DOM).
+- **SVG Icon Block [BLK-WRITER-SVG-ICON]:** بلوك أيقونة مرجعي بالمعرف من `ICON_LIBRARY` الجاهزة (~100 أيقونة عربية التصنيف) مع تحويل فوري إلى SVG/DataURL وتهريب آمن للألوان (hex فقط).
+- **HTML Embed Block [BLK-WRITER-HTML-EMBED]:** كتلة HTML بتعقيم مزدوج الطبقات: regex دائماً (script/iframe/on*/javascript:) + DOM-based `sanitizeHtml` في المتصفح — Sanitize-on-Write ضد XSS.
+- **Image Conversion Helpers:** `detectImageMime` (DataURI + امتداد)، `isEmbeddedImage`، `estimateEmbeddedSizeBytes`، `svgTextToDataUri` في image-block.
+- **Exports:** المحركات الأربعة الآن تُصدَّر رسمياً من `@libretext/core` (CalcEngine, WriterEngine, ImpressEngine, BaseEngine + أنواعها) بأسماء مستعارة لحل التعارضات (CalcASTNode, WriterSearchResult, BaseValidationResult).
+- **Tests (+15):** conversion-blocks.test.ts يغطي التحويلات الأربعة.
+
+### Fixed
+
+- 10 أخطاء typecheck كامنة في LatexParser/LatexRenderer ظهرت عند أول استيراد فعلي لهما.
+
 ## [v1.7.0] - 2026-08-26
 
 ### Added

@@ -28,7 +28,7 @@
 // ©️ جميع الحقوق محفوظة ©️ - 2026
 // ═══════════════════════════════════════════════════════════════
 
-import { type TableBlockNode } from '../blocks/table-block';
+import { type TableBlockNode, createTableCell, createTableRow, createTableBlock } from '../blocks/table-block';
 import type { BaseBlockNode, TraitKey } from '../ast/types';
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -455,6 +455,18 @@ export class WriterEngine {
         continue;
       }
 
+      // جدول Markdown — | a | b | مع فاصل |---|
+      if (isTableRowLine(line) && !isTableSeparatorLine(line)) {
+        const tableLines: string[] = [];
+        while (i < lines.length && isTableRowLine(lines[i]!)) {
+          tableLines.push(lines[i]!);
+          i++;
+        }
+        const table = parseMarkdownTable(tableLines);
+        if (table) blocks.push(table);
+        continue;
+      }
+
       // فقرة
       if (line.trim() !== '') {
         blocks.push({ id: mintBlockId(), type: 'paragraph', content: line });
@@ -513,6 +525,11 @@ export class WriterEngine {
         case 'horizontalRule':
           lines.push('---');
           break;
+        case 'table': {
+          const table = block.attrs?.table as TableBlockNode | undefined;
+          if (table) lines.push(...formatTableMarkdownLines(table));
+          break;
+        }
       }
       lines.push('');
     }
@@ -628,6 +645,11 @@ export class WriterEngine {
     };
   }
 
+  /** تصدير جدول إلى أسطر Markdown (منطق مكيف من markdown-engine.ts). */
+  private tableToMarkdownLines(table: TableBlockNode): string[] {
+    return formatTableMarkdownLines(table);
+  }
+
   private getBlockText(block: WriterBlock): string {
     let text = block.content;
     if (block.children) {
@@ -635,4 +657,76 @@ export class WriterEngine {
     }
     return text;
   }
+}
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// TABLE MARKDOWN HELPERS — منطق مكيف من markdown-engine.ts (MIT)
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+/** تصدير جدول إلى أسطر Markdown مع تهريب الأنابيب. */
+function formatTableMarkdownLines(table: TableBlockNode): string[] {
+  const lines: string[] = [];
+  table.rows.forEach((row, rowIdx) => {
+    const cells = row.cells.map(c => c.text.replace(/\|/g, '\\|').replace(/\n/g, ' '));
+    lines.push(`| ${cells.join(' | ')} |`);
+    if (rowIdx === 0) {
+      lines.push(`| ${cells.map(() => '---').join(' | ')} |`);
+    }
+  });
+  return lines;
+}
+
+/** فحص إن كان السطر يبدو خلية جدول Markdown. */
+function isTableRowLine(line: string): boolean {
+  return line.trim().startsWith('|') && line.trim().endsWith('|');
+}
+
+/** تقسيم سطر جدول إلى خلايا مع احترام التهريب \| . */
+function splitTableRow(line: string): string[] {
+  const trimmed = line.trim().slice(1, -1);
+  const cells: string[] = [];
+  let current = '';
+  for (let i = 0; i < trimmed.length; i++) {
+    const ch = trimmed[i]!;
+    if (ch === '\\' && trimmed[i + 1] === '|') {
+      current += '|';
+      i++;
+    } else if (ch === '|') {
+      cells.push(current.trim());
+      current = '';
+    } else {
+      current += ch;
+    }
+  }
+  cells.push(current.trim());
+  return cells;
+}
+
+/** فحص سطر الفاصل |---|---|. */
+function isTableSeparatorLine(line: string): boolean {
+  return /^\|?[\s:|-]+\|?$/.test(line.trim()) && line.includes('---');
+}
+
+/** بناء كتلة جدول من أسطر Markdown (صف أول = رأس). */
+function parseMarkdownTable(tableLines: string[]): WriterBlock | null {
+  const dataLines = tableLines.filter(l => !isTableSeparatorLine(l));
+  if (dataLines.length === 0) return null;
+
+  const hasHeader = dataLines.length < tableLines.length;
+  const rows = dataLines.map((line, rowIdx) => {
+    const cells = splitTableRow(line).map(text =>
+      createTableCell(`${mintBlockId()}-c`, text),
+    );
+    return createTableRow(`${mintBlockId()}-r`, cells, hasHeader && rowIdx === 0);
+  });
+
+  if (rows.length === 0) return null;
+
+  return {
+    id: mintBlockId(),
+    type: 'table',
+    content: '',
+    attrs: {
+      table: createTableBlock(`${mintBlockId()}-t`, rows, { hasHeaderRow: hasHeader }),
+    },
+  };
 }

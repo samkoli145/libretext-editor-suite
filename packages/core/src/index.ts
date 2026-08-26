@@ -113,6 +113,66 @@ export * from './engines/unified-ingestion';
 export * from './engines/image-pipeline';
 export * from './engines/validation';
 
+// ─── محركات المكتب الأربعة (Office Engines) ───
+export {
+  CalcEngine,
+  DependencyGraph,
+  FormulaParser,
+  CellFormatter,
+  tokenize,
+  parseCellAddress,
+  formatCellAddress,
+  expandRange,
+  BUILTINS,
+  ERRORS,
+  isError,
+  tafqeetArabic,
+  tafqeetCurrency,
+} from './engines/calc-engine';
+export type {
+  TokenType,
+  Token,
+  ASTNode as CalcASTNode,
+  EvalContext,
+  ErrorValue,
+} from './engines/calc-engine';
+
+export { WriterEngine } from './engines/writer-engine';
+export type {
+  WriterDocument,
+  WriterBlock,
+  WriterBlockType,
+  DocumentMetadata,
+  DocumentStyles,
+  SearchResult as WriterSearchResult,
+  TextMark,
+} from './engines/writer-engine';
+
+export { ImpressEngine, DEFAULT_THEMES, THEME_KEYS, SLIDE_GRADIENT_PRESETS } from './engines/impress-engine';
+export type {
+  Presentation,
+  SlideData,
+  SlideLayout,
+  SlideBackground,
+  SlideTransition,
+  PresentationTheme,
+  PresentationMetadata,
+} from './engines/impress-engine';
+
+export { BaseEngine } from './engines/base-engine';
+export type {
+  Database,
+  DatabaseTable,
+  DatabaseColumn,
+  DatabaseRecord,
+  ColumnType,
+  FilterOperator,
+  FilterPredicate,
+  QueryOptions,
+  ValidationResult as BaseValidationResult,
+  TableStats,
+} from './engines/base-engine';
+
 // ─── محول التنسيقات الشامل ───
 export * from './converters/universal-format-converter';
 

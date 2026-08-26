@@ -4,7 +4,7 @@
 
 > **تاريخ آخر Update:** 2026-08-26
 > **عدد الحزم:** 7
-> **Total العناصر المفهرسة:** 1204 عنصر
+> **Total العناصر المفهرسة:** 1216 عنصر
 
 ---
 
@@ -1088,6 +1088,28 @@
 | 4/6 | `createTocBlock`    | ⚙️ function  | `toc-block.ts:65` | `id, data?`        |
 | 5/6 | `formatTocMarkdown` | ⚙️ function  | `toc-block.ts:90` | `node`             |
 | 6/6 | `buildTocEntries`   | ⚙️ function  | `toc-block.ts:97` | `blocks, maxDepth` |
+
+### 📁 svg-icon-block.ts
+
+| #   | الاسم                    | الType       | File:سطر               | Parameters          |
+| --- | ------------------------ | ------------ | ---------------------- | ------------------- |
+| 1/7 | `SvgIconBlockData`       | 📐 interface | `svg-icon-block.ts:60` | `—`                 |
+| 2/7 | `SvgIconBlockNode`       | 📐 interface | `svg-icon-block.ts:64` | `—`                 |
+| 3/7 | `createSvgIconBlock`     | ⚙️ function  | `svg-icon-block.ts:78` | `id, data?`         |
+| 4/7 | `isSvgIconBlock`         | ⚙️ function  | `svg-icon-block.ts:98` | `node: unknown`     |
+| 5/7 | `findIconById`           | ⚙️ function  | `svg-icon-block.ts:105` | `iconId: string`   |
+| 6/7 | `resolveIconSvg`         | ⚙️ function  | `svg-icon-block.ts:116` | `node`             |
+| 7/7 | `formatSvgIconMarkdown`  | ⚙️ function  | `svg-icon-block.ts:131` | `node`             |
+
+### 📁 html-embed-block.ts
+
+| #   | الName                     | الType       | File:سطر                | Parameters      |
+| --- | -------------------------- | ------------ | ----------------------- | --------------- |
+| 1/5 | `HtmlEmbedBlockData`       | 📐 interface | `html-embed-block.ts:66` | `—`            |
+| 2/5 | `HtmlEmbedBlockNode`       | 📐 interface | `html-embed-block.ts:70` | `—`            |
+| 3/5 | `createHtmlEmbedBlock`     | ⚙️ function  | `html-embed-block.ts:80` | `id, data?`    |
+| 4/5 | `sanitizeEmbedContent`     | ⚙️ function  | `html-embed-block.ts:107` | `node`        |
+| 5/5 | `formatHtmlEmbedMarkdown`  | ⚙️ function  | `html-embed-block.ts:114` | `node`        |
 
 ### 📁 audio-block-block.ts
 

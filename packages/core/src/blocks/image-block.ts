@@ -109,3 +109,59 @@ export function formatImageMarkdown(node: ImageBlockNode): string {
   const md = `![${alt}](${src})`;
   return node.data.caption ? `${md}\n*${node.data.caption}*` : md;
 }
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// IMAGE CONVERSION HELPERS — تحويل الصور (DataURI + كشف الصيغة)
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━═════════════════════════
+
+/** أنواع الصور المدعومة للتحويل. */
+export type ImageMimeType =
+  | 'image/png'
+  | 'image/jpeg'
+  | 'image/gif'
+  | 'image/webp'
+  | 'image/svg+xml';
+
+/** كشف نوع الصورة من بداية DataURI أو الامتداد. */
+export function detectImageMime(src: string): ImageMimeType | null {
+  const dataUriMatch = /^data:(image\/[a-z+]+);/.exec(src);
+  if (dataUriMatch) {
+    const mime = dataUriMatch[1]!;
+    const supported: ImageMimeType[] = [
+      'image/png',
+      'image/jpeg',
+      'image/gif',
+      'image/webp',
+      'image/svg+xml',
+    ];
+    return supported.includes(mime as ImageMimeType) ? (mime as ImageMimeType) : null;
+  }
+
+  const ext = /\.([a-z0-9]+)(?:\?|$)/i.exec(src)?.[1]?.toLowerCase();
+  switch (ext) {
+    case 'png': return 'image/png';
+    case 'jpg':
+    case 'jpeg': return 'image/jpeg';
+    case 'gif': return 'image/gif';
+    case 'webp': return 'image/webp';
+    case 'svg': return 'image/svg+xml';
+    default: return null;
+  }
+}
+
+/** هل المصدر DataURI مضمّن (وليس رابطاً خارجياً)؟ */
+export function isEmbeddedImage(src: string): boolean {
+  return src.startsWith('data:image/');
+}
+
+/** حجم الصورة المضمنة بالبايت التقريبي (من طول BaseURI). */
+export function estimateEmbeddedSizeBytes(src: string): number {
+  if (!isEmbeddedImage(src)) return 0;
+  const base64Part = src.split(',')[1] ?? '';
+  return Math.floor((base64Part.length * 3) / 4);
+}
+
+/** بناء DataURI من محتوى SVG نصي — لتحويل الأيقونات والرسوم إلى صور. */
+export function svgTextToDataUri(svg: string): string {
+  return `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
+}

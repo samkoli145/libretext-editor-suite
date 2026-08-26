@@ -59,4 +59,6 @@ export * from './template-gallery-block';
 export * from './math-block';
 export * from './details-block';
 export * from './toc-block';
+export * from './svg-icon-block';
+export * from './html-embed-block';
 export * from './block-registry';

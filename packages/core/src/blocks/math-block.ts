@@ -40,6 +40,9 @@
  */
 
 import { BaseBlockNode, TraitKey } from '../ast/types';
+// محرك LaTeX الجاهز (صفر اعتماديات، نقياً بلا DOM) — نمط الاستيراد النسبي المعتمد
+import { parseLatex } from '../../../shared/lib-core/latex/LatexParser';
+import { renderLatex } from '../../../shared/lib-core/latex/LatexRenderer';
 
 const MAX_LATEX_LENGTH = 10_000;
 
@@ -51,6 +54,12 @@ export interface MathBlockData {
 export interface MathBlockNode extends BaseBlockNode<MathBlockData> {
   readonly type: 'math';
   readonly domain: 'writer';
+}
+
+/** خيارات تحويل المعادلة إلى SVG. */
+export interface MathRenderOptions {
+  fontSize?: number;
+  color?: string;
 }
 
 export function createMathBlock(
@@ -97,4 +106,33 @@ export function hasBalancedDelimiters(latex: string): boolean {
     i++;
   }
   return count % 2 === 0;
+}
+
+/** نتيجة تحويل معادلة إلى SVG. */
+export interface MathRenderResult {
+  readonly svg: string | null;
+  readonly error: string | null;
+}
+
+/**
+ * تحويل مصدر LaTeX إلى SVG عبر المحرك الجاهز
+ * (parseLatex + renderLatex من shared/lib-core/latex).
+ */
+export function renderMathToSvg(
+  node: MathBlockNode,
+  options?: MathRenderOptions,
+): MathRenderResult {
+  const source = node.data.latex.trim();
+  if (!source) return { svg: null, error: 'empty' };
+
+  const parsed = parseLatex(source);
+  if (!parsed.ok || !parsed.ast) {
+    return { svg: null, error: parsed.error ?? 'parse-error' };
+  }
+
+  const rendered = renderLatex(parsed.ast, {
+    fontSize: options?.fontSize ?? 16,
+    color: options?.color ?? '#1a1a1a',
+  });
+  return { svg: rendered.svg, error: null };
 }
