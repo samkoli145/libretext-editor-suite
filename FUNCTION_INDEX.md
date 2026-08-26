@@ -2,9 +2,9 @@
 
 # Comprehensive Function & Algorithm Index
 
-> **تاريخ آخر Update:** 2026-08-21
+> **تاريخ آخر Update:** 2026-08-26
 > **عدد الحزم:** 7
-> **Total العناصر المفهرسة:** 1134 عنصر
+> **Total العناصر المفهرسة:** 1182 عنصر
 
 ---
 
@@ -546,13 +546,14 @@
 
 ### 📁 mergesort.ts
 
-| #   | الاسم                         | الType       | File:سطر          | Parameters               |
-| --- | ----------------------------- | ------------ | ----------------- | ------------------------ |
-| 1/5 | `SortDirection`               | 🏷️ type      | `mergesort.ts:40` | `—`                      |
-| 2/5 | `SortCriteria`                | 📐 interface | `mergesort.ts:42` | `—`                      |
-| 3/5 | `compareCellValues`           | ⚙️ function  | `mergesort.ts:49` | `a: unknown, b: unknown` |
-| 4/5 | `createTableColumnComparator` | ⚙️ function  | `mergesort.ts:64` | `—`                      |
-| 5/5 | `bottomUpMergeSort`           | ⚙️ function  | `mergesort.ts:80` | `—`                      |
+| #   | الاسم                         | الType       | File:سطر          | Parameters                              |
+| --- | ----------------------------- | ------------ | ----------------- | --------------------------------------- |
+| 1/6 | `CellValue`                   | 🏷️ type      | `mergesort.ts:12` | `—`                                     |
+| 2/6 | `compareCellValues`           | ⚙️ function  | `mergesort.ts:14` | `a: CellValue, b: CellValue`            |
+| 3/6 | `merge`                       | ⚙️ function  | `mergesort.ts:28` | `src, aux, lo, mid, hi, cmp` (private)  |
+| 4/6 | `bottomUpMergeSort`           | ⚙️ function  | `mergesort.ts:54` | `items: readonly T[], comparator?`      |
+| 5/6 | `ColumnSortSpec`              | 📐 interface | `mergesort.ts:75` | `—`                                     |
+| 6/6 | `createTableColumnComparator` | ⚙️ function  | `mergesort.ts:80` | `specs: ColumnSortSpec[]`               |
 
 ### 📁 alignment-engine.ts
 
@@ -1128,6 +1129,22 @@
 | 3/4 | `mapBlocksToGrid`       | ⚙️ function  | `block-mapper.ts:36` | `—`                               |
 | 4/4 | `findOverlappingBlocks` | ⚙️ function  | `block-mapper.ts:50` | `blocks: readonly SpatialBlock[]` |
 
+### 📁 base-engine.ts
+
+| #    | الاسم               | الType       | File:سطر           | Parameters |
+| ---- | ------------------- | ------------ | ------------------ | ---------- |
+| 1/11 | `Database`          | 📐 interface | `base-engine.ts:37` | `—`        |
+| 2/11 | `DatabaseTable`     | 📐 interface | `base-engine.ts:45` | `—`        |
+| 3/11 | `ColumnType`        | 🏷️ type      | `base-engine.ts:52` | `—`        |
+| 4/11 | `DatabaseColumn`    | 📐 interface | `base-engine.ts:63` | `—`        |
+| 5/11 | `DatabaseRecord`    | 📐 interface | `base-engine.ts:74` | `—`        |
+| 6/11 | `FilterOperator`    | 🏷️ type      | `base-engine.ts:85` | `—`        |
+| 7/11 | `FilterPredicate`   | 📐 interface | `base-engine.ts:91` | `—`        |
+| 8/11 | `QueryOptions`      | 📐 interface | `base-engine.ts:97` | `—`        |
+| 9/11 | `ValidationResult`  | 📐 interface | `base-engine.ts:105` | `—`       |
+| 10/11 | `TableStats`       | 📐 interface | `base-engine.ts:110` | `—`       |
+| 11/11 | `BaseEngine`       | 🏗️ class     | `base-engine.ts:130` | `—`       |
+
 ### 📁 bounding-clamping-engine.ts
 
 | #   | الاسم           | الType       | File:سطر                         | Parameters                             |
@@ -1138,6 +1155,30 @@
 | 4/6 | `clampElement`  | ⚙️ function  | `bounding-clamping-engine.ts:36` | `el: ClampInput, canvas: CanvasBounds` |
 | 5/6 | `clampMultiple` | ⚙️ function  | `bounding-clamping-engine.ts:44` | `—`                                    |
 | 6/6 | `isOutOfBounds` | ⚙️ function  | `bounding-clamping-engine.ts:51` | `el: ClampInput, canvas: CanvasBounds` |
+
+### 📁 calc-engine.ts
+
+| #    | الاسم               | الType       | File:سطر           | Parameters                                        |
+| ---- | ------------------- | ------------ | ------------------ | ------------------------------------------------- |
+| 1/19 | `TokenType`         | 🏷️ type      | `calc-engine.ts:63` | `—`                                              |
+| 2/19 | `Token`             | 📐 interface | `calc-engine.ts:79` | `—`                                              |
+| 3/19 | `ASTNode`           | 🏷️ type      | `calc-engine.ts:89` | `—`                                              |
+| 4/19 | `ERRORS`            | 📌 constant  | `calc-engine.ts:102` | `—`                                             |
+| 5/19 | `ErrorValue`        | 🏷️ type      | `calc-engine.ts:112` | `—`                                             |
+| 6/19 | `isError`           | ⚙️ function  | `calc-engine.ts:114` | `v: unknown`                                    |
+| 7/19 | `DependencyGraph`   | 🏗️ class     | `calc-engine.ts:122` | `—`                                             |
+| 8/19 | `tokenize`          | ⚙️ function  | `calc-engine.ts:273` | `formula: string`                               |
+| 9/19 | `FormulaParser`     | 🏗️ class     | `calc-engine.ts:413` | `—`                                             |
+| 10/19 | `parseCellAddress` | ⚙️ function  | `calc-engine.ts:612` | `address: string`                               |
+| 11/19 | `formatCellAddress` | ⚙️ function | `calc-engine.ts:628` | `row: number, col: number`                      |
+| 12/19 | `expandRange`      | ⚙️ function  | `calc-engine.ts:633` | `start: string, end: string`                    |
+| 13/19 | `BUILTINS`         | 📌 constant  | `calc-engine.ts:707` | `—`                                             |
+| 14/19 | `tafqeetArabic`    | ⚙️ function  | `calc-engine.ts:1132` | `num: number`                                  |
+| 15/19 | `tafqeetCurrency`  | ⚙️ function  | `calc-engine.ts:1176` | `num, currency`                                |
+| 16/19 | `CellFormatter`    | 🏗️ class     | `calc-engine.ts:1205` | `—`                                            |
+| 17/19 | `EvalContext`      | 📐 interface | `calc-engine.ts:1260` | `—`                                            |
+| 18/19 | `CalcEngine`       | 🏗️ class     | `calc-engine.ts:1272` | `—`                                            |
+| 19/19 | `sortTableByColumn` | ⚙️ function | `calc-engine.ts:1660` | `sheet, colIndex, direction`                   |
 
 ### 📁 callout-engine.ts
 
@@ -1211,6 +1252,20 @@
 | 7/9 | `escapeHtml`                | ⚙️ function  | `html-pipeline.ts:146` | `text: string`                                              |
 | 8/9 | `stripHtmlTags`             | ⚙️ function  | `html-pipeline.ts:158` | `text: string`                                              |
 | 9/9 | `readAttr`                  | ⚙️ function  | `html-pipeline.ts:171` | `attrs: string, name: string`                               |
+
+### 📁 impress-engine.ts
+
+| #   | الاسم                   | الType       | File:سطر                | Parameters |
+| --- | ----------------------- | ------------ | ----------------------- | ---------- |
+| 1/9 | `Presentation`          | 📐 interface | `impress-engine.ts:37`  | `—`        |
+| 2/9 | `SlideData`             | 📐 interface | `impress-engine.ts:45`  | `—`        |
+| 3/9 | `SlideLayout`           | 🏷️ type      | `impress-engine.ts:55`  | `—`        |
+| 4/9 | `SlideBackground`       | 📐 interface | `impress-engine.ts:64`  | `—`        |
+| 5/9 | `SlideTransition`       | 📐 interface | `impress-engine.ts:69`  | `—`        |
+| 6/9 | `PresentationTheme`     | 📐 interface | `impress-engine.ts:74`  | `—`        |
+| 7/9 | `PresentationMetadata`  | 📐 interface | `impress-engine.ts:84`  | `—`        |
+| 8/9 | `DEFAULT_THEMES`        | 📌 constant  | `impress-engine.ts:96`  | `—`        |
+| 9/9 | `ImpressEngine`         | 🏗️ class     | `impress-engine.ts:140` | `—`        |
 
 ### 📁 image-pipeline.ts
 
@@ -1350,6 +1405,19 @@
 | 2/4 | `ValidationEngine` | 🏗️ class     | `validation.ts:38`  | `—`            |
 | 3/4 | `validationEngine` | 📌 constant  | `validation.ts:105` | `—`            |
 | 4/4 | `validateDocument` | ⚙️ function  | `validation.ts:45`  | `doc: DocNode` |
+
+### 📁 writer-engine.ts
+
+| #   | الاسم              | الType       | File:سطر              | Parameters |
+| --- | ------------------ | ------------ | --------------------- | ---------- |
+| 1/8 | `WriterDocument`   | 📐 interface | `writer-engine.ts:38` | `—`        |
+| 2/8 | `DocumentMetadata` | 📐 interface | `writer-engine.ts:46` | `—`        |
+| 3/8 | `DocumentStyles`   | 📐 interface | `writer-engine.ts:53` | `—`        |
+| 4/8 | `WriterBlockType`  | 🏷️ type      | `writer-engine.ts:67` | `—`        |
+| 5/8 | `TextMark`         | 📐 interface | `writer-engine.ts:80` | `—`        |
+| 6/8 | `WriterBlock`      | 📐 interface | `writer-engine.ts:85` | `—`        |
+| 7/8 | `SearchResult`     | 📐 interface | `writer-engine.ts:98` | `—`        |
+| 8/8 | `WriterEngine`     | 🏗️ class     | `writer-engine.ts:114` | `—`       |
 
 ### 📁 z-order-manager.ts
 

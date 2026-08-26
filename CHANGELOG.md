@@ -38,6 +38,30 @@
 التنسيق مبني على [Keep a Changelog](https://keepachangelog.com/),
 والإصدار يتبع [Semantic Versioning](https://semver.org/).
 
+## [v1.6.0] - 2026-08-26
+
+### Added
+
+- **Office Engines (4 engines, ~3300 lines):** محركات المكتب الأربعة الأساسية:
+  - `base-engine.ts` — محرك قواعد البيانات: Patch Factory، رفض المعرفات المكررة، تحقق قبل الحفظ، إحصائيات مشتقة
+  - `calc-engine.ts` — محرك جداول البيانات الكامل: Tokenizer + Recursive Descent Parser + DAG لكشف الدورات + 60+ دالة مدمجة (رياضية/نصية/مالية/إحصائية) + تفقيط عربي حتى الكوادريليون
+  - `writer-engine.ts` — محرك المستندات: عمليات Immutable، عناوين وقوائم وجداول، استيراد/تصدير Markdown
+  - `impress-engine.ts` — محرك العروض: شرائح كوثائق مصغرة، تخطيطات قوالبية، سمات مشتقة
+
+### Fixed
+
+- **Typecheck صفر أخطاء (كانت 86):** إصلاح شامل لجميع أخطاء TypeScript في الحزم:
+  - إعادة كتابة `mergesort.ts` التالف بالكامل [ALGO-SORT-001] مع الحفاظ على توافق الاختبارات (16/16)
+  - إزالة امتدادات `.ts` من مسارات الاستيراد (TS5097)
+  - إصلاح منطق النطاقات المكسور في `FormulaParser.extractReferences`
+  - دعم الشكلين الهجينين للخلايا (`CellBlockNode` / `TableCellData`) في محرك Calc
+  - تأكيدات عدم-العدم المدروسة لفهرسة المصفوفات تحت `noUncheckedIndexedAccess`
+
+### Changed
+
+- توسيع `TableCellData` بحقول اختيارية (`rawInput`, `computedValue`, `address`) لتمهيد الترقية التدريجية للخلايا الصيغية.
+- `DependencyGraph.precedents/dependents`: من `private` إلى `protected` مع getter عام `precedentKeys`.
+
 ## [v1.5.0] - 2026-08-24
 
 ### Added

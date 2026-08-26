@@ -51,6 +51,10 @@
 | `CORE-API-007` | `canRedo`           | `state`          | `boolean`               | تم     |
 | `CORE-API-008` | `createIndexer`     | `doc`            | `Indexer`               | تم     |
 | `CORE-API-009` | `search`            | `indexer, query` | `SearchResult[]`        | تم     |
+| `CORE-API-010` | `WriterEngine`      | `—`              | `WriterDocument ops`    | تم     |
+| `CORE-API-011` | `CalcEngine`        | `sheet`          | `TableBlockNode ops`    | تم     |
+| `CORE-API-012` | `ImpressEngine`     | `title?`         | `Presentation ops`      | تم     |
+| `CORE-API-013` | `BaseEngine`        | `—`              | `Database ops`          | تم     |
 
 ---
 

@@ -54,6 +54,9 @@ export interface TableCellData {
   readonly rowspan?: number;
   readonly align?: 'left' | 'center' | 'right';
   readonly background?: string;
+  readonly rawInput?: string;
+  readonly computedValue?: number | string | boolean | null;
+  readonly address?: string;
 }
 
 export interface TableRowData {
@@ -79,7 +82,7 @@ export interface TableBlockNode extends BaseBlockNode<TableBlockData> {
 export function createTableCell(
   id: string,
   text: string,
-  options?: Partial<Omit<TableCellData, 'id' | 'text'>>
+  options?: Partial<Omit<TableCellData, 'id' | 'text'>>,
 ): TableCellData {
   return {
     id,
@@ -94,7 +97,7 @@ export function createTableCell(
 export function createTableRow(
   id: string,
   cells: readonly TableCellData[],
-  isHeader: boolean = false
+  isHeader: boolean = false,
 ): TableRowData {
   return { id, cells, isHeader };
 }
@@ -102,7 +105,7 @@ export function createTableRow(
 export function createTableBlock(
   id: string,
   rows: readonly TableRowData[],
-  data?: Partial<TableBlockData>
+  data?: Partial<TableBlockData>,
 ): TableBlockNode {
   return {
     id,

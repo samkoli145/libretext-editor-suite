@@ -14,3 +14,7 @@
  */
 
 export { ReactAdapter, createReactAdapter } from './react-adapter';
+export { renderBlock } from './BlockRenderer';
+export type { BlockRenderOptions } from './BlockRenderer';
+export { getToolbarActions, renderBlockToolbar } from './BlockToolbar';
+export type { ToolbarActionConfig } from './BlockToolbar';

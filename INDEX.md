@@ -91,6 +91,12 @@ libretext-editor-suite/
 │   │   │   │   ├── frontmatter-parser.ts        # محلل YAML FrontMatter
 │   │   │   │   └── markdown.ts                  # محلل Markdown
 │   │   │   │
+│   │   │   ├── 📁 engines/                      # [CORE-019..022] محركات المكتب / Office engines
+│   │   │   │   ├── [CORE-019] base-engine.ts    # محرك قواعد البيانات / Base engine
+│   │   │   │   ├── [CORE-020] calc-engine.ts    # محرك جداول البيانات / Calc engine
+│   │   │   │   ├── [CORE-021] writer-engine.ts  # محرك المستندات / Writer engine
+│   │   │   │   └── [CORE-022] impress-engine.ts # محرك العروض / Impress engine
+│   │   │   │
 │   │   │   └── 📁 Utils/                        # [CORE-009..013] دوال مساعدة / Utility functions
 │   │   │       ├── [CORE-009] id.ts             # توليد المعرفات / ID generation
 │   │   │       ├── [CORE-010] validation.ts     # التحقق من الصحة / Validation
@@ -283,6 +289,10 @@ libretext-editor-suite/
 | `CORE-016`     | `packages/core/src/engines/validation.ts`                    | محرك الفحص والتعقيم   | Validation engine          | تم            |
 | `CORE-017`     | `packages/core/src/converters/universal-format-converter.ts` | محول التنسيقات الشامل | Universal format converter | تم            |
 | `CORE-018`     | `packages/core/src/types.ts`                                 | أنواع المستندات       | Document types             | تم            |
+| `CORE-019`     | `packages/core/src/engines/base-engine.ts`                   | محرك قواعد البيانات   | Base (Database) engine     | تم            |
+| `CORE-020`     | `packages/core/src/engines/calc-engine.ts`                   | محرك جداول البيانات   | Calc engine                | تم            |
+| `CORE-021`     | `packages/core/src/engines/writer-engine.ts`                 | محرك المستندات        | Writer engine              | تم            |
+| `CORE-022`     | `packages/core/src/engines/impress-engine.ts`                | محرك العروض           | Impress engine             | تم            |
 
 ### الخوارزميات - Algorithms (ALGO)
 

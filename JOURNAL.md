@@ -20,6 +20,42 @@
 
 # يوميات مشروع LibreText Editor Suite
 
+## 2026-08-26 — إصلاح Typecheck الشامل + محركات المكتب الأربعة
+
+### المنجزات
+
+- **إصلاح كامل لأخطاء TypeScript:** من 86 خطأ إلى **صفر أخطاء** (`pnpm typecheck` نظيف).
+- **إعادة كتابة `mergesort.ts` [ALGO-SORT-001]:** الملف كان تالفاً (كود غريب: getTableStats/FIX_STAGES/errorSite + أخطاء صياغة `j_++`). أُعيد بناؤه بالتصديرات الصحيحة: `compareCellValues`، `bottomUpMergeSort`، `createTableColumnComparator` — و16 اختباراً ناجحاً.
+- **إزالة امتدادات `.ts` من الاستيرادات** في 4 ملفات محركات (كانت تسبب TS5097).
+- **توسيع `TableCellData`** في table-block.ts بحقول اختيارية (`rawInput?`, `computedValue?`, `address?`) لسد الفجوة المعمارية بين جدول Writer والخلية الحسابية Calc.
+- **استيراد المحركات الأربعة الجديدة** (ملفات غير متتبعة سابقاً):
+  - `base-engine.ts` — محرك قواعد البيانات (Patch Factory + Validation)
+  - `calc-engine.ts` — محرك الصيغ الكامل (Tokenizer + Recursive Descent Parser + DAG + 60+ دالة مدمجة + تفقيط عربي)
+  - `writer-engine.ts` — محرك المستندات (Immutable Operations + Markdown Import/Export)
+  - `impress-engine.ts` — محرك العروض (Slides + Themes + Transitions)
+
+### الإصلاحات التفصيلية
+
+| الملف                | عدد الأخطاء | أبرز الإصلاحات                                                                                                       |
+| -------------------- | ----------- | -------------------------------------------------------------------------------------------------------------------- |
+| `calc-engine.ts`     | 58 → 0      | إعادة كتابة منطق النطاقات في `extractReferences`، بدائل EOF آمنة لـ `advance()/previous()`، دعم الشكلين في `findCell/updateCellComputed/updateCellInSheet`، مساعدات `cellRawInput/cellComputedValue`، `DependencyGraph.precedents` أصبحت `protected` مع getter عام |
+| `writer-engine.ts`   | 28 → 0      | توقيع `updateBlockAttrs` يقبل undefined، تأكيدات محلل Markdown، fallback لنوع القوائم                                  |
+| `impress-engine.ts`  | 3 → 0       | تأكيدات splice + theme                                                                                                 |
+| `base-engine.ts`     | 2 → 0       | إزالة `.ts` + تأكيد splice                                                                                            |
+| `mergesort.ts`       | 3 → 0       | إعادة كتابة كاملة                                                                                                     |
+
+### التحقق
+
+- ✅ `pnpm typecheck` — صفر أخطاء
+- ✅ `pnpm test` — 1552 اختباراً ناجحاً في 93 ملف
+- ✅ `pnpm lint` — 0 أخطاء
+- ✅ تحديث `FUNCTION_INDEX.md` — 48 عنصراً جديداً (1134 → 1182)
+
+### القرارات المعمارية
+
+1. **الشكلان الهجين للخلايا:** بدلاً من إعادة هيكلة شاملة، دُعم الشكلان (`CellBlockNode` الغني و`TableCellData` المبسّط) عبر type guards ومساعدات موحدة — يسمح للجداول النصية البسيطة بالترقية للخلايا الصيغية تدريجياً.
+2. **حقول اختيارية بدل حقول إلزامية:** توسيع `TableCellData` بحقول اختيارية يحافظ على توافق API القائم.
+
 ## 2026-08-19
 
 ### المنجزات
@@ -666,15 +702,15 @@
 
 #### اختبارات الوحدات السبع غير المفحوصة (7 ملفات اختبار جديدة)
 
-| الملف                                    | الوحدة                          | عدد الاختبارات | المعرف |
-| ---------------------------------------- | ------------------------------- | -------------- | ------ |
-| `tests/tree/llrb.test.ts`                | LLRB Tree                       | 14             | ALGO   |
-| `tests/structure/disjoint-set.test.ts`   | Union-Find                      | 14             | ALGO   |
-| `tests/graph/dependency.test.ts`         | كشف الحلقات + الطوبولوجي        | 9              | ALGO   |
-| `tests/sort/mergesort.test.ts`           | فرز مدمج مستقر                  | 9              | ALGO   |
-| `tests/simulation/simulation.test.ts`    | المحاكاة النقية                 | 10             | ALGO   |
-| `tests/lookup/hlookup.test.ts`           | HLOOKUP + binary search          | 14             | ALGO   |
-| `tests/streets/streets.test.ts`          | بحث الأسماء + التشابه + الفرز   | 13             | ALGO   |
+| الملف                                  | الوحدة                        | عدد الاختبارات | المعرف |
+| -------------------------------------- | ----------------------------- | -------------- | ------ |
+| `tests/tree/llrb.test.ts`              | LLRB Tree                     | 14             | ALGO   |
+| `tests/structure/disjoint-set.test.ts` | Union-Find                    | 14             | ALGO   |
+| `tests/graph/dependency.test.ts`       | كشف الحلقات + الطوبولوجي      | 9              | ALGO   |
+| `tests/sort/mergesort.test.ts`         | فرز مدمج مستقر                | 9              | ALGO   |
+| `tests/simulation/simulation.test.ts`  | المحاكاة النقية               | 10             | ALGO   |
+| `tests/lookup/hlookup.test.ts`         | HLOOKUP + binary search       | 14             | ALGO   |
+| `tests/streets/streets.test.ts`        | بحث الأسماء + التشابه + الفرز | 13             | ALGO   |
 
 **النتيجة:** من 1273 اختبار → 1392 اختبار (88 ملف اختبار)، جميعها ناجحة.
 
@@ -682,23 +718,23 @@
 
 بناء نظام فحص ورفض تلقائي للتعديلات التي تكسر القواعد الصارمة في AGENTS.md:
 
-| الملف                                      | الوصف                                           | المعرف         |
-| ------------------------------------------ | ----------------------------------------------- | -------------- |
-| `dev-studio/pipeline/RuleGuardian.ts`      | محرك القواعد التوضيحي مع 7 قواعد               | PLUG-RULE-GUARDIAN |
-| `dev-studio/cli/RuleGuardianCommands.ts`   | أوامر CLI: `devstudio guard [files..]`          | PLUG-RULE-GUARDIAN |
-| `tests/rule-guardian.test.ts`              | 23 اختبار شامل لكل قاعدة                       | TEST           |
+| الملف                                    | الوصف                                  | المعرف             |
+| ---------------------------------------- | -------------------------------------- | ------------------ |
+| `dev-studio/pipeline/RuleGuardian.ts`    | محرك القواعد التوضيحي مع 7 قواعد       | PLUG-RULE-GUARDIAN |
+| `dev-studio/cli/RuleGuardianCommands.ts` | أوامر CLI: `devstudio guard [files..]` | PLUG-RULE-GUARDIAN |
+| `tests/rule-guardian.test.ts`            | 23 اختبار شامل لكل قاعدة               | TEST               |
 
 **القواعد السبع المُ FINED:**
 
-| المعرف | القاعدة                           | الخطورة  |
-| ------ | --------------------------------- | -------- |
-| R-001  | الترويسة الثنائية الإلزامية       | error    |
-| R-002  | ممنوع ألوان الثيم الداكن          | error    |
-| R-003  | ممنوع اعتماديات خارجية في النواة | error    |
-| R-004  | ممنوع أسرار/مفاتيح في الكود      | error    |
-| R-005  | تجنب `as any`                     | warning  |
-| R-006  | دوال ≤ 50 سطر                    | warning  |
-| R-007  | الثيم الفاتح النقي حصراً          | error    |
+| المعرف | القاعدة                          | الخطورة |
+| ------ | -------------------------------- | ------- |
+| R-001  | الترويسة الثنائية الإلزامية      | error   |
+| R-002  | ممنوع ألوان الثيم الداكن         | error   |
+| R-003  | ممنوع اعتماديات خارجية في النواة | error   |
+| R-004  | ممنوع أسرار/مفاتيح في الكود      | error   |
+| R-005  | تجنب `as any`                    | warning |
+| R-006  | دوال ≤ 50 سطر                    | warning |
+| R-007  | الثيم الفاتح النقي حصراً         | error   |
 
 #### إصلاحات حرجة سابقة (نفس اليوم)
 
@@ -715,17 +751,17 @@
 
 ### الإحصائيات النهائية لل يوم
 
-| المقياس                     | القيمة     |
-| --------------------------- | ---------- |
-| ملفات الاختبار              | 89 ملف     |
-| إجمالي الاختبارات           | 1415 اختبار|
-| اختبارات Rule Guardian      | 23 اختبار  |
-| قواعد Rule Guardian         | 7 قواعد    |
-| بناء الحزم                  | 7/7 ناجح   |
-| أخطاء lint                  | 0          |
-| تحذيرات lint                | 851        |
-| Git commits اليوم            | 3          |
-| Git push                     | 3          |
+| المقياس                | القيمة      |
+| ---------------------- | ----------- |
+| ملفات الاختبار         | 89 ملف      |
+| إجمالي الاختبارات      | 1415 اختبار |
+| اختبارات Rule Guardian | 23 اختبار   |
+| قواعد Rule Guardian    | 7 قواعد     |
+| بناء الحزم             | 7/7 ناجح    |
+| أخطاء lint             | 0           |
+| تحذيرات lint           | 851         |
+| Git commits اليوم      | 3           |
+| Git push               | 3           |
 
 ---
 
@@ -735,48 +771,48 @@
 
 تم قراءة المرجع `/home/sam2/projects/الجديد/open-editor/references/nawat-kernel` واستخراج الأنماط المعمارية:
 
-| النمط                        | الوصف                                           |
-| ---------------------------- | ----------------------------------------------- |
-| Tool Registry                | تسجيل أدوات بفئات + مستويات مخاطر               |
-| Command Registry             | سجل أوامر مركزي مع سجل تنفيذ                    |
-| Kernel Modes                 | 7 أوضاع (planning → execution → review)         |
-| Session Memory + Compression | ذاكرة جلسة مع ضغط تلقائي فوق 4000 توكن        |
-| Event Bus                    | ناقل أحداث مكتوب for decoupling                 |
+| النمط                        | الوصف                                   |
+| ---------------------------- | --------------------------------------- |
+| Tool Registry                | تسجيل أدوات بفئات + مستويات مخاطر       |
+| Command Registry             | سجل أوامر مركزي مع سجل تنفيذ            |
+| Kernel Modes                 | 7 أوضاع (planning → execution → review) |
+| Session Memory + Compression | ذاكرة جلسة مع ضغط تلقائي فوق 4000 توكن  |
+| Event Bus                    | ناقل أحداث مكتوب for decoupling         |
 
 ### الطور 1: بناء النواة الأساسية
 
-| الملف                                      | الوصف                                           | المعرف         |
-| ------------------------------------------ | ----------------------------------------------- | -------------- |
-| `dev-studio/core/DevStudioModes.ts`        | 7 أوضاع مع صلاحيات القراءة/الكتابة              | PLUG-MODES     |
-| `dev-studio/core/DevStudioToolRegistry.ts` | سجل أدوات + فئات + تنفيذ                        | PLUG-TOOL-REG  |
-| `dev-studio/core/DevStudioCommandRegistry.ts` | سجل أوامر + سجل تنفيذ                        | PLUG-CMD-REG   |
-| `tests/devstudio-kernel.test.ts`           | 15 اختبار                                      | TEST           |
+| الملف                                         | الوصف                              | المعرف        |
+| --------------------------------------------- | ---------------------------------- | ------------- |
+| `dev-studio/core/DevStudioModes.ts`           | 7 أوضاع مع صلاحيات القراءة/الكتابة | PLUG-MODES    |
+| `dev-studio/core/DevStudioToolRegistry.ts`    | سجل أدوات + فئات + تنفيذ           | PLUG-TOOL-REG |
+| `dev-studio/core/DevStudioCommandRegistry.ts` | سجل أوامر + سجل تنفيذ              | PLUG-CMD-REG  |
+| `tests/devstudio-kernel.test.ts`              | 15 اختبار                          | TEST          |
 
 ### الطور 2: ذاكرة الجلسة + ناقل الأحداث
 
-| الملف                                      | الوصف                                           | المعرف         |
-| ------------------------------------------ | ----------------------------------------------- | -------------- |
-| `dev-studio/core/DevStudioEventBus.ts`     | 8 أحداث مكتوبة + عدّ listeners/emits            | PLUG-EVENT-BUS |
-| `dev-studio/core/DevStudioSessionMemory.ts` | ذاكرة جلسة + ضغط تلقائي فوق 4000 توكن          | PLUG-SESSION   |
-| `tests/devstudio-session.test.ts`          | 12 اختبار                                      | TEST           |
+| الملف                                       | الوصف                                 | المعرف         |
+| ------------------------------------------- | ------------------------------------- | -------------- |
+| `dev-studio/core/DevStudioEventBus.ts`      | 8 أحداث مكتوبة + عدّ listeners/emits  | PLUG-EVENT-BUS |
+| `dev-studio/core/DevStudioSessionMemory.ts` | ذاكرة جلسة + ضغط تلقائي فوق 4000 توكن | PLUG-SESSION   |
+| `tests/devstudio-session.test.ts`           | 12 اختبار                             | TEST           |
 
 ### الطور 3: محرك الإصلاح التلقائي
 
-| الملف                                      | الوصف                                           | المعرف         |
-| ------------------------------------------ | ----------------------------------------------- | -------------- |
-| `dev-studio/pipeline/AutoFixEngine.ts`     | fixHeaders + fixLintIssues + getFixableCount     | PLUG-AUTO-FIX  |
-| `dev-studio/cli/FixCommand.ts`             | أمر CLI: `devstudio fix [headers|lint|all]`      | PLUG-FIX-CMD   |
-| `tests/auto-fix-engine.test.ts`            | 5 اختبارات مع fs مؤقت                          | TEST           |
+| الملف                                  | الوصف                                        | المعرف        |
+| -------------------------------------- | -------------------------------------------- | ------------- |
+| `dev-studio/pipeline/AutoFixEngine.ts` | fixHeaders + fixLintIssues + getFixableCount | PLUG-AUTO-FIX |
+| `dev-studio/cli/FixCommand.ts`         | أمر CLI: `devstudio fix [headers             | lint          | all]` | PLUG-FIX-CMD |
+| `tests/auto-fix-engine.test.ts`        | 5 اختبارات مع fs مؤقت                        | TEST          |
 
 ### الإحصائيات النهائية
 
-| المقياس                     | القيمة     |
-| --------------------------- | ---------- |
-| ملفات الاختبار              | 92 ملف     |
-| إجمالي الاختبارات           | 1447 اختبار|
-| أوامر DevStudio             | 11 أمر     |
-| مكونات النواة               | 8 ملفات    |
-| Git commits (إجمالي اليوم)  | 6          |
+| المقياس                    | القيمة      |
+| -------------------------- | ----------- |
+| ملفات الاختبار             | 92 ملف      |
+| إجمالي الاختبارات          | 1447 اختبار |
+| أوامر DevStudio            | 11 أمر      |
+| مكونات النواة              | 8 ملفات     |
+| Git commits (إجمالي اليوم) | 6           |
 
 ---
 
@@ -809,23 +845,23 @@
 
 ### ما تم أرشفته (غير محذوف)
 
-| الملف الأصلي                 | المسار الجديد                              |
-| ---------------------------- | ------------------------------------------ |
-| `audio-block-block.ts`       | `blocks/archive/audio-block-block.ts`      |
-| `AudioBlock.ts`              | `blocks/archive/AudioBlock.ts`             |
-| `code-editor.ts`             | `blocks/archive/code-editor.ts`            |
-| `code-editor.registry.ts`    | `blocks/archive/code-editor.registry.ts`   |
-| `code-editor.styles.ts`      | `blocks/archive/code-editor.styles.ts`     |
-| `html-block-data-engine.ts`  | `blocks/archive/html-block-data-engine.ts` |
-| `html-block-generator.ts`    | `blocks/archive/html-block-generator.ts`   |
-| `html-block-layout-engine.ts`| `blocks/archive/html-block-layout-engine.ts`|
-| `html-block-operations.ts`   | `blocks/archive/html-block-operations.ts`  |
-| `html-block-presets.ts`      | `blocks/archive/html-block-presets.ts`     |
-| `html-block-registry.ts`     | `blocks/archive/html-block-registry.ts`    |
-| `html-block-tailwind-editor.ts`| `blocks/archive/html-block-tailwind-editor.ts`|
-| `html-block-tsx-generator.ts`| `blocks/archive/html-block-tsx-generator.ts`|
-| `html-block-types.ts`        | `blocks/archive/html-block-types.ts`       |
-| `html-unified-block.ts`      | `blocks/archive/html-unified-block.ts`     |
+| الملف الأصلي                    | المسار الجديد                                  |
+| ------------------------------- | ---------------------------------------------- |
+| `audio-block-block.ts`          | `blocks/archive/audio-block-block.ts`          |
+| `AudioBlock.ts`                 | `blocks/archive/AudioBlock.ts`                 |
+| `code-editor.ts`                | `blocks/archive/code-editor.ts`                |
+| `code-editor.registry.ts`       | `blocks/archive/code-editor.registry.ts`       |
+| `code-editor.styles.ts`         | `blocks/archive/code-editor.styles.ts`         |
+| `html-block-data-engine.ts`     | `blocks/archive/html-block-data-engine.ts`     |
+| `html-block-generator.ts`       | `blocks/archive/html-block-generator.ts`       |
+| `html-block-layout-engine.ts`   | `blocks/archive/html-block-layout-engine.ts`   |
+| `html-block-operations.ts`      | `blocks/archive/html-block-operations.ts`      |
+| `html-block-presets.ts`         | `blocks/archive/html-block-presets.ts`         |
+| `html-block-registry.ts`        | `blocks/archive/html-block-registry.ts`        |
+| `html-block-tailwind-editor.ts` | `blocks/archive/html-block-tailwind-editor.ts` |
+| `html-block-tsx-generator.ts`   | `blocks/archive/html-block-tsx-generator.ts`   |
+| `html-block-types.ts`           | `blocks/archive/html-block-types.ts`           |
+| `html-unified-block.ts`         | `blocks/archive/html-unified-block.ts`         |
 
 ### البنية الجديدة للبلوكات
 
@@ -862,13 +898,13 @@ packages/core/src/blocks/
 
 ### الإحصائيات النهائية
 
-| المقياس                     | القيمة                      |
-| --------------------------- | --------------------------- |
-| ملفات البلوكات (جديد)       | 25 ملف + 1 سجل + 1 manifest|
-| إجمالي أسطر البلوكات        | ~2800 سطر                  |
-| المجالات المدعومة           | 5 (writer, calc, impress, base, universal) |
-| بلوكات التصميم              | 7 (color, icon, font, styler, bg-color, bg-image, gradient) |
-| بلوكات المكتبية            | 4 (cell, shape, slide, database-record) |
-| بلوكات القوالب              | 2 (template-card, template-gallery) |
-| ملفات مؤرشفة               | 15 ملف                     |
-| Git commits (إجمالي اليوم)  | 3                          |
+| المقياس                    | القيمة                                                      |
+| -------------------------- | ----------------------------------------------------------- |
+| ملفات البلوكات (جديد)      | 25 ملف + 1 سجل + 1 manifest                                 |
+| إجمالي أسطر البلوكات       | ~2800 سطر                                                   |
+| المجالات المدعومة          | 5 (writer, calc, impress, base, universal)                  |
+| بلوكات التصميم             | 7 (color, icon, font, styler, bg-color, bg-image, gradient) |
+| بلوكات المكتبية            | 4 (cell, shape, slide, database-record)                     |
+| بلوكات القوالب             | 2 (template-card, template-gallery)                         |
+| ملفات مؤرشفة               | 15 ملف                                                      |
+| Git commits (إجمالي اليوم) | 3                                                           |

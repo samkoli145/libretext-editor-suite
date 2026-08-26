@@ -3,83 +3,57 @@
  * 📌 ملخص توجيهي | Guiding Summary
  * ═══════════════════════════════════════════════════════════════════════════
  * 📄 الملف: mergesort.ts
- * 📂 المسار: src/algorithms/sort/mergesort.ts
- * 🎯 الهدف الرئيسي: خوارزمية الفرز المدمج التصاعدي التكراري (Bottom-Up MergeSort) المستقر
- * 📋 المعايير: فرز مستقر بزمن O(N log N) مع دعم مقارنة النصوص العربية والأرقام
- * 🧪 الاختبارات: src/algorithms/tests/test-runner.ts
- * 🏷️ المعرف: ALGO-007-MERGESORT
- * 📅 تاريخ الإنشاء: 2026-08-21
- * ═══════════════════════════════════════════════════════════════════════════
- * 🧠 الطريقة المبتكرة | Innovative Pattern:
- *    Iterative Bottom-Up Stable MergeSort with Multi-Column Collation
- * ═══════════════════════════════════════════════════════════════════════════
- * ⚠️ نقاط الخطر الإلزامية | Mandatory Gotchas:
- *    1. ضمان استقرار الفرز (Stability) عند تساوي القيم
- *    2. تجنب استهلاك الذاكرة المفرط عبر استخدام مصفوفة مساعدة واحدة
- * ═══════════════════════════════════════════════════════════════════════════
- * 🩹 البرمجة الدفاعية | Defensive Coding:
- *    - حماية من المصفوفات الفارغة وعناصر Null/Undefined
- *    - فحص حدود الفهرس (Index Bounds) بدقة
- * ═══════════════════════════════════════════════════════════════════════════
- * 🔗 الملفات المرتبطة | Linked Files:
- *    - 📇 الفهرس: FUNCTION_INDEX.md
- *    - 📦 التبعيات: src/algorithms/types.ts
- *    - 📄 مرتبط مباشر: src/algorithms/index.ts
- * ═══════════════════════════════════════════════════════════════════════════
- * 📊 الدوال والخوارزميات | Functions & Algorithms:
- *    - bottomUpMergeSort: الفرز المدمج التكراري (#L70)
- *    - mergeSubarrays: دمج مصفوفتين جزئيتين مرتبتين (#L100)
- *    - createTableColumnComparator: توليد مقارن متعدد الأعمدة (#L130)
- * ═══════════════════════════════════════════════════════════════════════════
- * 👤 المالك: Hossam El-Din Abdel-Moaty El-Khouly - All rights reserved
- * ⚖️ الترخيص: MIT License
- * 📚 المصادر المقتبسة: John von Neumann Merge Sort Analysis (MIT)
+ * 📂 المسار: packages/algorithms/src/sort/mergesort.ts
+ * 🎯 الهدف الرئيسي: فرز المدمج التكراري المستقر + مقارن خلايا الجداول
+ * 🏷️ المعرف: ALGO-SORT-001
  * ═══════════════════════════════════════════════════════════════════════════
  */
 
-export type SortDirection = 'asc' | 'desc';
+type CellValue = string | number | boolean | null | undefined;
 
-export interface SortCriteria {
-  readonly columnIndex: number;
-  readonly direction: SortDirection;
-}
-
-const arabicCollator = new Intl.Collator(['ar', 'en'], { numeric: true, sensitivity: 'base' });
-
-export function compareCellValues(a: unknown, b: unknown): number {
+export function compareCellValues(a: CellValue, b: CellValue): number {
   if (a === b) return 0;
-  if (a === null || a === undefined || a === '') return 1;
-  if (b === null || b === undefined || b === '') return -1;
+  if (a == null || a === '') return 1;
+  if (b == null || b === '') return -1;
 
-  const numA = typeof a === 'number' ? a : parseFloat(String(a));
-  const numB = typeof b === 'number' ? b : parseFloat(String(b));
+  if (typeof a === 'number' && typeof b === 'number') return a - b;
 
-  if (!isNaN(numA) && !isNaN(numB) && typeof a !== 'boolean' && typeof b !== 'boolean') {
-    return numA - numB;
-  }
+  const numA = typeof a === 'string' ? Number(a) : NaN;
+  const numB = typeof b === 'string' ? Number(b) : NaN;
+  if (!Number.isNaN(numA) && !Number.isNaN(numB)) return numA - numB;
 
-  return arabicCollator.compare(String(a), String(b));
+  return String(a).localeCompare(String(b));
 }
 
-export function createTableColumnComparator(
-  criteria: readonly SortCriteria[],
-): (rowA: readonly unknown[], rowB: readonly unknown[]) => number {
-  return (rowA, rowB) => {
-    for (const c of criteria) {
-      const valA = rowA[c.columnIndex];
-      const valB = rowB[c.columnIndex];
-      const cmp = compareCellValues(valA, valB);
-      if (cmp !== 0) {
-        return c.direction === 'asc' ? cmp : -cmp;
-      }
+function merge<T>(
+  src: T[],
+  aux: T[],
+  lo: number,
+  mid: number,
+  hi: number,
+  cmp: (a: T, b: T) => number,
+): void {
+  for (let k = lo; k <= hi; k++) aux[k] = src[k]!;
+
+  let i = lo;
+  let j = mid + 1;
+
+  for (let k = lo; k <= hi; k++) {
+    if (i > mid) {
+      src[k] = aux[j++]!;
+    } else if (j > hi) {
+      src[k] = aux[i++]!;
+    } else if (cmp(aux[i]!, aux[j]!) <= 0) {
+      src[k] = aux[i++]!;
+    } else {
+      src[k] = aux[j++]!;
     }
-    return 0;
-  };
+  }
 }
 
 export function bottomUpMergeSort<T>(
   items: readonly T[],
-  comparator: (a: T, b: T) => number = (a, b) => compareCellValues(a, b),
+  comparator: (a: T, b: T) => number = (a, b) => compareCellValues(a as CellValue, b as CellValue),
 ): T[] {
   const n = items.length;
   if (n <= 1) return [...items];
@@ -91,37 +65,26 @@ export function bottomUpMergeSort<T>(
     for (let lo = 0; lo < n - sz; lo += 2 * sz) {
       const mid = lo + sz - 1;
       const hi = Math.min(lo + 2 * sz - 1, n - 1);
-      mergeSubarrays(src, aux, lo, mid, hi, comparator);
+      merge(src, aux, lo, mid, hi, comparator);
     }
   }
 
   return src;
 }
 
-function mergeSubarrays<T>(
-  src: T[],
-  aux: T[],
-  lo: number,
-  mid: number,
-  hi: number,
-  comparator: (a: T, b: T) => number,
-): void {
-  for (let k = lo; k <= hi; k++) {
-    aux[k] = src[k]!;
-  }
+interface ColumnSortSpec {
+  columnIndex: number;
+  direction: 'asc' | 'desc';
+}
 
-  let i = lo;
-  let j = mid + 1;
-
-  for (let k = lo; k <= hi; k++) {
-    if (i > mid) {
-      src[k] = aux[j++]!;
-    } else if (j > hi) {
-      src[k] = aux[i++]!;
-    } else if (comparator(aux[j]!, aux[i]!) < 0) {
-      src[k] = aux[j++]!;
-    } else {
-      src[k] = aux[i++]!;
+export function createTableColumnComparator(
+  specs: ColumnSortSpec[],
+): (a: readonly CellValue[], b: readonly CellValue[]) => number {
+  return (a, b) => {
+    for (const spec of specs) {
+      const cmp = compareCellValues(a[spec.columnIndex], b[spec.columnIndex]);
+      if (cmp !== 0) return spec.direction === 'asc' ? cmp : -cmp;
     }
-  }
+    return 0;
+  };
 }
