@@ -20,6 +20,31 @@
 
 # يوميات مشروع LibreText Editor Suite
 
+## 2026-08-26 (Part 6) — جسر الطبقات + اسطمبات التخطيط بمناطق + محرك Monaco
+
+### المنجزات
+
+**1. جسر كود→طبقات [SHARED-CODE-LAYERS-001]:**
+- `extractLayerTree()` عبر extractHtmlAst الجاهز — DERIVED NEVER STORED
+- نمط InfiniteLayerTree من webpainter-nextx5.02: تسميات tag#id / tag.class
+- `toggleLayerVisibility()` يعدّل الكود مباشرة (الكود مصدر الحقيقة)
+- **تطوير المصدر الجاهز:** extractHtmlAst كان يتجاهل السمات تماماً — أضيف التقاط id/class/سمات كاملة
+
+**2. اسطمبات التخطيط بمناطق [TPL-LAYOUT-STAMPS-001]:**
+- نمط DockablePanelContainer من webpainter-nextx5.02: عقد CSS Grid Areas
+- 3 تخطيطات: أداة تصميم كاملة (6 مناطق)، تركيز برمجي، انقسام حي (كود↔معاينة)
+- منطقة canvas وحدها hostsEditor=true — ربط آلي بمحرر الكود
+- validateLayoutStamp يرفض العقد المكسورة + layoutToCssGrid يولد CSS جاهزاً
+
+**3. محرك Monaco [ADAP-MONACO-001]:**
+- موافقة المستخدم: Monaco (MIT — نسخة VS Code الويب) كمكتبة محمّلة كسولاً
+- محمّل مفرد CDN مع فشل صريح عربي + واجهة MonacoMinimal خفيفة بلا استيراد ثقيل
+- registerDaylightTheme: ترجمة PresentationTheme (بما فيها المولدة لا نهائياً) لثيم Monaco
+- createMonacoEngine: وحدة موحدة getValue/setValue/setTheme/dispose
+
+### التحقق
+- ✅ typecheck صفر | ✅ 1639 اختباراً (+11) | 100 ملف اختبار
+
 ## 2026-08-26 (Part 5) — مترجم TS/TSX + اسطمبات الكود + الثيمات اللانهائية
 
 ### المنجزات

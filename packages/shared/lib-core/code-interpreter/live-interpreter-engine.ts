@@ -499,12 +499,23 @@ export class LiveInterpreterEngine {
       while ((match = tagRegex.exec(line)) !== null) {
         const tagName = match[1]!;
         if (tagName.startsWith('/')) continue;
+        // التقاط السمات من نص الوسم — id/class/عناوين أخرى
+        const attrText = match[2] ?? '';
+        const attributes: Record<string, string> = {};
+        const attrRegex = /([a-zA-Z-]+)\s*=\s*"([^"]*)"|([a-zA-Z-]+)\s*=\s*'([^']*)'/g;
+        let attrMatch: RegExpExecArray | null;
+        while ((attrMatch = attrRegex.exec(attrText)) !== null) {
+          const key = attrMatch[1] ?? attrMatch[3];
+          const value = attrMatch[2] ?? attrMatch[4];
+          if (key && value !== undefined) attributes[key] = value;
+        }
+        const childDepth = Math.max(0, Math.floor((line.length - line.trimStart().length) / 2));
         nodes.push({
           id: `node-${nodes.length + 1}`,
           tag: tagName,
           startLine: idx + 1,
           endLine: idx + 1,
-          attributes: {},
+          attributes,
           childrenCount: 0,
           summary: `<${tagName}> في السطر ${idx + 1}`,
         });

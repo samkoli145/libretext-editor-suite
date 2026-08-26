@@ -38,6 +38,17 @@
 التنسيق مبني على [Keep a Changelog](https://keepachangelog.com/),
 والإصدار يتبع [Semantic Versioning](https://semver.org/).
 
+## [v1.11.0] - 2026-08-26
+
+### Added
+
+- **Layers-from-Code Bridge [SHARED-CODE-LAYERS-001]:** شجرة طبقات مشتقة من HTML عبر extractHtmlAst — إخفاء/إظهار يعدّل الكود مباشرة. تسميات ذكية tag#id/tag.class بنمط InfiniteLayerTree (webpainter-nextx5.02).
+- **Layout Stamps Library [TPL-LAYOUT-STAMPS-001]:** اسطمبات تخطيط بعقد مناطق (menubar/toolbar/canvas/layers/properties/statusbar) بنمط DockablePanelContainer — 3 تخطيطات جاهزة + validateLayoutStamp + layoutToCssGrid.
+- **Monaco Engine Adapter [ADAP-MONACO-001]:** محرر VS Code الويب (MIT) كمكتبة كسولة التحميل مع جسر ثيمات Daylight→Monaco (يدعم الثيمات المولدة اللانهائية).
+
+### Enhanced
+- live-interpreter-engine.extractHtmlAst: كان يتجاهل سمات الوسوم — يلتقطها الآن كلها (id/class/custom).
+
 ## [v1.10.0] - 2026-08-26
 
 ### Added
