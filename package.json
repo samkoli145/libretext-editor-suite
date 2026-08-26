@@ -37,7 +37,8 @@
     "turbo": "turbo",
     "devstudio": "tsx packages/shell/dev-studio/cli/index.ts",
     "devstudio:scan": "tsx packages/shell/dev-studio/cli/index.ts scan",
-    "devstudio:status": "tsx packages/shell/dev-studio/cli/index.ts status"
+    "devstudio:status": "tsx packages/shell/dev-studio/cli/index.ts status",
+    "playground": "vite --config packages/playground/vite.config.ts packages/playground"
   },
   "devDependencies": {
     "@types/node": "^22.14.0",

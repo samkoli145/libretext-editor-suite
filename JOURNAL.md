@@ -20,6 +20,24 @@
 
 # يوميات مشروع LibreText Editor Suite
 
+## 2026-08-26 (Part 9) — صفحة التجربة الحية (Vite dev server)
+
+### المنجزات
+
+**الملعب يعمل في المتصفح الآن:**
+- `packages/playground/index.html` — صفحة RTL بترويسة وتلميحات تجربة
+- `src/main.ts` [PLAY-MAIN-001] — نقطة الدخول: mountPlayground(#app) + شعار كونسول + window.__playground للتشخيص
+- `vite.config.ts` [PLAY-VITE-001] — alias الحزم لمصادرها مباشرة (بلا build)، منفذ 5173
+
+**التشغيل:**
+```bash
+pnpm playground
+# → http://localhost:5173
+```
+
+**التحقق الحي:**
+- الخادم جاهز في 176ms | الصفحة 200 | الوحدات تتحول | @libretext/core يحل فعلياً
+
 ## 2026-08-26 (Part 8) — حصر الأدوات + تنظيم الظهور + الواجهة البصرية الحية
 
 ### المنجزات
