@@ -16,3 +16,5 @@ export * from './shell/menu-model';
 export * from './shell/icon-set';
 export * from './views/editor-views';
 export * from './panels/settings-page';
+export * from './shell/tool-registry';
+export * from './playground-app';

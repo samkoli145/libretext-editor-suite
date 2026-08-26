@@ -36,7 +36,8 @@ export default defineConfig({
           globals: true,
           environment: 'node',
           include: [
-            'packages/{core,algorithms,storage,templates,serializers,plugins,shared,shell,playground}/tests/**/*.test.ts',
+            'packages/{core,algorithms,storage,templates,serializers,plugins,shared,shell}/tests/**/*.test.ts',
+            'packages/playground/tests/!(app).test.ts',
           ],
         },
       },
@@ -57,7 +58,7 @@ export default defineConfig({
           name: 'jsdom',
           globals: true,
           environment: 'jsdom',
-          include: ['packages/adapters/tests/**/*.test.ts'],
+          include: ['packages/adapters/tests/**/*.test.ts', 'packages/playground/tests/app.test.ts'],
         },
       },
     ],
